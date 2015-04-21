@@ -1,0 +1,1130 @@
+******************************************************************************
+             TMS320C2000 Linker PC v6.1.0                      
+******************************************************************************
+>> Linked Tue Feb 17 10:40:36 2015
+
+OUTPUT FILE NAME:   <HIMAP4UP_v02_modifying.out>
+ENTRY POINT SYMBOL: "_c_int00"  address: 00313a9e
+
+
+MEMORY CONFIGURATION
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+PAGE 0:
+  RAML_CODE             00008000   00004000  00002be2  0000141e  RWIX
+  FLASH_CODE            00308000   00037f80  0000e11e  00029e62  RWIX
+  CSM_RSVD              0033ff80   00000076  00000000  00000076  RWIX
+  BEGIN                 0033fff6   00000002  00000002  00000000  RWIX
+  CSM_PWL               0033fff8   00000008  00000000  00000008  RWIX
+  ADC_CAL               00380080   00000009  00000000  00000009  RWIX
+  OTP                   00380400   00000400  00000000  00000400  RWIX
+  IQTABLES              003fe000   00000b50  00000000  00000b50  RWIX
+  IQTABLES2             003feb50   0000008c  00000000  0000008c  RWIX
+  FPUTABLES             003febdc   000006a0  00000000  000006a0  RWIX
+  ROM                   003ff27c   00000d44  00000000  00000d44  RWIX
+  RESET                 003fffc0   00000002  00000000  00000002  RWIX
+  VECTORS               003fffc2   0000003e  00000000  0000003e  RWIX
+
+PAGE 1:
+  BOOT_RSVD             00000000   00000050  00000000  00000050  RWIX
+  RAMM0                 00000050   000003b0  00000000  000003b0  RWIX
+  RAMM1                 00000400   00000400  00000000  00000400  RWIX
+  DEV_EMU               00000880   00000180  00000000  00000180  RWIX
+  FLASH_REGS            00000a80   00000060  00000000  00000060  RWIX
+  CSM                   00000ae0   00000010  00000000  00000010  RWIX
+  ADC_MIRROR            00000b00   00000010  00000000  00000010  RWIX
+  XINTF                 00000b20   00000020  00000000  00000020  RWIX
+  CPU_TIMER0            00000c00   00000008  00000000  00000008  RWIX
+  CPU_TIMER1            00000c08   00000008  00000000  00000008  RWIX
+  CPU_TIMER2            00000c10   00000008  00000000  00000008  RWIX
+  PIE_CTRL              00000ce0   00000020  00000000  00000020  RWIX
+  PIE_VECT              00000d00   00000100  00000100  00000000  RWIX
+  DMA                   00001000   00000200  00000000  00000200  RWIX
+  MCBSPA                00005000   00000040  00000000  00000040  RWIX
+  MCBSPB                00005040   00000040  00000000  00000040  RWIX
+  ECANA                 00006000   00000040  00000000  00000040  RWIX
+  ECANA_LAM             00006040   00000040  00000000  00000040  RWIX
+  ECANA_MOTS            00006080   00000040  00000000  00000040  RWIX
+  ECANA_MOTO            000060c0   00000040  00000000  00000040  RWIX
+  ECANA_MBOX            00006100   00000100  00000000  00000100  RWIX
+  ECANB                 00006200   00000040  00000000  00000040  RWIX
+  ECANB_LAM             00006240   00000040  00000000  00000040  RWIX
+  ECANB_MOTS            00006280   00000040  00000000  00000040  RWIX
+  ECANB_MOTO            000062c0   00000040  00000000  00000040  RWIX
+  ECANB_MBOX            00006300   00000100  00000000  00000100  RWIX
+  EPWM1                 00006800   00000022  00000000  00000022  RWIX
+  EPWM2                 00006840   00000022  00000000  00000022  RWIX
+  EPWM3                 00006880   00000022  00000000  00000022  RWIX
+  EPWM4                 000068c0   00000022  00000000  00000022  RWIX
+  EPWM5                 00006900   00000022  00000000  00000022  RWIX
+  EPWM6                 00006940   00000022  00000000  00000022  RWIX
+  ECAP1                 00006a00   00000020  00000000  00000020  RWIX
+  ECAP2                 00006a20   00000020  00000000  00000020  RWIX
+  ECAP3                 00006a40   00000020  00000000  00000020  RWIX
+  ECAP4                 00006a60   00000020  00000000  00000020  RWIX
+  ECAP5                 00006a80   00000020  00000000  00000020  RWIX
+  ECAP6                 00006aa0   00000020  00000000  00000020  RWIX
+  EQEP1                 00006b00   00000040  00000000  00000040  RWIX
+  EQEP2                 00006b40   00000040  00000000  00000040  RWIX
+  GPIOCTRL              00006f80   00000040  00000000  00000040  RWIX
+  GPIODAT               00006fc0   00000020  00000000  00000020  RWIX
+  GPIOINT               00006fe0   00000020  00000000  00000020  RWIX
+  SYSTEM                00007010   00000020  00000000  00000020  RWIX
+  SPIA                  00007040   00000010  00000000  00000010  RWIX
+  SCIA                  00007050   00000010  00000000  00000010  RWIX
+  XINTRUPT              00007070   00000010  00000000  00000010  RWIX
+  ADC                   00007100   00000020  00000000  00000020  RWIX
+  SCIB                  00007750   00000010  00000000  00000010  RWIX
+  SCIC                  00007770   00000010  00000000  00000010  RWIX
+  I2CA                  00007900   00000040  00000000  00000040  RWIX
+  RAML_DATA             0000c000   00004000  000012fc  00002d04  RWIX
+  FLASHB                00330000   00008000  00000000  00008000  RWIX
+  CSM_PWL               0033fff8   00000008  00000000  00000008  RWIX
+  PARTID                00380090   00000001  00000000  00000001  RWIX
+
+
+SECTION ALLOCATION MAP
+
+ output                                  attributes/
+section   page    origin      length       input sections
+--------  ----  ----------  ----------   ----------------
+.pinit     0    00308000    00000000     UNINITIALIZED
+
+ramfuncs   0    00308000    00002be2     RUN ADDR = 00008000
+                  00308000    00001343     relaying.obj (ramfuncs)
+                  00309343    00000f5d     system_isr.obj (ramfuncs:retain)
+                  0030a2a0    0000041e     main.obj (ramfuncs)
+                  0030a6be    0000022a     peripheral.obj (ramfuncs)
+                  0030a8e8    00000180     setting.obj (ramfuncs)
+                  0030aa68    000000b5     comms.obj (ramfuncs)
+                  0030ab1d    000000ab     menu.obj (ramfuncs)
+                  0030abc8    00000016     system_setup.obj (ramfuncs)
+                  0030abde    00000004     DSP2833x_usDelay.obj (ramfuncs)
+
+.text      0    0030abe2    00009215     
+                  0030abe2    00002b18     menu.obj (.text)
+                  0030d6fa    00001440     main.obj (.text)
+                  0030eb3a    000012f7     setting.obj (.text)
+                  0030fe31    0000123e     comms.obj (.text)
+                  0031106f    00000968     peripheral.obj (.text)
+                  003119d7    00000924     calibration.obj (.text)
+                  003122fb    00000911     rts2800_fpu32.lib : _printfi.obj (.text)
+                  00312c0c    0000052b     system_setup.obj (.text)
+                  00313137    000002c5     booting.obj (.text)
+                  003133fc    00000107     rts2800_fpu32.lib : ll_div.obj (.text)
+                  00313503    000000c4                       : atan2.obj (.text)
+                  003135c7    0000009c                       : fd_add.obj (.text)
+                  00313663    0000008b                       : fd_div.obj (.text)
+                  003136ee    00000088                       : fs_div.obj (.text)
+                  00313776    00000083                       : fd_mpy.obj (.text)
+                  003137f9    00000072                       : atan.obj (.text)
+                  0031386b    0000006a                       : exp.obj (.text)
+                  003138d5    00000063                       : log.obj (.text)
+                  00313938    00000061                       : cos.obj (.text)
+                  00313999    0000005a                       : pow.obj (.text)
+                  003139f3    00000057                       : sin.obj (.text)
+                  00313a4a    00000054                       : _log.obj (.text)
+                  00313a9e    00000046                       : boot.obj (.text)
+                  00313ae4    00000035                       : ldexp.obj (.text)
+                  00313b19    00000031                       : atoi.obj (.text)
+                  00313b4a    0000002f                       : sprintf.obj (.text)
+                  00313b79    0000002c                       : ltoa.obj (.text)
+                  00313ba5    0000002a                       : fd_cmp.obj (.text)
+                  00313bcf    0000002a                       : l_div.obj (.text)
+                  00313bf9    00000001     --HOLE-- [fill = 0]
+                  00313bfa    00000023                       : sqrt.obj (.text)
+                  00313c1d    00000022                       : i_div.obj (.text)
+                  00313c3f    00000021                       : fd_toi.obj (.text)
+                  00313c60    00000021                       : memcpy_ff.obj (.text)
+                  00313c81    0000001f                       : fd_tol.obj (.text)
+                  00313ca0    0000001e                       : ll_cmp.obj (.text)
+                  00313cbe    0000001c                       : fs_tofd.obj (.text)
+                  00313cda    0000001c                       : l_tofd.obj (.text)
+                  00313cf6    0000001b                       : fd_toul.obj (.text)
+                  00313d11    00000019                       : args_main.obj (.text)
+                  00313d2a    00000019                       : exit.obj (.text)
+                  00313d43    00000016                       : frexp.obj (.text)
+                  00313d59    00000016                       : ul_tofd.obj (.text)
+                  00313d6f    00000015     DSP2833x_MemCopy.obj (.text)
+                  00313d84    00000014     rts2800_fpu32.lib : ll_mpy.obj (.text)
+                  00313d98    00000012                       : memccpy.obj (.text)
+                  00313daa    0000000e                       : fd_sub.obj (.text)
+                  00313db8    0000000b                       : u_div.obj (.text)
+                  00313dc3    0000000a                       : strlen.obj (.text)
+                  00313dcd    00000009                       : _lock.obj (.text)
+                  00313dd6    00000009                       : fd_neg.obj (.text)
+                  00313ddf    00000009                       : strcpy.obj (.text)
+                  00313de8    00000008     DSP2833x_CodeStartBranch.obj (.text)
+                  00313df0    00000007     rts2800_fpu32.lib : memset.obj (.text)
+
+.econst    0    00313df8    000020d2     
+                  00313df8    00000e10     menu.obj (.econst:_menu_tables)
+                  00314c08    000009cf     menu.obj (.econst:.string)
+                  003155d7    00000001     --HOLE-- [fill = 0]
+                  003155d8    00000104     calibration.obj (.econst:.string)
+                  003156dc    00000101     rts2800_fpu32.lib : ctype.obj (.econst:__ctypes_)
+                  003157dd    00000100     main.obj (.econst:_CRC_High)
+                  003158dd    00000100     main.obj (.econst:_CRC_Low)
+                  003159dd    00000001     --HOLE-- [fill = 0]
+                  003159de    0000004c     peripheral.obj (.econst)
+                  00315a2a    00000048     main.obj (.econst:_harmonics_1st_cos)
+                  00315a72    00000048     main.obj (.econst:_harmonics_1st_sin)
+                  00315aba    00000048     main.obj (.econst:_harmonics_3rd_cos)
+                  00315b02    00000048     main.obj (.econst:_harmonics_3rd_sin)
+                  00315b4a    00000048     main.obj (.econst:_harmonics_5th_cos)
+                  00315b92    00000048     main.obj (.econst:_harmonics_5th_sin)
+                  00315bda    00000048     main.obj (.econst:_harmonics_7th_cos)
+                  00315c22    00000048     main.obj (.econst:_harmonics_7th_sin)
+                  00315c6a    00000048     main.obj (.econst:_harmonics_9th_cos)
+                  00315cb2    00000048     main.obj (.econst:_harmonics_9th_sin)
+                  00315cfa    00000028     peripheral.obj (.econst:_LCD_Position_Value)
+                  00315d22    00000024     rts2800_fpu32.lib : _printfi.obj (.econst:.string)
+                  00315d46    00000021     booting.obj (.econst:.string)
+                  00315d67    00000001     --HOLE-- [fill = 0]
+                  00315d68    00000018     main.obj (.econst:_cos_50Hz)
+                  00315d80    00000018     main.obj (.econst:_cos_60Hz)
+                  00315d98    00000018     main.obj (.econst:_sin_50Hz)
+                  00315db0    00000018     main.obj (.econst:_sin_60Hz)
+                  00315dc8    00000018     rts2800_fpu32.lib : _printfi.obj (.econst)
+                  00315de0    00000014     main.obj (.econst:_wave_buffer_address)
+                  00315df4    00000014     main.obj (.econst:_wave_buffer_post_address)
+                  00315e08    0000000a     main.obj (.econst:_himix_number)
+                  00315e12    00000009     main.obj (.econst:_DO_ON_BIT)
+                  00315e1b    00000009     main.obj (.econst:_OFF_BIT)
+                  00315e24    00000009     main.obj (.econst:_ON_BIT)
+                  00315e2d    00000001     --HOLE-- [fill = 0]
+                  00315e2e    00000008     rts2800_fpu32.lib : atan.obj (.econst:_a$1)
+                  00315e36    00000008                       : atan2.obj (.econst:_a$1)
+                  00315e3e    00000007     main.obj (.econst:_DO_OFF_BIT)
+                  00315e45    00000001     --HOLE-- [fill = 0]
+                  00315e46    00000004     menu.obj (.econst:_$P$T0$1)
+                  00315e4a    00000004     menu.obj (.econst:_$P$T1$2)
+                  00315e4e    00000004     menu.obj (.econst:_$P$T10$15)
+                  00315e52    00000004     menu.obj (.econst:_$P$T11$16)
+                  00315e56    00000004     menu.obj (.econst:_$P$T12$17)
+                  00315e5a    00000004     menu.obj (.econst:_$P$T13$18)
+                  00315e5e    00000004     menu.obj (.econst:_$P$T14$19)
+                  00315e62    00000004     menu.obj (.econst:_$P$T15$20)
+                  00315e66    00000004     menu.obj (.econst:_$P$T16$21)
+                  00315e6a    00000004     menu.obj (.econst:_$P$T17$22)
+                  00315e6e    00000004     menu.obj (.econst:_$P$T18$23)
+                  00315e72    00000004     menu.obj (.econst:_$P$T19$24)
+                  00315e76    00000004     menu.obj (.econst:_$P$T2$4)
+                  00315e7a    00000004     menu.obj (.econst:_$P$T20$25)
+                  00315e7e    00000004     menu.obj (.econst:_$P$T21$27)
+                  00315e82    00000004     menu.obj (.econst:_$P$T22$28)
+                  00315e86    00000004     menu.obj (.econst:_$P$T23$29)
+                  00315e8a    00000004     menu.obj (.econst:_$P$T24$30)
+                  00315e8e    00000004     menu.obj (.econst:_$P$T25$38)
+                  00315e92    00000004     menu.obj (.econst:_$P$T26$39)
+                  00315e96    00000004     menu.obj (.econst:_$P$T27$48)
+                  00315e9a    00000004     menu.obj (.econst:_$P$T28$49)
+                  00315e9e    00000004     menu.obj (.econst:_$P$T29$58)
+                  00315ea2    00000004     menu.obj (.econst:_$P$T3$6)
+                  00315ea6    00000004     menu.obj (.econst:_$P$T30$59)
+                  00315eaa    00000004     menu.obj (.econst:_$P$T31$68)
+                  00315eae    00000004     menu.obj (.econst:_$P$T32$115)
+                  00315eb2    00000004     menu.obj (.econst:_$P$T4$8)
+                  00315eb6    00000004     menu.obj (.econst:_$P$T5$10)
+                  00315eba    00000004     menu.obj (.econst:_$P$T6$11)
+                  00315ebe    00000004     menu.obj (.econst:_$P$T7$12)
+                  00315ec2    00000004     menu.obj (.econst:_$P$T8$13)
+                  00315ec6    00000004     menu.obj (.econst:_$P$T9$14)
+
+.cinit     0    00315eca    00000255     
+                  00315eca    00000187     menu.obj (.cinit)
+                  00316051    000000b4     peripheral.obj (.cinit)
+                  00316105    0000000a     rts2800_fpu32.lib : _lock.obj (.cinit)
+                  0031610f    0000000a                       : exit.obj (.cinit)
+                  00316119    00000004                       : errno.obj (.cinit)
+                  0031611d    00000002     --HOLE-- [fill = 0]
+
+codestart 
+*          0    0033fff6    00000002     
+                  0033fff6    00000002     DSP2833x_CodeStartBranch.obj (codestart)
+
+.reset     0    003fffc0    00000002     DSECT
+                  003fffc0    00000002     rts2800_fpu32.lib : boot.obj (.reset)
+
+vectors    0    003fffc2    00000000     DSECT
+
+PieVectTableFile 
+*          1    00000d00    00000100     UNINITIALIZED
+                  00000d00    00000100     DSP2833x_GlobalVariableDefs.obj (PieVectTableFile)
+
+.ebss      1    0000c000    00000efc     UNINITIALIZED
+                  0000c000    00000c94     main.obj (.ebss)
+                  0000cc94    00000004     rts2800_fpu32.lib : _lock.obj (.ebss)
+                  0000cc98    00000004                       : exit.obj (.ebss)
+                  0000cc9c    00000001                       : errno.obj (.ebss)
+                  0000cc9d    00000001     setting.obj (.ebss)
+                  0000cc9e    00000022     --HOLE--
+                  0000ccc0    00000124     menu.obj (.ebss)
+                  0000cde4    0000001c     --HOLE--
+                  0000ce00    000000fc     peripheral.obj (.ebss)
+
+.stack     1    0000cefc    00000400     UNINITIALIZED
+                  0000cefc    00000400     --HOLE--
+
+
+GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
+
+address    name
+--------   ----
+0030abe2   .text
+00313d2a   C$$EXIT
+003135c7   FD$$ADD
+00313ba5   FD$$CMP
+00313663   FD$$DIV
+00313776   FD$$MPY
+00313dd6   FD$$NEG
+00313daa   FD$$SUB
+00313c3f   FD$$TOI
+00313c81   FD$$TOL
+00313cf6   FD$$TOUL
+003136ee   FS$$DIV
+00313cbe   FS$$TOFD
+00313c1d   I$$DIV
+00313c2e   I$$MOD
+00313bcf   L$$DIV
+00313bde   L$$MOD
+00313cda   L$$TOFD
+00313ca0   LL$$CMP
+003133fc   LL$$DIV
+00313438   LL$$MOD
+00313d84   LL$$MPY
+00313db8   U$$DIV
+00313dbd   U$$MOD
+00313bec   UL$$DIV
+00313bf3   UL$$MOD
+00313d59   UL$$TOFD
+00313cb2   ULL$$CMP
+00313472   ULL$$DIV
+003134a1   ULL$$MOD
+0000c064   _ACCUMULATION
+00311ae9   _ADC_Calibration_Control
+0000c00c   _ALRAM
+0000c004   _AUTO_DISPLAY
+0000ce0e   _AckScr
+0000ccf6   _Button_Press
+0000c4c0   _CALIBRATION
+0000c012   _COMM
+0030fe31   _COMM_CRC
+0000c00e   _CORE
+003157dd   _CRC_High
+003158dd   _CRC_Low
+0000cd44   _Cursor_Position
+0000c400   _DFT
+003119ff   _DFT_Check
+0000c040   _DIDO
+0000c640   _DISPLAY
+00315e3e   _DO_OFF_BIT
+00315e12   _DO_ON_BIT
+0000c300   _DSGR
+0000abde   _DSP28x_usDelay
+0000ccf5   _Data_Change
+0000cd04   _Data_Change_Count
+00311a72   _Degree_Check
+0000c340   _EVENT
+0000c02e   _FACTORY
+0000c016   _FLASH
+0000ce12   _FauScr
+0000c000   _Fram1_Test
+0000c001   _Fram2_Test
+00312d30   _GPIO_setup
+0000c005   _GR_ANGLE
+0000c0c0   _H50
+0000c540   _HARMONICS
+0000c440   _HIMIX
+0000abc8   _InitFlash
+00312de1   _InitTimer
+00009163   _Inverse_Op_Timeset
+0000ccf4   _KHS_Key_Press
+003159de   _KHS_LCD_Buffer
+0000c5c0   _LCD
+003110b1   _LCD_COMMAND
+0031109e   _LCD_DATA
+003110c2   _LCD_INIT
+0000ce02   _LCD_LIGHT
+00315cfa   _LCD_Position_Value
+0000ce04   _LCD_RS
+003110ee   _LCD_light_OFF
+003110e8   _LCD_light_ON
+0000c003   _LOCAL_CONTROL
+0000ce00   _Lcd_Bl_Count
+0000ca80   _MANAGER
+0000c700   _MEASUREMENT
+0000c008   _MIN_MAX
+0000c08e   _MOTOR
+00313d6f   _MemCopy
+0000c0e6   _N47
+0000c1c0   _NCH
+0000c154   _NSOCR
+0000cd80   _Navi_Key_X_Limit_Value
+0000ce16   _NorScr
+0000c100   _OCGR50
+0000c29c   _OCGR51
+0000c114   _OCR50_1
+0000c140   _OCR50_2
+0000c280   _OCR51_1
+0000c2c0   _OCR51_2
+00315e1b   _OFF_BIT
+00315e24   _ON_BIT
+0000c25a   _OVGR
+0000c240   _OVR
+003119d7   _Offset_Check
+0000c128   _P47
+0000c026   _PASSWORD
+00311aa2   _P_Check
+00312c61   _Peripheral_Clock_setup
+00000d00   _PieVectTable
+0000c04c   _RELAY_STATUS
+0030abe2   _RamfuncsLoadEnd
+00308000   _RamfuncsLoadStart
+00008000   _RamfuncsRunStart
+0000ce1a   _ReserveP
+0000c840   _SAMPLE
+0000a20b   _SCIRXB_ISR
+0000a24e   _SCITXINTB_ISR
+0000a273   _SCITXINTC_ISR
+0000c0a0   _SETTING
+0000c380   _SL
+0000c31e   _SUPERVISION
+0000c3c0   _SYNCRO
+0000c218   _SYSTEM
+0000c01a   _SYSTEM_SET
+0000cd3c   _Save_Current_Screen
+0000cd40   _Screen_Position
+0000ccf7   _Set_Password
+0030fdf5   _Setting_CRC
+0000c2dc   _THR
+0000c036   _TIME
+0000c070   _TIMER
+0000c020   _TIMER0
+0000c00a   _TIMER1
+0000a068   _TINT1_ISR
+0000c080   _TRANSFORMER
+00311a4d   _TRMS_Check
+0000c0d2   _UCR
+0000c180   _UVR_1
+0000c196   _UVR_2
+0000c168   _UVR_3
+0000c002   _UVR_MODE
+0000ce40   _VFDABuffer
+0000ce80   _VFDFBuffer
+0000cec0   _VFDNBuffer
+0031126d   _VFD_FONT
+00311108   _VFD_Init
+003111de   _VFD_Single_Line_dump
+00311207   _VFD_Word_dump
+0000ce06   _VFD_cnt
+00311231   _VFD_cursor
+00311159   _VFD_dump
+0031119e   _VFD_dump2
+003110f3   _VFD_gotopo
+00311140   _VFD_gotoxy
+00311152   _VFD_mem_cpy_test
+0031125e   _VFD_printf
+0000c058   _WAVE
+00009343   _XINT3_ISR
+00312d8b   _Xinterface_setup
+0000d2fc   __STACK_END
+00000400   __STACK_SIZE
+00000001   __TI_args_main
+ffffffff   ___binit__
+ffffffff   ___c_args__
+00315eca   ___cinit__
+00313df7   ___etext__
+00313c60   ___memcpy_ff
+ffffffff   ___pinit__
+0030abe2   ___text__
+00313d11   __args_main
+0000cc98   __cleanup_ptr
+003156dc   __ctypes_
+0000cc9a   __dtors_ptr
+0000cc96   __lock
+00313a4a   __log
+00313dd5   __nop
+00312b09   __printfi
+00313dd1   __register_lock
+00313dcd   __register_unlock
+0000cefc   __stack
+0000cc94   __unlock
+00313d2a   _abort
+003137f9   _atan
+00313503   _atan2
+00313b19   _atoi
+003132f6   _aux_do_check
+00313137   _booting_setting_check
+00313a9e   _c_int00
+00310e20   _comm_drive
+00313938   _cos
+00315d68   _cos_50Hz
+00315d80   _cos_60Hz
+0000c200   _cos_table
+00312c0c   _cpu_setup
+0030abe2   _cursor_move
+0030abf1   _cursor_move_last
+0031106f   _delay
+0000a6be   _delay_us
+0000808f   _do_release
+0031191d   _do_test_check
+00313383   _dsgr_load_check
+0000ce08   _dumpP
+0031129c   _eerom_control
+00311397   _eerom_read
+00311304   _eerom_write
+0000cc9c   _errno
+0000a8e8   _event_direct_save
+00313d2c   _exit
+0031386b   _exp
+0031126e   _factory_enter
+00311428   _flash_sector_erase
+00311445   _flash_word_write
+0000a416   _float_to_8bit_fram
+00313d43   _frexp
+00009322   _h50_dropout_process
+000091df   _h50_pickup_process
+0030e528   _harmonic_real_imag_calculation
+0030e424   _harmonic_sample_backup
+0030deff   _harmonics
+00315a2a   _harmonics_1st_cos
+00315a72   _harmonics_1st_sin
+00315aba   _harmonics_3rd_cos
+00315b02   _harmonics_3rd_sin
+00315b4a   _harmonics_5th_cos
+00315b92   _harmonics_5th_sin
+00315bda   _harmonics_7th_cos
+00315c22   _harmonics_7th_sin
+00315c6a   _harmonics_9th_cos
+00315cb2   _harmonics_9th_sin
+0030dec2   _himix_crc
+0030d707   _himix_drive
+00315e08   _himix_number
+0000a6ed   _i2c_read
+00312e0f   _i2c_setup
+0000a72d   _i2c_write
+0030eb02   _interrupt_control
+00312c84   _interrupt_setup
+0000a76c   _key_drive
+0000a8cb   _lcd_character_write
+0000a8ae   _lcd_control_write
+00312e3a   _lcd_setup
+00313ae4   _ldexp
+003118af   _led_handling
+003138d5   _log
+00313b79   _ltoa
+0030d6fa   _main
+0000aa68   _make_crc_send
+0030fe57   _manager_handling
+0030e85f   _measure2_display
+0030e76f   _measure_display
+00313d98   _memccpy
+00313df0   _memset
+0030ac27   _menu_00_00
+0030ac8d   _menu_00_01
+0030acde   _menu_00_02
+0030ad4f   _menu_00_03
+0030ada0   _menu_00_04
+0030adf5   _menu_00_05
+0030ae4a   _menu_00_06
+0030ae9b   _menu_01_01
+0030aeed   _menu_01_03
+0030af3e   _menu_01_04
+0030afbf   _menu_01_05
+0030affe   _menu_01_06
+0030b04f   _menu_01_07
+0030b0b8   _menu_01_08
+0030b12f   _menu_01_09
+0030b198   _menu_01_10
+0030b20f   _menu_01_11
+0030b278   _menu_01_12
+0030b2ef   _menu_02_01
+0030b327   _menu_02_03
+0030b378   _menu_02_04
+0030b3ed   _menu_02_05
+0030b43c   _menu_02_06
+0030b48b   _menu_03_03
+0030b4f8   _menu_04_02
+0030b538   _menu_41_02
+0030b584   _menu_41_03
+0030b5f3   _menu_41_04
+0030b63a   _menu_41_05
+0030b6d2   _menu_41_06
+0030b76f   _menu_41_07
+0030b799   _menu_41_08
+0030b7c7   _menu_41_09
+0030b829   _menu_41_10
+0030b883   _menu_41_11
+0030b8ab   _menu_41_12
+0030b8d0   _menu_42_01
+0030b970   _menu_42_02
+0030b990   _menu_42_03
+0030b9fe   _menu_42_05
+0030baa5   _menu_42_06
+0030bb4b   _menu_42_07
+0030bbad   _menu_42_08
+0030bbd7   _menu_42_09
+0030bc11   _menu_42_10
+0030bc73   _menu_42_11
+0030bccd   _menu_42_12
+0030bcd2   _menu_42_13
+0030bcd7   _menu_43_03
+0030bd45   _menu_43_04
+0030bdb5   _menu_43_05
+0030be5c   _menu_43_06
+0030bf02   _menu_43_07
+0030bf64   _menu_43_08
+0030bf8e   _menu_43_09
+0030bfc8   _menu_43_10
+0030c02a   _menu_43_11
+0030c084   _menu_43_12
+0030c0a9   _menu_43_13
+0030c0ce   _menu_44_03
+0030c13c   _menu_44_04
+0030c1a4   _menu_44_05
+0030c24b   _menu_44_06
+0030c2f1   _menu_44_07
+0030c353   _menu_44_08
+0030c37d   _menu_44_09
+0030c3b7   _menu_44_10
+0030c419   _menu_44_11
+0030c473   _menu_45_03
+0030c4e1   _menu_45_05
+0030c588   _menu_45_06
+0030c62e   _menu_45_07
+0030c690   _menu_45_08
+0030c6ba   _menu_45_09
+0030c6f4   _menu_45_10
+0030c756   _menu_45_11
+0030c7b0   _menu_46_05
+0030c856   _menu_46_06
+0030c8f3   _menu_46_07
+0030c91d   _menu_46_08
+0030c94b   _menu_46_09
+0030c9ad   _menu_46_10
+0030ca07   _menu_46_11
+0030ca2f   _menu_46_12
+0030ca54   _menu_47_05
+0030cafa   _menu_47_06
+0030cba0   _menu_47_07
+0030cc3d   _menu_47_08
+0030cc67   _menu_47_09
+0030cca1   _menu_47_10
+0030cd03   _menu_47_11
+0030cd5d   _menu_48_05
+0030ce04   _menu_48_06
+0030ceaa   _menu_48_07
+0030cf0c   _menu_48_08
+0030cf36   _menu_48_09
+0030cf70   _menu_48_10
+0030cfd2   _menu_48_11
+0030d02c   _menu_48_12
+0030d051   _menu_48_13
+0030d076   _menu_49_05
+0030d11d   _menu_49_06
+0030d1c3   _menu_49_07
+0030d225   _menu_49_08
+0030d24f   _menu_49_09
+0030d289   _menu_49_10
+0030d2eb   _menu_49_11
+0030d345   _menu_50_05
+0030d3ec   _menu_50_06
+0030d492   _menu_50_07
+0030d4f4   _menu_50_08
+0030d51e   _menu_50_09
+0030d558   _menu_50_10
+0030d5ba   _menu_50_11
+0030d614   _menu_80_03
+0030d6bf   _menu_99_00
+0000ab1d   _menu_drive
+0030d664   _menu_dummy
+0030d6db   _menu_init
+0030d683   _menu_popup
+00313df8   _menu_tables
+00313303   _ocgr_load_check
+00008128   _over_phase_value_check
+00312c2a   _pll_setup
+00313999   _pow
+0000a4a7   _power_update
+00008232   _protective_relay
+0000a2a0   _real_main
+0030fdd0   _relay_assignment
+0000800b   _relay_detect_to_pickup
+0000810e   _relay_dropout_to_normal
+00008000   _relay_normal_to_detect
+00008085   _relay_opeartion_to_dropout
+00008026   _relay_pickup_to_operation
+0000a978   _rtc_handling
+00312cdb   _sci_setup
+0000ce0a   _scrP
+0030abf8   _screen_frame
+0030ac08   _screen_frame2
+0030ac17   _screen_frame3
+00310de2   _serial_ok_nak_send
+00310d36   _serial_write
+0030fdd1   _setting_load
+003133e9   _setting_min_max_check
+0030ecfb   _setting_post_handling
+0030eb3a   _setting_save
+003139f3   _sin
+00315d98   _sin_50Hz
+00315db0   _sin_60Hz
+0000c1d8   _sin_table
+00313b4a   _sprintf
+00313bfa   _sqrt
+00313ddf   _strcpy
+00313dc3   _strlen
+0000a460   _supervision_relay
+000081b0   _under_phase_value_check
+00315de0   _wave_buffer_address
+00315df4   _wave_buffer_post_address
+003114c0   _wave_di_initial_post
+003114a5   _wave_di_initial_pre1
+003114b3   _wave_di_initial_pre2
+0000aacd   _wave_dump_serial_sram
+003114ca   _wave_flash_sector_erase
+0031145c   _wave_flash_word_write
+003114e3   _wave_save_process
+0031149b   _wave_vi_initial_post
+00311480   _wave_vi_initial_pre1
+0031148e   _wave_vi_initial_pre2
+0000cc9d   _xyf
+ffffffff   binit
+00315eca   cinit
+0033fff6   code_start
+00313df7   etext
+ffffffff   pinit
+
+
+GLOBAL SYMBOLS: SORTED BY Symbol Address 
+
+address    name
+--------   ----
+00000001   __TI_args_main
+00000400   __STACK_SIZE
+00000d00   _PieVectTable
+00008000   _RamfuncsRunStart
+00008000   _relay_normal_to_detect
+0000800b   _relay_detect_to_pickup
+00008026   _relay_pickup_to_operation
+00008085   _relay_opeartion_to_dropout
+0000808f   _do_release
+0000810e   _relay_dropout_to_normal
+00008128   _over_phase_value_check
+000081b0   _under_phase_value_check
+00008232   _protective_relay
+00009163   _Inverse_Op_Timeset
+000091df   _h50_pickup_process
+00009322   _h50_dropout_process
+00009343   _XINT3_ISR
+0000a068   _TINT1_ISR
+0000a20b   _SCIRXB_ISR
+0000a24e   _SCITXINTB_ISR
+0000a273   _SCITXINTC_ISR
+0000a2a0   _real_main
+0000a416   _float_to_8bit_fram
+0000a460   _supervision_relay
+0000a4a7   _power_update
+0000a6be   _delay_us
+0000a6ed   _i2c_read
+0000a72d   _i2c_write
+0000a76c   _key_drive
+0000a8ae   _lcd_control_write
+0000a8cb   _lcd_character_write
+0000a8e8   _event_direct_save
+0000a978   _rtc_handling
+0000aa68   _make_crc_send
+0000aacd   _wave_dump_serial_sram
+0000ab1d   _menu_drive
+0000abc8   _InitFlash
+0000abde   _DSP28x_usDelay
+0000c000   _Fram1_Test
+0000c001   _Fram2_Test
+0000c002   _UVR_MODE
+0000c003   _LOCAL_CONTROL
+0000c004   _AUTO_DISPLAY
+0000c005   _GR_ANGLE
+0000c008   _MIN_MAX
+0000c00a   _TIMER1
+0000c00c   _ALRAM
+0000c00e   _CORE
+0000c012   _COMM
+0000c016   _FLASH
+0000c01a   _SYSTEM_SET
+0000c020   _TIMER0
+0000c026   _PASSWORD
+0000c02e   _FACTORY
+0000c036   _TIME
+0000c040   _DIDO
+0000c04c   _RELAY_STATUS
+0000c058   _WAVE
+0000c064   _ACCUMULATION
+0000c070   _TIMER
+0000c080   _TRANSFORMER
+0000c08e   _MOTOR
+0000c0a0   _SETTING
+0000c0c0   _H50
+0000c0d2   _UCR
+0000c0e6   _N47
+0000c100   _OCGR50
+0000c114   _OCR50_1
+0000c128   _P47
+0000c140   _OCR50_2
+0000c154   _NSOCR
+0000c168   _UVR_3
+0000c180   _UVR_1
+0000c196   _UVR_2
+0000c1c0   _NCH
+0000c1d8   _sin_table
+0000c200   _cos_table
+0000c218   _SYSTEM
+0000c240   _OVR
+0000c25a   _OVGR
+0000c280   _OCR51_1
+0000c29c   _OCGR51
+0000c2c0   _OCR51_2
+0000c2dc   _THR
+0000c300   _DSGR
+0000c31e   _SUPERVISION
+0000c340   _EVENT
+0000c380   _SL
+0000c3c0   _SYNCRO
+0000c400   _DFT
+0000c440   _HIMIX
+0000c4c0   _CALIBRATION
+0000c540   _HARMONICS
+0000c5c0   _LCD
+0000c640   _DISPLAY
+0000c700   _MEASUREMENT
+0000c840   _SAMPLE
+0000ca80   _MANAGER
+0000cc94   __unlock
+0000cc96   __lock
+0000cc98   __cleanup_ptr
+0000cc9a   __dtors_ptr
+0000cc9c   _errno
+0000cc9d   _xyf
+0000ccf4   _KHS_Key_Press
+0000ccf5   _Data_Change
+0000ccf6   _Button_Press
+0000ccf7   _Set_Password
+0000cd04   _Data_Change_Count
+0000cd3c   _Save_Current_Screen
+0000cd40   _Screen_Position
+0000cd44   _Cursor_Position
+0000cd80   _Navi_Key_X_Limit_Value
+0000ce00   _Lcd_Bl_Count
+0000ce02   _LCD_LIGHT
+0000ce04   _LCD_RS
+0000ce06   _VFD_cnt
+0000ce08   _dumpP
+0000ce0a   _scrP
+0000ce0e   _AckScr
+0000ce12   _FauScr
+0000ce16   _NorScr
+0000ce1a   _ReserveP
+0000ce40   _VFDABuffer
+0000ce80   _VFDFBuffer
+0000cec0   _VFDNBuffer
+0000cefc   __stack
+0000d2fc   __STACK_END
+00308000   _RamfuncsLoadStart
+0030abe2   .text
+0030abe2   _RamfuncsLoadEnd
+0030abe2   ___text__
+0030abe2   _cursor_move
+0030abf1   _cursor_move_last
+0030abf8   _screen_frame
+0030ac08   _screen_frame2
+0030ac17   _screen_frame3
+0030ac27   _menu_00_00
+0030ac8d   _menu_00_01
+0030acde   _menu_00_02
+0030ad4f   _menu_00_03
+0030ada0   _menu_00_04
+0030adf5   _menu_00_05
+0030ae4a   _menu_00_06
+0030ae9b   _menu_01_01
+0030aeed   _menu_01_03
+0030af3e   _menu_01_04
+0030afbf   _menu_01_05
+0030affe   _menu_01_06
+0030b04f   _menu_01_07
+0030b0b8   _menu_01_08
+0030b12f   _menu_01_09
+0030b198   _menu_01_10
+0030b20f   _menu_01_11
+0030b278   _menu_01_12
+0030b2ef   _menu_02_01
+0030b327   _menu_02_03
+0030b378   _menu_02_04
+0030b3ed   _menu_02_05
+0030b43c   _menu_02_06
+0030b48b   _menu_03_03
+0030b4f8   _menu_04_02
+0030b538   _menu_41_02
+0030b584   _menu_41_03
+0030b5f3   _menu_41_04
+0030b63a   _menu_41_05
+0030b6d2   _menu_41_06
+0030b76f   _menu_41_07
+0030b799   _menu_41_08
+0030b7c7   _menu_41_09
+0030b829   _menu_41_10
+0030b883   _menu_41_11
+0030b8ab   _menu_41_12
+0030b8d0   _menu_42_01
+0030b970   _menu_42_02
+0030b990   _menu_42_03
+0030b9fe   _menu_42_05
+0030baa5   _menu_42_06
+0030bb4b   _menu_42_07
+0030bbad   _menu_42_08
+0030bbd7   _menu_42_09
+0030bc11   _menu_42_10
+0030bc73   _menu_42_11
+0030bccd   _menu_42_12
+0030bcd2   _menu_42_13
+0030bcd7   _menu_43_03
+0030bd45   _menu_43_04
+0030bdb5   _menu_43_05
+0030be5c   _menu_43_06
+0030bf02   _menu_43_07
+0030bf64   _menu_43_08
+0030bf8e   _menu_43_09
+0030bfc8   _menu_43_10
+0030c02a   _menu_43_11
+0030c084   _menu_43_12
+0030c0a9   _menu_43_13
+0030c0ce   _menu_44_03
+0030c13c   _menu_44_04
+0030c1a4   _menu_44_05
+0030c24b   _menu_44_06
+0030c2f1   _menu_44_07
+0030c353   _menu_44_08
+0030c37d   _menu_44_09
+0030c3b7   _menu_44_10
+0030c419   _menu_44_11
+0030c473   _menu_45_03
+0030c4e1   _menu_45_05
+0030c588   _menu_45_06
+0030c62e   _menu_45_07
+0030c690   _menu_45_08
+0030c6ba   _menu_45_09
+0030c6f4   _menu_45_10
+0030c756   _menu_45_11
+0030c7b0   _menu_46_05
+0030c856   _menu_46_06
+0030c8f3   _menu_46_07
+0030c91d   _menu_46_08
+0030c94b   _menu_46_09
+0030c9ad   _menu_46_10
+0030ca07   _menu_46_11
+0030ca2f   _menu_46_12
+0030ca54   _menu_47_05
+0030cafa   _menu_47_06
+0030cba0   _menu_47_07
+0030cc3d   _menu_47_08
+0030cc67   _menu_47_09
+0030cca1   _menu_47_10
+0030cd03   _menu_47_11
+0030cd5d   _menu_48_05
+0030ce04   _menu_48_06
+0030ceaa   _menu_48_07
+0030cf0c   _menu_48_08
+0030cf36   _menu_48_09
+0030cf70   _menu_48_10
+0030cfd2   _menu_48_11
+0030d02c   _menu_48_12
+0030d051   _menu_48_13
+0030d076   _menu_49_05
+0030d11d   _menu_49_06
+0030d1c3   _menu_49_07
+0030d225   _menu_49_08
+0030d24f   _menu_49_09
+0030d289   _menu_49_10
+0030d2eb   _menu_49_11
+0030d345   _menu_50_05
+0030d3ec   _menu_50_06
+0030d492   _menu_50_07
+0030d4f4   _menu_50_08
+0030d51e   _menu_50_09
+0030d558   _menu_50_10
+0030d5ba   _menu_50_11
+0030d614   _menu_80_03
+0030d664   _menu_dummy
+0030d683   _menu_popup
+0030d6bf   _menu_99_00
+0030d6db   _menu_init
+0030d6fa   _main
+0030d707   _himix_drive
+0030dec2   _himix_crc
+0030deff   _harmonics
+0030e424   _harmonic_sample_backup
+0030e528   _harmonic_real_imag_calculation
+0030e76f   _measure_display
+0030e85f   _measure2_display
+0030eb02   _interrupt_control
+0030eb3a   _setting_save
+0030ecfb   _setting_post_handling
+0030fdd0   _relay_assignment
+0030fdd1   _setting_load
+0030fdf5   _Setting_CRC
+0030fe31   _COMM_CRC
+0030fe57   _manager_handling
+00310d36   _serial_write
+00310de2   _serial_ok_nak_send
+00310e20   _comm_drive
+0031106f   _delay
+0031109e   _LCD_DATA
+003110b1   _LCD_COMMAND
+003110c2   _LCD_INIT
+003110e8   _LCD_light_ON
+003110ee   _LCD_light_OFF
+003110f3   _VFD_gotopo
+00311108   _VFD_Init
+00311140   _VFD_gotoxy
+00311152   _VFD_mem_cpy_test
+00311159   _VFD_dump
+0031119e   _VFD_dump2
+003111de   _VFD_Single_Line_dump
+00311207   _VFD_Word_dump
+00311231   _VFD_cursor
+0031125e   _VFD_printf
+0031126d   _VFD_FONT
+0031126e   _factory_enter
+0031129c   _eerom_control
+00311304   _eerom_write
+00311397   _eerom_read
+00311428   _flash_sector_erase
+00311445   _flash_word_write
+0031145c   _wave_flash_word_write
+00311480   _wave_vi_initial_pre1
+0031148e   _wave_vi_initial_pre2
+0031149b   _wave_vi_initial_post
+003114a5   _wave_di_initial_pre1
+003114b3   _wave_di_initial_pre2
+003114c0   _wave_di_initial_post
+003114ca   _wave_flash_sector_erase
+003114e3   _wave_save_process
+003118af   _led_handling
+0031191d   _do_test_check
+003119d7   _Offset_Check
+003119ff   _DFT_Check
+00311a4d   _TRMS_Check
+00311a72   _Degree_Check
+00311aa2   _P_Check
+00311ae9   _ADC_Calibration_Control
+00312b09   __printfi
+00312c0c   _cpu_setup
+00312c2a   _pll_setup
+00312c61   _Peripheral_Clock_setup
+00312c84   _interrupt_setup
+00312cdb   _sci_setup
+00312d30   _GPIO_setup
+00312d8b   _Xinterface_setup
+00312de1   _InitTimer
+00312e0f   _i2c_setup
+00312e3a   _lcd_setup
+00313137   _booting_setting_check
+003132f6   _aux_do_check
+00313303   _ocgr_load_check
+00313383   _dsgr_load_check
+003133e9   _setting_min_max_check
+003133fc   LL$$DIV
+00313438   LL$$MOD
+00313472   ULL$$DIV
+003134a1   ULL$$MOD
+00313503   _atan2
+003135c7   FD$$ADD
+00313663   FD$$DIV
+003136ee   FS$$DIV
+00313776   FD$$MPY
+003137f9   _atan
+0031386b   _exp
+003138d5   _log
+00313938   _cos
+00313999   _pow
+003139f3   _sin
+00313a4a   __log
+00313a9e   _c_int00
+00313ae4   _ldexp
+00313b19   _atoi
+00313b4a   _sprintf
+00313b79   _ltoa
+00313ba5   FD$$CMP
+00313bcf   L$$DIV
+00313bde   L$$MOD
+00313bec   UL$$DIV
+00313bf3   UL$$MOD
+00313bfa   _sqrt
+00313c1d   I$$DIV
+00313c2e   I$$MOD
+00313c3f   FD$$TOI
+00313c60   ___memcpy_ff
+00313c81   FD$$TOL
+00313ca0   LL$$CMP
+00313cb2   ULL$$CMP
+00313cbe   FS$$TOFD
+00313cda   L$$TOFD
+00313cf6   FD$$TOUL
+00313d11   __args_main
+00313d2a   C$$EXIT
+00313d2a   _abort
+00313d2c   _exit
+00313d43   _frexp
+00313d59   UL$$TOFD
+00313d6f   _MemCopy
+00313d84   LL$$MPY
+00313d98   _memccpy
+00313daa   FD$$SUB
+00313db8   U$$DIV
+00313dbd   U$$MOD
+00313dc3   _strlen
+00313dcd   __register_unlock
+00313dd1   __register_lock
+00313dd5   __nop
+00313dd6   FD$$NEG
+00313ddf   _strcpy
+00313df0   _memset
+00313df7   ___etext__
+00313df7   etext
+00313df8   _menu_tables
+003156dc   __ctypes_
+003157dd   _CRC_High
+003158dd   _CRC_Low
+003159de   _KHS_LCD_Buffer
+00315a2a   _harmonics_1st_cos
+00315a72   _harmonics_1st_sin
+00315aba   _harmonics_3rd_cos
+00315b02   _harmonics_3rd_sin
+00315b4a   _harmonics_5th_cos
+00315b92   _harmonics_5th_sin
+00315bda   _harmonics_7th_cos
+00315c22   _harmonics_7th_sin
+00315c6a   _harmonics_9th_cos
+00315cb2   _harmonics_9th_sin
+00315cfa   _LCD_Position_Value
+00315d68   _cos_50Hz
+00315d80   _cos_60Hz
+00315d98   _sin_50Hz
+00315db0   _sin_60Hz
+00315de0   _wave_buffer_address
+00315df4   _wave_buffer_post_address
+00315e08   _himix_number
+00315e12   _DO_ON_BIT
+00315e1b   _OFF_BIT
+00315e24   _ON_BIT
+00315e3e   _DO_OFF_BIT
+00315eca   ___cinit__
+00315eca   cinit
+0033fff6   code_start
+ffffffff   ___binit__
+ffffffff   ___c_args__
+ffffffff   ___pinit__
+ffffffff   binit
+ffffffff   pinit
+
+[424 symbols]
