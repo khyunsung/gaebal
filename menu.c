@@ -10259,7 +10259,7 @@ void menu_89_04(unsigned int value, int display)
 	char str[2][22];
 
 	if(display) {
-		sprintf(str[0],"PRE SET :%s \1\0", disp_mode[AUTO_DISPLAY.mode]);  
+		sprintf(str[0],"PRE-SET :%s \1\0", disp_mode[AUTO_DISPLAY.mode]);  
 		sprintf(str[1],"DISPLAY :%s \2\0", disp_mode[AUTO_DISPLAY.mode_temp]);  
 		screen_frame2(str);
 		return;
@@ -12333,10 +12333,21 @@ void menu_151_01(unsigned int value, int display)
 			Screen_Position.x = 2;
 			cursor_move(0, 0);//cursor off
 		} else if(Screen_Position.select == 1) {
-//			Screen_Position.y = 153;
-//			Screen_Position.x = 2;
-//			Screen_Position.select = 0;
-//			cursor_move(0, 0);//cursor off
+
+			CALIBRATION.slope_1st_temp[0] = (long)(CALIBRATION.slope_1st[0] * 100000000.0F);
+			CALIBRATION.slope_1st_temp[1] = (long)(CALIBRATION.slope_1st[1] * 100000000.0F);
+			CALIBRATION.slope_1st_temp[2] = (long)(CALIBRATION.slope_1st[2] * 100000000.0F);
+			CALIBRATION.slope_1st_temp[3] = (long)(CALIBRATION.slope_1st[3] * 100000000.0F);
+			CALIBRATION.slope_1st_temp[4] = (long)(CALIBRATION.slope_1st[4] * 100000000.0F);
+			CALIBRATION.slope_1st_temp[5] = (long)(CALIBRATION.slope_1st[5] * 100000000.0F);
+			CALIBRATION.slope_1st_temp[6] = (long)(CALIBRATION.slope_1st[6] * 100000000.0F);
+			CALIBRATION.slope_1st_temp[7] = (long)(CALIBRATION.slope_1st[7] * 100000000.0F);
+			CALIBRATION.slope_1st_temp[8] = (long)(CALIBRATION.slope_1st[8] * 100000000.0F);
+			CALIBRATION.slope_1st_temp[9] = (long)(CALIBRATION.slope_1st[9] * 100000000.0F);
+
+			Screen_Position.y = 153;
+			Screen_Position.x = 2;
+			Screen_Position.select = 5;
 		}
 	}
 }
@@ -12606,6 +12617,7 @@ void menu_152_03(unsigned int value, int display)
 {
 	char str[2][22];
 	int err;
+	Uint16 temp = 0;
 
 	if(CORE.rated_ct == CT_5A)
 	{
@@ -12639,6 +12651,13 @@ void menu_152_03(unsigned int value, int display)
 
 		err = ADC_High_Calibration();
 		if(err == 1) {
+			for(temp = 0; temp < 10; temp++) //원래 Calibration factor 복원
+			{
+				CALIBRATION.offset[temp] = CALIBRATION.offset_origin[temp];
+				CALIBRATION.slope_1st[temp] = CALIBRATION.slope_1st_origin[temp];
+				CALIBRATION.angle[temp] = CALIBRATION.angle_origin[temp];	
+			}
+
 			menu_151_01(0xff, 1);
 			Screen_Position.y = 151;
 			Screen_Position.x = 1;
@@ -12650,7 +12669,6 @@ void menu_152_03(unsigned int value, int display)
 			menu_152_04(0xff, 1);
 		}
 	}
-
 }
 
 void menu_152_05(unsigned int, int);
@@ -12658,6 +12676,7 @@ void menu_152_04(unsigned int value, int display)
 {
 	char str[2][22];
 	int err;
+	Uint16 temp = 0;
 
 	if(CORE.rated_ct == CT_5A)
 	{
@@ -12691,6 +12710,13 @@ void menu_152_04(unsigned int value, int display)
 
 		err = ADC_low_Calibration();
 		if(err == 1) {
+			for(temp = 0; temp < 10; temp++) //원래 Calibration factor 복원
+			{
+				CALIBRATION.offset[temp] = CALIBRATION.offset_origin[temp];
+				CALIBRATION.slope_1st[temp] = CALIBRATION.slope_1st_origin[temp];
+				CALIBRATION.angle[temp] = CALIBRATION.angle_origin[temp];	
+			}
+
 			menu_151_01(0xff, 1);
 			Screen_Position.y = 151;
 			Screen_Position.x = 1;
@@ -12699,16 +12725,14 @@ void menu_152_04(unsigned int value, int display)
 			delay_us(500000);
 			return;
 		} else {
-			menu_152_05(0xff, 1);
+			menu_152_05(0, 1);
+
+			Screen_Position.y = 152;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);
+			Screen_Position.select = 0;
+
 		}
-
-	}
-
-	if(value) {
-		Screen_Position.y = 152;
-		Screen_Position.x = 5;
-		Screen_Position.select = 0;
-		cursor_move(0, 0);
 	}
 }
 
@@ -12721,13 +12745,13 @@ void menu_152_05(unsigned int value, int display)
 	
 	if(display) {
 		screen_frame2(str);
-		return;
+		cursor_move(0, 0);
+		delay_us(500000);
 	}
 
 	if(value) {
 			Screen_Position.y = 151;
 			Screen_Position.x = 1;
-			cursor_move(0, 15);
 			Screen_Position.select = 0;
 	}
 }
@@ -12785,6 +12809,444 @@ void menu_153_01(unsigned int value, int display)
 			Screen_Position.x = 2;
 			Screen_Position.select = 0;
 		}
+	}
+}
+
+void menu_153_02(unsigned int value, int display)
+{
+	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
+	char str[2][22];
+
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[0] * 100000000.0F));
+	sprintf(str[1],"Ia FACTOR : %6ld  \0",CALIBRATION.slope_1st_temp[0]);
+	
+	if(display) {
+		screen_frame2(str);
+		if (Screen_Position.select == 0) {
+			cursor_move(1, 12);
+		} else if (Screen_Position.select == 1) {
+			cursor_move(1, 13);
+		} else if (Screen_Position.select == 2) {
+			cursor_move(1, 14);
+		} else if (Screen_Position.select == 3) {
+			cursor_move(1, 15);
+		} else if (Screen_Position.select == 4) {
+			cursor_move(1, 16);
+		}	else if (Screen_Position.select == 5) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+	
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+		Screen_Position.select %= 6;
+	} else if(value == RIGHT_KEY) {
+		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
+	} else if(value == UP_KEY) {
+		CALIBRATION.slope_1st_temp[0] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[0] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[0] = CALIB_I_MAX;
+	} else if(value == DOWN_KEY) {
+		CALIBRATION.slope_1st_temp[0] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[0] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[0] >= 60000)	CALIBRATION.slope_1st_temp[0] = CALIB_I_MIN;
+	} else if(value == ENTER_KEY) {
+		Screen_Position.y = 153;
+		Screen_Position.x = 3;
+		Screen_Position.select = 5;
+	}
+}
+
+void menu_153_03(unsigned int value, int display)
+{
+	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
+	char str[2][22];
+
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[1] * 100000000.0F));
+	sprintf(str[1],"Ib FACTOR : %6ld  \0",CALIBRATION.slope_1st_temp[1]);
+	
+	if(display) {
+		screen_frame2(str);
+		if (Screen_Position.select == 0) {
+			cursor_move(1, 12);
+		} else if (Screen_Position.select == 1) {
+			cursor_move(1, 13);
+		} else if (Screen_Position.select == 2) {
+			cursor_move(1, 14);
+		} else if (Screen_Position.select == 3) {
+			cursor_move(1, 15);
+		} else if (Screen_Position.select == 4) {
+			cursor_move(1, 16);
+		}	else if (Screen_Position.select == 5) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+	
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+		Screen_Position.select %= 6;
+	} else if(value == RIGHT_KEY) {
+		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
+	} else if(value == UP_KEY) {
+		CALIBRATION.slope_1st_temp[1] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[1] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[1] = CALIB_I_MAX;
+	} else if(value == DOWN_KEY) {
+		CALIBRATION.slope_1st_temp[1] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[1] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[0] >= 60000)	CALIBRATION.slope_1st_temp[1] = CALIB_I_MIN;
+	} else if(value == ENTER_KEY) {
+		Screen_Position.y = 153;
+		Screen_Position.x = 4;
+		Screen_Position.select = 5;
+	}
+}
+
+void menu_153_04(unsigned int value, int display)
+{
+	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
+	char str[2][22];
+
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[2] * 100000000.0F));
+	sprintf(str[1],"Ic FACTOR : %6ld  \0",CALIBRATION.slope_1st_temp[2]);
+	
+	if(display) {
+		screen_frame2(str);
+		if (Screen_Position.select == 0) {
+			cursor_move(1, 12);
+		} else if (Screen_Position.select == 1) {
+			cursor_move(1, 13);
+		} else if (Screen_Position.select == 2) {
+			cursor_move(1, 14);
+		} else if (Screen_Position.select == 3) {
+			cursor_move(1, 15);
+		} else if (Screen_Position.select == 4) {
+			cursor_move(1, 16);
+		}	else if (Screen_Position.select == 5) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+	
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+		Screen_Position.select %= 6;
+	} else if(value == RIGHT_KEY) {
+		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
+	} else if(value == UP_KEY) {
+		CALIBRATION.slope_1st_temp[2] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[2] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[2] = CALIB_I_MAX;
+	} else if(value == DOWN_KEY) {
+		CALIBRATION.slope_1st_temp[2] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[2] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[2] >= 60000)	CALIBRATION.slope_1st_temp[2] = CALIB_I_MIN;
+	} else if(value == ENTER_KEY) {
+		Screen_Position.y = 153;
+		Screen_Position.x = 5;
+		Screen_Position.select = 5;
+	}
+}
+
+void menu_153_05(unsigned int value, int display)
+{
+	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
+	char str[2][22];
+
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[3] * 100000000.0F));
+	sprintf(str[1],"Io FACTOR : %6ld  \0",CALIBRATION.slope_1st_temp[3]);
+	
+	if(display) {
+		screen_frame2(str);
+		if (Screen_Position.select == 0) {
+			cursor_move(1, 12);
+		} else if (Screen_Position.select == 1) {
+			cursor_move(1, 13);
+		} else if (Screen_Position.select == 2) {
+			cursor_move(1, 14);
+		} else if (Screen_Position.select == 3) {
+			cursor_move(1, 15);
+		} else if (Screen_Position.select == 4) {
+			cursor_move(1, 16);
+		}	else if (Screen_Position.select == 5) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+	
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+		Screen_Position.select %= 6;
+	} else if(value == RIGHT_KEY) {
+		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
+	} else if(value == UP_KEY) {
+		CALIBRATION.slope_1st_temp[3] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[3] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[3] = CALIB_I_MAX;
+	} else if(value == DOWN_KEY) {
+		CALIBRATION.slope_1st_temp[3] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[3] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[3] >= 60000)	CALIBRATION.slope_1st_temp[3] = CALIB_I_MIN;
+	} else if(value == ENTER_KEY) {
+		Screen_Position.y = 153;
+		Screen_Position.x = 6;
+		Screen_Position.select = 5;
+	}
+}
+
+void menu_153_06(unsigned int value, int display)
+{
+	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
+	char str[2][22];
+
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[6] * 100000000.0F));
+	sprintf(str[1],"Vab FACTOR: %6ld  \0",CALIBRATION.slope_1st_temp[6]);
+	
+	if(display) {
+		screen_frame2(str);
+		if (Screen_Position.select == 0) {
+			cursor_move(1, 12);
+		} else if (Screen_Position.select == 1) {
+			cursor_move(1, 13);
+		} else if (Screen_Position.select == 2) {
+			cursor_move(1, 14);
+		} else if (Screen_Position.select == 3) {
+			cursor_move(1, 15);
+		} else if (Screen_Position.select == 4) {
+			cursor_move(1, 16);
+		}	else if (Screen_Position.select == 5) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+	
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+		Screen_Position.select %= 6;
+	} else if(value == RIGHT_KEY) {
+		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
+	} else if(value == UP_KEY) {
+		CALIBRATION.slope_1st_temp[6] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[6] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[6] = CALIB_I_MAX;
+	} else if(value == DOWN_KEY) {
+		CALIBRATION.slope_1st_temp[6] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[6] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[6] >= 60000)	CALIBRATION.slope_1st_temp[6] = CALIB_I_MIN;
+	} else if(value == ENTER_KEY) {
+		Screen_Position.y = 153;
+		Screen_Position.x = 7;
+		Screen_Position.select = 5;
+	}
+}
+
+void menu_153_07(unsigned int value, int display)
+{
+	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
+	char str[2][22];
+
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[7] * 100000000.0F));
+	sprintf(str[1],"Vbc FACTOR: %6ld  \0",CALIBRATION.slope_1st_temp[7]);
+	
+	if(display) {
+		screen_frame2(str);
+		if (Screen_Position.select == 0) {
+			cursor_move(1, 12);
+		} else if (Screen_Position.select == 1) {
+			cursor_move(1, 13);
+		} else if (Screen_Position.select == 2) {
+			cursor_move(1, 14);
+		} else if (Screen_Position.select == 3) {
+			cursor_move(1, 15);
+		} else if (Screen_Position.select == 4) {
+			cursor_move(1, 16);
+		}	else if (Screen_Position.select == 5) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+	
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+		Screen_Position.select %= 6;
+	} else if(value == RIGHT_KEY) {
+		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
+	} else if(value == UP_KEY) {
+		CALIBRATION.slope_1st_temp[7] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[7] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[7] = CALIB_I_MAX;
+	} else if(value == DOWN_KEY) {
+		CALIBRATION.slope_1st_temp[7] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[7] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[7] >= 60000)	CALIBRATION.slope_1st_temp[7] = CALIB_I_MIN;
+	} else if(value == ENTER_KEY) {
+		Screen_Position.y = 153;
+		Screen_Position.x = 8;
+		Screen_Position.select = 5;
+	}
+}
+
+void menu_153_08(unsigned int value, int display)
+{
+	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
+	char str[2][22];
+
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[8] * 100000000.0F));
+	sprintf(str[1],"Vca FACTOR: %6ld  \0",CALIBRATION.slope_1st_temp[8]);
+	
+	if(display) {
+		screen_frame2(str);
+		if (Screen_Position.select == 0) {
+			cursor_move(1, 12);
+		} else if (Screen_Position.select == 1) {
+			cursor_move(1, 13);
+		} else if (Screen_Position.select == 2) {
+			cursor_move(1, 14);
+		} else if (Screen_Position.select == 3) {
+			cursor_move(1, 15);
+		} else if (Screen_Position.select == 4) {
+			cursor_move(1, 16);
+		}	else if (Screen_Position.select == 5) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+	
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+		Screen_Position.select %= 6;
+	} else if(value == RIGHT_KEY) {
+		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
+	} else if(value == UP_KEY) {
+		CALIBRATION.slope_1st_temp[8] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[8] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[8] = CALIB_I_MAX;
+	} else if(value == DOWN_KEY) {
+		CALIBRATION.slope_1st_temp[8] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[8] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[8] >= 60000)	CALIBRATION.slope_1st_temp[8] = CALIB_I_MIN;
+	} else if(value == ENTER_KEY) {
+		Screen_Position.y = 153;
+		Screen_Position.x = 9;
+		Screen_Position.select = 5;
+	}
+}
+
+void menu_153_09(unsigned int value, int display)
+{
+	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
+	char str[2][22];
+
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[9] * 100000000.0F));
+	sprintf(str[1],"Vo FACTOR : %6ld  \0",CALIBRATION.slope_1st_temp[9]);
+	
+	if(display) {
+		screen_frame2(str);
+		if (Screen_Position.select == 0) {
+			cursor_move(1, 12);
+		} else if (Screen_Position.select == 1) {
+			cursor_move(1, 13);
+		} else if (Screen_Position.select == 2) {
+			cursor_move(1, 14);
+		} else if (Screen_Position.select == 3) {
+			cursor_move(1, 15);
+		} else if (Screen_Position.select == 4) {
+			cursor_move(1, 16);
+		}	else if (Screen_Position.select == 5) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+	
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+		Screen_Position.select %= 6;
+	} else if(value == RIGHT_KEY) {
+		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
+	} else if(value == UP_KEY) {
+		CALIBRATION.slope_1st_temp[9] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[9] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[9] = CALIB_I_MAX;
+	} else if(value == DOWN_KEY) {
+		CALIBRATION.slope_1st_temp[9] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_1st_temp[9] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[9] >= 60000)	CALIBRATION.slope_1st_temp[9] = CALIB_I_MIN;
+	} else if(value == ENTER_KEY) {
+		Screen_Position.y = 153;
+		Screen_Position.x = 10;
+		Screen_Position.select = 1;
+		cursor_move(1, 18);
+	}
+}
+
+void menu_153_10(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                    \0");
+	sprintf(str[1],"WANT TO SET ?  [Y/N]\0");
+
+	if(display) {
+		screen_frame2(str);
+		if(Screen_Position.select == 0) {
+			cursor_move(1, 16);
+		} else if(Screen_Position.select == 1) {
+			cursor_move(1, 18);
+		}
+		return;
+	}
+
+	if(value == LEFT_KEY) {
+		Screen_Position.select -= 1;
+		Screen_Position.select %= 2;
+	} else if(value == RIGHT_KEY) {
+		Screen_Position.select += 1;
+		Screen_Position.select %= 2;
+	} else if(value == ENTER_KEY) {
+		if(Screen_Position.select == 0) {
+
+//			DIGITAL_OUTPUT.property = DIGITAL_OUTPUT.property_temp;
+//			if(setting_save(&DIGITAL_OUTPUT.property, DO_PROPERTY, 1))
+//			{
+//				setting_load(&DIGITAL_OUTPUT.property, 1, DO_PROPERTY);
+//			}
+//			else
+//			{
+//				//FLASH WRITE ERROR pop up 화면
+//			}
+
+			Screen_Position.y = 153;
+			Screen_Position.x = 11;
+			cursor_move(0, 0);//cursor off
+		} else if(Screen_Position.select == 1) {
+			Screen_Position.y = 153;
+			Screen_Position.x = 12;
+			cursor_move(0, 0);//cursor off
+		}
+	}
+}
+
+void menu_153_11(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0], "CALI. SET COMPLETE !\0");
+	sprintf(str[1], "   PRESS ANY KEY !  \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value) {
+			Screen_Position.y = 151;
+			Screen_Position.x = 1;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_153_12(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0], "CALI. SET CANCELED !\0");
+	sprintf(str[1], "   PRESS ANY KEY !  \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value) {
+			Screen_Position.y = 151;
+			Screen_Position.x = 1;
+			Screen_Position.select = 0;
 	}
 }
 
@@ -13923,7 +14385,7 @@ const Screen_Function_Pointer menu_tables[200][18] = { //2015.02.17
 		{menu_dummy, menu_150_01, menu_150_02, },                                                                                                  // 150
 		{menu_dummy, menu_151_01, menu_151_02, menu_151_03, menu_151_04, menu_151_05, menu_151_06, menu_151_07, },																 // 151
 		{menu_dummy, menu_152_01, menu_152_02, menu_152_03, menu_152_04, menu_152_05, },                                                           // 152
-		{menu_dummy, menu_153_01, menu_dummy, },                                                                                                   // 153
+		{menu_dummy, menu_153_01, menu_153_02, menu_153_03, menu_153_04, menu_153_05, menu_153_06, menu_153_07, menu_153_08, menu_153_09, menu_153_10, menu_153_11, menu_153_12,},	// 153
 		{menu_dummy, menu_dummy, menu_154_02, menu_154_03, menu_154_04,},                                                                         // 154
 		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 155
 		{menu_dummy, menu_dummy, menu_156_02, menu_156_03, menu_156_04, menu_156_05, menu_156_06, menu_156_07, menu_156_08, menu_156_09, menu_156_10, menu_156_11, menu_156_12, menu_156_13, menu_156_14, menu_156_15, menu_156_16,}, // 156

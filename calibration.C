@@ -41,7 +41,7 @@ float DFT_Check(unsigned int ar_channel, float ar_min, float ar_max)
 {
 	unsigned int i;
 	unsigned int j;
-	float temp_float = 0;
+	float temp_float = 0.;
 	unsigned int temp;
 	
 X:	i = 0;
@@ -70,36 +70,18 @@ X:	i = 0;
 				goto X;
 			}
 		}
-		if(i == 720)
+		if(i == 72)
 		break;
 	}
-	temp_float /= 720;
+	temp_float /= 72.;
 	return(temp_float);
 }
-
-//float TRMS_Check(float *ar_Value)
-//{
-//	Uint16 i;
-//	float trms;
-//	
-//	trms = 0.0;
-//
-//	// 60주기 	
-//	for(i = 0; i < 60; i++)
-//	{
-//		trms += *ar_Value; 
-//		delay_us(16700L);
-//	}
-//	// 평균
-//	trms /= 60;
-//	return(trms);
-//}
 
 float Degree_Check(unsigned int ar_channel)
 {
 	unsigned int i;
 	unsigned int j;
-	float temp_float = 0;
+	float temp_float = 0.;
 	unsigned int temp;
 	
 	i = 0;
@@ -118,50 +100,210 @@ float Degree_Check(unsigned int ar_channel)
 			j =	DFT.index_count;
 			++i;			
 		}
-		if(i == 100)
+		if(i == 50)
 		break;
 	}
-	temp_float /= 100;
+	temp_float /= 50.;
 	return(temp_float);
 }
 
-//float P_Check(float *ar_Value)
-//{
-//	Uint16 i;
-//	float p[2];
-//	
-//	for(;;)
-//	{
-//		if(DISPLAY.Power_Up == 0xaaaa)
-//		{
-//			DISPLAY.Power_Up = 0;
-//			break;
-//		}
-//	}
-//	p[0] = 0.0;
-//	p[1] = 0.0;
-//	
-//	// 5회
-//	for(i = 0; i < 2; i++)
-//	{
-//		for(;;)
-//		{
-//			if(DISPLAY.Power_Up == 0xaaaa)
-//			{	
-//				// raw 값
-//				p[i] = *ar_Value;
-//				DISPLAY.Power_Up = 0;
-//				break;
-//			}    			
-//		}
-//	}
-//	p[0] /= 720;
-//	p[1] /= 720;
-//	p[0] += p[1];
-//	p[0] /= 2;
-//	
-//	return(p[0]);
-//}
+int ADC_Offset_Calibration(void) //Offset Calibration에서는 탈출 안되고 무조건 넘어감
+{
+	Uint16 temp = 0;
+
+	SAMPLE.normal = 0;
+	
+	Calibration_Menu_Escape = 0;
+
+//-------- 기존 CALIBRATION 값 초기화	
+	for(temp = 0; temp < 10; temp++)
+	{
+		CALIBRATION.offset_origin[temp] = CALIBRATION.offset[temp];
+		CALIBRATION.slope_1st_origin[temp] = CALIBRATION.slope_1st[temp];
+		CALIBRATION.angle_origin[temp] = CALIBRATION.angle[temp];	
+		
+		CALIBRATION.offset[temp] = 0;
+		CALIBRATION.slope_1st[temp] = 1.;
+		CALIBRATION.angle[temp] = 0.;
+	}
+//	CALIBRATION.frequency_offset = 0;
+//-------- 기존 CALIBRATION 값 초기화 END
+
+	DFT.index_count = 0;
+	for(;;)
+	{	
+		if(DFT.index_count == 11)
+			break;
+	}
+	delay_us(2000);
+	
+	//-------- offset 측정 시작
+	for(temp = 0; temp < 10; temp++)
+	{
+		CALIBRATION.offset_temp[temp] = Offset_Check(temp);
+	}
+	return 0;
+}
+
+//  0,  1,  2,  3,   4,   5,  6,  7,  8,  9
+// Ia, Ib, Ic, In, In2, ZCT, Va, Vb, Vc, Vn
+int ADC_High_Calibration(void)
+{
+	//-------- high level 측정 시작
+	//124옴
+	if(CORE.rated_ct == CT_5A)
+	{
+		DFT_Check(0, 1350, 1650); //초기 DELAY를 위해
+		CALIBRATION.high_temp[0] = DFT_Check(0, 1350, 1650); //입력 6A (1502~1510)
+		CALIBRATION.high_temp[1] = DFT_Check(1, 1350, 1650); //입력 6A (1502~1510)
+		CALIBRATION.high_temp[2] = DFT_Check(2, 1350, 1650); //입력 6A (1502~1510)
+		if(CORE.gr_select == NCT_SELECT)	{CALIBRATION.high_temp[3] = DFT_Check(3, 1350, 1650);} //입력 6A (1502~1510)
+		else															{CALIBRATION.high_temp[5] = DFT_Check(5, 7580, 22741);} //입력 10mA
+	}
+	else
+	{
+//		CALIBRATION.high_temp[0] = DFT_Check(0, 1.0, 3.0); //입력 2A
+//		CALIBRATION.high_temp[1] = DFT_Check(1, 1.0, 3.0); //입력 2A
+//		CALIBRATION.high_temp[2] = DFT_Check(2, 1.0, 3.0); //입력 2A
+//		if(CORE.gr_select == NCT_SELECT)
+//		CALIBRATION.high_temp[3] = DFT_Check(3, 1.0, 3.0); //입력 2A
+//		else
+//		CALIBRATION.high_temp[5] = DFT_Check(5, 5, 15); //입력 10mA	
+	}
+	DFT_Check(6, 5450, 9845); //초기 DELAY를 위해
+	CALIBRATION.high_temp[6] = DFT_Check(6, 5450, 9845);  //입력 110V (8950~8963)
+	CALIBRATION.high_temp[7] = DFT_Check(7, 5450, 9845);  //입력 110V (8950~8963)
+	CALIBRATION.high_temp[8] = DFT_Check(8, 5450, 9845);  //입력 110V (8950~8963)
+	CALIBRATION.high_temp[9] = DFT_Check(9, 14310, 17490); //입력 110V (15900)
+
+	TIMER.lcd = 0;
+	
+	for(;;) // 1초 대기
+	{
+		if(TIMER.lcd > 1000)
+		break;
+		
+		if(Calibration_Menu_Escape == 1)
+			return 1;
+	}
+	
+	// 위상 보정
+	// Vab 기준으로 전체 위상 보정
+	CALIBRATION.angle_temp[6] = 0; //Vab
+	CALIBRATION.angle_temp[0] = Degree_Check(0);
+	CALIBRATION.angle_temp[1] = Degree_Check(1);
+	CALIBRATION.angle_temp[2] = Degree_Check(2);
+	CALIBRATION.angle_temp[3] = Degree_Check(3);
+	CALIBRATION.angle_temp[5] = Degree_Check(5); //ZCT
+	CALIBRATION.angle_temp[7] = Degree_Check(7);
+	CALIBRATION.angle_temp[8] = Degree_Check(8);
+	CALIBRATION.angle_temp[9] = Degree_Check(9);
+	
+	return 0;
+}
+
+//  0,  1,  2,  3,   4,   5,  6,  7,  8,  9
+// Ia, Ib, Ic, In, In2, ZCT, Va, Vb, Vc, Vn
+int ADC_low_Calibration(void)
+{
+	unsigned int i;
+	Uint16 temp = 0;
+	unsigned int temp1[100];
+	void *void_p;
+	unsigned int *temp16_p;
+	
+	//-------- Low level 측정 시작
+	//125옴
+	if(CORE.rated_ct == CT_5A)
+	{
+		DFT_Check(0, 225, 275); //초기 DELAY를 위해
+		CALIBRATION.low_temp[0] = DFT_Check(0, 225, 275); //입력 1A (249~251)
+		CALIBRATION.low_temp[1] = DFT_Check(1, 225, 275); //입력 1A (249~251)
+		CALIBRATION.low_temp[2] = DFT_Check(2, 225, 275); //입력 1A (249~251)
+		if(CORE.gr_select == NCT_SELECT)	{CALIBRATION.low_temp[3] = DFT_Check(3, 225, 275);} //입력 1A (249~251)
+		else															{CALIBRATION.low_temp[5] = DFT_Check(5, 3832, 11496);} //입력 5mA
+	}
+	else
+	{
+//		CALIBRATION.low_temp[0] = DFT_Check(0, 0.1, 0.3); //입력 0.2A
+//		CALIBRATION.low_temp[1] = DFT_Check(1, 0.1, 0.3); //입력 0.2A
+//		CALIBRATION.low_temp[2] = DFT_Check(2, 0.1, 0.3); //입력 0.2A
+//		if(CORE.gr_select == NCT_SELECT)
+//		CALIBRATION.low_temp[3] = DFT_Check(3, 0.1, 0.3); //입력 0.2A
+//		else
+//		CALIBRATION.low_temp[5] = DFT_Check(5, 2, 8); //입력 5mA	
+	}
+	DFT_Check(6, 774, 946); //초기 DELAY를 위해
+	CALIBRATION.low_temp[6] = DFT_Check(6, 774, 946); //입력 10V (860)
+	CALIBRATION.low_temp[7] = DFT_Check(7, 774, 946); //입력 10V (815)
+	CALIBRATION.low_temp[8] = DFT_Check(8, 774, 946); //입력 10V (815)
+	CALIBRATION.low_temp[9] = DFT_Check(9, 1296, 1584); //입력 10V (1440)
+
+//-------- 기본파 슬로프 계산 및 CALIBRATION FACTOR 저장
+	for(temp = 0; temp < 6; temp++) //전류 slope
+	{
+		CALIBRATION.slope_temp[temp] = 5.0 / (CALIBRATION.high_temp[temp] - CALIBRATION.low_temp[temp]);
+		CALIBRATION.slope_1st[temp] = CALIBRATION.slope_temp[temp];
+	}
+	for(temp = 6; temp < 10; temp++) //전압 slope
+	{
+		CALIBRATION.slope_temp[temp] = 100.0 / (CALIBRATION.high_temp[temp] - CALIBRATION.low_temp[temp]);
+		CALIBRATION.slope_1st[temp] = CALIBRATION.slope_temp[temp];
+	}
+
+	for(temp = 0; temp < 10; temp++) //offset
+	{
+		CALIBRATION.offset[temp] = CALIBRATION.offset_temp[temp];
+	}
+
+	CALIBRATION.angle[6] = CALIBRATION.angle_temp[6]; //angle
+	CALIBRATION.angle[0] = CALIBRATION.angle_temp[0];
+	CALIBRATION.angle[1] = CALIBRATION.angle_temp[1];
+	CALIBRATION.angle[2] = CALIBRATION.angle_temp[2];
+	CALIBRATION.angle[3] = CALIBRATION.angle_temp[3];
+	CALIBRATION.angle[5] = CALIBRATION.angle_temp[5];
+	CALIBRATION.angle[7] = CALIBRATION.angle_temp[7];
+	CALIBRATION.angle[8] = CALIBRATION.angle_temp[8];
+	CALIBRATION.angle[9] = CALIBRATION.angle_temp[9];
+//-------- 기본파 슬로프 계산 및 CALIBRATION FACTOR 저장 END
+
+	if(Calibration_Menu_Escape == 1)
+		return 1;
+
+//-------- EEROM 저장
+	eerom_control(4, 0x80);
+	eerom_control(4, 0xc0);
+	
+	for(i = 0; i < 10; i++)  //offset 저장
+	{
+		eerom_write(i, &CALIBRATION.offset[i]);
+		temp1[i] = CALIBRATION.offset[i]; //[0]~[9]
+	}
+	for(i = 0; i < 10; i++) //slope 저장
+	{
+		void_p = &CALIBRATION.slope_1st[i];
+		temp16_p = (unsigned int *)void_p;
+		eerom_write(0x10 + (i << 1), temp16_p);
+		eerom_write(0x11 + (i << 1), temp16_p + 1);
+		temp1[10 + (i << 1)] = *temp16_p;  //[10]~[29]
+		temp1[11 + (i << 1)] = *(temp16_p + 1);
+	}
+	for(i = 0; i < 10; i++) //angle 저장
+	{
+		void_p = &CALIBRATION.angle[i];
+		temp16_p = (unsigned int *)void_p;
+		eerom_write(0x30 + (i << 1), temp16_p);
+		eerom_write(0x31 + (i << 1), temp16_p + 1);
+		temp1[30 + (i << 1)] = *temp16_p; //[30]~[49]
+		temp1[31 + (i << 1)] = *(temp16_p + 1);
+	}
+	
+	i = Setting_CRC(temp1, 50);
+	eerom_write(0xa0, &i);
+	
+	return 0;
+//-------- EEROM 저장 END
+}
 
 //void ADC_Calibration_Control(void)
 //{
@@ -433,8 +575,6 @@ float Degree_Check(unsigned int ar_channel)
 //			break;
 //		}
 //	}
-//	
-//   
 //	for(;;)
 //	{
 //		if(DISPLAY.Power_Up == 0xaaaa)
@@ -583,388 +723,4 @@ float Degree_Check(unsigned int ar_channel)
 //	;
 //}
 
-int ADC_Offset_Calibration(void)
-{
-	Uint16 temp = 0;
-
-//-------- calibration start
-	SAMPLE.normal = 0;
-	
-	Calibration_Menu_Escape = 0;
-	
-	for(temp = 0; temp < 10; temp++)
-	{
-		CALIBRATION.offset[temp] = 0;
-		CALIBRATION.slope_1st[temp] = 1.;
-//	CALIBRATION.slope_trms[temp] = 1.;
-		CALIBRATION.angle[temp] = 0;
-	}
-	CALIBRATION.frequency_offset = 0;
-	DFT.index_count = 0;
-	
-	for(;;)
-	{	
-		if(DFT.index_count == 11)
-			break;
-			
-		if(Calibration_Menu_Escape == 1)
-			return 1;
-	}
-	delay_us(2000);
-	
-	//-------- offset 측정 시작
-	for(temp = 0; temp < 10; temp++)
-	{
-		CALIBRATION.offset[temp] = Offset_Check(temp);
-	}
-	return 0;
-}
-
-//  0,  1,  2,  3,   4,   5,  6,  7,  8,  9
-// Ia, Ib, Ic, In, In2, ZCT, Va, Vb, Vc, Vn
-int ADC_High_Calibration(void)
-{
-//	float freq_temp = 0;
-//	unsigned int freq_index = 0;
-//	unsigned int freq_count = 0;
-//	int temp;
-
-	//-------- high level 측정 시작
-	//124옴 
-	CALIBRATION.high_temp[0] = DFT_Check(0, 1000, 3000);
-	CALIBRATION.high_temp[1] = DFT_Check(1, 1000, 3000);
-	CALIBRATION.high_temp[2] = DFT_Check(2, 1000, 3000);
-	
-	if(CORE.gr_select == NCT_SELECT)
-	CALIBRATION.high_temp[3] = DFT_Check(3, 1200, 3600);
-	else
-	CALIBRATION.high_temp[5] = DFT_Check(5, 7580, 22741);
-
-	CALIBRATION.high_temp[6] = DFT_Check(6, 5450, 16350);
-	CALIBRATION.high_temp[7] = DFT_Check(7, 5450, 16350);
-	CALIBRATION.high_temp[8] = DFT_Check(8, 5450, 16350);
-	CALIBRATION.high_temp[9] = DFT_Check(9, 10890, 32680);
-
-// 삭제 예정		
-//	CALIBRATION.trms_high_temp[0] = TRMS_Check(&MEASUREMENT.true_rms[Ia]);
-//	CALIBRATION.trms_high_temp[1] = TRMS_Check(&MEASUREMENT.true_rms[Ib]);
-//	CALIBRATION.trms_high_temp[2] = TRMS_Check(&MEASUREMENT.true_rms[Ic]);
-//	CALIBRATION.trms_high_temp[3] = TRMS_Check(&MEASUREMENT.true_rms[In]);
-//	CALIBRATION.trms_high_temp[5] = TRMS_Check(&MEASUREMENT.true_rms[Is]); //ZCT
-//	CALIBRATION.trms_high_temp[6] = TRMS_Check(&MEASUREMENT.true_rms[Va]);
-//	CALIBRATION.trms_high_temp[7] = TRMS_Check(&MEASUREMENT.true_rms[Vb]);
-//	CALIBRATION.trms_high_temp[8] = TRMS_Check(&MEASUREMENT.true_rms[Vc]);
-//	CALIBRATION.trms_high_temp[9] = TRMS_Check(&MEASUREMENT.true_rms[Vn]);
-//	
-//	CALIBRATION.trms_high_temp[0] *= INTERNAL_CT_RATIO;
-//	CALIBRATION.trms_high_temp[1] *= INTERNAL_CT_RATIO;
-//	CALIBRATION.trms_high_temp[2] *= INTERNAL_CT_RATIO;
-//	CALIBRATION.trms_high_temp[3] *= INTERNAL_CT_RATIO;
-//	CALIBRATION.trms_high_temp[5] *= INTERNAL_ZCT_RATIO;	//ZCT
-//	CALIBRATION.trms_high_temp[6] *= INTERNAL_PT_RATIO;
-//	CALIBRATION.trms_high_temp[7] *= INTERNAL_PT_RATIO;
-//	CALIBRATION.trms_high_temp[8] *= INTERNAL_PT_RATIO;
-//	CALIBRATION.trms_high_temp[9] *= INTERNAL_GPT_RATIO;
-// 삭제 예정 END
-
-// 삭제 예정
-//	CALIBRATION.p_high_temp[0] = P_Check(&MEASUREMENT.Pa_value);
-//	CALIBRATION.p_high_temp[1] = P_Check(&MEASUREMENT.Pb_value);
-//	CALIBRATION.p_high_temp[2] = P_Check(&MEASUREMENT.Pc_value);
-//	
-//	CALIBRATION.p_high_temp[0] *= INTERNAL_CPT_RATIO;
-//	CALIBRATION.p_high_temp[1] *= INTERNAL_CPT_RATIO;
-//	CALIBRATION.p_high_temp[2] *= INTERNAL_CPT_RATIO;
-// 삭제 예정 END
-
-	TIMER.lcd = 0;
-	
-	for(;;) // 1초 대기
-	{
-		if(TIMER.lcd > 1000)
-		break;
-		
-		if(Calibration_Menu_Escape == 1)
-			return 1;
-	}
-	
-	// 위상 보정
-	// Vab 기준으로 전체 위상 보정
-	CALIBRATION.angle[6] = 0; //Vab
-	CALIBRATION.angle[0] = Degree_Check(0);
-	CALIBRATION.angle[1] = Degree_Check(1);
-	CALIBRATION.angle[2] = Degree_Check(2);
-	CALIBRATION.angle[3] = Degree_Check(3);
-	CALIBRATION.angle[5] = Degree_Check(5); //ZCT
-	CALIBRATION.angle[7] = Degree_Check(7);
-	CALIBRATION.angle[8] = Degree_Check(8);
-	CALIBRATION.angle[9] = Degree_Check(9);
-	
-	// 주파수 보정
-//	freq_index = DFT.index_count;
-//	for(;;)
-//	{
-//		if(freq_index != DFT.index_count)
-//		{
-//			freq_index = DFT.index_count;
-//			freq_temp += MEASUREMENT.frequency;
-//			++freq_count;
-//			if(freq_count == 100)
-//			break;
-//		}
-//		
-//		if(Calibration_Menu_Escape == 1)
-//			return 1;
-//	}
-//	freq_temp /= 100;
-//	CALIBRATION.frequency_offset = freq_temp;
-	
-	return 0;
-}
-
-//  0,  1,  2,  3,   4,   5,  6,  7,  8,  9
-// Ia, Ib, Ic, In, In2, ZCT, Va, Vb, Vc, Vn
-int ADC_low_Calibration(void)
-{
-	unsigned int i;
-	Uint16 temp = 0;
-	unsigned int temp1[100];
-	void *void_p;
-	unsigned int *temp16_p;
-	
-//	float PVa;
-//	float PVb;
-//	float PVc;
-//	float QVa;
-//	float QVb;
-//	float QVc;
-	
-	//-------- Low level 측정 시작
-	//125옴
-	CALIBRATION.low_temp[0] = DFT_Check(0, 120, 400);
-	CALIBRATION.low_temp[1] = DFT_Check(1, 120, 400);
-	CALIBRATION.low_temp[2] = DFT_Check(2, 120, 400);
-	if(CORE.gr_select == NCT_SELECT)
-	{
-		CALIBRATION.low_temp[3] = DFT_Check(3, 150, 500);
-	}
-	else	
-	{
-		CALIBRATION.low_temp[5] = DFT_Check(5, 3832, 11496);
-	}
-	CALIBRATION.low_temp[6] = DFT_Check(6, 412, 1236);
-	CALIBRATION.low_temp[7] = DFT_Check(7, 412, 1236);
-	CALIBRATION.low_temp[8] = DFT_Check(8, 412, 1236);
-	CALIBRATION.low_temp[9] = DFT_Check(9, 890, 2671);
-
-// 삭제 예정	
-//	CALIBRATION.trms_low_temp[0] = TRMS_Check(&MEASUREMENT.true_rms[Ia]);
-//	CALIBRATION.trms_low_temp[1] = TRMS_Check(&MEASUREMENT.true_rms[Ib]); 
-//	CALIBRATION.trms_low_temp[2] = TRMS_Check(&MEASUREMENT.true_rms[Ic]); 
-//	CALIBRATION.trms_low_temp[3] = TRMS_Check(&MEASUREMENT.true_rms[In]); 
-//	CALIBRATION.trms_low_temp[5] = TRMS_Check(&MEASUREMENT.true_rms[Is]); //ZCT
-//	CALIBRATION.trms_low_temp[6] = TRMS_Check(&MEASUREMENT.true_rms[Va]); 
-//	CALIBRATION.trms_low_temp[7] = TRMS_Check(&MEASUREMENT.true_rms[Vb]); 
-//	CALIBRATION.trms_low_temp[8] = TRMS_Check(&MEASUREMENT.true_rms[Vc]); 
-//	CALIBRATION.trms_low_temp[9] = TRMS_Check(&MEASUREMENT.true_rms[Vn]); 
-//	 
-//	CALIBRATION.trms_low_temp[0] *= INTERNAL_CT_RATIO;
-//	CALIBRATION.trms_low_temp[1] *= INTERNAL_CT_RATIO;
-//	CALIBRATION.trms_low_temp[2] *= INTERNAL_CT_RATIO;
-//	CALIBRATION.trms_low_temp[3] *= INTERNAL_CT_RATIO;
-//	CALIBRATION.trms_low_temp[5] *= INTERNAL_ZCT_RATIO;	//ZCT
-//	CALIBRATION.trms_low_temp[6] *= INTERNAL_PT_RATIO;
-//	CALIBRATION.trms_low_temp[7] *= INTERNAL_PT_RATIO;
-//	CALIBRATION.trms_low_temp[8] *= INTERNAL_PT_RATIO;
-//	CALIBRATION.trms_low_temp[9] *= INTERNAL_GPT_RATIO;
-// 삭제 예정 END
-
-// 삭제 예정
-//	CALIBRATION.p_low_temp[0] = P_Check(&MEASUREMENT.Pa_value);
-//	CALIBRATION.p_low_temp[1] = P_Check(&MEASUREMENT.Pb_value);
-//	CALIBRATION.p_low_temp[2] = P_Check(&MEASUREMENT.Pc_value);
-//	
-//	CALIBRATION.p_low_temp[0] *= INTERNAL_CPT_RATIO;
-//	CALIBRATION.p_low_temp[1] *= INTERNAL_CPT_RATIO;
-//	CALIBRATION.p_low_temp[2] *= INTERNAL_CPT_RATIO;
-// 삭제 예정 END
-	
-//-------- 기본파 슬로프 계산
-	for(temp = 0; temp < 6; temp++)
-	{
-		CALIBRATION.slope_temp[temp] = 5 / (CALIBRATION.high_temp[temp] - CALIBRATION.low_temp[temp]);
-		CALIBRATION.slope_1st[temp] = CALIBRATION.slope_temp[temp];
-//	CALIBRATION.trms_slope_temp[temp] = 5 / (CALIBRATION.trms_high_temp[temp] - CALIBRATION.trms_low_temp[temp]);
-//	CALIBRATION.slope_trms[temp] = CALIBRATION.trms_slope_temp[temp];
-	}
-	for(temp = 6; temp < 10; temp++)
-	{
-		CALIBRATION.slope_temp[temp] = 100 / (CALIBRATION.high_temp[temp] - CALIBRATION.low_temp[temp]);
-		CALIBRATION.slope_1st[temp] = CALIBRATION.slope_temp[temp];
-//	CALIBRATION.trms_slope_temp[temp] = 100 / (CALIBRATION.trms_high_temp[temp] - CALIBRATION.trms_low_temp[temp]);
-//	CALIBRATION.slope_trms[temp] = CALIBRATION.trms_slope_temp[temp];
-	}
-//	for(temp = 0; temp < 3; temp++)
-//	{
-//		CALIBRATION.p_slope_temp[temp] = ((110 * 6) - (10 * 1)) / (CALIBRATION.p_high_temp[temp] - CALIBRATION.p_low_temp[temp]);
-//		CALIBRATION.slope_power[temp] = CALIBRATION.p_slope_temp[temp];
-//	}
-//-------- 기본파 슬로프 계산 END
-
-//-------- 전력 슬로프 계산
-	// 첫회 기다림	
-//	for(;;)
-//	{
-//		if(DISPLAY.Power_Up == 0xaaaa)
-//		{
-//			DISPLAY.Power_Up = 0;
-//			break;
-//		}
-//		
-//		if(Calibration_Menu_Escape == 1)
-//			return 1;
-//	}
-//	
-//	for(;;)
-//	{
-//		if(DISPLAY.Power_Up == 0xaaaa)
-//		{	
-//			// raw 값
-//			PVa = MEASUREMENT.Pa_value;
-//			PVb = MEASUREMENT.Pb_value;
-//			PVc = MEASUREMENT.Pc_value;
-//				
-//			QVa = MEASUREMENT.Qa_value;
-//			QVb = MEASUREMENT.Qb_value;
-//			QVc = MEASUREMENT.Qc_value;
-//				
-//			DISPLAY.Power_Up = 0;
-//				
-//			break;
-//		}
-//
-//		if(Calibration_Menu_Escape == 1)
-//			return 1;
-//	}
-//	
-//	PVa /= 720;
-//	PVb /= 720;
-//	PVc /= 720;
-//	
-//	QVa /= 720;
-//	QVb /= 720;
-//	QVc /= 720;
-//	
-//	PVa *= CALIBRATION.slope_power[0];
-//	PVb *= CALIBRATION.slope_power[1];
-//	PVc *= CALIBRATION.slope_power[2];
-//	
-//	QVa *= CALIBRATION.slope_power[0];
-//	QVb *= CALIBRATION.slope_power[1];
-//	QVc *= CALIBRATION.slope_power[2];
-//	
-//	PVa *= INTERNAL_CPT_RATIO;
-//	PVb *= INTERNAL_CPT_RATIO;
-//	PVc *= INTERNAL_CPT_RATIO;
-//	
-//	QVa *= INTERNAL_CPT_RATIO;
-//	QVb *= INTERNAL_CPT_RATIO;
-//	QVc *= INTERNAL_CPT_RATIO;
-//	
-//	CALIBRATION.Power_Cos[0] =  ((10 * 1) * PVa) / ((PVa * PVa) + (QVa * QVa));
-//	CALIBRATION.Power_Sin[0] = -((10 * 1) * QVa) / ((PVa * PVa) + (QVa * QVa));
-//	
-//	CALIBRATION.Power_Cos[1] =  ((10 * 1) * PVb) / ((PVb * PVb) + (QVb * QVb));		
-//	CALIBRATION.Power_Sin[1] = -((10 * 1) * QVb) / ((PVb * PVb) + (QVb * QVb));
-//	
-//	CALIBRATION.Power_Cos[2] =  ((10 * 1) * PVc) / ((PVc * PVc) + (QVc * QVc));		
-//	CALIBRATION.Power_Sin[2] = -((10 * 1) * QVc) / ((PVc * PVc) + (QVc * QVc));
-//-------- 전력 슬로프 계산 END
-
-//-------- EEROM 저장
-	eerom_control(4, 0x80);
-	eerom_control(4, 0xc0);
-	
-	for(i = 0; i < 10; i++)  //offset 저장
-	{
-		eerom_write(i, &CALIBRATION.offset[i]);
-		temp1[i] = CALIBRATION.offset[i]; //[0]~[9]
-	}
-	for(i = 0; i < 10; i++) //slope 저장
-	{
-		void_p = &CALIBRATION.slope_1st[i];
-		temp16_p = (unsigned int *)void_p;
-		eerom_write(0x10 + (i << 1), temp16_p);
-		eerom_write(0x11 + (i << 1), temp16_p + 1);
-		temp1[10 + (i << 1)] = *temp16_p;  //[10]~[29]
-		temp1[11 + (i << 1)] = *(temp16_p + 1);
-	}
-	for(i = 0; i < 10; i++) //angle 저장
-	{
-		void_p = &CALIBRATION.angle[i];
-		temp16_p = (unsigned int *)void_p;
-		eerom_write(0x30 + (i << 1), temp16_p);
-		eerom_write(0x31 + (i << 1), temp16_p + 1);
-		temp1[30 + (i << 1)] = *temp16_p; //[30]~[49]
-		temp1[31 + (i << 1)] = *(temp16_p + 1);
-	}
-//	for(i = 0; i < 10; i++) //slope_trms 저장
-//	{
-//		void_p = &CALIBRATION.slope_trms[i];
-//		temp16_p = (unsigned int *)void_p;
-//		eerom_write(0x30 + (i << 1), temp16_p);
-//		eerom_write(0x31 + (i << 1), temp16_p + 1);
-//		temp1[30 + (i << 1)] = *temp16_p;
-//		temp1[31 + (i << 1)] = *(temp16_p + 1);
-//	}
-//	for(i = 0; i < 10; i++) //angle 저장
-//	{
-//		void_p = &CALIBRATION.angle[i];
-//		temp16_p = (unsigned int *)void_p;
-//		eerom_write(0x50 + (i << 1), temp16_p);
-//		eerom_write(0x51 + (i << 1), temp16_p + 1);
-//		temp1[50 + (i << 1)] = *temp16_p;
-//		temp1[51 + (i << 1)] = *(temp16_p + 1);
-//	}
-//	for(i = 0; i < 3; i++) //slope_power 저장
-//	{
-//		void_p = &CALIBRATION.slope_power[i]; 
-//		temp16_p = (unsigned int *)void_p;
-//		eerom_write(0x70 + (i << 1), temp16_p);
-//		eerom_write(0x71 + (i << 1), temp16_p + 1);
-//		temp1[70 + (i << 1)] = *temp16_p;
-//		temp1[71 + (i << 1)] = *(temp16_p + 1);
-//	}
-//	for(i = 0; i < 3; i++) //Power_Cos 저장
-//	{
-//		void_p = &CALIBRATION.Power_Cos[i];
-//		temp16_p = (unsigned int *)void_p;
-//		eerom_write(0x80 + (i << 1), temp16_p);
-//		eerom_write(0x81 + (i << 1), temp16_p + 1);
-//		temp1[76 + (i << 1)] = *temp16_p;
-//		temp1[77 + (i << 1)] = *(temp16_p + 1);
-//	}
-//	for(i = 0; i < 3; i++) //Power_Sin 저장
-//	{
-//		void_p = &CALIBRATION.Power_Sin[i];
-//		temp16_p = (unsigned int *)void_p;
-//		eerom_write(0x86 + (i << 1), temp16_p);
-//		eerom_write(0x87 + (i << 1), temp16_p + 1);
-//		temp1[82 + (i << 1)] = *temp16_p;
-//		temp1[83 + (i << 1)] = *(temp16_p + 1);
-//	}
-//	void_p = &CALIBRATION.frequency_offset;
-//	temp16_p = (unsigned int *)void_p;
-//	eerom_write(0x90 + (i << 1), temp16_p);
-//	eerom_write(0x91 + (i << 1), temp16_p + 1);
-//	temp1[88] = *temp16_p;
-//	temp1[89] = *(temp16_p + 1);
-	
-//i = Setting_CRC(temp1, 90);
-	i = Setting_CRC(temp1, 50);
-	eerom_write(0xa0, &i);
-	
-	return 0;
-//-------- EEROM 저장 END
-}
 

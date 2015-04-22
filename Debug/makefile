@@ -123,19 +123,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: HIMAP4UP_v11.out
+all: HIMAP4UP_v11_modify.out
 
 # Tool invocations
-HIMAP4UP_v11.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+HIMAP4UP_v11_modify.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C2000 Linker'
-	"C:/ti/ccsv5/tools/compiler/c2000_6.1.0/bin/cl2000" -v28 -ml -mt --float_support=fpu32 -g --diag_warning=225 --display_error_number -z --stack_size=0x400 -m"HIMAP4UP_v11.map" --warn_sections -i"C:/ti/ccsv5/tools/compiler/c2000_6.1.0/lib" -i"C:/ti/ccsv5/tools/compiler/c2000_6.1.0/include" --reread_libs --display_error_number --rom_model -o "HIMAP4UP_v11.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv5/tools/compiler/c2000_6.1.0/bin/cl2000" -v28 -ml -mt --float_support=fpu32 -g --diag_warning=225 --display_error_number -z --stack_size=0x400 -m"HIMAP4UP_v11_modify.map" --warn_sections -i"C:/ti/ccsv5/tools/compiler/c2000_6.1.0/lib" -i"C:/ti/ccsv5/tools/compiler/c2000_6.1.0/include" --reread_libs --display_error_number --rom_model -o "HIMAP4UP_v11_modify.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(C2000_EXECUTABLE_OUTPUTS__QUOTED) "HIMAP4UP_v11.out"
+	-$(RM) $(C2000_EXECUTABLE_OUTPUTS__QUOTED) "HIMAP4UP_v11_modify.out"
 	-$(RM) "DSP2833x_GlobalVariableDefs.pp" "DSP2833x_MemCopy.pp" "main.pp" "menu.pp" 
 	-$(RM) "booting.pp" "calibration.pp" "comms.pp" "peripheral.pp" "relaying.pp" "setting.pp" "system_isr.pp" "system_setup.pp" 
 	-$(RM) "DSP2833x_CodeStartBranch.obj" "DSP2833x_GlobalVariableDefs.obj" "DSP2833x_MemCopy.obj" "DSP2833x_usDelay.obj" "booting.obj" "calibration.obj" "comms.obj" "main.obj" "menu.obj" "peripheral.obj" "relaying.obj" "setting.obj" "system_isr.obj" "system_setup.obj" 

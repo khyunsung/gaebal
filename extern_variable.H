@@ -176,7 +176,6 @@ extern struct
 {
 	int offset[10];
 	float slope_1st[10];
-//float slope_trms[10];
 	float angle[10];
 	float slope_power[3];
 	float Power_Cos[3];
@@ -187,13 +186,13 @@ extern struct
 	float high_temp[10];
 	float slope_temp[10];
 
-//float trms_high_temp[10];
-//float trms_low_temp[10];
-//float trms_slope_temp[10];
+	int offset_temp[10];
+	long slope_1st_temp[10];
+	float angle_temp[10];
 
-//	float p_high_temp[3];
-//	float p_low_temp[3];
-//	float p_slope_temp[3];
+	int offset_origin[10];
+	float slope_1st_origin[10];
+	float angle_origin[10];
 } CALIBRATION;
 
 extern struct
@@ -1290,6 +1289,9 @@ extern const unsigned int CT_1A_RATED;
 
 extern const unsigned int DEBOUNCE_MIN;
 extern const unsigned int DEBOUNCE_MAX;
+
+extern const unsigned int CALIB_I_MIN;
+extern const unsigned long CALIB_I_MAX;
 
 extern unsigned int KHS_Key_Press;
 extern unsigned int Calibration_Menu_Escape;
