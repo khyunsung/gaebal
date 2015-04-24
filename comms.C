@@ -2,6 +2,24 @@
 #include "extern_variable.h"
 #include "extern_prototype.h"
 
+typedef struct Manager_System	//추가, khs, 2015-04-24
+{
+	unsigned int set_time1;
+	unsigned int set_time2;
+	unsigned int modbus_id;
+	unsigned int local_control;
+	int dgr_angle;
+	int sgr_angle;
+	unsigned int uvr_27r;
+	unsigned int uvr_27m;
+	unsigned int uvr_27s;
+	unsigned int ocr_mode_set;
+	unsigned int ocr_di;
+	unsigned int pt_rating_2nd;
+	unsigned int pt_rating_3rd;
+} MANAGER_SYSTEM_SET;
+MANAGER_SYSTEM_SET ManagerSystem;
+
 // 전면, 후면 통신 프레임 crc 계산 함수
 // *ar_address - 프레임 데이터가 저장된 메모리의 주소
 // ar_length - 프레임 전체 바이트 개수
@@ -72,35 +90,49 @@ void manager_handling(void)
 	else if(MANAGER.rx_buffer[2] == 0x10)
 	{
 		//byte count
-		
+/* 00	- 50-1
+01	- 50-2
+02	- 50G
+03	- 51-1
+04	- 51-2
+05	- 51G
+06	- 47P
+07	- 47N
+08	- 27R
+09	- 27M
+10	- 27S
+11	- 59
+12	- 64
+13	- 67GD
+14	- 67GS		*/
 		// ocr50-1
 		if(MANAGER.rx_buffer[3] == 0x00)			{make_crc_send(MANAGER.tx_buffer, &OCR50_1.use, 10);}
 		// ocr50-2
 		else if(MANAGER.rx_buffer[3] == 0x01)	{make_crc_send(MANAGER.tx_buffer, &OCR50_2.use, 10);}
-		// ocr51-1
-		else if(MANAGER.rx_buffer[3] == 0x02)	{make_crc_send(MANAGER.tx_buffer, &OCR51_1.use, 10);}
-		// ocr51-2
-		else if(MANAGER.rx_buffer[3] == 0x03)	{make_crc_send(MANAGER.tx_buffer, &OCR51_2.use, 10);}
 		// ocgr50
-		else if(MANAGER.rx_buffer[3] == 0x04)	{make_crc_send(MANAGER.tx_buffer, &OCGR50.use, 10);}
+		else if(MANAGER.rx_buffer[3] == 0x02)	{make_crc_send(MANAGER.tx_buffer, &OCGR50.use, 10);}
+		// ocr51-1
+		else if(MANAGER.rx_buffer[3] == 0x03)	{make_crc_send(MANAGER.tx_buffer, &OCR51_1.use, 10);}
+		// ocr51-2
+		else if(MANAGER.rx_buffer[3] == 0x04)	{make_crc_send(MANAGER.tx_buffer, &OCR51_2.use, 10);}
 		// ocgr51
 		else if(MANAGER.rx_buffer[3] == 0x05)	{make_crc_send(MANAGER.tx_buffer, &OCGR51.use, 10);}
+		// 47P
+		else if(MANAGER.rx_buffer[3] == 0x06)	{make_crc_send(MANAGER.tx_buffer, &P47.use, 8);}
+		// 47N
+		else if(MANAGER.rx_buffer[3] == 0x07)	{make_crc_send(MANAGER.tx_buffer, &N47.use, 8);}
+		// 27-1
+		else if(MANAGER.rx_buffer[3] == 0x08)	{make_crc_send(MANAGER.tx_buffer, &UVR_1.use, 10);}
+		// 27-2
+		else if(MANAGER.rx_buffer[3] == 0x09)	{make_crc_send(MANAGER.tx_buffer, &UVR_2.use, 10);}
+		// 27-3
+		else if(MANAGER.rx_buffer[3] == 0x0a)	{make_crc_send(MANAGER.tx_buffer, &UVR_3.use, 10);}
 		//DGR/SGR
 //khs, 2015-04-08 오전 11:21:40		else if(MANAGER.rx_buffer[3] == 0x06)	{make_crc_send(MANAGER.tx_buffer, &DSGR.use, 12);}
 		// 59
-		else if(MANAGER.rx_buffer[3] == 0x07)	{make_crc_send(MANAGER.tx_buffer, &OVR.use, 10);}
+		else if(MANAGER.rx_buffer[3] == 0x0b)	{make_crc_send(MANAGER.tx_buffer, &OVR.use, 10);}
 		// 64
-		else if(MANAGER.rx_buffer[3] == 0x08)	{make_crc_send(MANAGER.tx_buffer, &OVGR.use, 10);}
-		// 27-1
-		else if(MANAGER.rx_buffer[3] == 0x09)	{make_crc_send(MANAGER.tx_buffer, &UVR_1.use, 10);}
-		// 27-2
-		else if(MANAGER.rx_buffer[3] == 0x0a)	{make_crc_send(MANAGER.tx_buffer, &UVR_2.use, 10);}
-		// 27-3
-		else if(MANAGER.rx_buffer[3] == 0x0b)	{make_crc_send(MANAGER.tx_buffer, &UVR_3.use, 10);}
-		// 47P
-		else if(MANAGER.rx_buffer[3] == 0x0c)	{make_crc_send(MANAGER.tx_buffer, &P47.use, 8);}
-		// 47N
-		else if(MANAGER.rx_buffer[3] == 0x0d)	{make_crc_send(MANAGER.tx_buffer, &N47.use, 8);}
+		else if(MANAGER.rx_buffer[3] == 0x0c)	{make_crc_send(MANAGER.tx_buffer, &OVGR.use, 10);}
 		//25
 		////khs, 2015-04-08 오전 11:21:40 else if(MANAGER.rx_buffer[3] == 0x0e)	{make_crc_send(MANAGER.tx_buffer, &SYNCRO.use, 14);}
 
@@ -124,25 +156,54 @@ void manager_handling(void)
 	else if(MANAGER.rx_buffer[2] == 0x20)
 	{
 		//byte count
+		if(MANAGER.rx_buffer[3] == 0x01) {
 		
+			ManagerSystem.set_time1 = 1;
+			ManagerSystem.set_time2 = 2;
+			ManagerSystem.modbus_id = COMM.address;
+			ManagerSystem.local_control = (LOCAL_CONTROL.mode == 0xaaaa)?2:1;
+			ManagerSystem.dgr_angle = SYSTEM_SET.ocgr_dgr;
+			ManagerSystem.sgr_angle = 0;
+			ManagerSystem.uvr_27r = 7;
+			ManagerSystem.uvr_27m = 8;
+			ManagerSystem.uvr_27s = 9;
+			ManagerSystem.ocr_mode_set = (SYSTEM_SET.ocr_mode == OCR_TURN)?2:1;
+			ManagerSystem.ocr_di = SYSTEM_SET.ocr_di_mask;
+			ManagerSystem.pt_rating_2nd = 12;
+			ManagerSystem.pt_rating_3rd = 13;
+
+			make_crc_send(MANAGER.tx_buffer, &ManagerSystem.set_time1, 13*2);
+		}
 		// c/pt
-		////khs, 2015-04-08 오전 11:21:40 if(MANAGER.rx_buffer[3] == 0x00)			{make_crc_send(MANAGER.tx_buffer, &TRANSFORMER.ct_primary, 12);}
+		else if(MANAGER.rx_buffer[3] == 0x02) {
+//			CPT.ct_primary;
+//			CPT.nct_primary;
+//			CPT.pt_primary_high;
+//			CPT.pt_primary_low;
+//			CPT.rated_current;
+			make_crc_send(MANAGER.tx_buffer, &CPT.ct_primary, 10);
+		}
+		// Supservison & System Alarm
+		else if(MANAGER.rx_buffer[3] == 0x03) {
+			make_crc_send(MANAGER.tx_buffer, &CPT.ct_primary, 10);
+		}
+
 		// di debounce/do property
-		if(MANAGER.rx_buffer[3] == 0x01)	{make_crc_send(MANAGER.tx_buffer, DIDO.debounce, 18);}
-		// supervision
-		else if(MANAGER.rx_buffer[3] == 0x02)	{make_crc_send(MANAGER.tx_buffer, &SUPERVISION.mode, 16);}
-		// time read
-		else if(MANAGER.rx_buffer[3] == 0x03)	{make_crc_send(MANAGER.tx_buffer, &TIME.year, 12);}
-		// comm
-		else if(MANAGER.rx_buffer[3] == 0x04)	{make_crc_send(MANAGER.tx_buffer, &COMM.address, 4);}
-		// local control
-		else if(MANAGER.rx_buffer[3] == 0x05)	{make_crc_send(MANAGER.tx_buffer, &LOCAL_CONTROL.mode, 2);}
-		// ocgr/dgr
-		else if(MANAGER.rx_buffer[3] == 0x06)	{make_crc_send(MANAGER.tx_buffer, &SYSTEM_SET.ocgr_dgr, 4);}
-		// ocr mode
-		else if(MANAGER.rx_buffer[3] == 0x07)	{make_crc_send(MANAGER.tx_buffer, &SYSTEM_SET.ocr_mode, 4);}
-		// motor
-//	else if(MANAGER.rx_buffer[3] == 0x08)	{make_crc_send(MANAGER.tx_buffer, &MOTOR.full_load_current, 6);} //2015.02.25
+//		if(MANAGER.rx_buffer[3] == 0x01)	{make_crc_send(MANAGER.tx_buffer, DIDO.debounce, 18);}
+//		// supervision
+//		else if(MANAGER.rx_buffer[3] == 0x02)	{make_crc_send(MANAGER.tx_buffer, &SUPERVISION.mode, 16);}
+//		// time read
+//		else if(MANAGER.rx_buffer[3] == 0x03)	{make_crc_send(MANAGER.tx_buffer, &TIME.year, 12);}
+//		// comm
+//		else if(MANAGER.rx_buffer[3] == 0x04)	{make_crc_send(MANAGER.tx_buffer, &COMM.address, 4);}
+//		// local control
+//		else if(MANAGER.rx_buffer[3] == 0x05)	{make_crc_send(MANAGER.tx_buffer, &LOCAL_CONTROL.mode, 2);}
+//		// ocgr/dgr
+//		else if(MANAGER.rx_buffer[3] == 0x06)	{make_crc_send(MANAGER.tx_buffer, &SYSTEM_SET.ocgr_dgr, 4);}
+//		// ocr mode
+//		else if(MANAGER.rx_buffer[3] == 0x07)	{make_crc_send(MANAGER.tx_buffer, &SYSTEM_SET.ocr_mode, 4);}
+//		// motor
+////	else if(MANAGER.rx_buffer[3] == 0x08)	{make_crc_send(MANAGER.tx_buffer, &MOTOR.full_load_current, 6);} //2015.02.25
 	}
 	
 	// 계측값 송신
@@ -1551,57 +1612,62 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 	// system write
 	else if(MANAGER.rx_buffer[2] == 0x90)
 	{
-		// c/pt
-		if(MANAGER.rx_buffer[3] == 0x00)
-		;//khs, 2015-04-08 오전 11:30:47 serial_write(6, &TRANSFORMER.ct_primary, CT_PRIMARY);
 		
-		// di debounce / do property
-		else if(MANAGER.rx_buffer[3] == 0x01)
-		;//khs, 2015-04-08 오전 11:30:47 serial_write(9, DIDO.debounce, DI_DEBOUNCE1);
-				
-		//supervision
-		else if(MANAGER.rx_buffer[3] == 0x02)
-		;
+//MANAGER_SYSTEM_SET
+//		if(MANAGER.rx_buffer[3] == 0x01) {
+//			
+//		}
 		
-		// time read
-		else if(MANAGER.rx_buffer[3] == 0x03)
-		{
-			for(i = 0; i < 6; i++)
-			{
-				MANAGER.temp[i] = MANAGER.rx_buffer[6 + (i << 1)];
-				
-				MANAGER.temp[i] <<= 8;
-				
-				MANAGER.temp[i] |= MANAGER.rx_buffer[7 + (i << 1)];
-			}
-			
-			TIME.update = 0;
-			TIME.milisecond = 0;
-			TIME.buffer = MANAGER.temp;
-			
-			
-			EVENT.system_set |= TIME_SET_EVENT;
-			event_direct_save(&EVENT.system_set);
-			
-			serial_ok_nak_send(0x00);
-		}
-		
-		//comm
-		else if(MANAGER.rx_buffer[3] == 0x04)
-		;
-		
-		//local control
-		else if(MANAGER.rx_buffer[3] == 0x05)
-		;//serial_write(1, &LOCAL_CONTROL.mode, LOCAL_CTRL_USE); //2015.02.24
-		
-		//ocgr/dgr/zct angle
-		else if(MANAGER.rx_buffer[3] == 0x06)
-		;//khs, 2015-04-08 오전 11:30:47 serial_write(2, &SYSTEM_SET.ocgr_dgr, OCGR_DGR_SEL);
-		
-		//ocr mode
-		else if(MANAGER.rx_buffer[3] == 0x06)
-		;//khs, 2015-04-08 오전 11:30:47 serial_write(1, &SYSTEM_SET.ocr_mode, OCR_PROPERTY);
-		
+//		// c/pt
+//		if(MANAGER.rx_buffer[3] == 0x00)
+//		;//khs, 2015-04-08 오전 11:30:47 serial_write(6, &TRANSFORMER.ct_primary, CT_PRIMARY);
+//		
+//		// di debounce / do property
+//		else if(MANAGER.rx_buffer[3] == 0x01)
+//		;//khs, 2015-04-08 오전 11:30:47 serial_write(9, DIDO.debounce, DI_DEBOUNCE1);
+//				
+//		//supervision
+//		else if(MANAGER.rx_buffer[3] == 0x02)
+//		;
+//		
+//		// time read
+//		else if(MANAGER.rx_buffer[3] == 0x03)
+//		{
+//			for(i = 0; i < 6; i++)
+//			{
+//				MANAGER.temp[i] = MANAGER.rx_buffer[6 + (i << 1)];
+//				
+//				MANAGER.temp[i] <<= 8;
+//				
+//				MANAGER.temp[i] |= MANAGER.rx_buffer[7 + (i << 1)];
+//			}
+//			
+//			TIME.update = 0;
+//			TIME.milisecond = 0;
+//			TIME.buffer = MANAGER.temp;
+//			
+//			
+//			EVENT.system_set |= TIME_SET_EVENT;
+//			event_direct_save(&EVENT.system_set);
+//			
+//			serial_ok_nak_send(0x00);
+//		}
+//		
+//		//comm
+//		else if(MANAGER.rx_buffer[3] == 0x04)
+//		;
+//		
+//		//local control
+//		else if(MANAGER.rx_buffer[3] == 0x05)
+//		;//serial_write(1, &LOCAL_CONTROL.mode, LOCAL_CTRL_USE); //2015.02.24
+//		
+//		//ocgr/dgr/zct angle
+//		else if(MANAGER.rx_buffer[3] == 0x06)
+//		;//khs, 2015-04-08 오전 11:30:47 serial_write(2, &SYSTEM_SET.ocgr_dgr, OCGR_DGR_SEL);
+//		
+//		//ocr mode
+//		else if(MANAGER.rx_buffer[3] == 0x06)
+//		;//khs, 2015-04-08 오전 11:30:47 serial_write(1, &SYSTEM_SET.ocr_mode, OCR_PROPERTY);
 	}
 	
 	// reset command

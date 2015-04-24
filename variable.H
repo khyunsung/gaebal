@@ -983,6 +983,7 @@ struct
 
 	unsigned int property_temp;
 } DIGITAL_OUTPUT;
+
 //--------- SYSTEM VARIABLE END
 
 struct

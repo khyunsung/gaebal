@@ -1,10 +1,10 @@
 ******************************************************************************
              TMS320C2000 Linker PC v6.1.0                      
 ******************************************************************************
->> Linked Thu Apr 23 19:36:31 2015
+>> Linked Fri Apr 24 20:14:13 2015
 
 OUTPUT FILE NAME:   <HIMAP4UP_v11_modify.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 0031ab45
+ENTRY POINT SYMBOL: "_c_int00"  address: 0031ab00
 
 
 MEMORY CONFIGURATION
@@ -13,7 +13,7 @@ MEMORY CONFIGURATION
 ----------------------  --------  ---------  --------  --------  ----  --------
 PAGE 0:
   RAML_CODE             00008000   00004000  000021fd  00001e03  RWIX
-  FLASH_CODE            00308000   00037f80  0001a3b9  0001dbc7  RWIX
+  FLASH_CODE            00308000   00037f80  0001a375  0001dc0b  RWIX
   CSM_RSVD              0033ff80   00000076  00000000  00000076  RWIX
   BEGIN                 0033fff6   00000002  00000002  00000000  RWIX
   CSM_PWL               0033fff8   00000008  00000000  00000008  RWIX
@@ -102,260 +102,261 @@ ramfuncs   0    00308000    000021fd     RUN ADDR = 00008000
                   0030a1e3    00000016     system_setup.obj (ramfuncs)
                   0030a1f9    00000004     DSP2833x_usDelay.obj (ramfuncs)
 
-.text      0    0030a1fe    00010c9f     
+.text      0    0030a1fe    00010c5b     
                   0030a1fe    0000a40b     menu.obj (.text)
                   00314609    00001373     main.obj (.text)
-                  0031597c    000011cf     comms.obj (.text)
-                  00316b4b    00000f5c     setting.obj (.text)
-                  00317aa7    00000f55     booting.obj (.text)
-                  003189fc    00000911     rts2800_fpu32.lib : _printfi.obj (.text)
-                  0031930d    000008b5     peripheral.obj (.text)
-                  00319bc2    00000527     system_setup.obj (.text)
-                  0031a0e9    0000041d     calibration.obj (.text)
-                  0031a506    00000107     rts2800_fpu32.lib : ll_div.obj (.text)
-                  0031a60d    000000c4                       : atan2.obj (.text)
-                  0031a6d1    0000009c                       : fd_add.obj (.text)
-                  0031a76d    0000008b                       : fd_div.obj (.text)
-                  0031a7f8    00000088                       : fs_div.obj (.text)
-                  0031a880    00000083                       : fd_mpy.obj (.text)
-                  0031a903    00000072                       : atan.obj (.text)
-                  0031a975    0000006a                       : exp.obj (.text)
-                  0031a9df    00000061                       : cos.obj (.text)
-                  0031aa40    0000005a                       : pow.obj (.text)
-                  0031aa9a    00000057                       : sin.obj (.text)
-                  0031aaf1    00000054                       : _log.obj (.text)
-                  0031ab45    00000046                       : boot.obj (.text)
-                  0031ab8b    00000035                       : ldexp.obj (.text)
-                  0031abc0    00000031                       : atoi.obj (.text)
-                  0031abf1    0000002f                       : sprintf.obj (.text)
-                  0031ac20    0000002c                       : ltoa.obj (.text)
-                  0031ac4c    0000002a                       : fd_cmp.obj (.text)
-                  0031ac76    0000002a                       : l_div.obj (.text)
-                  0031aca0    00000023                       : sqrt.obj (.text)
-                  0031acc3    00000022                       : i_div.obj (.text)
-                  0031ace5    00000021                       : fd_toi.obj (.text)
-                  0031ad06    00000021                       : memcpy_ff.obj (.text)
-                  0031ad27    0000001f                       : fd_tol.obj (.text)
-                  0031ad46    0000001e                       : ll_cmp.obj (.text)
-                  0031ad64    0000001c                       : fs_tofd.obj (.text)
-                  0031ad80    0000001c                       : l_tofd.obj (.text)
-                  0031ad9c    0000001b                       : fd_toul.obj (.text)
-                  0031adb7    00000019                       : args_main.obj (.text)
-                  0031add0    00000019                       : exit.obj (.text)
-                  0031ade9    00000016                       : frexp.obj (.text)
-                  0031adff    00000016                       : ul_tofd.obj (.text)
-                  0031ae15    00000015     DSP2833x_MemCopy.obj (.text)
-                  0031ae2a    00000014     rts2800_fpu32.lib : ll_mpy.obj (.text)
-                  0031ae3e    00000012                       : memccpy.obj (.text)
-                  0031ae50    0000000e                       : fd_sub.obj (.text)
-                  0031ae5e    0000000b                       : u_div.obj (.text)
-                  0031ae69    0000000a                       : strlen.obj (.text)
-                  0031ae73    00000009                       : _lock.obj (.text)
-                  0031ae7c    00000009                       : fd_neg.obj (.text)
-                  0031ae85    00000009                       : strcpy.obj (.text)
-                  0031ae8e    00000008     DSP2833x_CodeStartBranch.obj (.text)
-                  0031ae96    00000007     rts2800_fpu32.lib : memset.obj (.text)
+                  0031597c    0000118a     comms.obj (.text)
+                  00316b06    00000f5c     setting.obj (.text)
+                  00317a62    00000f55     booting.obj (.text)
+                  003189b7    00000911     rts2800_fpu32.lib : _printfi.obj (.text)
+                  003192c8    000008b5     peripheral.obj (.text)
+                  00319b7d    00000527     system_setup.obj (.text)
+                  0031a0a4    0000041d     calibration.obj (.text)
+                  0031a4c1    00000107     rts2800_fpu32.lib : ll_div.obj (.text)
+                  0031a5c8    000000c4                       : atan2.obj (.text)
+                  0031a68c    0000009c                       : fd_add.obj (.text)
+                  0031a728    0000008b                       : fd_div.obj (.text)
+                  0031a7b3    00000088                       : fs_div.obj (.text)
+                  0031a83b    00000083                       : fd_mpy.obj (.text)
+                  0031a8be    00000072                       : atan.obj (.text)
+                  0031a930    0000006a                       : exp.obj (.text)
+                  0031a99a    00000061                       : cos.obj (.text)
+                  0031a9fb    0000005a                       : pow.obj (.text)
+                  0031aa55    00000057                       : sin.obj (.text)
+                  0031aaac    00000054                       : _log.obj (.text)
+                  0031ab00    00000046                       : boot.obj (.text)
+                  0031ab46    00000035                       : ldexp.obj (.text)
+                  0031ab7b    00000031                       : atoi.obj (.text)
+                  0031abac    0000002f                       : sprintf.obj (.text)
+                  0031abdb    0000002c                       : ltoa.obj (.text)
+                  0031ac07    0000002a                       : fd_cmp.obj (.text)
+                  0031ac31    0000002a                       : l_div.obj (.text)
+                  0031ac5b    00000001     --HOLE-- [fill = 0]
+                  0031ac5c    00000023                       : sqrt.obj (.text)
+                  0031ac7f    00000022                       : i_div.obj (.text)
+                  0031aca1    00000021                       : fd_toi.obj (.text)
+                  0031acc2    00000021                       : memcpy_ff.obj (.text)
+                  0031ace3    0000001f                       : fd_tol.obj (.text)
+                  0031ad02    0000001e                       : ll_cmp.obj (.text)
+                  0031ad20    0000001c                       : fs_tofd.obj (.text)
+                  0031ad3c    0000001c                       : l_tofd.obj (.text)
+                  0031ad58    0000001b                       : fd_toul.obj (.text)
+                  0031ad73    00000019                       : args_main.obj (.text)
+                  0031ad8c    00000019                       : exit.obj (.text)
+                  0031ada5    00000016                       : frexp.obj (.text)
+                  0031adbb    00000016                       : ul_tofd.obj (.text)
+                  0031add1    00000015     DSP2833x_MemCopy.obj (.text)
+                  0031ade6    00000014     rts2800_fpu32.lib : ll_mpy.obj (.text)
+                  0031adfa    00000012                       : memccpy.obj (.text)
+                  0031ae0c    0000000e                       : fd_sub.obj (.text)
+                  0031ae1a    0000000b                       : u_div.obj (.text)
+                  0031ae25    0000000a                       : strlen.obj (.text)
+                  0031ae2f    00000009                       : _lock.obj (.text)
+                  0031ae38    00000009                       : fd_neg.obj (.text)
+                  0031ae41    00000009                       : strcpy.obj (.text)
+                  0031ae4a    00000008     DSP2833x_CodeStartBranch.obj (.text)
+                  0031ae52    00000007     rts2800_fpu32.lib : memset.obj (.text)
 
-.econst    0    0031ae9e    00006940     
-                  0031ae9e    0000432b     menu.obj (.econst:.string)
-                  0031f1c9    00000001     --HOLE-- [fill = 0]
-                  0031f1ca    00001c20     menu.obj (.econst:_menu_tables)
-                  00320dea    00000101     rts2800_fpu32.lib : ctype.obj (.econst:__ctypes_)
-                  00320eeb    00000100     main.obj (.econst:_CRC_High)
-                  00320feb    00000100     main.obj (.econst:_CRC_Low)
-                  003210eb    00000001     --HOLE-- [fill = 0]
-                  003210ec    0000004c     peripheral.obj (.econst)
-                  00321138    00000048     main.obj (.econst:_harmonics_1st_cos)
-                  00321180    00000048     main.obj (.econst:_harmonics_1st_sin)
-                  003211c8    00000048     main.obj (.econst:_harmonics_3rd_cos)
-                  00321210    00000048     main.obj (.econst:_harmonics_3rd_sin)
-                  00321258    00000048     main.obj (.econst:_harmonics_5th_cos)
-                  003212a0    00000048     main.obj (.econst:_harmonics_5th_sin)
-                  003212e8    00000048     main.obj (.econst:_harmonics_7th_cos)
-                  00321330    00000048     main.obj (.econst:_harmonics_7th_sin)
-                  00321378    00000048     main.obj (.econst:_harmonics_9th_cos)
-                  003213c0    00000048     main.obj (.econst:_harmonics_9th_sin)
-                  00321408    0000002a     main.obj (.econst)
-                  00321432    00000028     peripheral.obj (.econst:_LCD_Position_Value)
-                  0032145a    00000024     rts2800_fpu32.lib : _printfi.obj (.econst:.string)
-                  0032147e    00000021     booting.obj (.econst:.string)
-                  0032149f    00000001     --HOLE-- [fill = 0]
-                  003214a0    00000018     main.obj (.econst:_cos_50Hz)
-                  003214b8    00000018     main.obj (.econst:_cos_60Hz)
-                  003214d0    00000018     main.obj (.econst:_sin_50Hz)
-                  003214e8    00000018     main.obj (.econst:_sin_60Hz)
-                  00321500    00000018     rts2800_fpu32.lib : _printfi.obj (.econst)
-                  00321518    00000014     main.obj (.econst:_wave_buffer_address)
-                  0032152c    00000014     main.obj (.econst:_wave_buffer_post_address)
-                  00321540    0000000c     menu.obj (.econst:_$P$T107$111)
-                  0032154c    0000000c     menu.obj (.econst:_$P$T108$112)
-                  00321558    0000000c     menu.obj (.econst:_$P$T109$113)
-                  00321564    0000000c     menu.obj (.econst:_$P$T110$114)
-                  00321570    0000000c     menu.obj (.econst:_$P$T111$115)
-                  0032157c    0000000c     menu.obj (.econst:_$P$T112$116)
-                  00321588    0000000c     menu.obj (.econst:_$P$T113$117)
-                  00321594    0000000c     menu.obj (.econst:_$P$T114$118)
-                  003215a0    0000000c     menu.obj (.econst:_$P$T78$80)
-                  003215ac    0000000c     menu.obj (.econst:_$P$T96$100)
-                  003215b8    0000000a     menu.obj (.econst:_$P$T101$105)
-                  003215c2    0000000a     menu.obj (.econst:_$P$T102$106)
-                  003215cc    0000000a     main.obj (.econst:_himix_number)
-                  003215d6    00000009     main.obj (.econst:_DO_ON_BIT)
-                  003215df    00000009     main.obj (.econst:_OFF_BIT)
-                  003215e8    00000009     main.obj (.econst:_ON_BIT)
-                  003215f1    00000001     --HOLE-- [fill = 0]
-                  003215f2    00000008     rts2800_fpu32.lib : atan.obj (.econst:_a$1)
-                  003215fa    00000008                       : atan2.obj (.econst:_a$1)
-                  00321602    00000007     main.obj (.econst:_DO_OFF_BIT)
-                  00321609    00000001     --HOLE-- [fill = 0]
-                  0032160a    00000004     menu.obj (.econst:_$P$T0$1)
-                  0032160e    00000004     menu.obj (.econst:_$P$T1$2)
-                  00321612    00000004     menu.obj (.econst:_$P$T10$11)
-                  00321616    00000004     menu.obj (.econst:_$P$T103$107)
-                  0032161a    00000004     menu.obj (.econst:_$P$T104$108)
-                  0032161e    00000004     menu.obj (.econst:_$P$T105$109)
-                  00321622    00000004     menu.obj (.econst:_$P$T106$110)
-                  00321626    00000004     menu.obj (.econst:_$P$T11$12)
-                  0032162a    00000004     menu.obj (.econst:_$P$T115$119)
-                  0032162e    00000004     menu.obj (.econst:_$P$T116$120)
-                  00321632    00000004     menu.obj (.econst:_$P$T117$121)
-                  00321636    00000004     menu.obj (.econst:_$P$T118$122)
-                  0032163a    00000004     menu.obj (.econst:_$P$T119$123)
-                  0032163e    00000004     menu.obj (.econst:_$P$T12$13)
-                  00321642    00000004     menu.obj (.econst:_$P$T120$124)
-                  00321646    00000004     menu.obj (.econst:_$P$T121$125)
-                  0032164a    00000004     menu.obj (.econst:_$P$T122$126)
-                  0032164e    00000004     menu.obj (.econst:_$P$T13$14)
-                  00321652    00000004     menu.obj (.econst:_$P$T14$15)
-                  00321656    00000004     menu.obj (.econst:_$P$T15$16)
-                  0032165a    00000004     menu.obj (.econst:_$P$T16$17)
-                  0032165e    00000004     menu.obj (.econst:_$P$T17$18)
-                  00321662    00000004     menu.obj (.econst:_$P$T18$19)
-                  00321666    00000004     menu.obj (.econst:_$P$T19$20)
-                  0032166a    00000004     menu.obj (.econst:_$P$T2$3)
-                  0032166e    00000004     menu.obj (.econst:_$P$T20$21)
-                  00321672    00000004     menu.obj (.econst:_$P$T21$22)
-                  00321676    00000004     menu.obj (.econst:_$P$T22$23)
-                  0032167a    00000004     menu.obj (.econst:_$P$T23$24)
-                  0032167e    00000004     menu.obj (.econst:_$P$T24$25)
-                  00321682    00000004     menu.obj (.econst:_$P$T25$26)
-                  00321686    00000004     menu.obj (.econst:_$P$T27$29)
-                  0032168a    00000004     menu.obj (.econst:_$P$T28$30)
-                  0032168e    00000004     menu.obj (.econst:_$P$T3$4)
-                  00321692    00000004     menu.obj (.econst:_$P$T31$33)
-                  00321696    00000004     menu.obj (.econst:_$P$T33$35)
-                  0032169a    00000004     menu.obj (.econst:_$P$T36$38)
-                  0032169e    00000004     menu.obj (.econst:_$P$T4$5)
-                  003216a2    00000004     menu.obj (.econst:_$P$T49$51)
-                  003216a6    00000004     menu.obj (.econst:_$P$T5$6)
-                  003216aa    00000004     menu.obj (.econst:_$P$T52$54)
-                  003216ae    00000004     menu.obj (.econst:_$P$T55$57)
-                  003216b2    00000004     menu.obj (.econst:_$P$T59$61)
-                  003216b6    00000004     menu.obj (.econst:_$P$T6$7)
-                  003216ba    00000004     menu.obj (.econst:_$P$T61$63)
-                  003216be    00000004     menu.obj (.econst:_$P$T7$8)
-                  003216c2    00000004     menu.obj (.econst:_$P$T74$76)
-                  003216c6    00000004     menu.obj (.econst:_$P$T75$77)
-                  003216ca    00000004     menu.obj (.econst:_$P$T76$78)
-                  003216ce    00000004     menu.obj (.econst:_$P$T77$79)
-                  003216d2    00000004     menu.obj (.econst:_$P$T79$81)
-                  003216d6    00000004     menu.obj (.econst:_$P$T8$9)
-                  003216da    00000004     menu.obj (.econst:_$P$T81$83)
-                  003216de    00000004     menu.obj (.econst:_$P$T88$90)
-                  003216e2    00000004     menu.obj (.econst:_$P$T89$93)
-                  003216e6    00000004     menu.obj (.econst:_$P$T9$10)
-                  003216ea    00000004     menu.obj (.econst:_$P$T90$94)
-                  003216ee    00000004     menu.obj (.econst:_$P$T91$95)
-                  003216f2    00000004     menu.obj (.econst:_$P$T92$96)
-                  003216f6    00000004     menu.obj (.econst:_$P$T93$97)
-                  003216fa    00000004     menu.obj (.econst:_$P$T95$99)
-                  003216fe    00000004     menu.obj (.econst:_$P$T97$101)
-                  00321702    00000004     menu.obj (.econst:_$P$T98$102)
-                  00321706    00000004     main.obj (.econst:_N47_V_MAX)
-                  0032170a    00000004     main.obj (.econst:_N47_V_MIN)
-                  0032170e    00000004     main.obj (.econst:_OVR_V_MAX)
-                  00321712    00000004     main.obj (.econst:_OVR_V_MIN)
-                  00321716    00000004     main.obj (.econst:_P47_V_MAX)
-                  0032171a    00000004     main.obj (.econst:_P47_V_MIN)
-                  0032171e    00000004     main.obj (.econst:_UVR_1_V_MAX)
-                  00321722    00000004     main.obj (.econst:_UVR_1_V_MIN)
-                  00321726    00000004     main.obj (.econst:_UVR_2_V_MAX)
-                  0032172a    00000004     main.obj (.econst:_UVR_2_V_MIN)
-                  0032172e    00000004     main.obj (.econst:_UVR_3_V_MAX)
-                  00321732    00000004     main.obj (.econst:_UVR_3_V_MIN)
-                  00321736    00000003     menu.obj (.econst:_$P$T26$27)
-                  00321739    00000003     menu.obj (.econst:_$P$T29$31)
-                  0032173c    00000003     menu.obj (.econst:_$P$T30$32)
-                  0032173f    00000003     menu.obj (.econst:_$P$T32$34)
-                  00321742    00000003     menu.obj (.econst:_$P$T34$36)
-                  00321745    00000003     menu.obj (.econst:_$P$T35$37)
-                  00321748    00000003     menu.obj (.econst:_$P$T37$39)
-                  0032174b    00000003     menu.obj (.econst:_$P$T38$40)
-                  0032174e    00000003     menu.obj (.econst:_$P$T39$41)
-                  00321751    00000003     menu.obj (.econst:_$P$T40$42)
-                  00321754    00000003     menu.obj (.econst:_$P$T41$43)
-                  00321757    00000003     menu.obj (.econst:_$P$T42$44)
-                  0032175a    00000003     menu.obj (.econst:_$P$T43$45)
-                  0032175d    00000003     menu.obj (.econst:_$P$T44$46)
-                  00321760    00000003     menu.obj (.econst:_$P$T45$47)
-                  00321763    00000003     menu.obj (.econst:_$P$T46$48)
-                  00321766    00000003     menu.obj (.econst:_$P$T48$50)
-                  00321769    00000003     menu.obj (.econst:_$P$T51$53)
-                  0032176c    00000003     menu.obj (.econst:_$P$T54$56)
-                  0032176f    00000003     menu.obj (.econst:_$P$T57$59)
-                  00321772    00000003     menu.obj (.econst:_$P$T62$64)
-                  00321775    00000003     menu.obj (.econst:_$P$T63$65)
-                  00321778    00000003     menu.obj (.econst:_$P$T64$66)
-                  0032177b    00000003     menu.obj (.econst:_$P$T65$67)
-                  0032177e    00000003     menu.obj (.econst:_$P$T67$69)
-                  00321781    00000003     menu.obj (.econst:_$P$T71$73)
-                  00321784    00000003     menu.obj (.econst:_$P$T80$82)
-                  00321787    00000003     menu.obj (.econst:_$P$T82$84)
-                  0032178a    00000003     menu.obj (.econst:_$P$T83$85)
-                  0032178d    00000003     menu.obj (.econst:_$P$T84$86)
-                  00321790    00000003     menu.obj (.econst:_$P$T85$87)
-                  00321793    00000003     menu.obj (.econst:_$P$T86$88)
-                  00321796    00000003     menu.obj (.econst:_$P$T87$89)
-                  00321799    00000003     menu.obj (.econst:_$P$T94$98)
-                  0032179c    00000003     main.obj (.econst:_DGR_V_MAX)
-                  0032179f    00000003     main.obj (.econst:_DGR_V_MIN)
-                  003217a2    00000003     main.obj (.econst:_OVGR_V_MAX)
-                  003217a5    00000003     main.obj (.econst:_OVGR_V_MIN)
-                  003217a8    00000003     main.obj (.econst:_SGR_V_MAX)
-                  003217ab    00000003     main.obj (.econst:_SGR_V_MIN)
-                  003217ae    00000002     menu.obj (.econst:_$P$T100$104)
-                  003217b0    00000002     menu.obj (.econst:_$P$T47$49)
-                  003217b2    00000002     menu.obj (.econst:_$P$T50$52)
-                  003217b4    00000002     menu.obj (.econst:_$P$T53$55)
-                  003217b6    00000002     menu.obj (.econst:_$P$T56$58)
-                  003217b8    00000002     menu.obj (.econst:_$P$T58$60)
-                  003217ba    00000002     menu.obj (.econst:_$P$T60$62)
-                  003217bc    00000002     menu.obj (.econst:_$P$T66$68)
-                  003217be    00000002     menu.obj (.econst:_$P$T68$70)
-                  003217c0    00000002     menu.obj (.econst:_$P$T69$71)
-                  003217c2    00000002     menu.obj (.econst:_$P$T70$72)
-                  003217c4    00000002     menu.obj (.econst:_$P$T72$74)
-                  003217c6    00000002     menu.obj (.econst:_$P$T73$75)
-                  003217c8    00000002     menu.obj (.econst:_$P$T99$103)
-                  003217ca    00000002     main.obj (.econst:_DGR_I_MAX)
-                  003217cc    00000002     main.obj (.econst:_DGR_I_MIN)
-                  003217ce    00000002     main.obj (.econst:_OCGR50_I_MAX)
-                  003217d0    00000002     main.obj (.econst:_OCGR50_I_MIN)
-                  003217d2    00000002     main.obj (.econst:_OCGR51_I_MAX)
-                  003217d4    00000002     main.obj (.econst:_OCGR51_I_MIN)
-                  003217d6    00000002     main.obj (.econst:_OCR50_I_MAX)
-                  003217d8    00000002     main.obj (.econst:_OCR50_I_MIN)
-                  003217da    00000002     main.obj (.econst:_OCR51_I_MAX)
-                  003217dc    00000002     main.obj (.econst:_OCR51_I_MIN)
+.econst    0    0031ae5a    00006940     
+                  0031ae5a    0000432b     menu.obj (.econst:.string)
+                  0031f185    00000001     --HOLE-- [fill = 0]
+                  0031f186    00001c20     menu.obj (.econst:_menu_tables)
+                  00320da6    00000101     rts2800_fpu32.lib : ctype.obj (.econst:__ctypes_)
+                  00320ea7    00000100     main.obj (.econst:_CRC_High)
+                  00320fa7    00000100     main.obj (.econst:_CRC_Low)
+                  003210a7    00000001     --HOLE-- [fill = 0]
+                  003210a8    0000004c     peripheral.obj (.econst)
+                  003210f4    00000048     main.obj (.econst:_harmonics_1st_cos)
+                  0032113c    00000048     main.obj (.econst:_harmonics_1st_sin)
+                  00321184    00000048     main.obj (.econst:_harmonics_3rd_cos)
+                  003211cc    00000048     main.obj (.econst:_harmonics_3rd_sin)
+                  00321214    00000048     main.obj (.econst:_harmonics_5th_cos)
+                  0032125c    00000048     main.obj (.econst:_harmonics_5th_sin)
+                  003212a4    00000048     main.obj (.econst:_harmonics_7th_cos)
+                  003212ec    00000048     main.obj (.econst:_harmonics_7th_sin)
+                  00321334    00000048     main.obj (.econst:_harmonics_9th_cos)
+                  0032137c    00000048     main.obj (.econst:_harmonics_9th_sin)
+                  003213c4    0000002a     main.obj (.econst)
+                  003213ee    00000028     peripheral.obj (.econst:_LCD_Position_Value)
+                  00321416    00000024     rts2800_fpu32.lib : _printfi.obj (.econst:.string)
+                  0032143a    00000021     booting.obj (.econst:.string)
+                  0032145b    00000001     --HOLE-- [fill = 0]
+                  0032145c    00000018     main.obj (.econst:_cos_50Hz)
+                  00321474    00000018     main.obj (.econst:_cos_60Hz)
+                  0032148c    00000018     main.obj (.econst:_sin_50Hz)
+                  003214a4    00000018     main.obj (.econst:_sin_60Hz)
+                  003214bc    00000018     rts2800_fpu32.lib : _printfi.obj (.econst)
+                  003214d4    00000014     main.obj (.econst:_wave_buffer_address)
+                  003214e8    00000014     main.obj (.econst:_wave_buffer_post_address)
+                  003214fc    0000000c     menu.obj (.econst:_$P$T107$111)
+                  00321508    0000000c     menu.obj (.econst:_$P$T108$112)
+                  00321514    0000000c     menu.obj (.econst:_$P$T109$113)
+                  00321520    0000000c     menu.obj (.econst:_$P$T110$114)
+                  0032152c    0000000c     menu.obj (.econst:_$P$T111$115)
+                  00321538    0000000c     menu.obj (.econst:_$P$T112$116)
+                  00321544    0000000c     menu.obj (.econst:_$P$T113$117)
+                  00321550    0000000c     menu.obj (.econst:_$P$T114$118)
+                  0032155c    0000000c     menu.obj (.econst:_$P$T78$80)
+                  00321568    0000000c     menu.obj (.econst:_$P$T96$100)
+                  00321574    0000000a     menu.obj (.econst:_$P$T101$105)
+                  0032157e    0000000a     menu.obj (.econst:_$P$T102$106)
+                  00321588    0000000a     main.obj (.econst:_himix_number)
+                  00321592    00000009     main.obj (.econst:_DO_ON_BIT)
+                  0032159b    00000009     main.obj (.econst:_OFF_BIT)
+                  003215a4    00000009     main.obj (.econst:_ON_BIT)
+                  003215ad    00000001     --HOLE-- [fill = 0]
+                  003215ae    00000008     rts2800_fpu32.lib : atan.obj (.econst:_a$1)
+                  003215b6    00000008                       : atan2.obj (.econst:_a$1)
+                  003215be    00000007     main.obj (.econst:_DO_OFF_BIT)
+                  003215c5    00000001     --HOLE-- [fill = 0]
+                  003215c6    00000004     menu.obj (.econst:_$P$T0$1)
+                  003215ca    00000004     menu.obj (.econst:_$P$T1$2)
+                  003215ce    00000004     menu.obj (.econst:_$P$T10$11)
+                  003215d2    00000004     menu.obj (.econst:_$P$T103$107)
+                  003215d6    00000004     menu.obj (.econst:_$P$T104$108)
+                  003215da    00000004     menu.obj (.econst:_$P$T105$109)
+                  003215de    00000004     menu.obj (.econst:_$P$T106$110)
+                  003215e2    00000004     menu.obj (.econst:_$P$T11$12)
+                  003215e6    00000004     menu.obj (.econst:_$P$T115$119)
+                  003215ea    00000004     menu.obj (.econst:_$P$T116$120)
+                  003215ee    00000004     menu.obj (.econst:_$P$T117$121)
+                  003215f2    00000004     menu.obj (.econst:_$P$T118$122)
+                  003215f6    00000004     menu.obj (.econst:_$P$T119$123)
+                  003215fa    00000004     menu.obj (.econst:_$P$T12$13)
+                  003215fe    00000004     menu.obj (.econst:_$P$T120$124)
+                  00321602    00000004     menu.obj (.econst:_$P$T121$125)
+                  00321606    00000004     menu.obj (.econst:_$P$T122$126)
+                  0032160a    00000004     menu.obj (.econst:_$P$T13$14)
+                  0032160e    00000004     menu.obj (.econst:_$P$T14$15)
+                  00321612    00000004     menu.obj (.econst:_$P$T15$16)
+                  00321616    00000004     menu.obj (.econst:_$P$T16$17)
+                  0032161a    00000004     menu.obj (.econst:_$P$T17$18)
+                  0032161e    00000004     menu.obj (.econst:_$P$T18$19)
+                  00321622    00000004     menu.obj (.econst:_$P$T19$20)
+                  00321626    00000004     menu.obj (.econst:_$P$T2$3)
+                  0032162a    00000004     menu.obj (.econst:_$P$T20$21)
+                  0032162e    00000004     menu.obj (.econst:_$P$T21$22)
+                  00321632    00000004     menu.obj (.econst:_$P$T22$23)
+                  00321636    00000004     menu.obj (.econst:_$P$T23$24)
+                  0032163a    00000004     menu.obj (.econst:_$P$T24$25)
+                  0032163e    00000004     menu.obj (.econst:_$P$T25$26)
+                  00321642    00000004     menu.obj (.econst:_$P$T27$29)
+                  00321646    00000004     menu.obj (.econst:_$P$T28$30)
+                  0032164a    00000004     menu.obj (.econst:_$P$T3$4)
+                  0032164e    00000004     menu.obj (.econst:_$P$T31$33)
+                  00321652    00000004     menu.obj (.econst:_$P$T33$35)
+                  00321656    00000004     menu.obj (.econst:_$P$T36$38)
+                  0032165a    00000004     menu.obj (.econst:_$P$T4$5)
+                  0032165e    00000004     menu.obj (.econst:_$P$T49$51)
+                  00321662    00000004     menu.obj (.econst:_$P$T5$6)
+                  00321666    00000004     menu.obj (.econst:_$P$T52$54)
+                  0032166a    00000004     menu.obj (.econst:_$P$T55$57)
+                  0032166e    00000004     menu.obj (.econst:_$P$T59$61)
+                  00321672    00000004     menu.obj (.econst:_$P$T6$7)
+                  00321676    00000004     menu.obj (.econst:_$P$T61$63)
+                  0032167a    00000004     menu.obj (.econst:_$P$T7$8)
+                  0032167e    00000004     menu.obj (.econst:_$P$T74$76)
+                  00321682    00000004     menu.obj (.econst:_$P$T75$77)
+                  00321686    00000004     menu.obj (.econst:_$P$T76$78)
+                  0032168a    00000004     menu.obj (.econst:_$P$T77$79)
+                  0032168e    00000004     menu.obj (.econst:_$P$T79$81)
+                  00321692    00000004     menu.obj (.econst:_$P$T8$9)
+                  00321696    00000004     menu.obj (.econst:_$P$T81$83)
+                  0032169a    00000004     menu.obj (.econst:_$P$T88$90)
+                  0032169e    00000004     menu.obj (.econst:_$P$T89$93)
+                  003216a2    00000004     menu.obj (.econst:_$P$T9$10)
+                  003216a6    00000004     menu.obj (.econst:_$P$T90$94)
+                  003216aa    00000004     menu.obj (.econst:_$P$T91$95)
+                  003216ae    00000004     menu.obj (.econst:_$P$T92$96)
+                  003216b2    00000004     menu.obj (.econst:_$P$T93$97)
+                  003216b6    00000004     menu.obj (.econst:_$P$T95$99)
+                  003216ba    00000004     menu.obj (.econst:_$P$T97$101)
+                  003216be    00000004     menu.obj (.econst:_$P$T98$102)
+                  003216c2    00000004     main.obj (.econst:_N47_V_MAX)
+                  003216c6    00000004     main.obj (.econst:_N47_V_MIN)
+                  003216ca    00000004     main.obj (.econst:_OVR_V_MAX)
+                  003216ce    00000004     main.obj (.econst:_OVR_V_MIN)
+                  003216d2    00000004     main.obj (.econst:_P47_V_MAX)
+                  003216d6    00000004     main.obj (.econst:_P47_V_MIN)
+                  003216da    00000004     main.obj (.econst:_UVR_1_V_MAX)
+                  003216de    00000004     main.obj (.econst:_UVR_1_V_MIN)
+                  003216e2    00000004     main.obj (.econst:_UVR_2_V_MAX)
+                  003216e6    00000004     main.obj (.econst:_UVR_2_V_MIN)
+                  003216ea    00000004     main.obj (.econst:_UVR_3_V_MAX)
+                  003216ee    00000004     main.obj (.econst:_UVR_3_V_MIN)
+                  003216f2    00000003     menu.obj (.econst:_$P$T26$27)
+                  003216f5    00000003     menu.obj (.econst:_$P$T29$31)
+                  003216f8    00000003     menu.obj (.econst:_$P$T30$32)
+                  003216fb    00000003     menu.obj (.econst:_$P$T32$34)
+                  003216fe    00000003     menu.obj (.econst:_$P$T34$36)
+                  00321701    00000003     menu.obj (.econst:_$P$T35$37)
+                  00321704    00000003     menu.obj (.econst:_$P$T37$39)
+                  00321707    00000003     menu.obj (.econst:_$P$T38$40)
+                  0032170a    00000003     menu.obj (.econst:_$P$T39$41)
+                  0032170d    00000003     menu.obj (.econst:_$P$T40$42)
+                  00321710    00000003     menu.obj (.econst:_$P$T41$43)
+                  00321713    00000003     menu.obj (.econst:_$P$T42$44)
+                  00321716    00000003     menu.obj (.econst:_$P$T43$45)
+                  00321719    00000003     menu.obj (.econst:_$P$T44$46)
+                  0032171c    00000003     menu.obj (.econst:_$P$T45$47)
+                  0032171f    00000003     menu.obj (.econst:_$P$T46$48)
+                  00321722    00000003     menu.obj (.econst:_$P$T48$50)
+                  00321725    00000003     menu.obj (.econst:_$P$T51$53)
+                  00321728    00000003     menu.obj (.econst:_$P$T54$56)
+                  0032172b    00000003     menu.obj (.econst:_$P$T57$59)
+                  0032172e    00000003     menu.obj (.econst:_$P$T62$64)
+                  00321731    00000003     menu.obj (.econst:_$P$T63$65)
+                  00321734    00000003     menu.obj (.econst:_$P$T64$66)
+                  00321737    00000003     menu.obj (.econst:_$P$T65$67)
+                  0032173a    00000003     menu.obj (.econst:_$P$T67$69)
+                  0032173d    00000003     menu.obj (.econst:_$P$T71$73)
+                  00321740    00000003     menu.obj (.econst:_$P$T80$82)
+                  00321743    00000003     menu.obj (.econst:_$P$T82$84)
+                  00321746    00000003     menu.obj (.econst:_$P$T83$85)
+                  00321749    00000003     menu.obj (.econst:_$P$T84$86)
+                  0032174c    00000003     menu.obj (.econst:_$P$T85$87)
+                  0032174f    00000003     menu.obj (.econst:_$P$T86$88)
+                  00321752    00000003     menu.obj (.econst:_$P$T87$89)
+                  00321755    00000003     menu.obj (.econst:_$P$T94$98)
+                  00321758    00000003     main.obj (.econst:_DGR_V_MAX)
+                  0032175b    00000003     main.obj (.econst:_DGR_V_MIN)
+                  0032175e    00000003     main.obj (.econst:_OVGR_V_MAX)
+                  00321761    00000003     main.obj (.econst:_OVGR_V_MIN)
+                  00321764    00000003     main.obj (.econst:_SGR_V_MAX)
+                  00321767    00000003     main.obj (.econst:_SGR_V_MIN)
+                  0032176a    00000002     menu.obj (.econst:_$P$T100$104)
+                  0032176c    00000002     menu.obj (.econst:_$P$T47$49)
+                  0032176e    00000002     menu.obj (.econst:_$P$T50$52)
+                  00321770    00000002     menu.obj (.econst:_$P$T53$55)
+                  00321772    00000002     menu.obj (.econst:_$P$T56$58)
+                  00321774    00000002     menu.obj (.econst:_$P$T58$60)
+                  00321776    00000002     menu.obj (.econst:_$P$T60$62)
+                  00321778    00000002     menu.obj (.econst:_$P$T66$68)
+                  0032177a    00000002     menu.obj (.econst:_$P$T68$70)
+                  0032177c    00000002     menu.obj (.econst:_$P$T69$71)
+                  0032177e    00000002     menu.obj (.econst:_$P$T70$72)
+                  00321780    00000002     menu.obj (.econst:_$P$T72$74)
+                  00321782    00000002     menu.obj (.econst:_$P$T73$75)
+                  00321784    00000002     menu.obj (.econst:_$P$T99$103)
+                  00321786    00000002     main.obj (.econst:_DGR_I_MAX)
+                  00321788    00000002     main.obj (.econst:_DGR_I_MIN)
+                  0032178a    00000002     main.obj (.econst:_OCGR50_I_MAX)
+                  0032178c    00000002     main.obj (.econst:_OCGR50_I_MIN)
+                  0032178e    00000002     main.obj (.econst:_OCGR51_I_MAX)
+                  00321790    00000002     main.obj (.econst:_OCGR51_I_MIN)
+                  00321792    00000002     main.obj (.econst:_OCR50_I_MAX)
+                  00321794    00000002     main.obj (.econst:_OCR50_I_MIN)
+                  00321796    00000002     main.obj (.econst:_OCR51_I_MAX)
+                  00321798    00000002     main.obj (.econst:_OCR51_I_MIN)
 
-.cinit     0    003217de    00000bdd     
-                  003217de    00000b0b     menu.obj (.cinit)
-                  003222e9    000000b4     peripheral.obj (.cinit)
-                  0032239d    0000000a     rts2800_fpu32.lib : _lock.obj (.cinit)
-                  003223a7    0000000a                       : exit.obj (.cinit)
-                  003223b1    00000004     main.obj (.cinit)
-                  003223b5    00000004     rts2800_fpu32.lib : errno.obj (.cinit)
-                  003223b9    00000002     --HOLE-- [fill = 0]
+.cinit     0    0032179a    00000bdd     
+                  0032179a    00000b0b     menu.obj (.cinit)
+                  003222a5    000000b4     peripheral.obj (.cinit)
+                  00322359    0000000a     rts2800_fpu32.lib : _lock.obj (.cinit)
+                  00322363    0000000a                       : exit.obj (.cinit)
+                  0032236d    00000004     main.obj (.cinit)
+                  00322371    00000004     rts2800_fpu32.lib : errno.obj (.cinit)
+                  00322375    00000002     --HOLE-- [fill = 0]
 
 codestart 
 *          0    0033fff6    00000002     
@@ -372,10 +373,11 @@ PieVectTableFile
 
 .ebss      1    0000c000    0000157c     UNINITIALIZED
                   0000c000    00000d94     main.obj (.ebss)
-                  0000cd94    00000004     rts2800_fpu32.lib : _lock.obj (.ebss)
-                  0000cd98    00000004                       : exit.obj (.ebss)
-                  0000cd9c    00000001                       : errno.obj (.ebss)
-                  0000cd9d    00000023     --HOLE--
+                  0000cd94    0000000d     comms.obj (.ebss)
+                  0000cda1    00000001     rts2800_fpu32.lib : errno.obj (.ebss)
+                  0000cda2    00000004                       : _lock.obj (.ebss)
+                  0000cda6    00000004                       : exit.obj (.ebss)
+                  0000cdaa    00000016     --HOLE--
                   0000cdc0    000006b6     menu.obj (.ebss)
                   0000d476    0000000a     --HOLE--
                   0000d480    000000fc     peripheral.obj (.ebss)
@@ -389,194 +391,195 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 address    name
 --------   ----
 0030a1fe   .text
-0031add0   C$$EXIT
-0031a6d1   FD$$ADD
-0031ac4c   FD$$CMP
-0031a76d   FD$$DIV
-0031a880   FD$$MPY
-0031ae7c   FD$$NEG
-0031ae50   FD$$SUB
-0031ace5   FD$$TOI
-0031ad27   FD$$TOL
-0031ad9c   FD$$TOUL
-0031a7f8   FS$$DIV
-0031ad64   FS$$TOFD
-0031acc3   I$$DIV
-0031acd4   I$$MOD
-0031ac76   L$$DIV
-0031ac85   L$$MOD
-0031ad80   L$$TOFD
-0031ad46   LL$$CMP
-0031a506   LL$$DIV
-0031a542   LL$$MOD
-0031ae2a   LL$$MPY
-0031ae5e   U$$DIV
-0031ae63   U$$MOD
-0031ac93   UL$$DIV
-0031ac9a   UL$$MOD
-0031adff   UL$$TOFD
-0031ad58   ULL$$CMP
-0031a57c   ULL$$DIV
-0031a5ab   ULL$$MOD
+0031ad8c   C$$EXIT
+0031a68c   FD$$ADD
+0031ac07   FD$$CMP
+0031a728   FD$$DIV
+0031a83b   FD$$MPY
+0031ae38   FD$$NEG
+0031ae0c   FD$$SUB
+0031aca1   FD$$TOI
+0031ace3   FD$$TOL
+0031ad58   FD$$TOUL
+0031a7b3   FS$$DIV
+0031ad20   FS$$TOFD
+0031ac7f   I$$DIV
+0031ac90   I$$MOD
+0031ac31   L$$DIV
+0031ac40   L$$MOD
+0031ad3c   L$$TOFD
+0031ad02   LL$$CMP
+0031a4c1   LL$$DIV
+0031a4fd   LL$$MOD
+0031ade6   LL$$MPY
+0031ae1a   U$$DIV
+0031ae1f   U$$MOD
+0031ac4e   UL$$DIV
+0031ac55   UL$$MOD
+0031adbb   UL$$TOFD
+0031ad14   ULL$$CMP
+0031a537   ULL$$DIV
+0031a566   ULL$$MOD
 0000c05e   _ACCUMULATION
-0031a226   _ADC_High_Calibration
-0031a1c1   _ADC_Offset_Calibration
-0031a31c   _ADC_low_Calibration
+0031a1e1   _ADC_High_Calibration
+0031a17c   _ADC_Offset_Calibration
+0031a2d7   _ADC_low_Calibration
 0000c006   _ADDRESS
-003175e8   _ADDRESS_Default_Settings
+003175a3   _ADDRESS_Default_Settings
 0000c008   _AUTO_DISPLAY
-003175fe   _AUTO_DISPLAY_Default_Settings
+003175b9   _AUTO_DISPLAY_Default_Settings
 0000d492   _AckScr
 0000cdc4   _Button_Press
 0000c700   _CALIBRATION
-00321430   _CALIB_I_MAX
-00321424   _CALIB_I_MIN
+003213ec   _CALIB_I_MAX
+003213e0   _CALIB_I_MIN
 0000c02a   _COMM
 0031597c   _COMM_CRC
 0000c013   _CORE
 0000c0aa   _CPT
-0031758e   _CPT_Default_Settings
-00320eeb   _CRC_High
-00320feb   _CRC_Low
-0032141f   _CT_1A_RATED
-0032141e   _CT_5A_RATED
-00321420   _CT_MAX
-0032142d   _CT_MIN
+00317549   _CPT_Default_Settings
+00320ea7   _CRC_High
+00320fa7   _CRC_Low
+003213db   _CT_1A_RATED
+003213da   _CT_5A_RATED
+003213dc   _CT_MAX
+003213e9   _CT_MIN
 0000c001   _Calibration_Menu_Escape
-00317a6e   _ClearFLASH
+00317a29   _ClearFLASH
 0000cfa4   _Cursor_Position
-00321426   _DEBOUNCE_MAX
-00321425   _DEBOUNCE_MIN
+003213e2   _DEBOUNCE_MAX
+003213e1   _DEBOUNCE_MIN
 0000c440   _DFT
-0031a111   _DFT_Check
+0031a0cc   _DFT_Check
 0000c400   _DGR
-00321410   _DGR_A_MAX
-00321412   _DGR_A_MIN
-003179a7   _DGR_Default_Settings
-003217ca   _DGR_I_MAX
-003217cc   _DGR_I_MIN
-00321411   _DGR_T_MAX
-00321419   _DGR_T_MIN
-0032179c   _DGR_V_MAX
-0032179f   _DGR_V_MIN
+003213cc   _DGR_A_MAX
+003213ce   _DGR_A_MIN
+00317962   _DGR_Default_Settings
+00321786   _DGR_I_MAX
+00321788   _DGR_I_MIN
+003213cd   _DGR_T_MAX
+003213d5   _DGR_T_MIN
+00321758   _DGR_V_MAX
+0032175b   _DGR_V_MIN
 0000c052   _DIDO
 0000c098   _DIGITAL_INPUT
 0000c010   _DIGITAL_OUTPUT
 0000c600   _DISPLAY
 0000c00a   _DISPLAY_3PHASE
-0031765c   _DISPLAY_3PHASE_Default_Settings
-00317a3d   _DI_Default_Settings
-00317a59   _DO_Default_Settings
-00321602   _DO_OFF_BIT
-003215d6   _DO_ON_BIT
-00319b8d   _DO_Output
+00317617   _DISPLAY_3PHASE_Default_Settings
+003179f8   _DI_Default_Settings
+00317a14   _DO_Default_Settings
+003215be   _DO_OFF_BIT
+00321592   _DO_ON_BIT
+00319b48   _DO_Output
 0000c02e   _DSGR_ANGLE
 0000a1f9   _DSP28x_usDelay
 0000cdc3   _Data_Change
 0000cdc8   _Data_Change_Count
-0031a178   _Degree_Check
+0031a133   _Degree_Check
 0000c380   _EVENT
 0031439e   _Event_Item_Display
 00314557   _Event_Time_Display
 0000c016   _FLASH
 0000d496   _FauScr
-00319ce6   _GPIO_setup
+00319ca1   _GPIO_setup
 0000c01e   _GPT
-00317576   _GPT_Default_Settings
+00317531   _GPT_Default_Settings
 0000c00c   _GR_ANGLE
 0000c500   _HARMONICS
 0000c480   _HIMIX
 0000a1e3   _InitFlash
-00319d97   _InitTimer
+00319d52   _InitTimer
 000098c6   _Inverse_Op_Timeset
 0000cdc2   _KHS_Key_Press
-003210ec   _KHS_LCD_Buffer
+003210a8   _KHS_LCD_Buffer
 0000c580   _LCD
-0031934f   _LCD_COMMAND
-0031933c   _LCD_DATA
-00319360   _LCD_INIT
+0031930a   _LCD_COMMAND
+003192f7   _LCD_DATA
+0031931b   _LCD_INIT
 0000d482   _LCD_LIGHT
-00321432   _LCD_Position_Value
+003213ee   _LCD_Position_Value
 0000d484   _LCD_RS
-0031938c   _LCD_light_OFF
-00319386   _LCD_light_ON
+00319347   _LCD_light_OFF
+00319341   _LCD_light_ON
 0000c000   _LOCAL_CONTROL
 0000c040   _LOCAL_CTRL
-00317629   _LOCAL_CTRL_Default_Settings
+003175e4   _LOCAL_CTRL_Default_Settings
 0000d480   _Lcd_Bl_Count
 0000cb80   _MANAGER
 0000c800   _MEASUREMENT
 0000c002   _MIN_MAX
 0000c022   _MODBUS
-00317672   _MODBUS_Default_Settings
-0031ae15   _MemCopy
+0031762d   _MODBUS_Default_Settings
+0000cd94   _ManagerSystem
+0031add1   _MemCopy
 0000c1c0   _N47
-003178e0   _N47_Default_Settings
-00321414   _N47_T_MAX
-0032141d   _N47_T_MIN
-00321706   _N47_V_MAX
-0032170a   _N47_V_MIN
+0031789b   _N47_Default_Settings
+003213d0   _N47_T_MAX
+003213d9   _N47_T_MIN
+003216c2   _N47_V_MAX
+003216c6   _N47_V_MIN
 0000d48a   _NorScr
 0000c118   _OCGR50
-00317778   _OCGR50_Default_Settings
-003217ce   _OCGR50_I_MAX
-003217d0   _OCGR50_I_MIN
-0032140c   _OCGR50_T_MAX
-00321408   _OCGR50_T_MIN
+00317733   _OCGR50_Default_Settings
+0032178a   _OCGR50_I_MAX
+0032178c   _OCGR50_I_MIN
+003213c8   _OCGR50_T_MAX
+003213c4   _OCGR50_T_MIN
 0000c280   _OCGR51
-003177a8   _OCGR51_Default_Settings
-003217d2   _OCGR51_I_MAX
-003217d4   _OCGR51_I_MIN
-0032140d   _OCGR51_TL_MAX
-0032140b   _OCGR51_TL_MIN
+00317763   _OCGR51_Default_Settings
+0032178e   _OCGR51_I_MAX
+00321790   _OCGR51_I_MIN
+003213c9   _OCGR51_TL_MAX
+003213c7   _OCGR51_TL_MIN
 0000c21a   _OCR50_1
-003176b8   _OCR50_1_Default_Settings
+00317673   _OCR50_1_Default_Settings
 00008fb9   _OCR50_1_RELAY
 0000c180   _OCR50_2
-003176e8   _OCR50_2_Default_Settings
-003217d6   _OCR50_I_MAX
-003217d8   _OCR50_I_MIN
-00321429   _OCR50_T_MAX
-0032142b   _OCR50_T_MIN
+003176a3   _OCR50_2_Default_Settings
+00321792   _OCR50_I_MAX
+00321794   _OCR50_I_MIN
+003213e5   _OCR50_T_MAX
+003213e7   _OCR50_T_MIN
 0000c300   _OCR51_1
-00317718   _OCR51_1_Default_Settings
+003176d3   _OCR51_1_Default_Settings
 0000c340   _OCR51_2
-00317748   _OCR51_2_Default_Settings
-003217da   _OCR51_I_MAX
-003217dc   _OCR51_I_MIN
-00321423   _OCR51_TL_MAX
-00321422   _OCR51_TL_MIN
-00317689   _OCR_MODE_Default_Settings
+00317703   _OCR51_2_Default_Settings
+00321796   _OCR51_I_MAX
+00321798   _OCR51_I_MIN
+003213df   _OCR51_TL_MAX
+003213de   _OCR51_TL_MIN
+00317644   _OCR_MODE_Default_Settings
 0000c037   _OCR_MODE_SET
-003215df   _OFF_BIT
-003215e8   _ON_BIT
+0032159b   _OFF_BIT
+003215a4   _ON_BIT
 0000c240   _OVGR
-0031796c   _OVGR_Default_Settings
-00321409   _OVGR_TL_MAX
-0032140a   _OVGR_TL_MIN
-003217a2   _OVGR_V_MAX
-003217a5   _OVGR_V_MIN
+00317927   _OVGR_Default_Settings
+003213c5   _OVGR_TL_MAX
+003213c6   _OVGR_TL_MIN
+0032175e   _OVGR_V_MAX
+00321761   _OVGR_V_MIN
 0000c2c0   _OVR
-00317922   _OVR_Default_Settings
-00321417   _OVR_TL_MAX
-00321416   _OVR_TL_MIN
-00321415   _OVR_T_MAX
-00321413   _OVR_T_MIN
-0032170e   _OVR_V_MAX
-00321712   _OVR_V_MIN
-0031a0e9   _Offset_Check
+003178dd   _OVR_Default_Settings
+003213d3   _OVR_TL_MAX
+003213d2   _OVR_TL_MIN
+003213d1   _OVR_T_MAX
+003213cf   _OVR_T_MIN
+003216ca   _OVR_V_MAX
+003216ce   _OVR_V_MIN
+0031a0a4   _Offset_Check
 0000c19a   _P47
-0031789e   _P47_Default_Settings
-0032141b   _P47_T_MAX
-0032141c   _P47_T_MIN
-00321716   _P47_V_MAX
-0032171a   _P47_V_MIN
+00317859   _P47_Default_Settings
+003213d7   _P47_T_MAX
+003213d8   _P47_T_MIN
+003216d2   _P47_V_MAX
+003216d6   _P47_V_MIN
 0000c00e   _PASSWORD
-00317613   _PASSWORD_Default_Settings
+003175ce   _PASSWORD_Default_Settings
 0000c01a   _PROTECT
-0032142e   _PT_MAX
-00321421   _PT_MIN
-00319c17   _Peripheral_Clock_setup
+003213ea   _PT_MAX
+003213dd   _PT_MIN
+00319bd2   _Peripheral_Clock_setup
 00000d00   _PieVectTable
 0000c06a   _RELAY_STATUS
 0030a1fd   _RamfuncsLoadEnd
@@ -589,93 +592,93 @@ address    name
 00008d6f   _SCITXINTB_ISR
 00008d94   _SCITXINTC_ISR
 0000c3c0   _SGR
-0032142c   _SGR_A_MAX
-00321427   _SGR_A_MIN
-003179f8   _SGR_Default_Settings
-0032140e   _SGR_I_MAX
-0032140f   _SGR_I_MIN
-00321428   _SGR_T_MAX
-0032142a   _SGR_T_MIN
-003217a8   _SGR_V_MAX
-003217ab   _SGR_V_MIN
+003213e8   _SGR_A_MAX
+003213e3   _SGR_A_MIN
+003179b3   _SGR_Default_Settings
+003213ca   _SGR_I_MAX
+003213cb   _SGR_I_MIN
+003213e4   _SGR_T_MAX
+003213e6   _SGR_T_MIN
+00321764   _SGR_V_MAX
+00321767   _SGR_V_MIN
 0000c260   _SUPERVISION
 0000c15a   _SYSTEM
 0000c026   _SYSTEM_ALARM
-003176a1   _SYSTEM_ALARM_Default_Settings
+0031765c   _SYSTEM_ALARM_Default_Settings
 0000c032   _SYSTEM_SET
 0000cf98   _Save_Current_Screen
 003145fb   _Save_Screen_Info
 0000cf9c   _Screen_Position
 0000cdc5   _Set_Password
-00317527   _Setting_CRC
+003174e2   _Setting_CRC
 0000c100   _TIME
 0000c080   _TIMER
 0000c046   _TIMER0
 0000c004   _TIMER1
 00008be9   _TINT1_ISR
 0000c140   _UVR_1
-003177d8   _UVR_1_Default_Settings
-0032171e   _UVR_1_V_MAX
-00321722   _UVR_1_V_MIN
+00317793   _UVR_1_Default_Settings
+003216da   _UVR_1_V_MAX
+003216de   _UVR_1_V_MIN
 0000c1da   _UVR_2
-0031781a   _UVR_2_Default_Settings
-00321726   _UVR_2_V_MAX
-0032172a   _UVR_2_V_MIN
+003177d5   _UVR_2_Default_Settings
+003216e2   _UVR_2_V_MAX
+003216e6   _UVR_2_V_MIN
 0000c200   _UVR_3
-0031785c   _UVR_3_Default_Settings
-0032172e   _UVR_3_V_MAX
-00321732   _UVR_3_V_MIN
+00317817   _UVR_3_Default_Settings
+003216ea   _UVR_3_V_MAX
+003216ee   _UVR_3_V_MIN
 0000c04c   _UVR_MODE
-00317642   _UVR_MODE_Default_Settings
-0032141a   _UVR_T_MAX
-00321418   _UVR_T_MIN
+003175fd   _UVR_MODE_Default_Settings
+003213d6   _UVR_T_MAX
+003213d4   _UVR_T_MIN
 0000d4c0   _VFDABuffer
 0000d540   _VFDFBuffer
 0000d500   _VFDNBuffer
-0031950b   _VFD_FONT
-003193a6   _VFD_Init
-0031947c   _VFD_Single_Line_dump
-003194a5   _VFD_Word_dump
+003194c6   _VFD_FONT
+00319361   _VFD_Init
+00319437   _VFD_Single_Line_dump
+00319460   _VFD_Word_dump
 0000d486   _VFD_cnt
-003194cf   _VFD_cursor
-003193f7   _VFD_dump
-0031943c   _VFD_dump2
-00319391   _VFD_gotopo
-003193de   _VFD_gotoxy
-003193f0   _VFD_mem_cpy_test
-003194fc   _VFD_printf
+0031948a   _VFD_cursor
+003193b2   _VFD_dump
+003193f7   _VFD_dump2
+0031934c   _VFD_gotopo
+00319399   _VFD_gotoxy
+003193ab   _VFD_mem_cpy_test
+003194b7   _VFD_printf
 0000c08c   _WAVE
 00008000   _XINT3_ISR
-00319d41   _Xinterface_setup
+00319cfc   _Xinterface_setup
 0000d97c   __STACK_END
 00000400   __STACK_SIZE
 00000001   __TI_args_main
 ffffffff   ___binit__
 ffffffff   ___c_args__
-003217de   ___cinit__
-0031ae9d   ___etext__
-0031ad06   ___memcpy_ff
+0032179a   ___cinit__
+0031ae59   ___etext__
+0031acc2   ___memcpy_ff
 ffffffff   ___pinit__
 0030a1fe   ___text__
-0031adb7   __args_main
-0000cd98   __cleanup_ptr
-00320dea   __ctypes_
-0000cd9a   __dtors_ptr
-0000cd96   __lock
-0031aaf1   __log
-0031ae7b   __nop
-0031920a   __printfi
-0031ae77   __register_lock
-0031ae73   __register_unlock
+0031ad73   __args_main
+0000cda6   __cleanup_ptr
+00320da6   __ctypes_
+0000cda8   __dtors_ptr
+0000cda4   __lock
+0031aaac   __log
+0031ae37   __nop
+003191c5   __printfi
+0031ae33   __register_lock
+0031ae2f   __register_unlock
 0000d57c   __stack
-0000cd94   __unlock
-0031add0   _abort
-0031a903   _atan
-0031a60d   _atan2
-0031abc0   _atoi
-003189c8   _aux_do_check
-00317aa7   _booting_setting_check
-0031ab45   _c_int00
+0000cda2   __unlock
+0031ad8c   _abort
+0031a8be   _atan
+0031a5c8   _atan2
+0031ab7b   _atoi
+00318983   _aux_do_check
+00317a62   _booting_setting_check
+0031ab00   _c_int00
 0000d1f0   _cb_cancel1
 0000d1ec   _cb_cancel2
 0000d1e8   _cb_fail1
@@ -684,18 +687,18 @@ ffffffff   ___pinit__
 0000d1fc   _cb_good2
 0000d01c   _cb_status_view1
 0000d028   _cb_status_view2
-003168c6   _comm_drive
+00316881   _comm_drive
 0000d1d0   _comm_set1
 0000d1cc   _comm_set2
 0000d1c4   _comm_view1
 0000d1c8   _commx
-0031a9df   _cos
-003214a0   _cos_50Hz
-003214b8   _cos_60Hz
+0031a99a   _cos
+0032145c   _cos_50Hz
+00321474   _cos_60Hz
 0000c0c0   _cos_table
 0000d148   _cpt1
 0000d038   _cpt2
-00319bc2   _cpu_setup
+00319b7d   _cpu_setup
 0000cefc   _ct_ratio_set1
 0000ceb0   _ct_ratio_set2
 0000ceac   _ct_ratio_set3
@@ -716,7 +719,7 @@ ffffffff   ___pinit__
 0000cf38   _data_reset1
 0000cf34   _data_reset2
 0000cf40   _data_reset3
-0031930d   _delay
+003192c8   _delay
 0000d2fc   _delay_set1
 00009f08   _delay_us
 0000d184   _delta_vdf1
@@ -758,10 +761,10 @@ ffffffff   ___pinit__
 0000cf90   _east_egg1
 0000cf84   _east_egg2
 0000cfa0   _east_egg3
-0031950c   _eerom_control
-00319607   _eerom_read
-00319574   _eerom_write
-0000cd9c   _errno
+003194c7   _eerom_control
+003195c2   _eerom_read
+0031952f   _eerom_write
+0000cda1   _errno
 0000cf2c   _etc1
 0000cf28   _etc2
 0000cf3c   _etc3
@@ -781,7 +784,7 @@ ffffffff   ___pinit__
 0000d3a4   _event_control
 0000ce84   _event_d
 00009d86   _event_direct_save
-00317563   _event_info_update
+0031751e   _event_info_update
 0000d412   _event_io
 0000d3e4   _event_mode_change
 0000d400   _event_phase
@@ -791,13 +794,13 @@ ffffffff   ___pinit__
 0000ce88   _event_t
 0000cdc6   _event_test
 0000cde6   _eventx
-0031add2   _exit
-0031a975   _exp
-00319698   _flash_sector_erase
-003196b5   _flash_word_write
+0031ad8e   _exit
+0031a930   _exp
+00319653   _flash_sector_erase
+00319670   _flash_word_write
 00009aba   _float_to_8bit_fram
 00314e0e   _float_to_integer
-0031ade9   _frexp
+0031ada5   _frexp
 0000cfb8   _gr_set1
 0000cf74   _gr_set_view1
 0000cfe8   _gr_view1
@@ -819,25 +822,25 @@ ffffffff   ___pinit__
 0000d1a0   _harmonics4
 0000d19c   _harmonics5
 0000d188   _harmonics6
-00321138   _harmonics_1st_cos
-00321180   _harmonics_1st_sin
-003211c8   _harmonics_3rd_cos
-00321210   _harmonics_3rd_sin
-00321258   _harmonics_5th_cos
-003212a0   _harmonics_5th_sin
-003212e8   _harmonics_7th_cos
-00321330   _harmonics_7th_sin
-00321378   _harmonics_9th_cos
-003213c0   _harmonics_9th_sin
+003210f4   _harmonics_1st_cos
+0032113c   _harmonics_1st_sin
+00321184   _harmonics_3rd_cos
+003211cc   _harmonics_3rd_sin
+00321214   _harmonics_5th_cos
+0032125c   _harmonics_5th_sin
+003212a4   _harmonics_7th_cos
+003212ec   _harmonics_7th_sin
+00321334   _harmonics_9th_cos
+0032137c   _harmonics_9th_sin
 0000cfac   _hidden1
 00314dd1   _himix_crc
 00314616   _himix_drive
-003215cc   _himix_number
+00321588   _himix_number
 00009f37   _i2c_read
-00319dc5   _i2c_setup
+00319d80   _i2c_setup
 00009f77   _i2c_write
 00315944   _interrupt_control
-00319c3a   _interrupt_setup
+00319bf5   _interrupt_setup
 00009fb6   _key_drive
 0000d1f4   _l_cb_close
 0000d1f8   _l_cb_open
@@ -847,11 +850,11 @@ ffffffff   ___pinit__
 0000cf14   _lc_view1
 0000a04c   _lcd_character_write
 0000a02f   _lcd_control_write
-00319df0   _lcd_setup
-0031ab8b   _ldexp
-00319b1f   _led_handling
+00319dab   _lcd_setup
+0031ab46   _ldexp
+00319ada   _led_handling
 0000ce54   _led_test1
-0031ac20   _ltoa
+0031abdb   _ltoa
 00314609   _main
 0000a069   _make_crc_send
 003159a2   _manager_handling
@@ -861,8 +864,8 @@ ffffffff   ___pinit__
 0000d118   _measuremnt2
 0000d13c   _measuremnt3
 0000d138   _measuremnt4
-0031ae3e   _memccpy
-0031ae96   _memset
+0031adfa   _memccpy
+0031ae52   _memset
 0030a243   _menu_00_00
 0030a2c3   _menu_00_01
 0030a310   _menu_00_02
@@ -1276,7 +1279,7 @@ ffffffff   ___pinit__
 00314335   _menu_dummy
 003145dc   _menu_init
 00314354   _menu_popup
-0031f1ca   _menu_tables
+0031f186   _menu_tables
 0000d220   _motor_set1
 0000d22c   _motor_set2
 0000d1d8   _motor_set3
@@ -1346,8 +1349,8 @@ ffffffff   ___pinit__
 0000cf4c   _password_input1
 0000cf70   _password_input2
 0000cf6c   _password_set1
-00319be0   _pll_setup
-0031aa40   _pow
+00319b9b   _pll_setup
+0031a9fb   _pow
 0000d10c   _power1
 0000d0f8   _power2
 0000d0f4   _power3
@@ -1373,7 +1376,7 @@ ffffffff   ___pinit__
 0000cef0   _pt_ratio_view7
 0000cedc   _pt_ratio_view8
 0000ced8   _pt_ratio_view9
-003189e8   _pt_setting_min_max_check
+003189a3   _pt_setting_min_max_check
 0000cea8   _pt_wiring_set1
 0000cf08   _pt_wiring_view1
 0000d190   _q_value
@@ -1436,34 +1439,34 @@ ffffffff   ___pinit__
 0000ce1c   _save_confirm1
 0000ce78   _save_fail1
 0000ce14   _save_no1
-00319c91   _sci_setup
+00319c4c   _sci_setup
 0000d49a   _scrP
 0030a214   _screen_frame
 0030a224   _screen_frame2
 0030a233   _screen_frame3
 0000a0ce   _serial_ok_nak_send
-0031681a   _serial_write
+003167d5   _serial_write
 0000d3cc   _set_integer
 0000d174   _setting1
 0000d030   _setting2
 0000d02c   _setting3
-00317503   _setting_load
-003189d5   _setting_min_max_check
-00316b90   _setting_post_handling
-00316b4b   _setting_save
-0031aa9a   _sin
-003214d0   _sin_50Hz
-003214e8   _sin_60Hz
+003174be   _setting_load
+00318990   _setting_min_max_check
+00316b4b   _setting_post_handling
+00316b06   _setting_save
+0031aa55   _sin
+0032148c   _sin_50Hz
+003214a4   _sin_60Hz
 0000c0d8   _sin_table
 0000d3c0   _six_point_2
 0000d0d0   _sl_view1
 0000d0bc   _sl_view2
 0000d060   _sovr_view1
 0000d05c   _sovr_view2
-0031abf1   _sprintf
-0031aca0   _sqrt
-0031ae85   _strcpy
-0031ae69   _strlen
+0031abac   _sprintf
+0031ac5c   _sqrt
+0031ae41   _strcpy
+0031ae25   _strlen
 00009b04   _supervision_relay
 0000d058   _supervison_set1
 0000d054   _supervison_set2
@@ -1556,24 +1559,24 @@ ffffffff   ___pinit__
 0000cf30   _wave1
 0000ce04   _wave2
 0000ce00   _wave3
-00321518   _wave_buffer_address
-0032152c   _wave_buffer_post_address
-00319730   _wave_di_initial_post
-00319715   _wave_di_initial_pre1
-00319723   _wave_di_initial_pre2
+003214d4   _wave_buffer_address
+003214e8   _wave_buffer_post_address
+003196eb   _wave_di_initial_post
+003196d0   _wave_di_initial_pre1
+003196de   _wave_di_initial_pre2
 0000a10c   _wave_dump_serial_sram
-0031973a   _wave_flash_sector_erase
-003196cc   _wave_flash_word_write
-00319753   _wave_save_process
-0031970b   _wave_vi_initial_post
-003196f0   _wave_vi_initial_pre1
-003196fe   _wave_vi_initial_pre2
+003196f5   _wave_flash_sector_erase
+00319687   _wave_flash_word_write
+0031970e   _wave_save_process
+003196c6   _wave_vi_initial_post
+003196ab   _wave_vi_initial_pre1
+003196b9   _wave_vi_initial_pre2
 0000cf64   _zct_set1
 0000cf60   _zct_view1
 ffffffff   binit
-003217de   cinit
+0032179a   cinit
 0033fff6   code_start
-0031ae9d   etext
+0031ae59   etext
 ffffffff   pinit
 
 
@@ -1679,11 +1682,12 @@ address    name
 0000c800   _MEASUREMENT
 0000c940   _SAMPLE
 0000cb80   _MANAGER
-0000cd94   __unlock
-0000cd96   __lock
-0000cd98   __cleanup_ptr
-0000cd9a   __dtors_ptr
-0000cd9c   _errno
+0000cd94   _ManagerSystem
+0000cda1   _errno
+0000cda2   __unlock
+0000cda4   __lock
+0000cda6   __cleanup_ptr
+0000cda8   __dtors_ptr
 0000cdc2   _KHS_Key_Press
 0000cdc3   _Data_Change
 0000cdc4   _Button_Press
@@ -2518,250 +2522,250 @@ address    name
 00315944   _interrupt_control
 0031597c   _COMM_CRC
 003159a2   _manager_handling
-0031681a   _serial_write
-003168c6   _comm_drive
-00316b4b   _setting_save
-00316b90   _setting_post_handling
-00317503   _setting_load
-00317527   _Setting_CRC
-00317563   _event_info_update
-00317576   _GPT_Default_Settings
-0031758e   _CPT_Default_Settings
-003175e8   _ADDRESS_Default_Settings
-003175fe   _AUTO_DISPLAY_Default_Settings
-00317613   _PASSWORD_Default_Settings
-00317629   _LOCAL_CTRL_Default_Settings
-00317642   _UVR_MODE_Default_Settings
-0031765c   _DISPLAY_3PHASE_Default_Settings
-00317672   _MODBUS_Default_Settings
-00317689   _OCR_MODE_Default_Settings
-003176a1   _SYSTEM_ALARM_Default_Settings
-003176b8   _OCR50_1_Default_Settings
-003176e8   _OCR50_2_Default_Settings
-00317718   _OCR51_1_Default_Settings
-00317748   _OCR51_2_Default_Settings
-00317778   _OCGR50_Default_Settings
-003177a8   _OCGR51_Default_Settings
-003177d8   _UVR_1_Default_Settings
-0031781a   _UVR_2_Default_Settings
-0031785c   _UVR_3_Default_Settings
-0031789e   _P47_Default_Settings
-003178e0   _N47_Default_Settings
-00317922   _OVR_Default_Settings
-0031796c   _OVGR_Default_Settings
-003179a7   _DGR_Default_Settings
-003179f8   _SGR_Default_Settings
-00317a3d   _DI_Default_Settings
-00317a59   _DO_Default_Settings
-00317a6e   _ClearFLASH
-00317aa7   _booting_setting_check
-003189c8   _aux_do_check
-003189d5   _setting_min_max_check
-003189e8   _pt_setting_min_max_check
-0031920a   __printfi
-0031930d   _delay
-0031933c   _LCD_DATA
-0031934f   _LCD_COMMAND
-00319360   _LCD_INIT
-00319386   _LCD_light_ON
-0031938c   _LCD_light_OFF
-00319391   _VFD_gotopo
-003193a6   _VFD_Init
-003193de   _VFD_gotoxy
-003193f0   _VFD_mem_cpy_test
-003193f7   _VFD_dump
-0031943c   _VFD_dump2
-0031947c   _VFD_Single_Line_dump
-003194a5   _VFD_Word_dump
-003194cf   _VFD_cursor
-003194fc   _VFD_printf
-0031950b   _VFD_FONT
-0031950c   _eerom_control
-00319574   _eerom_write
-00319607   _eerom_read
-00319698   _flash_sector_erase
-003196b5   _flash_word_write
-003196cc   _wave_flash_word_write
-003196f0   _wave_vi_initial_pre1
-003196fe   _wave_vi_initial_pre2
-0031970b   _wave_vi_initial_post
-00319715   _wave_di_initial_pre1
-00319723   _wave_di_initial_pre2
-00319730   _wave_di_initial_post
-0031973a   _wave_flash_sector_erase
-00319753   _wave_save_process
-00319b1f   _led_handling
-00319b8d   _DO_Output
-00319bc2   _cpu_setup
-00319be0   _pll_setup
-00319c17   _Peripheral_Clock_setup
-00319c3a   _interrupt_setup
-00319c91   _sci_setup
-00319ce6   _GPIO_setup
-00319d41   _Xinterface_setup
-00319d97   _InitTimer
-00319dc5   _i2c_setup
-00319df0   _lcd_setup
-0031a0e9   _Offset_Check
-0031a111   _DFT_Check
-0031a178   _Degree_Check
-0031a1c1   _ADC_Offset_Calibration
-0031a226   _ADC_High_Calibration
-0031a31c   _ADC_low_Calibration
-0031a506   LL$$DIV
-0031a542   LL$$MOD
-0031a57c   ULL$$DIV
-0031a5ab   ULL$$MOD
-0031a60d   _atan2
-0031a6d1   FD$$ADD
-0031a76d   FD$$DIV
-0031a7f8   FS$$DIV
-0031a880   FD$$MPY
-0031a903   _atan
-0031a975   _exp
-0031a9df   _cos
-0031aa40   _pow
-0031aa9a   _sin
-0031aaf1   __log
-0031ab45   _c_int00
-0031ab8b   _ldexp
-0031abc0   _atoi
-0031abf1   _sprintf
-0031ac20   _ltoa
-0031ac4c   FD$$CMP
-0031ac76   L$$DIV
-0031ac85   L$$MOD
-0031ac93   UL$$DIV
-0031ac9a   UL$$MOD
-0031aca0   _sqrt
-0031acc3   I$$DIV
-0031acd4   I$$MOD
-0031ace5   FD$$TOI
-0031ad06   ___memcpy_ff
-0031ad27   FD$$TOL
-0031ad46   LL$$CMP
-0031ad58   ULL$$CMP
-0031ad64   FS$$TOFD
-0031ad80   L$$TOFD
-0031ad9c   FD$$TOUL
-0031adb7   __args_main
-0031add0   C$$EXIT
-0031add0   _abort
-0031add2   _exit
-0031ade9   _frexp
-0031adff   UL$$TOFD
-0031ae15   _MemCopy
-0031ae2a   LL$$MPY
-0031ae3e   _memccpy
-0031ae50   FD$$SUB
-0031ae5e   U$$DIV
-0031ae63   U$$MOD
-0031ae69   _strlen
-0031ae73   __register_unlock
-0031ae77   __register_lock
-0031ae7b   __nop
-0031ae7c   FD$$NEG
-0031ae85   _strcpy
-0031ae96   _memset
-0031ae9d   ___etext__
-0031ae9d   etext
-0031f1ca   _menu_tables
-00320dea   __ctypes_
-00320eeb   _CRC_High
-00320feb   _CRC_Low
-003210ec   _KHS_LCD_Buffer
-00321138   _harmonics_1st_cos
-00321180   _harmonics_1st_sin
-003211c8   _harmonics_3rd_cos
-00321210   _harmonics_3rd_sin
-00321258   _harmonics_5th_cos
-003212a0   _harmonics_5th_sin
-003212e8   _harmonics_7th_cos
-00321330   _harmonics_7th_sin
-00321378   _harmonics_9th_cos
-003213c0   _harmonics_9th_sin
-00321408   _OCGR50_T_MIN
-00321409   _OVGR_TL_MAX
-0032140a   _OVGR_TL_MIN
-0032140b   _OCGR51_TL_MIN
-0032140c   _OCGR50_T_MAX
-0032140d   _OCGR51_TL_MAX
-0032140e   _SGR_I_MAX
-0032140f   _SGR_I_MIN
-00321410   _DGR_A_MAX
-00321411   _DGR_T_MAX
-00321412   _DGR_A_MIN
-00321413   _OVR_T_MIN
-00321414   _N47_T_MAX
-00321415   _OVR_T_MAX
-00321416   _OVR_TL_MIN
-00321417   _OVR_TL_MAX
-00321418   _UVR_T_MIN
-00321419   _DGR_T_MIN
-0032141a   _UVR_T_MAX
-0032141b   _P47_T_MAX
-0032141c   _P47_T_MIN
-0032141d   _N47_T_MIN
-0032141e   _CT_5A_RATED
-0032141f   _CT_1A_RATED
-00321420   _CT_MAX
-00321421   _PT_MIN
-00321422   _OCR51_TL_MIN
-00321423   _OCR51_TL_MAX
-00321424   _CALIB_I_MIN
-00321425   _DEBOUNCE_MIN
-00321426   _DEBOUNCE_MAX
-00321427   _SGR_A_MIN
-00321428   _SGR_T_MAX
-00321429   _OCR50_T_MAX
-0032142a   _SGR_T_MIN
-0032142b   _OCR50_T_MIN
-0032142c   _SGR_A_MAX
-0032142d   _CT_MIN
-0032142e   _PT_MAX
-00321430   _CALIB_I_MAX
-00321432   _LCD_Position_Value
-003214a0   _cos_50Hz
-003214b8   _cos_60Hz
-003214d0   _sin_50Hz
-003214e8   _sin_60Hz
-00321518   _wave_buffer_address
-0032152c   _wave_buffer_post_address
-003215cc   _himix_number
-003215d6   _DO_ON_BIT
-003215df   _OFF_BIT
-003215e8   _ON_BIT
-00321602   _DO_OFF_BIT
-00321706   _N47_V_MAX
-0032170a   _N47_V_MIN
-0032170e   _OVR_V_MAX
-00321712   _OVR_V_MIN
-00321716   _P47_V_MAX
-0032171a   _P47_V_MIN
-0032171e   _UVR_1_V_MAX
-00321722   _UVR_1_V_MIN
-00321726   _UVR_2_V_MAX
-0032172a   _UVR_2_V_MIN
-0032172e   _UVR_3_V_MAX
-00321732   _UVR_3_V_MIN
-0032179c   _DGR_V_MAX
-0032179f   _DGR_V_MIN
-003217a2   _OVGR_V_MAX
-003217a5   _OVGR_V_MIN
-003217a8   _SGR_V_MAX
-003217ab   _SGR_V_MIN
-003217ca   _DGR_I_MAX
-003217cc   _DGR_I_MIN
-003217ce   _OCGR50_I_MAX
-003217d0   _OCGR50_I_MIN
-003217d2   _OCGR51_I_MAX
-003217d4   _OCGR51_I_MIN
-003217d6   _OCR50_I_MAX
-003217d8   _OCR50_I_MIN
-003217da   _OCR51_I_MAX
-003217dc   _OCR51_I_MIN
-003217de   ___cinit__
-003217de   cinit
+003167d5   _serial_write
+00316881   _comm_drive
+00316b06   _setting_save
+00316b4b   _setting_post_handling
+003174be   _setting_load
+003174e2   _Setting_CRC
+0031751e   _event_info_update
+00317531   _GPT_Default_Settings
+00317549   _CPT_Default_Settings
+003175a3   _ADDRESS_Default_Settings
+003175b9   _AUTO_DISPLAY_Default_Settings
+003175ce   _PASSWORD_Default_Settings
+003175e4   _LOCAL_CTRL_Default_Settings
+003175fd   _UVR_MODE_Default_Settings
+00317617   _DISPLAY_3PHASE_Default_Settings
+0031762d   _MODBUS_Default_Settings
+00317644   _OCR_MODE_Default_Settings
+0031765c   _SYSTEM_ALARM_Default_Settings
+00317673   _OCR50_1_Default_Settings
+003176a3   _OCR50_2_Default_Settings
+003176d3   _OCR51_1_Default_Settings
+00317703   _OCR51_2_Default_Settings
+00317733   _OCGR50_Default_Settings
+00317763   _OCGR51_Default_Settings
+00317793   _UVR_1_Default_Settings
+003177d5   _UVR_2_Default_Settings
+00317817   _UVR_3_Default_Settings
+00317859   _P47_Default_Settings
+0031789b   _N47_Default_Settings
+003178dd   _OVR_Default_Settings
+00317927   _OVGR_Default_Settings
+00317962   _DGR_Default_Settings
+003179b3   _SGR_Default_Settings
+003179f8   _DI_Default_Settings
+00317a14   _DO_Default_Settings
+00317a29   _ClearFLASH
+00317a62   _booting_setting_check
+00318983   _aux_do_check
+00318990   _setting_min_max_check
+003189a3   _pt_setting_min_max_check
+003191c5   __printfi
+003192c8   _delay
+003192f7   _LCD_DATA
+0031930a   _LCD_COMMAND
+0031931b   _LCD_INIT
+00319341   _LCD_light_ON
+00319347   _LCD_light_OFF
+0031934c   _VFD_gotopo
+00319361   _VFD_Init
+00319399   _VFD_gotoxy
+003193ab   _VFD_mem_cpy_test
+003193b2   _VFD_dump
+003193f7   _VFD_dump2
+00319437   _VFD_Single_Line_dump
+00319460   _VFD_Word_dump
+0031948a   _VFD_cursor
+003194b7   _VFD_printf
+003194c6   _VFD_FONT
+003194c7   _eerom_control
+0031952f   _eerom_write
+003195c2   _eerom_read
+00319653   _flash_sector_erase
+00319670   _flash_word_write
+00319687   _wave_flash_word_write
+003196ab   _wave_vi_initial_pre1
+003196b9   _wave_vi_initial_pre2
+003196c6   _wave_vi_initial_post
+003196d0   _wave_di_initial_pre1
+003196de   _wave_di_initial_pre2
+003196eb   _wave_di_initial_post
+003196f5   _wave_flash_sector_erase
+0031970e   _wave_save_process
+00319ada   _led_handling
+00319b48   _DO_Output
+00319b7d   _cpu_setup
+00319b9b   _pll_setup
+00319bd2   _Peripheral_Clock_setup
+00319bf5   _interrupt_setup
+00319c4c   _sci_setup
+00319ca1   _GPIO_setup
+00319cfc   _Xinterface_setup
+00319d52   _InitTimer
+00319d80   _i2c_setup
+00319dab   _lcd_setup
+0031a0a4   _Offset_Check
+0031a0cc   _DFT_Check
+0031a133   _Degree_Check
+0031a17c   _ADC_Offset_Calibration
+0031a1e1   _ADC_High_Calibration
+0031a2d7   _ADC_low_Calibration
+0031a4c1   LL$$DIV
+0031a4fd   LL$$MOD
+0031a537   ULL$$DIV
+0031a566   ULL$$MOD
+0031a5c8   _atan2
+0031a68c   FD$$ADD
+0031a728   FD$$DIV
+0031a7b3   FS$$DIV
+0031a83b   FD$$MPY
+0031a8be   _atan
+0031a930   _exp
+0031a99a   _cos
+0031a9fb   _pow
+0031aa55   _sin
+0031aaac   __log
+0031ab00   _c_int00
+0031ab46   _ldexp
+0031ab7b   _atoi
+0031abac   _sprintf
+0031abdb   _ltoa
+0031ac07   FD$$CMP
+0031ac31   L$$DIV
+0031ac40   L$$MOD
+0031ac4e   UL$$DIV
+0031ac55   UL$$MOD
+0031ac5c   _sqrt
+0031ac7f   I$$DIV
+0031ac90   I$$MOD
+0031aca1   FD$$TOI
+0031acc2   ___memcpy_ff
+0031ace3   FD$$TOL
+0031ad02   LL$$CMP
+0031ad14   ULL$$CMP
+0031ad20   FS$$TOFD
+0031ad3c   L$$TOFD
+0031ad58   FD$$TOUL
+0031ad73   __args_main
+0031ad8c   C$$EXIT
+0031ad8c   _abort
+0031ad8e   _exit
+0031ada5   _frexp
+0031adbb   UL$$TOFD
+0031add1   _MemCopy
+0031ade6   LL$$MPY
+0031adfa   _memccpy
+0031ae0c   FD$$SUB
+0031ae1a   U$$DIV
+0031ae1f   U$$MOD
+0031ae25   _strlen
+0031ae2f   __register_unlock
+0031ae33   __register_lock
+0031ae37   __nop
+0031ae38   FD$$NEG
+0031ae41   _strcpy
+0031ae52   _memset
+0031ae59   ___etext__
+0031ae59   etext
+0031f186   _menu_tables
+00320da6   __ctypes_
+00320ea7   _CRC_High
+00320fa7   _CRC_Low
+003210a8   _KHS_LCD_Buffer
+003210f4   _harmonics_1st_cos
+0032113c   _harmonics_1st_sin
+00321184   _harmonics_3rd_cos
+003211cc   _harmonics_3rd_sin
+00321214   _harmonics_5th_cos
+0032125c   _harmonics_5th_sin
+003212a4   _harmonics_7th_cos
+003212ec   _harmonics_7th_sin
+00321334   _harmonics_9th_cos
+0032137c   _harmonics_9th_sin
+003213c4   _OCGR50_T_MIN
+003213c5   _OVGR_TL_MAX
+003213c6   _OVGR_TL_MIN
+003213c7   _OCGR51_TL_MIN
+003213c8   _OCGR50_T_MAX
+003213c9   _OCGR51_TL_MAX
+003213ca   _SGR_I_MAX
+003213cb   _SGR_I_MIN
+003213cc   _DGR_A_MAX
+003213cd   _DGR_T_MAX
+003213ce   _DGR_A_MIN
+003213cf   _OVR_T_MIN
+003213d0   _N47_T_MAX
+003213d1   _OVR_T_MAX
+003213d2   _OVR_TL_MIN
+003213d3   _OVR_TL_MAX
+003213d4   _UVR_T_MIN
+003213d5   _DGR_T_MIN
+003213d6   _UVR_T_MAX
+003213d7   _P47_T_MAX
+003213d8   _P47_T_MIN
+003213d9   _N47_T_MIN
+003213da   _CT_5A_RATED
+003213db   _CT_1A_RATED
+003213dc   _CT_MAX
+003213dd   _PT_MIN
+003213de   _OCR51_TL_MIN
+003213df   _OCR51_TL_MAX
+003213e0   _CALIB_I_MIN
+003213e1   _DEBOUNCE_MIN
+003213e2   _DEBOUNCE_MAX
+003213e3   _SGR_A_MIN
+003213e4   _SGR_T_MAX
+003213e5   _OCR50_T_MAX
+003213e6   _SGR_T_MIN
+003213e7   _OCR50_T_MIN
+003213e8   _SGR_A_MAX
+003213e9   _CT_MIN
+003213ea   _PT_MAX
+003213ec   _CALIB_I_MAX
+003213ee   _LCD_Position_Value
+0032145c   _cos_50Hz
+00321474   _cos_60Hz
+0032148c   _sin_50Hz
+003214a4   _sin_60Hz
+003214d4   _wave_buffer_address
+003214e8   _wave_buffer_post_address
+00321588   _himix_number
+00321592   _DO_ON_BIT
+0032159b   _OFF_BIT
+003215a4   _ON_BIT
+003215be   _DO_OFF_BIT
+003216c2   _N47_V_MAX
+003216c6   _N47_V_MIN
+003216ca   _OVR_V_MAX
+003216ce   _OVR_V_MIN
+003216d2   _P47_V_MAX
+003216d6   _P47_V_MIN
+003216da   _UVR_1_V_MAX
+003216de   _UVR_1_V_MIN
+003216e2   _UVR_2_V_MAX
+003216e6   _UVR_2_V_MIN
+003216ea   _UVR_3_V_MAX
+003216ee   _UVR_3_V_MIN
+00321758   _DGR_V_MAX
+0032175b   _DGR_V_MIN
+0032175e   _OVGR_V_MAX
+00321761   _OVGR_V_MIN
+00321764   _SGR_V_MAX
+00321767   _SGR_V_MIN
+00321786   _DGR_I_MAX
+00321788   _DGR_I_MIN
+0032178a   _OCGR50_I_MAX
+0032178c   _OCGR50_I_MIN
+0032178e   _OCGR51_I_MAX
+00321790   _OCGR51_I_MIN
+00321792   _OCR50_I_MAX
+00321794   _OCR50_I_MIN
+00321796   _OCR51_I_MAX
+00321798   _OCR51_I_MIN
+0032179a   ___cinit__
+0032179a   cinit
 0033fff6   code_start
 ffffffff   ___binit__
 ffffffff   ___c_args__
@@ -2769,4 +2773,4 @@ ffffffff   ___pinit__
 ffffffff   binit
 ffffffff   pinit
 
-[1187 symbols]
+[1188 symbols]
