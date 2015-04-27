@@ -172,7 +172,7 @@ extern struct
 	float anlge[8];
 } DISPLAY;
 
-extern struct
+extern struct 
 {
 	int offset[10];
 	float slope[10];

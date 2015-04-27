@@ -2,6 +2,7 @@
 #include "extern_variable.h"
 #include "extern_prototype.h"
 
+
 void booting_setting_check(void)
 {
 	unsigned int i, j;
@@ -12,7 +13,7 @@ void booting_setting_check(void)
 	
 	//-------- 모든 내부변수 clear
 	// 코드변동, 특히 전역변수 변동이 있을 경우 map 파일 .ebss 사이즈 참조해서 확인할 것
-	for(i = 0; i < 0x0c94; i++)
+	for(i = 0; i < 0x0dd4; i++)//0x0c94
 	*(ebss_start + i) = 0;
 	//-------- 모든 내부변수 clear 끝
 	

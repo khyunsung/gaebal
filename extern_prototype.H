@@ -213,3 +213,4 @@ extern void VFD_Single_Line_dump(char, const char *);
 extern void DO_Output(unsigned int);
 extern void Event_Item_Display(void);
 extern void Event_Time_Display(void);
+extern void Save_Screen_Info();

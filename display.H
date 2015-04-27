@@ -1366,3 +1366,35 @@ const char* east_egg2[2]={"H/W - KIM YOON HEO",
                          //12345678901234567890
 const char* east_egg3[2]={"SPECIAL THANKS",
                           "LEE BYUNG HO"};
+
+                         //12345678901234567890
+const char* Trip_Message[14][2]={
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "},
+													{" 50-1 SHORT CIRCUIT ",
+                           " [Fault Phase: Ia ] "}
+                         };

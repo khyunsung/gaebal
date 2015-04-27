@@ -14100,8 +14100,23 @@ void menu_popup(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0], "    THIS IS POPUP!!  \0");//900 is sample.
-	sprintf(str[1], "menu popup : %02d, %02d\0", 98, 0);
+//if(OpRly==1)			Sprintf(VFDFBuffer.up," 50-1 SHORT CIRCUIT ");
+//else if(OpRly==2)	Sprintf(VFDFBuffer.up," 50-2 SHORT CIRCUIT ");
+//else if(OpRly==3)	Sprintf(VFDFBuffer.up," 51-1 OVER CURRENT  ");
+//else if(OpRly==4)	Sprintf(VFDFBuffer.up," 51-2 OVER CURRENT  ");
+//else if(OpRly==5)	Sprintf(VFDFBuffer.up," 50G GROUND FAULT   ");
+//else if(OpRly==6)	Sprintf(VFDFBuffer.up," 51G GROUND FAULT   ");
+//else if(OpRly==7)	Sprintf(VFDFBuffer.up," 27R UNDER VOLTAGE1 ");
+//else if(OpRly==8)	Sprintf(VFDFBuffer.up," 27M UNDER VOLTAGE2 ");
+//else if(OpRly==9)	Sprintf(VFDFBuffer.up," 27S UNDER VOLTAGE3 ");
+//else if((OpRly==10)||(OpRly==11))	Sprintf(VFDFBuffer.up,"47 UNBALANCE VOLTAGE");
+//else if(OpRly==12)	Sprintf(VFDFBuffer.up,"  59 OVER VOLTAGE   ");
+//else if(OpRly==13)	Sprintf(VFDFBuffer.up,"  64 GROUND FAULT   ");
+//else if(OpRly==14)	Sprintf(VFDFBuffer.up," 67GD GROUND FAULT  ");
+//else if(OpRly==15)	Sprintf(VFDFBuffer.up," 67GS GROUND FAULT  ");
+
+	sprintf(str[0], "%s\0", Trip_Message[0][0]);
+	sprintf(str[1], "%s\0", Trip_Message[1][1]);
 
 	if(display) {
 		screen_frame2(str);
@@ -14109,14 +14124,50 @@ void menu_popup(unsigned int value, int display)
 		return;
 	}
 
-	if(value == ENTER_KEY) {
-		//Screen_Position = Save_Current_Screen;
-		Screen_Position.y = Save_Current_Screen.y;
-		Screen_Position.x = Save_Current_Screen.x;
-		Screen_Position.select = Save_Current_Screen.select;
-		Screen_Position.data_change = Save_Current_Screen.data_change;
+	if(value == ACK_KEY) {
+		if(0) { //Reset Case
+			Screen_Position.y = Save_Current_Screen.y;
+			Screen_Position.x = Save_Current_Screen.x;
+			Screen_Position.select = Save_Current_Screen.select;
+			Screen_Position.data_change = Save_Current_Screen.data_change;
+		} else {//Not Reset Case
+			Screen_Position.y = 98;
+			Screen_Position.x = 1;
+			Screen_Position.select = 0;
+			Screen_Position.data_change = NORMAL_MENU;
+		}
+	}
+}
+
+void menu_reset(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0], "  [[[ Warning ! ]]]  \0");//900 is sample.
+	sprintf(str[1], " Fault is not Reset. \0", 98, 0);
+		
+		
+	if(display) {
+		screen_frame2(str);
+		cursor_move(0, 0);
+		delay_us(1000000);
+		
+//		Screen_Position.y = 98;
+//		Screen_Position.x = 0;
+//		Screen_Position.select = 0;
+//		Screen_Position.data_change = NORMAL_MENU;
+		
+		menu_popup(0, 1);
+				
+		return;
 	}
 
+//	if(value == ACK_KEY) {
+//		Screen_Position.y = 98;
+//		Screen_Position.x = 0;
+//		Screen_Position.select = 0;
+//		Screen_Position.data_change = NORMAL_MENU;
+//	}
 }
 
 void menu_99_00(unsigned int value, int display)
@@ -14475,7 +14526,7 @@ const Screen_Function_Pointer menu_tables[200][18] = { //2015.02.17
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_95_04, menu_95_05, menu_95_06, menu_95_07, menu_95_08, menu_95_09,},                 // 95
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_96_05,},                                                                 // 96
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_97_04, menu_97_05, menu_97_06, menu_97_07, menu_97_08, menu_97_09,},                 // 97
-		{menu_popup, menu_dummy, menu_dummy, menu_dummy, menu_98_04, menu_98_05, menu_98_06, menu_98_07, menu_98_08, menu_98_09, menu_98_10, menu_98_11,}, // 98
+		{menu_popup, menu_reset, menu_dummy, menu_dummy, menu_98_04, menu_98_05, menu_98_06, menu_98_07, menu_98_08, menu_98_09, menu_98_10, menu_98_11,}, // 98
 		{menu_99_00, menu_dummy, menu_dummy, menu_dummy, menu_99_04, menu_99_05, menu_99_06,},                                                     // 99
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_100_04, menu_100_05, menu_100_06, menu_100_07, menu_100_08,},                        // 100
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_101_04, menu_101_05, menu_101_06, menu_101_07, menu_101_08, menu_101_09,},           // 101
@@ -14593,6 +14644,7 @@ void menu_init(void)
 void Save_Screen_Info(void)//2015-2-16, khs
 {
 	memcpy(&Save_Current_Screen, &Screen_Position, sizeof(Screen_Position));
+	Screen_Position.data_change = POPUP_MENU;
 }
 
 void Restore_Screen_Info(void)//2015-2-16, khs
@@ -14626,7 +14678,7 @@ void menu_drive(void)
 		//Save_Screen_Info();//테스트용으로 이곳에 위치시켰으며, 이 함수는 사고발생이 알려지는 시점에서 사용할 것.
 		Screen_Position.y = 98;
 		Screen_Position.x = 0;
-		//Screen_Position.data_change = NORMAL_MENU;
+		Screen_Position.data_change = NORMAL_MENU;
 
 		menu_tables[Screen_Position.y][Screen_Position.x](KHS_Key_Press, 0);
 		menu_tables[Screen_Position.y][Screen_Position.x](KHS_Key_Press, 1);

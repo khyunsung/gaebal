@@ -241,10 +241,11 @@ void OCR50_1_RELAY(void)
 //					SYSTEM.do_control &= 0xff9f; //DO operation //원래 수정해야 함
 //					SYSTEM.do_control |= OCR50_1.do_output;
 //					OCR50_1.do_output_off = OCR50_1.do_output; //DO backup
-////				DO_Output(0x0008); //test 용
-//					
-//					OCR50_1.op_status = RELAY_TRIP;
-					relay_pickup_to_operation(&OCR50_1.do_output, WAVE_OCR50_1_BIT, compare_value, OCR50_1.event_ready, &OCR50_1.op_status); //이벤트, 파형 저장, popup을 위해 남겨둠
+					DO_Output(0x0008); //test 용
+					
+					OCR50_1.op_status = RELAY_TRIP;
+					Save_Screen_Info();
+					//relay_pickup_to_operation(&OCR50_1.do_output, WAVE_OCR50_1_BIT, compare_value, OCR50_1.event_ready, &OCR50_1.op_status); //이벤트, 파형 저장, popup을 위해 남겨둠
 				}
 			}
 		}

@@ -2,6 +2,7 @@
 #include "variable.h"
 #include "prototype.h"
 
+
 //28335는 32bit machine이지만 16bit(1word) 처리함. 외부 peripheral도 16bit
 //char 16bit, int 16bit, long 16bit
 //전압 계전은 모두 PT에 걸리는 전압 기준임. 3상4선은 상전압, 3상3선은 선간전압(HIMAP-BCS는 모두 선간전압 기준임)

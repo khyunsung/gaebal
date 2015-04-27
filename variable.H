@@ -154,7 +154,7 @@ struct
 	float anlge[8];
 } DISPLAY;
 
-struct
+struct 
 {
 	int offset[10];
 	float slope[10];
@@ -168,7 +168,7 @@ struct
 
 	float low_temp[10];
 	float high_temp[10];
-	float slope_temp1[10];	
+	float slope_temp1[10];
 	float slope_temp2[10];
 
 	int offset_temp[10];
