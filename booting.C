@@ -194,42 +194,33 @@ void booting_setting_check(void)
 		eerom_read(i, &CALIBRATION.offset[i]);
 		temp[i] = CALIBRATION.offset[i];
 	}
-	for(i = 0; i < 10; i++)	//dft slope
+	for(i = 0; i < 10; i++)	//slope
 	{
-		void_p = &CALIBRATION.slope_1st[i];
+		void_p = &CALIBRATION.slope[i];
 		temp16_p = (unsigned int*)void_p;
 		eerom_read(0x10 + (i << 1), temp16_p);
 		eerom_read(0x11 + (i << 1), temp16_p + 1);
 		temp[10 + (i << 1)] = *temp16_p;
 		temp[11 + (i << 1)] = *(temp16_p + 1);
 	}
-	for(i = 0; i < 10; i++)	//angle
+	for(i = 0; i < 10; i++)	//intercept
 	{
-		void_p = &CALIBRATION.angle[i];
+		void_p = &CALIBRATION.intercept[i];
 		temp16_p = (unsigned int*)void_p;
 		eerom_read(0x30 + (i << 1), temp16_p);
 		eerom_read(0x31 + (i << 1), temp16_p + 1);
 		temp[30 + (i << 1)] = *temp16_p;
 		temp[31 + (i << 1)] = *(temp16_p + 1);
 	}
-//	for(i = 0; i < 10; i++)	//trms slope
-//	{
-//		void_p = &CALIBRATION.slope_trms[i];
-//		temp16_p = (unsigned int*)void_p;
-//		eerom_read(0x30 + (i << 1), temp16_p);
-//		eerom_read(0x31 + (i << 1), temp16_p + 1);
-//		temp[30 + (i << 1)] = *temp16_p;
-//		temp[31 + (i << 1)] = *(temp16_p + 1);
-//	}
-//	for(i = 0; i < 10; i++)	//angle
-//	{
-//		void_p = &CALIBRATION.angle[i];
-//		temp16_p = (unsigned int*)void_p;
-//		eerom_read(0x50 + (i << 1), temp16_p);
-//		eerom_read(0x51 + (i << 1), temp16_p + 1);
-//		temp[50 + (i << 1)] = *temp16_p;
-//		temp[51 + (i << 1)] = *(temp16_p + 1);
-//	}
+	for(i = 0; i < 10; i++)	//angle
+	{
+		void_p = &CALIBRATION.angle[i];
+		temp16_p = (unsigned int*)void_p;
+		eerom_read(0x50 + (i << 1), temp16_p);
+		eerom_read(0x51 + (i << 1), temp16_p + 1);
+		temp[50 + (i << 1)] = *temp16_p;
+		temp[51 + (i << 1)] = *(temp16_p + 1);
+	}
 //	for(i = 0; i < 3; i++)	//power
 //	{
 //		void_p = &CALIBRATION.slope_power[i];
@@ -266,7 +257,7 @@ void booting_setting_check(void)
 
 	eerom_read(0xa0, &i);
 //j = Setting_CRC(temp, 90);
-	j = Setting_CRC(temp, 50);
+	j = Setting_CRC(temp, 70);
 	if(i != j)	// calibration factor 틀어짐
 	{
 		SYSTEM.diagnostic |= CALIBRATION_NOT;
@@ -275,40 +266,40 @@ void booting_setting_check(void)
 		CALIBRATION.offset[1] = 208;
 		CALIBRATION.offset[2] = 205;
 		CALIBRATION.offset[3] = 216;
-		CALIBRATION.offset[4] = 1096;
+		CALIBRATION.offset[4] = 0;  //계측 안함
 		CALIBRATION.offset[5] = 216;
 		CALIBRATION.offset[6] = 105;
 		CALIBRATION.offset[7] = 199;
 		CALIBRATION.offset[8] = 118;
 		CALIBRATION.offset[9] = 136;
 
-		CALIBRATION.slope_1st[0] = 0.00362144;
-		CALIBRATION.slope_1st[1] = 0.003618755;
-		CALIBRATION.slope_1st[2] = 0.003613482;
-		CALIBRATION.slope_1st[3] = 0.002995868;
-		CALIBRATION.slope_1st[4] = -5135.745;
-		CALIBRATION.slope_1st[5] = 1;
-		CALIBRATION.slope_1st[6] = 0.01141712;
-		CALIBRATION.slope_1st[7] = 0.01147169;
-		CALIBRATION.slope_1st[8] = 0.01147811;
-		CALIBRATION.slope_1st[9] = 0.006488997;
+		CALIBRATION.slope[0] = 0.003988546;
+		CALIBRATION.slope[1] = 0.00397542;
+		CALIBRATION.slope[2] = 0.00399828;
+		CALIBRATION.slope[3] = 0.002995868;
+		CALIBRATION.slope[4] = 0;  //계측 안함
+		CALIBRATION.slope[5] = 0.0007004878;
+		CALIBRATION.slope[6] = 0.01228692;
+		CALIBRATION.slope[7] = 0.0122808;
+		CALIBRATION.slope[8] = 0.01229699;
+		CALIBRATION.slope[9] = 0.006915077;
 
-//		CALIBRATION.slope_trms[0] = 1.04048;
-//		CALIBRATION.slope_trms[1] = 1.039493;
-//		CALIBRATION.slope_trms[2] = 1.038246;
-//		CALIBRATION.slope_trms[3] = 0.8607486;
-//		CALIBRATION.slope_trms[4] = -3.216998E+38;
-//		CALIBRATION.slope_trms[5] = 1;
-//		CALIBRATION.slope_trms[6] = 0.4180322;
-//		CALIBRATION.slope_trms[7] = 0.4196618;
-//		CALIBRATION.slope_trms[8] = 0.4199296;
-//		CALIBRATION.slope_trms[9] = 0.4747967;
+		CALIBRATION.intercept[0] = -0.00792597;
+		CALIBRATION.intercept[1] = -0.0007012307;
+		CALIBRATION.intercept[2] = -0.00192056;
+		CALIBRATION.intercept[3] = 0.8607486;
+		CALIBRATION.intercept[4] = 0;  //계측 안함
+		CALIBRATION.intercept[5] = -0.8350161;
+		CALIBRATION.intercept[6] = 0.05907083;
+		CALIBRATION.intercept[7] = 0.1002612;
+		CALIBRATION.intercept[8] = 0.06911052;
+		CALIBRATION.intercept[9] = -0.04100425;
 
 		CALIBRATION.angle[0] = 0.07877987;
 		CALIBRATION.angle[1] = 0.0681999;
 		CALIBRATION.angle[2] = 0.05715979;
 		CALIBRATION.angle[3] = 0.04684306;
-		CALIBRATION.angle[4] = 0;
+		CALIBRATION.angle[4] = 0;  //계측 안함
 		CALIBRATION.angle[5] = 0;
 		CALIBRATION.angle[6] = 0;
 		CALIBRATION.angle[7] = -0.01102073;
@@ -1563,8 +1554,8 @@ void booting_setting_check(void)
 	DISPLAY.multipllier[2] = CPT.ct_ratio;
 	DISPLAY.multipllier[3] = CPT.nct_ratio;
 	DISPLAY.multipllier[4] = CPT.nct_ratio;
-	//ZCT
-	//DISPLAY.multipllier[5] = 133.33333333333333333333333333333;
+//DISPLAY.multipllier[5] = 133.33333333333333333333333333333; //외부 ZCT 비 = 200:1.5=133.33[mA]=0.13333[A]
+	DISPLAY.multipllier[5] = 1000;
 	DISPLAY.multipllier[6] = CPT.pt_ratio;
 	DISPLAY.multipllier[7] = CPT.pt_ratio;
 	DISPLAY.multipllier[8] = CPT.pt_ratio;

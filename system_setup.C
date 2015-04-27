@@ -1049,22 +1049,39 @@ void lcd_setup(void)
 	DELAY_US(100);
 
 //PERCENT 0x05
+//	DELAY_US(100);
+//	lcd_character_write(0x00);			/* clear display */
+//	DELAY_US(100);
+//	lcd_character_write(0x19);			/* clear display */
+//	DELAY_US(100);
+//	lcd_character_write(0x1a);			/* clear display */
+//	DELAY_US(100);
+//	lcd_character_write(0x04);			/* clear display */
+//	DELAY_US(100);
+//	lcd_character_write(0x0B);			/* clear display */
+//	DELAY_US(100);
+//	lcd_character_write(0x13);			/* clear display */
+//	DELAY_US(100);
+//	lcd_character_write(0x00);			/* clear display */
+//	DELAY_US(100);
+//	lcd_character_write(0x00);			/* clear display */
+//	DELAY_US(100);
+//ANGLE 0x05
+	lcd_character_write(0x00);	
 	DELAY_US(100);
-	lcd_character_write(0x00);			/* clear display */
+	lcd_character_write(0x01);	
 	DELAY_US(100);
-	lcd_character_write(0x19);			/* clear display */
+	lcd_character_write(0x02);	
 	DELAY_US(100);
-	lcd_character_write(0x1a);			/* clear display */
+	lcd_character_write(0x04);	
 	DELAY_US(100);
-	lcd_character_write(0x04);			/* clear display */
+	lcd_character_write(0x08);	
 	DELAY_US(100);
-	lcd_character_write(0x0B);			/* clear display */
+	lcd_character_write(0x1f);	
 	DELAY_US(100);
-	lcd_character_write(0x13);			/* clear display */
-	DELAY_US(100);
-	lcd_character_write(0x00);			/* clear display */
-	DELAY_US(100);
-	lcd_character_write(0x00);			/* clear display */
+	lcd_character_write(0x00);	
+	DELAY_US(100);	
+	lcd_character_write(0x00);	
 	DELAY_US(100);
 
 //THETA 0x06
@@ -1089,41 +1106,23 @@ void lcd_setup(void)
 	DELAY_US(100);
 
 //THAU 0x07
-//	DELAY_US(100);
-//	lcd_character_write(0x1F);			/* clear display */
-//	DELAY_US(100);
-//	lcd_character_write(0x02);			/* clear display */
-//	DELAY_US(100);
-//	lcd_character_write(0x04);			/* clear display */
-//	DELAY_US(100);
-//	lcd_character_write(0x08);			/* clear display */
-//	DELAY_US(100);
-//	lcd_character_write(0x08);			/* clear display */
-//	DELAY_US(100);
-//	lcd_character_write(0x04);			/* clear display */
-//	DELAY_US(100);
-//	lcd_character_write(0x02);			/* clear display */
-//	DELAY_US(100);
-//	lcd_character_write(0x00);			/* clear display */
-//	DELAY_US(100);
-//ANGLE 0x07
-	lcd_character_write(0x00);	
 	DELAY_US(100);
-	lcd_character_write(0x01);	
+	lcd_character_write(0x1F);			/* clear display */
 	DELAY_US(100);
-	lcd_character_write(0x02);	
+	lcd_character_write(0x02);			/* clear display */
 	DELAY_US(100);
-	lcd_character_write(0x04);	
+	lcd_character_write(0x04);			/* clear display */
 	DELAY_US(100);
-	lcd_character_write(0x08);	
+	lcd_character_write(0x08);			/* clear display */
 	DELAY_US(100);
-	lcd_character_write(0x1f);	
+	lcd_character_write(0x08);			/* clear display */
 	DELAY_US(100);
-	lcd_character_write(0x00);	
-	DELAY_US(100);	
-	lcd_character_write(0x00);	
+	lcd_character_write(0x04);			/* clear display */
 	DELAY_US(100);
-	
+	lcd_character_write(0x02);			/* clear display */
+	DELAY_US(100);
+	lcd_character_write(0x00);			/* clear display */
+	DELAY_US(100);
 
 //FULLDOT 0x08
 	DELAY_US(100);

@@ -187,7 +187,6 @@ extern void supervision_relay(unsigned int);
 //extern void factory_enter(void); //2015.02.25
 
 extern void float_to_8bit_fram(void *, unsigned int *, unsigned int);
-extern void float_to_integer(float, unsigned int *, float);
 
 extern void relay_use_view(unsigned int, unsigned int);
 

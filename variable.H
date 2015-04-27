@@ -157,7 +157,8 @@ struct
 struct
 {
 	int offset[10];
-	float slope_1st[10];
+	float slope[10];
+	float intercept[10];
 	float angle[10];
 
 	float slope_power[3];
@@ -167,14 +168,16 @@ struct
 
 	float low_temp[10];
 	float high_temp[10];
-	float slope_temp[10];	
+	float slope_temp1[10];	
+	float slope_temp2[10];
 
 	int offset_temp[10];
-	long slope_1st_temp[10];
+	long slope_temp[10];
 	float angle_temp[10];
 
 	int offset_origin[10];
-	float slope_1st_origin[10];
+	float slope_origin[10];
+	float intercept_origin[10];
 	float angle_origin[10];
 } CALIBRATION;
 
@@ -983,7 +986,6 @@ struct
 
 	unsigned int property_temp;
 } DIGITAL_OUTPUT;
-
 //--------- SYSTEM VARIABLE END
 
 struct
@@ -1839,8 +1841,14 @@ const unsigned int CT_1A_RATED = 1000;
 const unsigned int DEBOUNCE_MIN = 5;
 const unsigned int DEBOUNCE_MAX = 1000;
 
-const unsigned int CALIB_I_MIN = 10;
-const unsigned long CALIB_I_MAX = 500000L;
+const long CALIB_I_MIN = 300000L;		// 약 0.003971225 ~ 0.003993668
+const long CALIB_I_MAX = 500000L;		// 약 0.003971225 ~ 0.003993668
+const long CALIB_In_MIN = 10;				// ZCT 용
+const long CALIB_In_MAX = 500000L;
+const long CALIB_V_MIN = 1000000L;	// 약 0.01227344~0.01234097
+const long CALIB_V_MAX = 1400000L;	// 약 0.01227344~0.01234097
+const long CALIB_Vo_MIN = 600000L;	// 약 0.006921696
+const long CALIB_Vo_MAX = 800000L;	// 약 0.006921696
 
 unsigned int Calibration_Menu_Escape = 0;
 

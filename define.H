@@ -417,11 +417,11 @@
 #define	DOWNARROW		0x02
 #define	UPDOWNARROW	0x03
 #define	ENTER				0x04
-#define PERCENT			0x05
+//#define PERCENT			0x05
+#define	ANGLE				0x05
 #define	THETA				0x06
 #define THAU				0x07
 #define FULLDOT			0x08
-#define	ANGLE				0x09
 
 #define LEFTARROW		0x7F
 #define RIGHTARROW	0x7E
@@ -1235,7 +1235,5 @@
 #define  DEBUG_HIGH  *GpioIntRegs_GPASET_Low |= 0x0002
 #define  DEBUG_LOW   *GpioIntRegs_GPACLEAR_Low |= 0x0002
 
-#define	HIMAP_TYPE		1		//(FI, MS, ML, T = 1, 2, 3, 4)
-#define	VERSION				700
-
 //#endif	//_DEFINE_H_
+

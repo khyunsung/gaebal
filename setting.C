@@ -136,8 +136,8 @@ void setting_post_handling(unsigned int *ar_address)
 		DISPLAY.multipllier[3] = CPT.nct_ratio;
 		DISPLAY.multipllier[4] = CPT.nct_ratio;
 		//ZCT
-		//DISPLAY.multipllier[5] = 133.33333333333333333333333333333;
-		DISPLAY.multipllier[6] = CPT.pt_ratio;
+//	DISPLAY.multipllier[5] = 133.33333333333333333333333333333; //외부 ZCT 비 = 200:1.5=133.33[mA]=0.13333[A]
+		DISPLAY.multipllier[5] = 1;
 		DISPLAY.multipllier[7] = CPT.pt_ratio;
 		DISPLAY.multipllier[8] = CPT.pt_ratio;
 		DISPLAY.multipllier[9] = CPT.gpt_ratio;
@@ -175,7 +175,8 @@ void setting_post_handling(unsigned int *ar_address)
 		DISPLAY.multipllier[3] = CPT.nct_ratio;
 		DISPLAY.multipllier[4] = CPT.nct_ratio;
 		//ZCT
-		//DISPLAY.multipllier[5] = 133.33333333333333333333333333333;
+//		DISPLAY.multipllier[5] = 133.33333333333333333333333333333; //외부 ZCT 비 = 200:1.5=133.33[mA]=0.13333[A]
+		DISPLAY.multipllier[5] = 1;
 		DISPLAY.multipllier[6] = CPT.pt_ratio;
 		DISPLAY.multipllier[7] = CPT.pt_ratio;
 		DISPLAY.multipllier[8] = CPT.pt_ratio;

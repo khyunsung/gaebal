@@ -1203,20 +1203,6 @@ void float_to_8bit_fram(void *ar_value, unsigned int *ar_address, unsigned int a
 		*point_long |= (unsigned long)temp; // 최하위 바이트로 shift
 	}
 }
-
-// ar_write - 읽기/쓰기 여부 
-void float_to_integer(float ar_value, unsigned int *ar_address, float scale)
-{
-	unsigned long l_temp;
-	
-	// ar_value의 주소를 point_long 포인터 변수에 전달하여 포인팅 하게 한다.
-	l_temp = (unsigned long)(ar_value * scale);
-	
-	*ar_address =       (l_temp >> 24) & 0x00ff;  // 최상위 바이트
-	*(ar_address + 1) = (l_temp >> 16) & 0x00ff;  // 차상위 바이트
-	*(ar_address + 2) = (l_temp >> 8) & 0x00ff;   // 차하위 바이트
-	*(ar_address + 3) =  l_temp & 0x00ff;         // 최하위 바이트
-}
 	
 // raw data로 정정하는 방법 생각해볼것
 // tcs/ccs 감시
@@ -1899,13 +1885,17 @@ void measure_display(void) //전압, 전류 값
 	if(DISPLAY.sum_count == 49)	// 50번 누적되었을 경우
 	{
 		DISPLAY.rms_value_temp[DISPLAY.index] = DISPLAY.rms_value_sum[DISPLAY.index] / 50.;	// 50번 평균값 계산
-		if((DISPLAY.index > 5) && (DISPLAY.index < 10)) //전압 채널
+		if((DISPLAY.index > 5) && (DISPLAY.index < 10)) //전압 채널(6,7,8,9)
 		{
 			if(DISPLAY.rms_value_temp[DISPLAY.index] < 2)	{DISPLAY.rms_value_temp[DISPLAY.index] = 0;} //전압 채널 계측 문턱값 (2V)
 		}
-		else //전류 채널
+		else if(DISPLAY.index < 4) //전류 채널(0,1,2,3)
 		{
 			if(DISPLAY.rms_value_temp[DISPLAY.index] < 0.03)	{DISPLAY.rms_value_temp[DISPLAY.index] = 0;} //전류 채널 계측 문턱값 (0.03A)
+		}
+		else if(DISPLAY.index == 5)
+		{
+			if(DISPLAY.rms_value_temp[DISPLAY.index] < 0.2)	{DISPLAY.rms_value_temp[DISPLAY.index] = 0;} //영상 전류 채널 계측 문턱값 (0.2mA)
 		}
 
 		DISPLAY.rms_value[DISPLAY.index] = DISPLAY.rms_value_temp[DISPLAY.index] * DISPLAY.multipllier[DISPLAY.index]; // CT(PT) ratio 곱해줌 //최종 전압,전류 display 값
@@ -2051,9 +2041,6 @@ void measure2_display(void)
 	DISPLAY.anlge[6] *= 57.29577951;
 	DISPLAY.anlge[7] *= 57.29577951;
 	
-	// Va를 0도로 맞춤
-	//Vab는 무조건 0도
-	DISPLAY.anlge[0] = 0;
 	//Vbc
 	DISPLAY.anlge[1] -= DISPLAY.anlge[0];
 	if(DISPLAY.anlge[1] < 0)	{DISPLAY.anlge[1] += 360;}
@@ -2075,6 +2062,8 @@ void measure2_display(void)
 	//In or Is
 	DISPLAY.anlge[7] -= DISPLAY.anlge[0];
 	if(DISPLAY.anlge[7] < 0)	{DISPLAY.anlge[7] += 360;}
+	//Vab는 무조건 0도
+	DISPLAY.anlge[0] = 0;
 
 	DISPLAY.switching = 0x0000;
 	TIMER.measurement = 0;
@@ -2084,7 +2073,6 @@ void measure2_display(void)
 // 1초에 한번씩 전력계산
 void power_update(void)
 {
-
 	float float_temp = 0.0;
 	
 	// 인터럽트에서 기본적인 계산은 마침
@@ -2092,7 +2080,6 @@ void power_update(void)
 	//         0.012207403 * CT 비 곱해 줌
 	// real 값 도출 후 calibration factor 곱해줌
 	// S는 S평면 관계식으로 구함
-	
 	
 	// raw PQ
 	// 1초간 720번 누적되었으므로, 평균을 낸다

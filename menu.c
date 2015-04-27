@@ -324,16 +324,16 @@ void menu_00_07(unsigned int value, int display)
 	char string[22];
 
 	const char *str[2] = {
-			"\7Vab]              \1\0",
-			"\7Vbc]              \2\0" };
+			"\5Vab]              \1\0",
+			"\5Vbc]              \2\0" };
 
 	if(display == 1) {
 		screen_frame3(str);
 		return;
 	} else if(display == 2) {
-		sprintf(string, "%7.1f\0", DISPLAY.anlge[0]);
+		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[0], DGREE);
 		VFD_Single_Line_dump(LCD_L1_06, string);
-		sprintf(string, "%7.1f\0", DISPLAY.anlge[1]);
+		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[1], DGREE);
 		VFD_Single_Line_dump(LCD_L2_06, string);
 		return;
 	}
@@ -354,16 +354,16 @@ void menu_00_08(unsigned int value, int display)
 	char string[22];
 
 	const char *str[2] = {
-			"\7Vca]              \1\0",
-			"\7Vo ]              \2\0" };
+			"\5Vca]              \1\0",
+			"\5Vo ]              \2\0" };
 
 	if(display == 1) {
 		screen_frame3(str);
 		return;
 	} else if(display == 2) {
-		sprintf(string, "%7.1f\0", DISPLAY.anlge[2]);
+		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[2], DGREE);
 		VFD_Single_Line_dump(LCD_L1_06, string);
-		sprintf(string, "%7.1f\0", DISPLAY.anlge[3]);
+		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[3], DGREE);
 		VFD_Single_Line_dump(LCD_L2_06, string);
 		return;
 	}
@@ -457,30 +457,30 @@ void menu_01_04(unsigned int value, int display)
 	if(display == 1) {
 		sprintf(string, " Ic]          [A]  \1\0");
 		VFD_Single_Line_dump(LCD_L1_00, string);
-		if(CORE.gr_select == ZCT_SELECT)
+		if(CORE.gr_select == NCT_SELECT)
 		{
-			sprintf(string, " Io]          [mA] \2\0");
+			sprintf(string, " Io]          [A]  \2\0");
 			VFD_Single_Line_dump(LCD_L2_00, string);
 		}
 		else
 		{
-			sprintf(string, " Io]          [A]  \2\0");
+			sprintf(string, " Io]          [mA] \2\0");
 			VFD_Single_Line_dump(LCD_L2_00, string);
 		}
 		return;
 	} else if(display == 2) {
 		sprintf(string, "%7.1f\0", DISPLAY.rms_value[Ic]);
 		VFD_Single_Line_dump(LCD_L1_06, string);
-		if(CORE.gr_select == ZCT_SELECT)
-		{
-			sprintf(string, "%7.1f\0", DISPLAY.rms_value[Is]);
-			VFD_Single_Line_dump(LCD_L2_06, string);
-		}
-		else
+		if(CORE.gr_select == NCT_SELECT)
 		{
 			sprintf(string, "%7.1f\0", DISPLAY.rms_value[In]);
 			VFD_Single_Line_dump(LCD_L2_06, string);
 		}
+		else
+		{
+			sprintf(string, "%7.1f\0", DISPLAY.rms_value[Is]);
+			VFD_Single_Line_dump(LCD_L2_06, string);
+		}		
 		return;
 	}
 
@@ -523,7 +523,7 @@ void menu_01_05(unsigned int value, int display)
 	}
 }
 
-void menu_01_06(unsigned int value, int display) //2015.02.16
+void menu_01_06(unsigned int value, int display)
 {
 	char string[22];
 
@@ -553,11 +553,11 @@ void menu_01_06(unsigned int value, int display) //2015.02.16
 	}
 }
 
-void menu_01_07(unsigned int value, int display) //2015.02.16
+void menu_01_07(unsigned int value, int display)
 {
-	float ftest_value1 = 1.2;//temporary test value
-	float ftest_value2 = 2.3;//temporary test value
-	float ftest_value3 = 3.4;//temporary test value
+	float ftest_value1 = 1.2;//temporary test valu
+	float ftest_value2 = 2.3;//temporary test valu
+	float ftest_value3 = 3.4;//temporary test valu
 	char string[22];
 
 	const char *str[2] = {
@@ -568,11 +568,11 @@ void menu_01_07(unsigned int value, int display) //2015.02.16
 		screen_frame3(str);
 		return;
 	} else if(display == 2) {
-		sprintf(string, "%3.1f\0", ftest_value1);//1.2
+		sprintf(string, "%3.1f\0", ftest_value1);//1
 		VFD_Single_Line_dump(LCD_L2_04, string);
-		sprintf(string, "%3.1f\0", ftest_value2);//2.3
+		sprintf(string, "%3.1f\0", ftest_value2);//2
 		VFD_Single_Line_dump(LCD_L2_10, string);
-		sprintf(string, "%3.1f\0", ftest_value3);//3.4
+		sprintf(string, "%3.1f\0", ftest_value3);//3
 		VFD_Single_Line_dump(LCD_L2_16, string);
 		return;
 	}
@@ -591,12 +591,12 @@ void menu_01_07(unsigned int value, int display) //2015.02.16
 	}
 }
 
-void menu_01_08(unsigned int value, int display) //2015.02.16
+void menu_01_08(unsigned int value, int display)
 {
-	float ftest_value1 = 1.2;//temporary test value
-	float ftest_value2 = 2.3;//temporary test value
-	unsigned int test_value1 = 4;//temporary test value
-	unsigned int test_value2 = 5;//temporary test value
+	float ftest_value1 = 1.2;//temporary test valu
+	float ftest_value2 = 2.3;//temporary test valu
+	unsigned int test_value1 = 4;//temporary test 
+	unsigned int test_value2 = 5;//temporary test 
 	char string[22];
 
 	const char *str[2] = {
@@ -607,9 +607,9 @@ void menu_01_08(unsigned int value, int display) //2015.02.16
 		screen_frame3(str);
 		return;
 	} else if(display == 2) {
-		sprintf(string, "%3.1f\0", ftest_value1);//1.2
+		sprintf(string, "%3.1f\0", ftest_value1);//1
 		VFD_Single_Line_dump(LCD_L2_04, string);
-		sprintf(string, "%3.1f\0", ftest_value2);//2.3
+		sprintf(string, "%3.1f\0", ftest_value2);//2
 		VFD_Single_Line_dump(LCD_L2_09, string);
 		sprintf(string, "%3d\0", test_value1);//3
 		VFD_Single_Line_dump(LCD_L2_13, string);
@@ -632,11 +632,11 @@ void menu_01_08(unsigned int value, int display) //2015.02.16
 	}
 }
 
-void menu_01_09(unsigned int value, int display) //2015.02.16
+void menu_01_09(unsigned int value, int display)
 {
-	float ftest_value1 = 1.2;//temporary test value
-	float ftest_value2 = 2.3;//temporary test value
-	float ftest_value3 = 3.4;//temporary test value
+	float ftest_value1 = 1.2;//temporary test valu
+	float ftest_value2 = 2.3;//temporary test valu
+	float ftest_value3 = 3.4;//temporary test valu
 	char string[22];
 
 	const char *str[2] = {
@@ -670,12 +670,12 @@ void menu_01_09(unsigned int value, int display) //2015.02.16
 	}
 }
 
-void menu_01_10(unsigned int value, int display) //2015.02.16
+void menu_01_10(unsigned int value, int display)
 {
-	float ftest_value1 = 4.5;//temporary test value
-	float ftest_value2 = 6.7;//temporary test value
-	unsigned int test_value1 = 8;//temporary test value
-	unsigned int test_value2 = 9;//temporary test value
+	float ftest_value1 = 4.5;//temporary test valu
+	float ftest_value2 = 6.7;//temporary test valu
+	unsigned int test_value1 = 8;//temporary test 
+	unsigned int test_value2 = 9;//temporary test 
 	char string[22];
 
 	const char *str[2] = {
@@ -711,7 +711,7 @@ void menu_01_10(unsigned int value, int display) //2015.02.16
 	}
 }
 
-void menu_01_11(unsigned int value, int display) //2015.02.16
+void menu_01_11(unsigned int value, int display)
 {
 	float ftest_value1 = 4.5;//temporary test value
 	float ftest_value2 = 5.6;//temporary test value
@@ -742,19 +742,19 @@ void menu_01_11(unsigned int value, int display) //2015.02.16
 		cursor_move(0, 7);
 	} else if(value == DOWN_KEY) {
 		Screen_Position.y = 1;
-		Screen_Position.x = 3;
+		Screen_Position.x = 13;
 	} else if(value == RIGHT_KEY) {
 		Screen_Position.y = 1;
 		Screen_Position.x = 12;
 	}	
 }
 
-void menu_01_12(unsigned int value, int display) //2015.02.16
+void menu_01_12(unsigned int value, int display)
 {
-	float ftest_value1 = 5.6;//temporary test value
-	float ftest_value2 = 7.8;//temporary test value
-	unsigned int test_value1 =101;//temporary test value
-	unsigned int test_value2 =20;//temporary test value
+	float ftest_value1 = 5.6;//temporary test valu
+	float ftest_value2 = 7.8;//temporary test valu
+	unsigned int test_value1 =101;//temporary test
+	unsigned int test_value2 =20;//temporary test 
 	char string[22];
 
 	const char *str[2] = {
@@ -783,14 +783,74 @@ void menu_01_12(unsigned int value, int display) //2015.02.16
 		cursor_move(0, 7);
 	} else if(value == DOWN_KEY) {
 		Screen_Position.y = 1;
-		Screen_Position.x = 3;
+		Screen_Position.x = 13;
 	} else if(value == LEFT_KEY) {
 		Screen_Position.y = 1;
 		Screen_Position.x = 11;
 	}	
 }
 
-void menu_02_01(unsigned int value, int display) //2015.02.10
+void menu_01_13(unsigned int value, int display)
+{
+	char string[22];
+
+	const char *str[2] = {
+			"\5Ia]               \1\0",
+			"\5Ib]               \2\0" };
+
+	if(display == 1) {
+		screen_frame3(str);
+		return;
+	} else if(display == 2) {
+		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[4], DGREE);
+		VFD_Single_Line_dump(LCD_L1_06, string);
+		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[5], DGREE);
+		VFD_Single_Line_dump(LCD_L2_06, string);
+		return;
+	}
+
+	if(value == UP_KEY) {
+		Screen_Position.y = 0;
+		Screen_Position.x = 2;
+		Screen_Position.data_change = NORMAL_MENU;
+		cursor_move(0, 7);
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 1;
+		Screen_Position.x = 14;
+	}
+}
+
+void menu_01_14(unsigned int value, int display)
+{
+	char string[22];
+
+	const char *str[2] = {
+			"\5Ic]               \1\0",
+			"\5Io]               \2\0" };
+
+	if(display == 1) {
+		screen_frame3(str);
+		return;
+	} else if(display == 2) {
+		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[6], DGREE);
+		VFD_Single_Line_dump(LCD_L1_06, string);
+		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[7], DGREE);
+		VFD_Single_Line_dump(LCD_L2_06, string);
+		return;
+	}
+
+	if(value == UP_KEY) {
+		Screen_Position.y = 0;
+		Screen_Position.x = 2;
+		Screen_Position.data_change = NORMAL_MENU;
+		cursor_move(0, 7);
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 1;
+		Screen_Position.x = 3;
+	}
+}
+
+void menu_02_01(unsigned int value, int display)
 {
 	const char *str[2] = {
 			"    < DISPLAY >    \1\0",
@@ -815,10 +875,10 @@ void menu_02_01(unsigned int value, int display) //2015.02.10
 	}
 }
 
-void menu_02_03(unsigned int value, int display) //2015.02.16
+void menu_02_03(unsigned int value, int display)
 {
-	float ftest_value1 = 123456.7;//temporary test value
-	float ftest_value2 = 568.9;//temporary test value
+	float ftest_value1 = 123456.7;//temporary test
+	float ftest_value2 = 568.9;//temporary test va
 	char string[22];
 
 	const char *str[2] = {
@@ -847,7 +907,7 @@ void menu_02_03(unsigned int value, int display) //2015.02.16
 	}
 }
 
-void menu_02_04(unsigned int value, int display) //2015.02.16
+void menu_02_04(unsigned int value, int display)
 {
 	float ftest_value1 = 123.45;//temporary test value
 	float ftest_value2 = 12.456;//temporary test value
@@ -871,7 +931,7 @@ void menu_02_04(unsigned int value, int display) //2015.02.16
 		else
 		{
 			sprintf(string, " ----  \0");
-			VFD_Single_Line_dump(LCD_L1_06, string);			
+			VFD_Single_Line_dump(LCD_L1_06, string);	
 		}
 		if(frequency)
 		{
@@ -881,7 +941,7 @@ void menu_02_04(unsigned int value, int display) //2015.02.16
 		else
 		{
 			sprintf(string, "------\0");
-			VFD_Single_Line_dump(LCD_L2_07, string);			
+			VFD_Single_Line_dump(LCD_L2_07, string);	
 		}
 		return;
 	}
@@ -897,9 +957,9 @@ void menu_02_04(unsigned int value, int display) //2015.02.16
 	}
 }
 
-void menu_02_05(unsigned int value, int display) //2015.02.16
+void menu_02_05(unsigned int value, int display)
 {
-	long test_value1 = 12345678;//temporary test value
+	long test_value1 = 12345678;//temporary test v
 	long test_value2 = 9;//temporary test value
 	char string[22];
 
@@ -929,7 +989,7 @@ void menu_02_05(unsigned int value, int display) //2015.02.16
 	}
 }
 
-void menu_02_06(unsigned int value, int display) //2015.02.16
+void menu_02_06(unsigned int value, int display)
 {
 	long test_value1 = 12345678;//temporary test value
 	long test_value2 = 9;//temporary test value
@@ -12334,16 +12394,16 @@ void menu_151_01(unsigned int value, int display)
 			cursor_move(0, 0);//cursor off
 		} else if(Screen_Position.select == 1) {
 
-			CALIBRATION.slope_1st_temp[0] = (long)(CALIBRATION.slope_1st[0] * 100000000.0F);
-			CALIBRATION.slope_1st_temp[1] = (long)(CALIBRATION.slope_1st[1] * 100000000.0F);
-			CALIBRATION.slope_1st_temp[2] = (long)(CALIBRATION.slope_1st[2] * 100000000.0F);
-			CALIBRATION.slope_1st_temp[3] = (long)(CALIBRATION.slope_1st[3] * 100000000.0F);
-			CALIBRATION.slope_1st_temp[4] = (long)(CALIBRATION.slope_1st[4] * 100000000.0F);
-			CALIBRATION.slope_1st_temp[5] = (long)(CALIBRATION.slope_1st[5] * 100000000.0F);
-			CALIBRATION.slope_1st_temp[6] = (long)(CALIBRATION.slope_1st[6] * 100000000.0F);
-			CALIBRATION.slope_1st_temp[7] = (long)(CALIBRATION.slope_1st[7] * 100000000.0F);
-			CALIBRATION.slope_1st_temp[8] = (long)(CALIBRATION.slope_1st[8] * 100000000.0F);
-			CALIBRATION.slope_1st_temp[9] = (long)(CALIBRATION.slope_1st[9] * 100000000.0F);
+			CALIBRATION.slope_temp[0] = (long)(CALIBRATION.slope[0] * 100000000.0F);
+			CALIBRATION.slope_temp[1] = (long)(CALIBRATION.slope[1] * 100000000.0F);
+			CALIBRATION.slope_temp[2] = (long)(CALIBRATION.slope[2] * 100000000.0F);
+			CALIBRATION.slope_temp[3] = (long)(CALIBRATION.slope[3] * 100000000.0F);
+			CALIBRATION.slope_temp[4] = (long)(CALIBRATION.slope[4] * 100000000.0F);
+			CALIBRATION.slope_temp[5] = (long)(CALIBRATION.slope[5] * 100000000.0F);
+			CALIBRATION.slope_temp[6] = (long)(CALIBRATION.slope[6] * 100000000.0F);
+			CALIBRATION.slope_temp[7] = (long)(CALIBRATION.slope[7] * 100000000.0F);
+			CALIBRATION.slope_temp[8] = (long)(CALIBRATION.slope[8] * 100000000.0F);
+			CALIBRATION.slope_temp[9] = (long)(CALIBRATION.slope[9] * 100000000.0F);
 
 			Screen_Position.y = 153;
 			Screen_Position.x = 2;
@@ -12654,7 +12714,7 @@ void menu_152_03(unsigned int value, int display)
 			for(temp = 0; temp < 10; temp++) //원래 Calibration factor 복원
 			{
 				CALIBRATION.offset[temp] = CALIBRATION.offset_origin[temp];
-				CALIBRATION.slope_1st[temp] = CALIBRATION.slope_1st_origin[temp];
+				CALIBRATION.slope[temp] = CALIBRATION.slope_origin[temp];
 				CALIBRATION.angle[temp] = CALIBRATION.angle_origin[temp];	
 			}
 
@@ -12713,7 +12773,7 @@ void menu_152_04(unsigned int value, int display)
 			for(temp = 0; temp < 10; temp++) //원래 Calibration factor 복원
 			{
 				CALIBRATION.offset[temp] = CALIBRATION.offset_origin[temp];
-				CALIBRATION.slope_1st[temp] = CALIBRATION.slope_1st_origin[temp];
+				CALIBRATION.slope[temp] = CALIBRATION.slope_origin[temp];
 				CALIBRATION.angle[temp] = CALIBRATION.angle_origin[temp];	
 			}
 
@@ -12817,8 +12877,8 @@ void menu_153_02(unsigned int value, int display)
 	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
 	char str[2][22];
 
-	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[0] * 100000000.0F));
-	sprintf(str[1],"Ia FACTOR : %6ld  \0",CALIBRATION.slope_1st_temp[0]);
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope[0] * 100000000.0F));
+	sprintf(str[1],"Ia FACTOR : %6ld  \0",CALIBRATION.slope_temp[0]);
 	
 	if(display) {
 		screen_frame2(str);
@@ -12844,11 +12904,11 @@ void menu_153_02(unsigned int value, int display)
 	} else if(value == RIGHT_KEY) {
 		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
 	} else if(value == UP_KEY) {
-		CALIBRATION.slope_1st_temp[0] += number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[0] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[0] = CALIB_I_MAX;
+		CALIBRATION.slope_temp[0] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[0] >= CALIB_I_MAX)	CALIBRATION.slope_temp[0] = CALIB_I_MAX;
 	} else if(value == DOWN_KEY) {
-		CALIBRATION.slope_1st_temp[0] -= number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[0] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[0] >= 60000)	CALIBRATION.slope_1st_temp[0] = CALIB_I_MIN;
+		CALIBRATION.slope_temp[0] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[0] <= CALIB_I_MIN)	CALIBRATION.slope_temp[0] = CALIB_I_MIN;
 	} else if(value == ENTER_KEY) {
 		Screen_Position.y = 153;
 		Screen_Position.x = 3;
@@ -12861,8 +12921,8 @@ void menu_153_03(unsigned int value, int display)
 	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
 	char str[2][22];
 
-	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[1] * 100000000.0F));
-	sprintf(str[1],"Ib FACTOR : %6ld  \0",CALIBRATION.slope_1st_temp[1]);
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope[1] * 100000000.0F));
+	sprintf(str[1],"Ib FACTOR : %6ld  \0",CALIBRATION.slope_temp[1]);
 	
 	if(display) {
 		screen_frame2(str);
@@ -12888,11 +12948,11 @@ void menu_153_03(unsigned int value, int display)
 	} else if(value == RIGHT_KEY) {
 		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
 	} else if(value == UP_KEY) {
-		CALIBRATION.slope_1st_temp[1] += number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[1] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[1] = CALIB_I_MAX;
+		CALIBRATION.slope_temp[1] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[1] >= CALIB_I_MAX)	CALIBRATION.slope_temp[1] = CALIB_I_MAX;
 	} else if(value == DOWN_KEY) {
-		CALIBRATION.slope_1st_temp[1] -= number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[1] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[0] >= 60000)	CALIBRATION.slope_1st_temp[1] = CALIB_I_MIN;
+		CALIBRATION.slope_temp[1] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[1] <= CALIB_I_MIN)	CALIBRATION.slope_temp[1] = CALIB_I_MIN;
 	} else if(value == ENTER_KEY) {
 		Screen_Position.y = 153;
 		Screen_Position.x = 4;
@@ -12905,8 +12965,8 @@ void menu_153_04(unsigned int value, int display)
 	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
 	char str[2][22];
 
-	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[2] * 100000000.0F));
-	sprintf(str[1],"Ic FACTOR : %6ld  \0",CALIBRATION.slope_1st_temp[2]);
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope[2] * 100000000.0F));
+	sprintf(str[1],"Ic FACTOR : %6ld  \0",CALIBRATION.slope_temp[2]);
 	
 	if(display) {
 		screen_frame2(str);
@@ -12932,11 +12992,11 @@ void menu_153_04(unsigned int value, int display)
 	} else if(value == RIGHT_KEY) {
 		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
 	} else if(value == UP_KEY) {
-		CALIBRATION.slope_1st_temp[2] += number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[2] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[2] = CALIB_I_MAX;
+		CALIBRATION.slope_temp[2] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[2] >= CALIB_I_MAX)	CALIBRATION.slope_temp[2] = CALIB_I_MAX;
 	} else if(value == DOWN_KEY) {
-		CALIBRATION.slope_1st_temp[2] -= number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[2] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[2] >= 60000)	CALIBRATION.slope_1st_temp[2] = CALIB_I_MIN;
+		CALIBRATION.slope_temp[2] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[2] <= CALIB_I_MIN)	CALIBRATION.slope_temp[2] = CALIB_I_MIN;
 	} else if(value == ENTER_KEY) {
 		Screen_Position.y = 153;
 		Screen_Position.x = 5;
@@ -12949,42 +13009,85 @@ void menu_153_05(unsigned int value, int display)
 	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
 	char str[2][22];
 
-	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[3] * 100000000.0F));
-	sprintf(str[1],"Io FACTOR : %6ld  \0",CALIBRATION.slope_1st_temp[3]);
-	
-	if(display) {
-		screen_frame2(str);
-		if (Screen_Position.select == 0) {
-			cursor_move(1, 12);
-		} else if (Screen_Position.select == 1) {
-			cursor_move(1, 13);
-		} else if (Screen_Position.select == 2) {
-			cursor_move(1, 14);
-		} else if (Screen_Position.select == 3) {
-			cursor_move(1, 15);
-		} else if (Screen_Position.select == 4) {
-			cursor_move(1, 16);
-		}	else if (Screen_Position.select == 5) {
-			cursor_move(1, 17);
+	if(CORE.gr_select == NCT_SELECT) 
+	{
+		sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope[3] * 100000000.0F));
+		sprintf(str[1],"Io FACTOR : %6ld  \0",CALIBRATION.slope_temp[3]);
+		
+		if(display) {
+			screen_frame2(str);
+			if (Screen_Position.select == 0) {
+				cursor_move(1, 12);
+			} else if (Screen_Position.select == 1) {
+				cursor_move(1, 13);
+			} else if (Screen_Position.select == 2) {
+				cursor_move(1, 14);
+			} else if (Screen_Position.select == 3) {
+				cursor_move(1, 15);
+			} else if (Screen_Position.select == 4) {
+				cursor_move(1, 16);
+			}	else if (Screen_Position.select == 5) {
+				cursor_move(1, 17);
+			}
+			return;
 		}
-		return;
+		
+		if(value == LEFT_KEY) {
+			if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+			Screen_Position.select %= 6;
+		} else if(value == RIGHT_KEY) {
+			if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
+		} else if(value == UP_KEY) {
+			CALIBRATION.slope_temp[3] += number_digit[Screen_Position.select % 6];
+			if(CALIBRATION.slope_temp[3] >= CALIB_I_MAX)	CALIBRATION.slope_temp[3] = CALIB_I_MAX;
+		} else if(value == DOWN_KEY) {
+			CALIBRATION.slope_temp[3] -= number_digit[Screen_Position.select % 6];
+			if(CALIBRATION.slope_temp[3] <= CALIB_I_MIN)	CALIBRATION.slope_temp[3] = CALIB_I_MIN;
+		} else if(value == ENTER_KEY) {
+			Screen_Position.y = 153;
+			Screen_Position.x = 6;
+			Screen_Position.select = 5;
+		}
 	}
-	
-	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
-		Screen_Position.select %= 6;
-	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
-	} else if(value == UP_KEY) {
-		CALIBRATION.slope_1st_temp[3] += number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[3] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[3] = CALIB_I_MAX;
-	} else if(value == DOWN_KEY) {
-		CALIBRATION.slope_1st_temp[3] -= number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[3] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[3] >= 60000)	CALIBRATION.slope_1st_temp[3] = CALIB_I_MIN;
-	} else if(value == ENTER_KEY) {
-		Screen_Position.y = 153;
-		Screen_Position.x = 6;
-		Screen_Position.select = 5;
+	else
+	{
+		sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope[5] * 100000000.0F));
+		sprintf(str[1],"Io FACTOR : %6ld  \0",CALIBRATION.slope_temp[5]);
+		
+		if(display) {
+			screen_frame2(str);
+			if (Screen_Position.select == 0) {
+				cursor_move(1, 12);
+			} else if (Screen_Position.select == 1) {
+				cursor_move(1, 13);
+			} else if (Screen_Position.select == 2) {
+				cursor_move(1, 14);
+			} else if (Screen_Position.select == 3) {
+				cursor_move(1, 15);
+			} else if (Screen_Position.select == 4) {
+				cursor_move(1, 16);
+			}	else if (Screen_Position.select == 5) {
+				cursor_move(1, 17);
+			}
+			return;
+		}
+		
+		if(value == LEFT_KEY) {
+			if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+			Screen_Position.select %= 6;
+		} else if(value == RIGHT_KEY) {
+			if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
+		} else if(value == UP_KEY) {
+			CALIBRATION.slope_temp[5] += number_digit[Screen_Position.select % 6];
+			if(CALIBRATION.slope_temp[5] >= CALIB_I_MAX)	CALIBRATION.slope_temp[5] = CALIB_I_MAX;
+		} else if(value == DOWN_KEY) {
+			CALIBRATION.slope_temp[5] -= number_digit[Screen_Position.select % 6];
+			if(CALIBRATION.slope_temp[5] <= CALIB_I_MIN)	CALIBRATION.slope_temp[5] = CALIB_I_MIN;
+		} else if(value == ENTER_KEY) {
+			Screen_Position.y = 153;
+			Screen_Position.x = 6;
+			Screen_Position.select = 5;
+		}
 	}
 }
 
@@ -12993,23 +13096,23 @@ void menu_153_06(unsigned int value, int display)
 	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
 	char str[2][22];
 
-	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[6] * 100000000.0F));
-	sprintf(str[1],"Vab FACTOR: %6ld  \0",CALIBRATION.slope_1st_temp[6]);
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope[6] * 100000000.0F));
+	sprintf(str[1],"Vab FACTOR: %6ld  \0",CALIBRATION.slope_temp[6]);
 	
 	if(display) {
 		screen_frame2(str);
 		if (Screen_Position.select == 0) {
-			cursor_move(1, 12);
-		} else if (Screen_Position.select == 1) {
 			cursor_move(1, 13);
-		} else if (Screen_Position.select == 2) {
+		} else if (Screen_Position.select == 1) {
 			cursor_move(1, 14);
-		} else if (Screen_Position.select == 3) {
+		} else if (Screen_Position.select == 2) {
 			cursor_move(1, 15);
-		} else if (Screen_Position.select == 4) {
+		} else if (Screen_Position.select == 3) {
 			cursor_move(1, 16);
-		}	else if (Screen_Position.select == 5) {
+		} else if (Screen_Position.select == 4) {
 			cursor_move(1, 17);
+		}	else if (Screen_Position.select == 5) {
+			cursor_move(1, 18);
 		}
 		return;
 	}
@@ -13020,11 +13123,11 @@ void menu_153_06(unsigned int value, int display)
 	} else if(value == RIGHT_KEY) {
 		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
 	} else if(value == UP_KEY) {
-		CALIBRATION.slope_1st_temp[6] += number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[6] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[6] = CALIB_I_MAX;
+		CALIBRATION.slope_temp[6] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[6] >= CALIB_V_MAX)	CALIBRATION.slope_temp[6] = CALIB_V_MAX;
 	} else if(value == DOWN_KEY) {
-		CALIBRATION.slope_1st_temp[6] -= number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[6] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[6] >= 60000)	CALIBRATION.slope_1st_temp[6] = CALIB_I_MIN;
+		CALIBRATION.slope_temp[6] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[6] <= CALIB_V_MIN)	CALIBRATION.slope_temp[6] = CALIB_V_MIN;
 	} else if(value == ENTER_KEY) {
 		Screen_Position.y = 153;
 		Screen_Position.x = 7;
@@ -13037,23 +13140,23 @@ void menu_153_07(unsigned int value, int display)
 	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
 	char str[2][22];
 
-	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[7] * 100000000.0F));
-	sprintf(str[1],"Vbc FACTOR: %6ld  \0",CALIBRATION.slope_1st_temp[7]);
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope[7] * 100000000.0F));
+	sprintf(str[1],"Vbc FACTOR: %6ld  \0",CALIBRATION.slope_temp[7]);
 	
 	if(display) {
 		screen_frame2(str);
 		if (Screen_Position.select == 0) {
-			cursor_move(1, 12);
-		} else if (Screen_Position.select == 1) {
 			cursor_move(1, 13);
-		} else if (Screen_Position.select == 2) {
+		} else if (Screen_Position.select == 1) {
 			cursor_move(1, 14);
-		} else if (Screen_Position.select == 3) {
+		} else if (Screen_Position.select == 2) {
 			cursor_move(1, 15);
-		} else if (Screen_Position.select == 4) {
+		} else if (Screen_Position.select == 3) {
 			cursor_move(1, 16);
-		}	else if (Screen_Position.select == 5) {
+		} else if (Screen_Position.select == 4) {
 			cursor_move(1, 17);
+		}	else if (Screen_Position.select == 5) {
+			cursor_move(1, 18);
 		}
 		return;
 	}
@@ -13064,11 +13167,11 @@ void menu_153_07(unsigned int value, int display)
 	} else if(value == RIGHT_KEY) {
 		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
 	} else if(value == UP_KEY) {
-		CALIBRATION.slope_1st_temp[7] += number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[7] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[7] = CALIB_I_MAX;
+		CALIBRATION.slope_temp[7] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[7] >= CALIB_V_MAX)	CALIBRATION.slope_temp[7] = CALIB_V_MAX;
 	} else if(value == DOWN_KEY) {
-		CALIBRATION.slope_1st_temp[7] -= number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[7] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[7] >= 60000)	CALIBRATION.slope_1st_temp[7] = CALIB_I_MIN;
+		CALIBRATION.slope_temp[7] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[7] <= CALIB_V_MIN)	CALIBRATION.slope_temp[7] = CALIB_V_MIN;
 	} else if(value == ENTER_KEY) {
 		Screen_Position.y = 153;
 		Screen_Position.x = 8;
@@ -13081,23 +13184,23 @@ void menu_153_08(unsigned int value, int display)
 	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
 	char str[2][22];
 
-	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[8] * 100000000.0F));
-	sprintf(str[1],"Vca FACTOR: %6ld  \0",CALIBRATION.slope_1st_temp[8]);
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope[8] * 100000000.0F));
+	sprintf(str[1],"Vca FACTOR: %6ld  \0",CALIBRATION.slope_temp[8]);
 	
 	if(display) {
 		screen_frame2(str);
 		if (Screen_Position.select == 0) {
-			cursor_move(1, 12);
-		} else if (Screen_Position.select == 1) {
 			cursor_move(1, 13);
-		} else if (Screen_Position.select == 2) {
+		} else if (Screen_Position.select == 1) {
 			cursor_move(1, 14);
-		} else if (Screen_Position.select == 3) {
+		} else if (Screen_Position.select == 2) {
 			cursor_move(1, 15);
-		} else if (Screen_Position.select == 4) {
+		} else if (Screen_Position.select == 3) {
 			cursor_move(1, 16);
-		}	else if (Screen_Position.select == 5) {
+		} else if (Screen_Position.select == 4) {
 			cursor_move(1, 17);
+		}	else if (Screen_Position.select == 5) {
+			cursor_move(1, 18);
 		}
 		return;
 	}
@@ -13108,11 +13211,11 @@ void menu_153_08(unsigned int value, int display)
 	} else if(value == RIGHT_KEY) {
 		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
 	} else if(value == UP_KEY) {
-		CALIBRATION.slope_1st_temp[8] += number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[8] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[8] = CALIB_I_MAX;
+		CALIBRATION.slope_temp[8] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[8] >= CALIB_V_MAX)	CALIBRATION.slope_temp[8] = CALIB_V_MAX;
 	} else if(value == DOWN_KEY) {
-		CALIBRATION.slope_1st_temp[8] -= number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[8] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[8] >= 60000)	CALIBRATION.slope_1st_temp[8] = CALIB_I_MIN;
+		CALIBRATION.slope_temp[8] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[8] <= CALIB_V_MIN)	CALIBRATION.slope_temp[8] = CALIB_V_MIN;
 	} else if(value == ENTER_KEY) {
 		Screen_Position.y = 153;
 		Screen_Position.x = 9;
@@ -13125,8 +13228,8 @@ void menu_153_09(unsigned int value, int display)
 	const unsigned long number_digit[6] = {100000, 10000, 1000, 100, 10, 1};
 	char str[2][22];
 
-	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope_1st[9] * 100000000.0F));
-	sprintf(str[1],"Vo FACTOR : %6ld  \0",CALIBRATION.slope_1st_temp[9]);
+	sprintf(str[0],"PRE-SET   : %6ld  \0",(long)(CALIBRATION.slope[9] * 100000000.0F));
+	sprintf(str[1],"Vo FACTOR : %6ld  \0",CALIBRATION.slope_temp[9]);
 	
 	if(display) {
 		screen_frame2(str);
@@ -13152,11 +13255,11 @@ void menu_153_09(unsigned int value, int display)
 	} else if(value == RIGHT_KEY) {
 		if(Screen_Position.select++ >= 5) Screen_Position.select = 5;
 	} else if(value == UP_KEY) {
-		CALIBRATION.slope_1st_temp[9] += number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[9] >= CALIB_I_MAX) CALIBRATION.slope_1st_temp[9] = CALIB_I_MAX;
+		CALIBRATION.slope_temp[9] += number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[9] >= CALIB_Vo_MAX) CALIBRATION.slope_temp[9] = CALIB_Vo_MAX;
 	} else if(value == DOWN_KEY) {
-		CALIBRATION.slope_1st_temp[9] -= number_digit[Screen_Position.select % 6];
-		if(CALIBRATION.slope_1st_temp[9] <= CALIB_I_MIN || CALIBRATION.slope_1st_temp[9] >= 60000)	CALIBRATION.slope_1st_temp[9] = CALIB_I_MIN;
+		CALIBRATION.slope_temp[9] -= number_digit[Screen_Position.select % 6];
+		if(CALIBRATION.slope_temp[9] <= CALIB_Vo_MIN)	CALIBRATION.slope_temp[9] = CALIB_Vo_MIN;
 	} else if(value == ENTER_KEY) {
 		Screen_Position.y = 153;
 		Screen_Position.x = 10;
@@ -13168,6 +13271,10 @@ void menu_153_09(unsigned int value, int display)
 void menu_153_10(unsigned int value, int display)
 {
 	char str[2][22];
+	unsigned int i;
+	unsigned int temp1[100];
+	void *void_p;
+	unsigned int *temp16_p;
 
 	sprintf(str[0],"                    \0");
 	sprintf(str[1],"WANT TO SET ?  [Y/N]\0");
@@ -13190,16 +13297,54 @@ void menu_153_10(unsigned int value, int display)
 		Screen_Position.select %= 2;
 	} else if(value == ENTER_KEY) {
 		if(Screen_Position.select == 0) {
+			if(CORE.rated_ct == CT_5A)
+			{
+				CALIBRATION.slope[0] = CALIBRATION.slope_temp[0] * 0.00000001F;
+				CALIBRATION.slope[1] = CALIBRATION.slope_temp[1] * 0.00000001F;
+				CALIBRATION.slope[2] = CALIBRATION.slope_temp[2] * 0.00000001F;
+				if(CORE.gr_select == NCT_SELECT)	{CALIBRATION.slope[3] = CALIBRATION.slope_temp[3] * 0.00000001F;}
+				else															{CALIBRATION.slope[5] = CALIBRATION.slope_temp[5] * 0.00000001F;}
+				CALIBRATION.slope[6] = CALIBRATION.slope_temp[6] * 0.00000001F;
+				CALIBRATION.slope[7] = CALIBRATION.slope_temp[7] * 0.00000001F;
+				CALIBRATION.slope[8] = CALIBRATION.slope_temp[8] * 0.00000001F;
+				CALIBRATION.slope[9] = CALIBRATION.slope_temp[9] * 0.00000001F;
+			}
+			else
+			{
+	
+			}
 
-//			DIGITAL_OUTPUT.property = DIGITAL_OUTPUT.property_temp;
-//			if(setting_save(&DIGITAL_OUTPUT.property, DO_PROPERTY, 1))
-//			{
-//				setting_load(&DIGITAL_OUTPUT.property, 1, DO_PROPERTY);
-//			}
-//			else
-//			{
-//				//FLASH WRITE ERROR pop up 화면
-//			}
+			//-------- EEROM 저장
+			eerom_control(4, 0x80);
+			eerom_control(4, 0xc0);
+			
+			for(i = 0; i < 10; i++)  //offset 저장
+			{
+				eerom_write(i, &CALIBRATION.offset[i]);
+				temp1[i] = CALIBRATION.offset[i]; //[0]~[9]
+			}
+			for(i = 0; i < 10; i++) //slope 저장
+			{
+				void_p = &CALIBRATION.slope[i];
+				temp16_p = (unsigned int *)void_p;
+				eerom_write(0x10 + (i << 1), temp16_p);
+				eerom_write(0x11 + (i << 1), temp16_p + 1);
+				temp1[10 + (i << 1)] = *temp16_p;  //[10]~[29]
+				temp1[11 + (i << 1)] = *(temp16_p + 1);
+			}
+			for(i = 0; i < 10; i++) //angle 저장
+			{
+				void_p = &CALIBRATION.angle[i];
+				temp16_p = (unsigned int *)void_p;
+				eerom_write(0x30 + (i << 1), temp16_p);
+				eerom_write(0x31 + (i << 1), temp16_p + 1);
+				temp1[30 + (i << 1)] = *temp16_p; //[30]~[49]
+				temp1[31 + (i << 1)] = *(temp16_p + 1);
+			}
+			
+			i = Setting_CRC(temp1, 50);
+			eerom_write(0xa0, &i);
+			//-------- EEROM 저장 END
 
 			Screen_Position.y = 153;
 			Screen_Position.x = 11;
@@ -14233,7 +14378,7 @@ void Event_Time_Display(void)		//khs, 2015-04-03 오후 7:16:58
 
 const Screen_Function_Pointer menu_tables[200][18] = { //2015.02.17
 		{menu_00_00, menu_00_01, menu_00_02, menu_00_03, menu_00_04, menu_00_05, menu_00_06, menu_00_07, menu_00_08,},	// 00
-		{menu_dummy, menu_01_01, menu_dummy, menu_01_03, menu_01_04, menu_01_05, menu_01_06, menu_01_07, menu_01_08, menu_01_09, menu_01_10,  menu_01_11,  menu_01_12,},    // 01
+		{menu_dummy, menu_01_01, menu_dummy, menu_01_03, menu_01_04, menu_01_05, menu_01_06, menu_01_07, menu_01_08, menu_01_09, menu_01_10,  menu_01_11,  menu_01_12, menu_01_13,  menu_01_14,},    // 01
 		{menu_dummy, menu_02_01, menu_dummy, menu_02_03, menu_02_04, menu_02_05, menu_02_06, },	// 02
 		{menu_dummy, menu_dummy, menu_dummy, menu_03_03, },																			// 03
 		{menu_dummy, menu_dummy, menu_dummy, },    // 04

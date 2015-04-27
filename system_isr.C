@@ -386,7 +386,8 @@ interrupt void XINT3_ISR(void)
 		TIMER0.temp_float2 = sqrt((DFT.real_value[TIMER0.temp16_1] * DFT.real_value[TIMER0.temp16_1]) + (DFT.imag_value[TIMER0.temp16_1] * DFT.imag_value[TIMER0.temp16_1]));
 //-------- DFT 계산 END
 		
-		MEASUREMENT.rms_value[TIMER0.temp16_1] = TIMER0.temp_float2 * CALIBRATION.slope_1st[TIMER0.temp16_1];	// calibration factor 적용, 계전에 사용하는 최종 rms 값
+//	MEASUREMENT.rms_value[TIMER0.temp16_1] = TIMER0.temp_float2 * CALIBRATION.slope[TIMER0.temp16_1];	// calibration factor 적용, 계전에 사용하는 최종 rms 값
+		MEASUREMENT.rms_value[TIMER0.temp16_1] = (TIMER0.temp_float2 * CALIBRATION.slope[TIMER0.temp16_1]) - CALIBRATION.intercept[TIMER0.temp16_1];	// calibration factor 적용, 계전에 사용하는 최종 rms 값
 		
 		//위상값 계산
 		MEASUREMENT.angle[TIMER0.temp16_1] = atan2(DFT.real_value[TIMER0.temp16_1], DFT.imag_value[TIMER0.temp16_1]);	// radian값임 display 할때 degree로 변환
