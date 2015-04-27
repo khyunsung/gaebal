@@ -1,0 +1,42 @@
+diff a/comms.C b/comms.C	(rejected hunks)
+@@ -963,32 +963,32 @@
+ 			
+ 			//internal ct ratio
+ 			float_temp = INTERNAL_CT_RATIO;
+-			float_to_integer(float_temp, &MANAGER.tx_buffer[6], 1.0F);
++			float_to_8bit_fram(&float_temp, &MANAGER.tx_buffer[6], 1);
+ 			
+ 			//internal nct ratio
+ 			float_temp = INTERNAL_NCT_RATIO;
+-			float_to_integer(float_temp, &MANAGER.tx_buffer[10], 1.0F);
++			float_to_8bit_fram(&float_temp, &MANAGER.tx_buffer[10], 1);
+ 			
+ 			//internal pt ratio
+ 			float_temp = INTERNAL_PT_RATIO;
+-			float_to_integer(float_temp, &MANAGER.tx_buffer[14], 1.0F);
++			float_to_8bit_fram(&float_temp, &MANAGER.tx_buffer[14], 1);
+ 			
+ 			//internal gpt ratio
+ 			float_temp = INTERNAL_GPT_RATIO;
+-			float_to_integer(float_temp, &MANAGER.tx_buffer[18], 1.0F);
++			float_to_8bit_fram(&float_temp, &MANAGER.tx_buffer[18], 1);
+ 
+ //khs, 2015-04-08 오전 11:21:40
+ //			//1차측 ct ratio
+-//			float_to_integer(TRANSFORMER.ct_ratio, &MANAGER.tx_buffer[22], 1.0F);
++//			float_to_8bit_fram(&TRANSFORMER.ct_ratio, &MANAGER.tx_buffer[22], 1);
+ //
+ //			//1차측 nct ratio
+-//			float_to_integer(TRANSFORMER.nct_ratio, &MANAGER.tx_buffer[26], 1.0F);
++//			float_to_8bit_fram(&TRANSFORMER.nct_ratio, &MANAGER.tx_buffer[26], 1);
+ //
+ //			//1차측 pt ratio
+-//			float_to_integer(TRANSFORMER.pt_ratio, &MANAGER.tx_buffer[30], 1.0F);
++//			float_to_8bit_fram(&TRANSFORMER.pt_ratio, &MANAGER.tx_buffer[30], 1);
+ //
+ //			//1차측 gpt ratio
+-//			float_to_integer(TRANSFORMER.gpt_ratio, &MANAGER.tx_buffer[34], 1.0F);
++//			float_to_8bit_fram(&TRANSFORMER.gpt_ratio, &MANAGER.tx_buffer[34], 1);
+ 			
+ 			
+ 			i = COMM_CRC(MANAGER.tx_buffer, 38);

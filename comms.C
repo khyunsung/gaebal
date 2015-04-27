@@ -389,7 +389,7 @@ void manager_handling(void)
 			MANAGER.tx_buffer[4] = 0;
 			MANAGER.tx_buffer[5] = 4;
 			
-//		float_to_8bit_fram(&THR.Q, &MANAGER.tx_buffer[6], 1); //2015.02.25
+//		float_to_integer(THR.Q, &MANAGER.tx_buffer[6], 1.0F); //2015.02.25
 			
 			i = COMM_CRC(MANAGER.tx_buffer, 10);
 			
