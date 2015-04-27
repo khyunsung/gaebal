@@ -1235,5 +1235,8 @@
 #define  DEBUG_HIGH  *GpioIntRegs_GPASET_Low |= 0x0002
 #define  DEBUG_LOW   *GpioIntRegs_GPACLEAR_Low |= 0x0002
 
+#define	HIMAP_TYPE		1		//(FI, MS, ML, T = 1, 2, 3, 4)
+#define	VERSION				700
+
 //#endif	//_DEFINE_H_
 

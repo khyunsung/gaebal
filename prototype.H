@@ -192,7 +192,7 @@ void relay_dropout_to_normal(unsigned long *, unsigned int *, unsigned int, unsi
 void supervision_relay(unsigned int);
 
 void float_to_8bit_fram(void *, unsigned int *, unsigned int);
-
+void float_to_integer(float, unsigned int *, float);
 
 void relay_use_view(unsigned int, unsigned int);
 
