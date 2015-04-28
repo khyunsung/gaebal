@@ -1052,7 +1052,7 @@ void menu_03_03(unsigned int value, int display)
 	}
 }
 
-void menu_04_02(unsigned int value, int display) //2015.02.10
+void menu_04_02(unsigned int value, int display)
 {
 	const char *str[2] = {
 			"    < DISPLAY >    \1\0",
@@ -1079,6 +1079,54 @@ void menu_04_02(unsigned int value, int display) //2015.02.10
 	} else if(value == UP_KEY) {
 		Screen_Position.y = 0;
 		Screen_Position.x = 1;
+	}
+}
+
+void menu_04_03(unsigned int value, int display)
+{
+	const char *str[2] = {
+			"<DISP #1> [50-1] ? \1\0",
+			"[50-2] ?  [51-1] ? \2\0" };
+	if(display==1) {
+		screen_frame3(str);
+		if(Screen_Position.select == 0) {
+			cursor_move(0, 17);
+		} else if(Screen_Position.select == 1) {
+			cursor_move(1, 7);
+		} else if(Screen_Position.select == 2) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select == 0)	{Screen_Position.select  = 2;}
+		else														{Screen_Position.select -= 1;}
+	} else if(value == RIGHT_KEY) {
+		Screen_Position.select += 1;
+		Screen_Position.select %= 3;
+	} else if(value == UP_KEY) {
+		Screen_Position.y = 4;
+		Screen_Position.x = 2;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 5;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == ENTER_KEY) {
+		if(Screen_Position.select == 0) {
+			Screen_Position.y = 4;
+			Screen_Position.x = 4;
+			(OCR50_1.mode == INSTANT) ? (Screen_Position.select = 0) : (Screen_Position.select = 1);
+		} else if(Screen_Position.select == 1) {
+			Screen_Position.y = 43;
+			Screen_Position.x = 4;
+			(OCR50_2.mode == INSTANT) ? (Screen_Position.select = 0) : (Screen_Position.select = 1);
+		} else if(Screen_Position.select == 2) {
+			Screen_Position.y = 45;
+			Screen_Position.x = 4;
+			(OCR51_1.mode == INVERSE) ? (Screen_Position.select = 0) : (OCR51_1.mode == V_INVERSE) ? (Screen_Position.select = 1) : (Screen_Position.select = 2) ;
+		}
 	}
 }
 
@@ -2055,7 +2103,8 @@ void menu_43_03(unsigned int value, int display)
 			Screen_Position.y = 52;
 			Screen_Position.x = 4;
 		}
-		Screen_Position.select = 0;
+		if(GPT.pt_secondary == 100)	{Screen_Position.select = 2;}
+		else												{Screen_Position.select = 3;}
 	}
 }
 
@@ -2424,7 +2473,8 @@ void menu_44_03(unsigned int value, int display)
 
 			Screen_Position.y = 53;
 			Screen_Position.x = 4;
-			Screen_Position.select = 0;
+			if(GPT.pt_secondary == 100)	{Screen_Position.select = 2;}
+			else												{Screen_Position.select = 3;}
 
 		} else if(Screen_Position.select == 1) {
 			N47.voltage_set_temp = N47.voltage_set;
@@ -2436,7 +2486,7 @@ void menu_44_03(unsigned int value, int display)
 
 			Screen_Position.y = 54;
 			Screen_Position.x = 4;
-			Screen_Position.select = 0;
+			Screen_Position.select = 2;
 
 		} else if(Screen_Position.select == 2) {
 			Screen_Position.y = 55;
@@ -2806,14 +2856,14 @@ void menu_45_03(unsigned int value, int display) //2015.02.10
 
 			Screen_Position.y = 59;
 			Screen_Position.x = 4;
-			Screen_Position.select = 0;
+			Screen_Position.select = 1;
 
 		} else if(Screen_Position.select == 2) {
 			SGR.current_set_temp = SGR.current_set;
 
 			Screen_Position.y = 60;
 			Screen_Position.x = 4;
-			Screen_Position.select = 0;
+			Screen_Position.select = 1;
 		}
 	}
 }
@@ -3558,23 +3608,24 @@ void menu_47_04(unsigned int value, int display)
 			OCGR50.mode_temp = INSTANT;
 			Screen_Position.y = 47;
 			Screen_Position.x = 5;
-			Screen_Position.select = 2;
 		} else if(Screen_Position.select == 1) {
 			OCGR50.mode_temp = DEFINITE;
 			Screen_Position.y = 48;
 			Screen_Position.x = 5;
-			Screen_Position.select = 2;
 		}
+		if(CORE.rated_ct == CT_5A)	{Screen_Position.select = 2;}
+		else												{Screen_Position.select = 3;}
 		OCGR50.current_set_temp = OCGR50.current_set;
 	}
 }
 
 void menu_47_05(unsigned int value, int display)
 {
-	const unsigned int number_digit[3] = {100, 10, 1};
+//const unsigned int number_digit[3] = {100, 10, 1};
 	char str[2][22];
 
 	if(CORE.rated_ct == CT_5A) {
+		const unsigned int number_digit[3] = {100, 10, 1};
 		sprintf(str[0],"PRE-SET  : %5.1f [A]\0",(float)(OCGR50.current_set*0.1));
 		sprintf(str[1],"CURRENT  : %5.1f [A]\0",(float)(OCGR50.current_set_temp*0.1));
 	
@@ -3608,38 +3659,41 @@ void menu_47_05(unsigned int value, int display)
 				OCGR50.do_relay_temp = OCGR50.do_relay;
 		}
 	} else { //1A
-//		sprintf(str[0],"PRE-SET  : %5.1f [A]\0",(float)(OCGR50.current_set*0.1));
-//		sprintf(str[1],"CURRENT  : %5.1f [A]\0",(float)(OCGR50.current_set_temp*0.1));
-//	
-//		if(display) {
-//			screen_frame2(str);
-//			if(Screen_Position.select == 0) {
-//				cursor_move(1, 12);
-//			} else if (Screen_Position.select == 1) {
-//				cursor_move(1, 13);
-//			} else if (Screen_Position.select == 2) {
-//				cursor_move(1, 15);
-//			}
-//			return;
-//		}
-//	
-//		if(value == LEFT_KEY) {
-//			if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
-//			Screen_Position.select %= 3;
-//		} else if(value == RIGHT_KEY) {
-//			if(Screen_Position.select++ >= 2) Screen_Position.select = 2;
-//		} else if(value == UP_KEY) {
-//			OCGR50.current_set_temp += number_digit[Screen_Position.select % 3];
-//			if(OCGR50.current_set_temp >= OCGR50_I_MAX[1]) OCGR50.current_set_temp = OCGR50_I_MAX[1];
-//		} else if(value == DOWN_KEY) {
-//			OCGR50.current_set_temp -= number_digit[Screen_Position.select % 3];
-//			if(OCGR50.current_set_temp <= OCGR50_I_MIN[1] || OCGR50.current_set_temp >= 60000)	OCGR50.current_set_temp = OCGR50_I_MIN[1];
-//		} else if(value == ENTER_KEY) {
-//				Screen_Position.y = 47;
-//				Screen_Position.x = 6;
-//				Screen_Position.select = 0;
-//				OCGR50.do_relay_temp = OCGR50.do_relay;
-//		}
+		const unsigned int number_digit[4] = {1000, 100, 10, 1};
+		sprintf(str[0],"PRE-SET  : %5.2f [A]\0",(float)(OCGR50.current_set*0.01));
+		sprintf(str[1],"CURRENT  : %5.2f [A]\0",(float)(OCGR50.current_set_temp*0.01));
+	
+		if(display) {
+			screen_frame2(str);
+			if(Screen_Position.select == 0) {
+				cursor_move(1, 11);
+			} else if (Screen_Position.select == 1) {
+				cursor_move(1, 12);
+			} else if (Screen_Position.select == 2) {
+				cursor_move(1, 14);
+			} else if (Screen_Position.select == 3) {
+				cursor_move(1, 15);
+			}
+			return;
+		}
+	
+		if(value == LEFT_KEY) {
+			if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+			Screen_Position.select %= 4;
+		} else if(value == RIGHT_KEY) {
+			if(Screen_Position.select++ >= 3) Screen_Position.select = 3;
+		} else if(value == UP_KEY) {
+			OCGR50.current_set_temp += number_digit[Screen_Position.select % 4];
+			if(OCGR50.current_set_temp >= OCGR50_I_MAX[1]) OCGR50.current_set_temp = OCGR50_I_MAX[1];
+		} else if(value == DOWN_KEY) {
+			OCGR50.current_set_temp -= number_digit[Screen_Position.select % 4];
+			if(OCGR50.current_set_temp <= OCGR50_I_MIN[1] || OCGR50.current_set_temp >= 60000)	OCGR50.current_set_temp = OCGR50_I_MIN[1];
+		} else if(value == ENTER_KEY) {
+				Screen_Position.y = 47;
+				Screen_Position.x = 6;
+				Screen_Position.select = 0;
+				OCGR50.do_relay_temp = OCGR50.do_relay;
+		}
 	}
 }
 
@@ -3708,8 +3762,8 @@ void menu_47_08(unsigned int value, int display)
 		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCGR50.current_set_temp*0.1),ENTER);
 		sprintf(str[1],"                    \0");
 	} else { //1A
-//		sprintf(str[0], "CURRENT : %5.1f [A]%c\0",(float)(OCGR50.current_set_temp*0.1),ENTER);
-//		sprintf(str[1], "                    \0");
+		sprintf(str[0], "CURRENT : %5.2f [A]%c\0",(float)(OCGR50.current_set_temp*0.01),ENTER);
+		sprintf(str[1], "                    \0");
 	}
 
 	if(display) {
@@ -3876,42 +3930,45 @@ void menu_48_05(unsigned int value, int display)
 		} else if(value == ENTER_KEY) {
 				Screen_Position.y = 48;
 				Screen_Position.x = 6;
-				Screen_Position.select = 0;
+				Screen_Position.select = 2;
 				OCGR50.delay_time_temp = OCGR50.delay_time;
 		}
 	} else { //1A
-//		sprintf(str[0],"PRE-SET  : %5.1f [A]\0",(float)(OCGR50.current_set*0.1));
-//		sprintf(str[1],"CURRENT  : %5.1f [A]\0",(float)(OCGR50.current_set_temp*0.1));
-//	
-//		if(display) {
-//			screen_frame2(str);
-//			if(Screen_Position.select == 0) {
-//				cursor_move(1, 12);
-//			} else if (Screen_Position.select == 1) {
-//				cursor_move(1, 13);
-//			} else if (Screen_Position.select == 2) {
-//				cursor_move(1, 15);
-//			}
-//			return;
-//		}
-//	
-//		if(value == LEFT_KEY) {
-//			if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
-//			Screen_Position.select %= 3;
-//		} else if(value == RIGHT_KEY) {
-//			if(Screen_Position.select++ >= 2) Screen_Position.select = 2;
-//		} else if(value == UP_KEY) {
-//			OCGR50.current_set_temp += number_digit[Screen_Position.select % 3];
-//			if(OCGR50.current_set_temp >= OCGR50_I_MAX[1]) OCGR50.current_set_temp = OCGR50_I_MAX[1];
-//		} else if(value == DOWN_KEY) {
-//			OCGR50.current_set_temp -= number_digit[Screen_Position.select % 3];
-//			if(OCGR50.current_set_temp <= OCGR50_I_MIN[1] || OCGR50.current_set_temp >= 60000)	OCGR50.current_set_temp = OCGR50_I_MIN[1];
-//		} else if(value == ENTER_KEY) {
-//				Screen_Position.y = 48;
-//				Screen_Position.x = 6;
-//				Screen_Position.select = 0;
-//				OCGR50.delay_time_temp = OCGR50.delay_time;
-//		}
+		const unsigned int number_digit[4] = {1000, 100, 10, 1};
+		sprintf(str[0],"PRE-SET  : %5.2f [A]\0",(float)(OCGR50.current_set*0.01));
+		sprintf(str[1],"CURRENT  : %5.2f [A]\0",(float)(OCGR50.current_set_temp*0.01));
+	
+		if(display) {
+			screen_frame2(str);
+			if(Screen_Position.select == 0) {
+				cursor_move(1, 11);
+			} else if (Screen_Position.select == 1) {
+				cursor_move(1, 12);
+			} else if (Screen_Position.select == 2) {
+				cursor_move(1, 14);
+			} else if (Screen_Position.select == 3) {
+				cursor_move(1, 15);
+			}
+			return;
+		}
+	
+		if(value == LEFT_KEY) {
+			if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+			Screen_Position.select %= 4;
+		} else if(value == RIGHT_KEY) {
+			if(Screen_Position.select++ >= 3) Screen_Position.select = 3;
+		} else if(value == UP_KEY) {
+			OCGR50.current_set_temp += number_digit[Screen_Position.select % 4];
+			if(OCGR50.current_set_temp >= OCGR50_I_MAX[1]) OCGR50.current_set_temp = OCGR50_I_MAX[1];
+		} else if(value == DOWN_KEY) {
+			OCGR50.current_set_temp -= number_digit[Screen_Position.select % 4];
+			if(OCGR50.current_set_temp <= OCGR50_I_MIN[1] || OCGR50.current_set_temp >= 60000)	OCGR50.current_set_temp = OCGR50_I_MIN[1];
+		} else if(value == ENTER_KEY) {
+				Screen_Position.y = 48;
+				Screen_Position.x = 6;
+				Screen_Position.select = 2;
+				OCGR50.delay_time_temp = OCGR50.delay_time;
+		}
 	}
 }
 
@@ -4019,8 +4076,8 @@ void menu_48_09(unsigned int value, int display)
 		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCGR50.current_set_temp*0.1),ENTER);
 		sprintf(str[1],"TIME    : %5.2f[SEC]\0",(float)(OCGR50.delay_time_temp*0.01));
 	} else { //1A
-//		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCGR50.current_set_temp*0.1),ENTER);
-			sprintf(str[1],"TIME    : %5.2f[SEC]\0",(float)(OCGR50.delay_time_temp*0.01));
+		sprintf(str[0],"CURRENT : %5.2f [A]%c\0",(float)(OCGR50.current_set_temp*0.01),ENTER);
+		sprintf(str[1],"TIME    : %5.2f[SEC]\0",(float)(OCGR50.delay_time_temp*0.01));
 	}
 
 	if(display) {
@@ -4190,17 +4247,20 @@ void menu_49_04(unsigned int value, int display)
 		}
 		Screen_Position.y = 49;
 		Screen_Position.x = 5;
-		Screen_Position.select = 2;
+		if(CORE.rated_ct == CT_5A)	{Screen_Position.select = 2;}
+		else												{Screen_Position.select = 1;}
+		OCGR50.current_set_temp = OCGR50.current_set;
 		OCGR51.current_set_temp = OCGR51.current_set;
 	}
 }
 
 void menu_49_05(unsigned int value, int display)
 {
-	const unsigned int number_digit[3] = {100, 10, 1};
+//const unsigned int number_digit[3] = {100, 10, 1};
 	char str[2][22];
 
 	if(CORE.rated_ct == CT_5A) {
+		const unsigned int number_digit[3] = {100, 10, 1};
 		sprintf(str[0],"PRE-SET  : %5.1f [A]\0",(float)(OCGR51.current_set*0.1));
 		sprintf(str[1],"CURRENT  : %5.1f [A]\0",(float)(OCGR51.current_set_temp*0.1));
 	
@@ -4234,38 +4294,37 @@ void menu_49_05(unsigned int value, int display)
 				OCGR51.time_lever_temp = OCGR51.time_lever;
 		}
 	} else { //1A
-//		sprintf(str[0],"PRE-SET  : %5.1f [A]\0",(float)(OCGR51.current_set*0.1));
-//		sprintf(str[1],"CURRENT  : %5.1f [A]\0",(float)(OCGR51.current_set_temp*0.1));
-//	
-//		if(display) {
-//			screen_frame2(str);
-//			if(Screen_Position.select == 0) {
-//				cursor_move(1, 12);
-//			} else if (Screen_Position.select == 1) {
-//				cursor_move(1, 13);
-//			} else if (Screen_Position.select == 2) {
-//				cursor_move(1, 15);
-//			}
-//			return;
-//		}
-//	
-//		if(value == LEFT_KEY) {
-//			if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
-//			Screen_Position.select %= 3;
-//		} else if(value == RIGHT_KEY) {
-//			if(Screen_Position.select++ >= 2) Screen_Position.select = 2;
-//		} else if(value == UP_KEY) {
-//			OCGR51.current_set_temp += number_digit[Screen_Position.select % 3];
-//			if(OCGR51.current_set_temp >= OCGR51_I_MAX[1]) OCGR51.current_set_temp = OCGR51_I_MAX[1];
-//		} else if(value == DOWN_KEY) {
-//			OCGR51.current_set_temp -= number_digit[Screen_Position.select % 3];
-//			if(OCGR51.current_set_temp <= OCGR51_I_MIN[1] || OCGR51.current_set_temp >= 60000)	OCGR51.current_set_temp = OCGR51_I_MIN[1];
-//		} else if(value == ENTER_KEY) {
-//				Screen_Position.y = 49;
-//				Screen_Position.x = 6;
-//				Screen_Position.select = 2;
-//				OCGR51.time_lever_temp = OCGR51.time_lever;
-//		}
+		const unsigned int number_digit[2] = {10, 1};
+		sprintf(str[0],"PRE-SET  : %5.2f [A]\0",(float)(OCGR51.current_set*0.01));
+		sprintf(str[1],"CURRENT  : %5.2f [A]\0",(float)(OCGR51.current_set_temp*0.01));
+	
+		if(display) {
+			screen_frame2(str);
+			if(Screen_Position.select == 0) {
+				cursor_move(1, 14);
+			} else if (Screen_Position.select == 1) {
+				cursor_move(1, 15);
+			}
+			return;
+		}
+	
+		if(value == LEFT_KEY) {
+			if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+			Screen_Position.select %= 2;
+		} else if(value == RIGHT_KEY) {
+			if(Screen_Position.select++ >= 2) Screen_Position.select = 2;
+		} else if(value == UP_KEY) {
+			OCGR51.current_set_temp += number_digit[Screen_Position.select % 2];
+			if(OCGR51.current_set_temp >= OCGR51_I_MAX[1]) OCGR51.current_set_temp = OCGR51_I_MAX[1];
+		} else if(value == DOWN_KEY) {
+			OCGR51.current_set_temp -= number_digit[Screen_Position.select % 2];
+			if(OCGR51.current_set_temp <= OCGR51_I_MIN[1] || OCGR51.current_set_temp >= 60000)	OCGR51.current_set_temp = OCGR51_I_MIN[1];
+		} else if(value == ENTER_KEY) {
+				Screen_Position.y = 49;
+				Screen_Position.x = 6;
+				Screen_Position.select = 2;
+				OCGR51.time_lever_temp = OCGR51.time_lever;
+		}
 	}
 }
 
@@ -4373,8 +4432,8 @@ void menu_49_09(unsigned int value, int display)
 		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCGR51.current_set_temp*0.1),ENTER);
 		sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OCGR51.time_lever_temp*0.01));
 	} else { //1A
-//		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCGR51.current_set_temp*0.1),ENTER);
-			sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OCGR51.time_lever_temp*0.01));
+		sprintf(str[0],"CURRENT : %5.2f [A]%c\0",(float)(OCGR51.current_set_temp*0.01),ENTER);
+		sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OCGR51.time_lever_temp*0.01));
 	}
 
 	if(display) {
@@ -4509,7 +4568,8 @@ void menu_49_13(unsigned int value, int display)
 
 void menu_50_04(unsigned int value, int display)
 {
-	const unsigned int number_digit[3] = {100, 10, 1};
+	const unsigned int number_digit3[3] = {100, 10, 1};
+	const unsigned int number_digit4[4] = {1000, 100, 10, 1};
 	char str[2][22];
 
 	sprintf(str[0],"PRE-SET  : %5.1f [V]\0",(float)(UVR_1.voltage_set_temp2*0.1));
@@ -4517,23 +4577,39 @@ void menu_50_04(unsigned int value, int display)
 	
 	if(display) {
 		screen_frame2(str);
-		if(Screen_Position.select == 0) {
-			cursor_move(1, 12);
-		} else if (Screen_Position.select == 1) {
-			cursor_move(1, 13);
-		} else if (Screen_Position.select == 2) {
-			cursor_move(1, 15);
+		if( GPT.pt_secondary == 100 ) {
+			if(Screen_Position.select == 0) {
+				cursor_move(1, 12);
+			} else if (Screen_Position.select == 1) {
+				cursor_move(1, 13);
+			} else if (Screen_Position.select == 2) {
+				cursor_move(1, 15);
+			}
+		} else {
+			if(Screen_Position.select == 0) {
+				cursor_move(1, 11);
+			} else if (Screen_Position.select == 1) {
+				cursor_move(1, 12);
+			} else if (Screen_Position.select == 2) {
+				cursor_move(1, 13);
+			} else if (Screen_Position.select == 3) {
+				cursor_move(1, 15);
+			}
 		}
 		return;
 	}
-	
+
 	if(value == LEFT_KEY) {
 		if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
-		Screen_Position.select %= 3;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 2) Screen_Position.select = 2;
+		if(GPT.pt_secondary == 100) {
+			if(Screen_Position.select++ >= 2) {Screen_Position.select = 2;}
+		} else {
+			if(Screen_Position.select++ >= 3) {Screen_Position.select = 3;}
+		}
 	} else if(value == UP_KEY) {
-		UVR_1.voltage_set_temp += number_digit[Screen_Position.select % 3];
+		if(GPT.pt_secondary == 100)	{UVR_1.voltage_set_temp += number_digit3[Screen_Position.select % 3];}
+		else 												{UVR_1.voltage_set_temp += number_digit4[Screen_Position.select % 4];}
 
 		if(GPT.pt_secondary == 100)			 {if(UVR_1.voltage_set_temp >= UVR_1_V_MAX[0]) UVR_1.voltage_set_temp = UVR_1_V_MAX[0];}
 		else if(GPT.pt_secondary == 110) {if(UVR_1.voltage_set_temp >= UVR_1_V_MAX[1]) UVR_1.voltage_set_temp = UVR_1_V_MAX[1];}
@@ -4541,7 +4617,8 @@ void menu_50_04(unsigned int value, int display)
 		else if(GPT.pt_secondary == 190) {if(UVR_1.voltage_set_temp >= UVR_1_V_MAX[3]) UVR_1.voltage_set_temp = UVR_1_V_MAX[3];}
 
 	} else if(value == DOWN_KEY) {
-		UVR_1.voltage_set_temp -= number_digit[Screen_Position.select % 3];
+		if(GPT.pt_secondary == 100)	{UVR_1.voltage_set_temp -= number_digit3[Screen_Position.select % 3];}
+		else												{UVR_1.voltage_set_temp -= number_digit4[Screen_Position.select % 4];}
 
 		if(GPT.pt_secondary == 100)			 {if(UVR_1.voltage_set_temp <= UVR_1_V_MIN[0] || UVR_1.voltage_set_temp >= 60000)	UVR_1.voltage_set_temp = UVR_1_V_MIN[0];}
 		else if(GPT.pt_secondary == 110) {if(UVR_1.voltage_set_temp <= UVR_1_V_MIN[1] || UVR_1.voltage_set_temp >= 60000)	UVR_1.voltage_set_temp = UVR_1_V_MIN[1];}
@@ -6915,7 +6992,7 @@ void menu_58_05(unsigned int value, int display)
 
 			Screen_Position.y = 58;
 			Screen_Position.x = 6;
-			Screen_Position.select = 0;
+			Screen_Position.select = 2;
 	}
 }
 
@@ -7195,41 +7272,41 @@ void menu_59_04(unsigned int value, int display)
 		}
 	}
 	else {
-//		sprintf(str[0],"PRE-SET  : %5.1f [A]\0",(float)(DGR.current_set*0.1));
-//		sprintf(str[1],"CURRENT  : %5.1f [A]\0",(float)(DGR.current_set_temp*0.1));
-//		
-//		if(display) {
-//			screen_frame2(str);
-//			if (Screen_Position.select == 1) {
-//				cursor_move(1, 13);
-//			} else if (Screen_Position.select == 2) {
-//				cursor_move(1, 15);
-//			}
-//			return;
-//		}
-//		
-//		if(value == LEFT_KEY) {
-//			if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
-//			Screen_Position.select %= 2;
-//		} else if(value == RIGHT_KEY) {
-//			if(Screen_Position.select++ >= 1) Screen_Position.select = 1;
-//		} else if(value == UP_KEY) {
-//			DGR.current_set_temp += number_digit[Screen_Position.select % 2];
-//			if(DGR.current_set_temp >= DGR_I_MAX[0]) DGR.current_set_temp = DGR_I_MAX[0];
-//		} else if(value == DOWN_KEY) {
-//			DGR.current_set_temp -= number_digit[Screen_Position.select % 2];
-//			if(DGR.current_set_temp <= DGR_I_MIN[0] || DGR.current_set_temp >= 60000)	DGR.current_set_temp = DGR_I_MIN[0];
-//		} else if(value == ENTER_KEY) {
-//				Screen_Position.y = 59;
-//				Screen_Position.x = 5;
-//				Screen_Position.select = 2;
-//
-//				DGR.voltage_set_temp = DGR.voltage_set;
-//				DGR.voltage_set_temp2 = DGR.voltage_set;	//전압의 경우 PT 2차 설정이 바뀌면 저장된 MIN, MAX 값을 조정하여 보여주기 위해 // 전류의 졍우는 2차를 설정하면 모두 DEFAULT 값으로 초기화 하므로 필요 없음
-//				if(GPT.pt_tertiary == 110)			{if(DGR.voltage_set_temp < DGR_V_MIN[0] || DGR_V_MAX[0] < DGR.voltage_set_temp) {DGR.voltage_set_temp = DGR_V_MAX[0]; DGR.voltage_set_temp2 = DGR_V_MAX[0];}}
-//				else if(GPT.pt_tertiary == 120) {if(DGR.voltage_set_temp < DGR_V_MIN[1] || DGR_V_MAX[1] < DGR.voltage_set_temp) {DGR.voltage_set_temp = DGR_V_MAX[1]; DGR.voltage_set_temp2 = DGR_V_MAX[1];}}
-//				else if(GPT.pt_tertiary == 190) {if(DGR.voltage_set_temp < DGR_V_MIN[2] || DGR_V_MAX[2] < DGR.voltage_set_temp) {DGR.voltage_set_temp = DGR_V_MAX[2]; DGR.voltage_set_temp2 = DGR_V_MAX[2];}}
-//		}
+		sprintf(str[0],"PRE-SET  : %5.2f [A]\0",(float)(DGR.current_set*0.01));
+		sprintf(str[1],"CURRENT  : %5.2f [A]\0",(float)(DGR.current_set_temp*0.01));
+		
+		if(display) {
+			screen_frame2(str);
+			if (Screen_Position.select == 0) {
+				cursor_move(1, 14);
+			} else if (Screen_Position.select == 1) {
+				cursor_move(1, 15);
+			}
+			return;
+		}
+		
+		if(value == LEFT_KEY) {
+			if(Screen_Position.select-- <= 0) Screen_Position.select = 0;
+			Screen_Position.select %= 2;
+		} else if(value == RIGHT_KEY) {
+			if(Screen_Position.select++ >= 1) Screen_Position.select = 1;
+		} else if(value == UP_KEY) {
+			DGR.current_set_temp += number_digit[Screen_Position.select % 2];
+			if(DGR.current_set_temp >= DGR_I_MAX[1]) DGR.current_set_temp = DGR_I_MAX[1];
+		} else if(value == DOWN_KEY) {
+			DGR.current_set_temp -= number_digit[Screen_Position.select % 2];
+			if(DGR.current_set_temp <= DGR_I_MIN[1] || DGR.current_set_temp >= 60000)	DGR.current_set_temp = DGR_I_MIN[1];
+		} else if(value == ENTER_KEY) {
+				Screen_Position.y = 59;
+				Screen_Position.x = 5;
+				Screen_Position.select = 2;
+
+				DGR.voltage_set_temp = DGR.voltage_set;
+				DGR.voltage_set_temp2 = DGR.voltage_set;	//전압의 경우 PT 2차 설정이 바뀌면 저장된 MIN, MAX 값을 조정하여 보여주기 위해 // 전류의 졍우는 2차를 설정하면 모두 DEFAULT 값으로 초기화 하므로 필요 없음
+				if(GPT.pt_tertiary == 110)			{if(DGR.voltage_set_temp < DGR_V_MIN[0] || DGR_V_MAX[0] < DGR.voltage_set_temp) {DGR.voltage_set_temp = DGR_V_MAX[0]; DGR.voltage_set_temp2 = DGR_V_MAX[0];}}
+				else if(GPT.pt_tertiary == 120) {if(DGR.voltage_set_temp < DGR_V_MIN[1] || DGR_V_MAX[1] < DGR.voltage_set_temp) {DGR.voltage_set_temp = DGR_V_MAX[1]; DGR.voltage_set_temp2 = DGR_V_MAX[1];}}
+				else if(GPT.pt_tertiary == 190) {if(DGR.voltage_set_temp < DGR_V_MIN[2] || DGR_V_MAX[2] < DGR.voltage_set_temp) {DGR.voltage_set_temp = DGR_V_MAX[2]; DGR.voltage_set_temp2 = DGR_V_MAX[2];}}
+		}
 	}
 }
 
@@ -7314,7 +7391,7 @@ void menu_59_06(unsigned int value, int display)
 	} else if(value == ENTER_KEY) {
 			Screen_Position.y = 59;
 			Screen_Position.x = 7;
-			Screen_Position.select = 0;
+			Screen_Position.select = 1;
 			DGR.angle_set_temp = DGR.angle_set;
 	}
 }
@@ -7403,7 +7480,7 @@ void menu_59_09(unsigned int value, int display)
 		sprintf(str[1],"CURRENT  : %5.1f [A]\0",(float)(DGR.current_set_temp*0.1));
 	} else { //1A
 		sprintf(str[0],"67GD NEW SETTING : %c\0", ENTER);
-//	sprintf(str[1],"CURRENT  : %5.1f [A]\0",(float)(DGR.current_set_temp*0.1));
+		sprintf(str[1],"CURRENT  : %5.2f [A]\0",(float)(DGR.current_set_temp*0.01));
 	}
 
 	if(display) {
@@ -7698,7 +7775,7 @@ void menu_60_06(unsigned int value, int display)
 	} else if(value == ENTER_KEY) {
 			Screen_Position.y = 60;
 			Screen_Position.x = 7;
-			Screen_Position.select = 0;
+			Screen_Position.select = 1;
 			SGR.angle_set_temp = SGR.angle_set;
 	}
 }

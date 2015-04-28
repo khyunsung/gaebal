@@ -800,167 +800,55 @@
 #define ZCT_CRC         (unsigned int *)0x18a802
 //-------- FLASH MEMORY ADDRESS(SETTING VALUE) END
 
-
-
-
-//-------- FLASH MEMORY ADDRESS(SETTING VALUE) END
-
+//-------- 이전 FLASH MEMORY ADDRESS(MRAM으로 수정 필요)
 // Flash
-#define FLASH_5555			(unsigned int *)0x185555
-#define FLASH_2aaa			(unsigned int *)0x182aaa
-
 #define FLASH_SECTOR000 (unsigned int *)0x180000
 #define FLASH_WAVE_Ia   (unsigned int *)0x180000
-
-#define FLASH_SECTOR001 (unsigned int *)0x180800
-#define FLASH_SECTOR002 (unsigned int *)0x181000
-#define FLASH_SECTOR003 (unsigned int *)0x181800
-#define FLASH_SECTOR004 (unsigned int *)0x182000
-#define FLASH_SECTOR005 (unsigned int *)0x182800
-
-#define FLASH_SECTOR006 (unsigned int *)0x183000
 #define FLASH_WAVE_Ib   (unsigned int *)0x183000
-
-#define FLASH_SECTOR007 (unsigned int *)0x183800
-#define FLASH_SECTOR008 (unsigned int *)0x184000
-#define FLASH_SECTOR009 (unsigned int *)0x184800
-#define FLASH_SECTOR010 (unsigned int *)0x185000
-#define FLASH_SECTOR011 (unsigned int *)0x185800
-
-#define FLASH_SECTOR012 (unsigned int *)0x186000
 #define FLASH_WAVE_Ic   (unsigned int *)0x186000
-
-#define FLASH_SECTOR013 (unsigned int *)0x186800
-#define FLASH_SECTOR014 (unsigned int *)0x187000
-#define FLASH_SECTOR015 (unsigned int *)0x187800
-#define FLASH_SECTOR016 (unsigned int *)0x188000
-#define FLASH_SECTOR017 (unsigned int *)0x188800
-
-#define FLASH_SECTOR018 (unsigned int *)0x189000
 #define FLASH_WAVE_In   (unsigned int *)0x189000
-
-#define FLASH_SECTOR019 (unsigned int *)0x189800
-#define FLASH_SECTOR020 (unsigned int *)0x18a000
-#define FLASH_SECTOR021 (unsigned int *)0x18a800
-#define FLASH_SECTOR022 (unsigned int *)0x18b000
-#define FLASH_SECTOR023 (unsigned int *)0x18b800
-
-#define FLASH_SECTOR024 (unsigned int *)0x18c000
-#define FLASH_WAVE_Va  (unsigned int *)0x18c000
-
-#define FLASH_SECTOR025 (unsigned int *)0x18c800
-#define FLASH_SECTOR026 (unsigned int *)0x18d000
-#define FLASH_SECTOR027 (unsigned int *)0x18d800
-#define FLASH_SECTOR028 (unsigned int *)0x18e000
-#define FLASH_SECTOR029 (unsigned int *)0x18e800
-
-#define FLASH_SECTOR030 (unsigned int *)0x18f000
+#define FLASH_WAVE_Va		(unsigned int *)0x18c000
 #define FLASH_WAVE_Vb   (unsigned int *)0x18f000
-
-#define FLASH_SECTOR031 (unsigned int *)0x18f800
-#define FLASH_SECTOR032 (unsigned int *)0x190000
-#define FLASH_SECTOR033 (unsigned int *)0x190800
-#define FLASH_SECTOR034 (unsigned int *)0x191000
-#define FLASH_SECTOR035 (unsigned int *)0x191800
-
-#define FLASH_SECTOR036 (unsigned int *)0x192000
 #define FLASH_WAVE_Vc   (unsigned int *)0x192000
-
-#define FLASH_SECTOR037 (unsigned int *)0x192800
-#define FLASH_SECTOR038 (unsigned int *)0x193000
-#define FLASH_SECTOR039 (unsigned int *)0x193800
-#define FLASH_SECTOR040 (unsigned int *)0x194000
-#define FLASH_SECTOR041 (unsigned int *)0x194800
-
-#define FLASH_SECTOR042 (unsigned int *)0x195000
 #define FLASH_WAVE_Vn   (unsigned int *)0x195000
-
-#define FLASH_SECTOR043 (unsigned int *)0x195800
-#define FLASH_SECTOR044 (unsigned int *)0x196000
-#define FLASH_SECTOR045 (unsigned int *)0x196800
-#define FLASH_SECTOR046 (unsigned int *)0x197000
-#define FLASH_SECTOR047 (unsigned int *)0x197800
-
-#define FLASH_SECTOR048 (unsigned int *)0x198000
 #define FLASH_WAVE_RELAY (unsigned int *)0x198000
-
-#define FLASH_SECTOR049 (unsigned int *)0x198800
-
-#define FLASH_SECTOR050 (unsigned int *)0x199000
 #define FLASH_WAVE_DI   (unsigned int *)0x199000
-
-#define FLASH_SECTOR051 (unsigned int *)0x199800
-
-#define FLASH_SECTOR052 (unsigned int *)0x19a000
 #define FLASH_WAVE_DO   (unsigned int *)0x19a000
-
-#define FLASH_SECTOR053 (unsigned int *)0x19a800
 #define WAVE_WRITE_CHECK (unsigned int *)0x19AFFF
-
-#define FLASH_SECTOR054 (unsigned int *)0x19b000
-#define FLASH_SECTOR055 (unsigned int *)0x19b800
-#define FLASH_SECTOR056 (unsigned int *)0x19c000
-#define FLASH_SECTOR057 (unsigned int *)0x19c800
-#define FLASH_SECTOR058 (unsigned int *)0x19d000
-#define FLASH_SECTOR059 (unsigned int *)0x19d800
-#define FLASH_SECTOR060 (unsigned int *)0x19e000
 #define FLASH_CHECK_SECTOR (unsigned int *)0x19e000
+//-------- 이전 FLASH MEMORY ADDRESS END
 
-#define FLASH_SECTOR061 (unsigned int *)0x19e800
-#define FLASH_SECTOR062 (unsigned int *)0x19f000
-#define FLASH_SECTOR063 (unsigned int *)0x19f800
-#define FLASH_SECTOR064 (unsigned int *)0x1a0000
-#define FLASH_SECTOR065 (unsigned int *)0x1a0800
-#define FLASH_SECTOR066 (unsigned int *)0x1a1000
-#define FLASH_SECTOR067 (unsigned int *)0x1a1800
-#define FLASH_SECTOR068 (unsigned int *)0x1a2000
-#define FLASH_SECTOR069 (unsigned int *)0x1a2800
-#define FLASH_SECTOR070 (unsigned int *)0x1a3000
-
-
-//SRAM1 sector
+//-------- SRAM1 MEMORY ADDRESS
 #define Pre_Ia_wave_buffer      (unsigned int *)0x200000 // 150주기 5400word 0x1518
 #define Post_Ia_wave_buffer     (unsigned int *)0x201518 // 150주기
-
 #define Pre_Ib_wave_buffer      (unsigned int *)0x202a30 // 150주기 5400word 0x1518
 #define Post_Ib_wave_buffer     (unsigned int *)0x203f48 // 150주기
-
 #define Pre_Ic_wave_buffer      (unsigned int *)0x205460 // 150주기
 #define Post_Ic_wave_buffer     (unsigned int *)0x206978 // 150주기
-
 #define Pre_In_wave_buffer      (unsigned int *)0x207e90 // 150주기
 #define Post_In_wave_buffer     (unsigned int *)0x2093a8 // 150주기
-
 #define Pre_In2_wave_buffer     (unsigned int *)0x20a8c0 // 150주기
 #define Post_In2_wave_buffer    (unsigned int *)0x20bdd8 // 150주기
-                                                                   
 #define Pre_Is_wave_buffer      (unsigned int *)0x20d2f0 // 150주기
 #define Post_Is_wave_buffer     (unsigned int *)0x20e808 // 150주기
-                                                                   
 #define Pre_Va_wave_buffer      (unsigned int *)0x20fd20 // 150주기
 #define Post_Va_wave_buffer     (unsigned int *)0x211238 // 150주기
-                                                                   
 #define Pre_Vb_wave_buffer      (unsigned int *)0x212750 // 150주기
 #define Post_Vb_wave_buffer     (unsigned int *)0x213c68 // 150주기
-                                                                   
 #define Pre_Vc_wave_buffer      (unsigned int *)0x215180 // 150주기
 #define Post_Vc_wave_buffer     (unsigned int *)0x216698 // 150주기
-                                                                   
 #define Pre_Vn_wave_buffer      (unsigned int *)0x217bb0 // 150주기
 #define Post_Vn_wave_buffer     (unsigned int *)0x2190c8 // 150주기
-                                                                   
 #define Pre_relay_wave_buffer   (unsigned int *)0x21a5e0 // 150주기 -> 1800개 digital은 12개만
 #define Post_relay_wave_buffer  (unsigned int *)0x21ACE8 // 150주기 0x708
-
 #define Pre_DI_wave_buffer      (unsigned int *)0x21B3F0 // 150주기
 #define Post_DI_wave_buffer     (unsigned int *)0x21BAF8 // 150주기
-
 #define Pre_DO_wave_buffer      (unsigned int *)0x21C200 // 150주기
 #define Post_DO_wave_buffer     (unsigned int *)0x21C908 // 150주기
-
 #define Manager_tx_long         (unsigned int *)0x230000 // 0x2200
 #define Manager_tx_long_six     (unsigned int *)0x230006 // 0x2200
 #define Manager_tx_long_seven   (unsigned int *)0x230007 // 0x2200
+//-------- SRAM1 MEMORY ADDRESS END
 
 #define IO_Control							(unsigned int *)0x117001
 #define DI_CS										(unsigned int *)0x113001 
@@ -1006,9 +894,7 @@
 #define ebss_start (unsigned int *)0xc000 
 
 ///////////////////////////////////////////////////////////////
-//
 // DSP 운용에 관한 것
-//
 ///////////////////////////////////////////////////////////////
 // DO NOT MODIFY THIS LINE.
 #define CPU_RATE    6.667L   // for a 150MHz CPU clock speed (SYSCLKOUT)

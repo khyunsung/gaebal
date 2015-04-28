@@ -227,7 +227,7 @@ int ADC_low_Calibration(void)
 //	else															{CALIBRATION.low_temp[5] = DFT_Check(5, 5220, 6380);} //입력 5mA (5771.813)
 		else															{CALIBRATION.low_temp[5] = DFT_Check(5, 0, 6380);} 		//입력 1mA (?)
 	}
-	else
+	else //1A
 	{
 //		CALIBRATION.low_temp[0] = DFT_Check(0, 0.1, 0.3); //입력 0.2A
 //		CALIBRATION.low_temp[1] = DFT_Check(1, 0.1, 0.3); //입력 0.2A
