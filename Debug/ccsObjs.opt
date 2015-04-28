@@ -1,0 +1,1 @@
+"./system_setup.obj" "./system_isr.obj" "./setting.obj" "./relaying.obj" "./peripheral.obj" "./menu.obj" "./main.obj" "./comms.obj" "./calibration.obj" "./booting.obj" "./DSP2833x_usDelay.obj" "./DSP2833x_MemCopy.obj" "./DSP2833x_GlobalVariableDefs.obj" "./DSP2833x_CodeStartBranch.obj" -l"rts2800_fpu32.lib" "../DSP2833x_Headers_nonBIOS.cmd" "../F28335_XYZ.cmd" 
