@@ -102,8 +102,8 @@ unsigned int setting_save(unsigned int *ar_temp, unsigned int *ar_address, unsig
 //	EVENT.system_set |= OCR_MODE_SET_EVENT;
 //---------시스템요소 설정 이벤트 저장 END	
 	
-	if(ar_address < CT_PRIMARY)	{event_direct_save(&EVENT.relay_set);}
-	else												{event_direct_save(&EVENT.system_set);}
+//	if(ar_address < CT_PRIMARY)	{event_direct_save(&EVENT.relay_set);}
+//	else												{event_direct_save(&EVENT.system_set);}
 	return(1);
 }
 
