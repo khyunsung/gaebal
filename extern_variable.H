@@ -324,32 +324,31 @@ extern struct
 	unsigned int do_relay;
 	
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
+	unsigned int do_output;
+	unsigned int do_output_off;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 	
-	unsigned long Pickup_Count;
-	unsigned int Dropout_Count;
-	
+	unsigned long op_count;
 	unsigned int pickup_limit;
-	
 	unsigned long event_ready;
-	
-	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
+	unsigned int op_status;
 
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int mode_temp;
 	unsigned int current_set_temp;
 	unsigned int delay_time_temp;
 	unsigned int do_relay_temp;	
 
+	float Op_Ratio;
 	unsigned int Op_Phase;
-	float Op_Ratio;	
-	float Op_time;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } OCR50_1;
 
 extern struct
@@ -362,28 +361,31 @@ extern struct
 	unsigned int do_relay;
 	
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
+	unsigned int do_output;
+	unsigned int do_output_off;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 	
-	unsigned long Pickup_Count;
-	unsigned int Dropout_Count;
-	
+	unsigned long op_count;
 	unsigned int pickup_limit;
-	
 	unsigned long event_ready;
-	
-	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
+	unsigned int op_status;
 
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int mode_temp;
 	unsigned int current_set_temp;
 	unsigned int delay_time_temp;
 	unsigned int do_relay_temp;	
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } OCR50_2;
 
 extern struct
@@ -406,7 +408,7 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;            
 	
 	unsigned long event_ready;
@@ -440,7 +442,7 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;            
 	
 	unsigned long event_ready;
@@ -471,7 +473,7 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	unsigned int pickup_limit;
 	
@@ -507,7 +509,7 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
     
 	unsigned long event_ready;
@@ -537,7 +539,7 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	
 	unsigned long event_ready;
@@ -569,7 +571,7 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	
 	unsigned long event_ready;
@@ -601,7 +603,7 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	
 	unsigned long event_ready;
@@ -633,7 +635,7 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	
 	unsigned long event_ready;
@@ -663,7 +665,7 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	
 	unsigned long event_ready;
@@ -699,7 +701,7 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	
 	unsigned int pickup_limit;
@@ -738,7 +740,7 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	        
 	unsigned int pickup_limit;
@@ -775,7 +777,7 @@ extern struct
 	float Dropout_Threshold_Io; // 순서 지킬것
 	float Pickup_Threshold_Vo; // 순서 지킬것
 	float Dropout_Threshold_Vo; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	int angle_low;
 	int angle_high;
@@ -815,7 +817,7 @@ extern struct
 	float Dropout_Threshold_Io; // 순서 지킬것
 	float Pickup_Threshold_Vo; // 순서 지킬것
 	float Dropout_Threshold_Vo; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	int angle_low;
 	int angle_high;
@@ -839,12 +841,14 @@ extern struct
 extern struct
 {
 	unsigned int pickup;	
-	unsigned int operation;
-	unsigned int operation_sum;
+	unsigned int operation_realtime;
+	unsigned int operation_sum_holding;
+
 	unsigned long popup_property;
 	float popup_ratio;
 	unsigned long popup_optime;
 	unsigned int popup_mask;
+
 } RELAY_STATUS;
 
 //--------- SYSTEM VARIABLE

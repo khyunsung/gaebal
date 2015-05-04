@@ -322,69 +322,75 @@ void setting_post_handling(unsigned int *ar_address)
 		OCR50_1.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
 		
 		OCR50_1.op_status = RELAY_NORMAL;
-		OCR50_1.drop_status = DROPOUT_NORMAL;
-		
-		OCR50_1.do_output = 0;
-		for(i = 0; i < 9; i++)
-		{
-			if(OCR50_1.do_relay & (0x0001 << i))
-			OCR50_1.do_output |= DO_ON_BIT[i];
-		}
+		OCR50_1.Op_Ratio = 0.0;
+		OCR50_1.Op_Phase = 0;
+		OCR50_1.Op_Time = 0.0;
+
+//DO 정리 필요		
+//		OCR50_1.do_output = 0;
+//		for(i = 0; i < 9; i++)
+//		{
+//			if(OCR50_1.do_relay & (0x0001 << i))
+//			OCR50_1.do_output |= DO_ON_BIT[i];
+//		}
 		
 		if(OCR50_1.mode == DEFINITE)
 		{
-			OCR50_1.delay_ms = OCR50_1.delay_time * 10;
-			OCR50_1.delay_ms -= DEFINITE_PICKUP_LIMIT;
 			OCR50_1.pickup_limit = DEFINITE_PICKUP_LIMIT;
+			
+			OCR50_1.delay_ms = OCR50_1.delay_time * 10; //msec로 변환
+			OCR50_1.delay_ms = OCR50_1.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY;
 		}
 		else
 		{
-			OCR50_1.delay_ms = 7;
 			OCR50_1.pickup_limit = INSTANT_PICKUP_LIMIT;
+			OCR50_1.delay_ms = 7;
 		}
-		OCR50_1.event_ready = OCR50_1_SET_EVENT;
-		OCR50_1.event_ready |= (unsigned long)(OCR50_1.mode << 8);
+//	OCR50_1.event_ready = OCR50_1_SET_EVENT;
+//	OCR50_1.event_ready |= (unsigned long)(OCR50_1.mode << 8);
 		
-		RELAY_STATUS.pickup &= ~WAVE_OCR50_1_BIT;
-		RELAY_STATUS.operation &= ~WAVE_OCR50_1_BIT;
+		RELAY_STATUS.pickup							&= ~F_OCR50_1; //계전요소 alarm ON
+		RELAY_STATUS.operation_realtime	&= ~F_OCR50_1; //계전요소 현재 상태 변수
 	}
 
 	else if(ar_address == OCR50_2_USE)
 	{
 		OCR50_2.Pickup_Threshold = (float)OCR50_2.current_set;
 		OCR50_2.Pickup_Threshold *= 0.1;
-	
+		
 		OCR50_2.Dropout_Threshold = (float)OCR50_2.current_set;
 		OCR50_2.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
 		
 		OCR50_2.op_status = RELAY_NORMAL;
-		OCR50_2.drop_status = DROPOUT_NORMAL;
-		
-		OCR50_2.do_output = 0;
-		for(i = 0; i < 9; i++)
-		{
-			if(OCR50_2.do_relay & (0x0001 << i))
-			OCR50_2.do_output |= DO_ON_BIT[i];
-		}
+		OCR50_2.Op_Ratio = 0.0;
+		OCR50_2.Op_Phase = 0;
+		OCR50_2.Op_Time = 0.0;
 
+//DO 정리 필요		
+//		OCR50_2.do_output = 0;
+//		for(i = 0; i < 9; i++)
+//		{
+//			if(OCR50_2.do_relay & (0x0001 << i))
+//			OCR50_2.do_output |= DO_ON_BIT[i];
+//		}
+		
 		if(OCR50_2.mode == DEFINITE)
 		{
-			OCR50_2.delay_ms = OCR50_2.delay_time * 10;
-			OCR50_2.delay_ms -= DEFINITE_PICKUP_LIMIT;
 			OCR50_2.pickup_limit = DEFINITE_PICKUP_LIMIT;
+			
+			OCR50_2.delay_ms = OCR50_2.delay_time * 10; //msec로 변환
+			OCR50_2.delay_ms = OCR50_2.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY;
 		}
 		else
 		{
-			OCR50_2.delay_ms = 7;
 			OCR50_2.pickup_limit = INSTANT_PICKUP_LIMIT;
+			OCR50_2.delay_ms = 7;
 		}
-		OCR50_2.event_ready = OCR50_2_SET_EVENT;
-	
-		OCR50_2.event_ready |= (unsigned long)(OCR50_2.mode << 8);
+//	OCR50_2.event_ready = OCR50_2_SET_EVENT;
+//	OCR50_2.event_ready |= (unsigned long)(OCR50_2.mode << 8);
 		
-		RELAY_STATUS.pickup &= ~WAVE_OCR50_2_BIT;
-		RELAY_STATUS.operation &= ~WAVE_OCR50_2_BIT;
-		
+		RELAY_STATUS.pickup							&= ~F_OCR50_2; //계전요소 alarm ON
+		RELAY_STATUS.operation_realtime	&= ~F_OCR50_2; //계전요소 현재 상태 변수
 	}
 
 	else if(ar_address == OCR51_1_USE)
@@ -433,8 +439,8 @@ void setting_post_handling(unsigned int *ar_address)
 		OCR51_1.event_ready = OCR51_1_SET_EVENT;
 		OCR51_1.event_ready |= (unsigned long)(OCR51_1.mode << 8);
 		
-		RELAY_STATUS.pickup &= ~WAVE_OCR51_1_BIT;
-		RELAY_STATUS.operation &= ~WAVE_OCR51_1_BIT;
+		RELAY_STATUS.pickup							&= ~F_OCR51_1;
+		RELAY_STATUS.operation_realtime	&= ~F_OCR51_1;
 	}
 
 	else if(ar_address == OCR51_2_USE)
@@ -483,8 +489,8 @@ void setting_post_handling(unsigned int *ar_address)
 		OCR51_2.event_ready = OCR51_2_SET_EVENT;
 		OCR51_2.event_ready |= (unsigned long)(OCR51_2.mode << 8);
 		
-		RELAY_STATUS.pickup &= ~WAVE_OCR51_2_BIT;
-		RELAY_STATUS.operation &= ~WAVE_OCR51_2_BIT;
+		RELAY_STATUS.pickup							&= ~F_OCR51_2;
+		RELAY_STATUS.operation_realtime	&= ~F_OCR51_2;
 	}
 
 	else if(ar_address == OCGR50_USE)
@@ -522,8 +528,8 @@ void setting_post_handling(unsigned int *ar_address)
 		OCGR50.event_ready |= (unsigned long)(OCGR50.mode << 8);
 		OCGR50.event_ready |= 0x00000008;
 		
-		RELAY_STATUS.pickup &= ~WAVE_OCGR50_BIT;
-		RELAY_STATUS.operation &= ~WAVE_OCGR50_BIT;
+		RELAY_STATUS.pickup							&= ~F_OCGR50;
+		RELAY_STATUS.operation_realtime	&= ~F_OCGR50;
 	}
 
 	else if(ar_address == OCGR51_USE)
@@ -573,8 +579,8 @@ void setting_post_handling(unsigned int *ar_address)
 		OCGR51.event_ready |= (unsigned long)(OCGR51.mode << 8);
 		OCGR51.event_ready |= 0x00000008;
 		
-		RELAY_STATUS.pickup &= ~WAVE_OCGR51_BIT;
-		RELAY_STATUS.operation &= ~WAVE_OCGR51_BIT;
+		RELAY_STATUS.pickup							&= ~F_OCGR51;
+		RELAY_STATUS.operation_realtime	&= ~F_OCGR51;
 	}
 
 	else if(ar_address == UVR_1_USE)
@@ -604,8 +610,8 @@ void setting_post_handling(unsigned int *ar_address)
 		UVR_1.event_ready |= 0x00000100;
 		UVR_1.over_volt = 0;
 		
-		RELAY_STATUS.pickup &= ~WAVE_UVR_1_BIT;
-		RELAY_STATUS.operation &= ~WAVE_UVR_1_BIT;
+		RELAY_STATUS.pickup							&= ~F_RUVR;
+		RELAY_STATUS.operation_realtime	&= ~F_RUVR;
 		
 		do_release(&UVR_1.do_output_off);
 	}
@@ -639,8 +645,8 @@ void setting_post_handling(unsigned int *ar_address)
 		
 		UVR_2.over_volt = 0;
 		
-		RELAY_STATUS.pickup &= ~WAVE_UVR_2_BIT;
-		RELAY_STATUS.operation &= ~WAVE_UVR_2_BIT;
+		RELAY_STATUS.pickup							&= ~F_MUVR;
+		RELAY_STATUS.operation_realtime	&= ~F_MUVR;
 		
 		do_release(&UVR_2.do_output_off);
 	}
@@ -674,8 +680,8 @@ void setting_post_handling(unsigned int *ar_address)
 		
 		UVR_3.over_volt = 0;
 		
-		RELAY_STATUS.pickup &= ~WAVE_UVR_3_BIT;
-		RELAY_STATUS.operation &= ~WAVE_UVR_3_BIT;
+		RELAY_STATUS.pickup							&= ~F_SUVR;
+		RELAY_STATUS.operation_realtime	&= ~F_SUVR;
 		
 		do_release(&UVR_3.do_output_off);
 	}
@@ -707,8 +713,8 @@ void setting_post_handling(unsigned int *ar_address)
 		P47.event_ready = P47_SET_EVENT;
 		P47.event_ready |= 0x00000100;
 	
-		RELAY_STATUS.pickup &= ~WAVE_47P_BIT;
-		RELAY_STATUS.operation &= ~WAVE_47P_BIT;
+		RELAY_STATUS.pickup							&= ~F_P47;
+		RELAY_STATUS.operation_realtime	&= ~F_P47;
 	}
 
 	else if(ar_address == N47_USE)
@@ -738,8 +744,8 @@ void setting_post_handling(unsigned int *ar_address)
 		N47.event_ready = N47_SET_EVENT;
 		N47.event_ready |= 0x00000100;
 
-		RELAY_STATUS.pickup &= ~WAVE_47N_BIT;
-		RELAY_STATUS.operation &= ~WAVE_47N_BIT;
+		RELAY_STATUS.pickup							&= ~F_N47;
+		RELAY_STATUS.operation_realtime	&= ~F_N47;
 	}
 
 	else if(ar_address == OVR_USE)
@@ -787,8 +793,8 @@ void setting_post_handling(unsigned int *ar_address)
 		OVR.event_ready = OVR_SET_EVENT;
 		OVR.event_ready |= (unsigned long)(OVR.mode << 8);
 		
-		RELAY_STATUS.pickup &= ~WAVE_OVR_BIT;
-		RELAY_STATUS.operation &= ~WAVE_OVR_BIT;
+		RELAY_STATUS.pickup							&= ~F_OVR;
+		RELAY_STATUS.operation_realtime	&= ~F_OVR;
 	}
 
 	else if(ar_address == OVGR_USE)
@@ -834,8 +840,8 @@ void setting_post_handling(unsigned int *ar_address)
 		OVGR.event_ready |= (unsigned long)(OVGR.mode << 8);
 		OVGR.event_ready |= 0x00000008;
 		
-		RELAY_STATUS.pickup &= ~WAVE_OVGR_BIT;
-		RELAY_STATUS.operation &= ~WAVE_OVGR_BIT;
+		RELAY_STATUS.pickup							&= ~F_OVGR;
+		RELAY_STATUS.operation_realtime	&= ~F_OVGR;
 	}
 
 	else if(ar_address == DGR_USE)
@@ -897,8 +903,8 @@ void setting_post_handling(unsigned int *ar_address)
 		}
 		DGR.event_ready |= 0x00000100;
 		
-		RELAY_STATUS.pickup &= ~WAVE_DGR_BIT;
-		RELAY_STATUS.operation &= ~WAVE_DGR_BIT;
+		RELAY_STATUS.pickup							&= ~F_DGR;
+		RELAY_STATUS.operation_realtime	&= ~F_DGR;
 	}
 
 	else if(ar_address == SGR_USE)
@@ -960,8 +966,8 @@ void setting_post_handling(unsigned int *ar_address)
 		}
 		SGR.event_ready |= 0x00000100;
 		
-		RELAY_STATUS.pickup &= ~WAVE_SGR_BIT;
-		RELAY_STATUS.operation &= ~WAVE_SGR_BIT;
+		RELAY_STATUS.pickup							&= ~F_SGR;
+		RELAY_STATUS.operation_realtime	&= ~F_SGR;
 	}
 }
 

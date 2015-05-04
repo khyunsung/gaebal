@@ -12788,12 +12788,12 @@ void menu_152_03(unsigned int value, int display)
 	{
 		if(CORE.gr_select == NCT_SELECT)
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  HIGH LEVEL INPUT  \0");
 			sprintf(str[1]," APPLY 110V, 6A, 6A \0");
 		}
 		else
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  HIGH LEVEL INPUT  \0");
 			sprintf(str[1]," APPLY 110V,6A,10mA \0");
 		}
 	}
@@ -12801,12 +12801,12 @@ void menu_152_03(unsigned int value, int display)
 	{
 		if(CORE.gr_select == NCT_SELECT)
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  HIGH LEVEL INPUT  \0");
 			sprintf(str[1]," APPLY 110V, 2A, 2A \0");
 		}
 		else
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  HIGH LEVEL INPUT  \0");
 			sprintf(str[1]," APPLY 110V,2A,10mA \0");
 		}
 	}
@@ -12847,12 +12847,12 @@ void menu_152_04(unsigned int value, int display)
 	{
 		if(CORE.gr_select == NCT_SELECT)
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  LOW LEVEL INPUT   \0");
 			sprintf(str[1]," APPLY  10V, 1A, 1A \0");
 		}
 		else
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  LOW LEVEL INPUT   \0");
 			sprintf(str[1]," APPLY  10V, 1A,5mA \0");
 		}
 	}
@@ -12860,12 +12860,12 @@ void menu_152_04(unsigned int value, int display)
 	{
 		if(CORE.gr_select == NCT_SELECT)
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  LOW LEVEL INPUT   \0");
 			sprintf(str[1]," APPLY 10V,0.2A,0.2A\0");
 		}
 		else
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  LOW LEVEL INPUT   \0");
 			sprintf(str[1]," APPLY 10V,0.2A,5mA \0");
 		}
 	}

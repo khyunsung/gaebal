@@ -161,7 +161,7 @@ int ADC_High_Calibration(void)
 		CALIBRATION.high_temp[2] = DFT_Check(2, 1350, 1650); //입력 6A (1502~1510)
 		if(CORE.gr_select == NCT_SELECT)	{CALIBRATION.high_temp[3] = DFT_Check(3, 1350, 1650);} 		//입력 6A (1502~1510)
 //	else															{CALIBRATION.high_temp[5] = DFT_Check(5, 10800, 13200);} //입력 10mA (11963.45)
-		else															{CALIBRATION.high_temp[5] = DFT_Check(5, 0, 13200);} 			//입력 10mA (11963.45)
+		else															{CALIBRATION.high_temp[5] = DFT_Check(5, 0, 50000);} 			//입력 10mA (11963.45)
 	}
 	else
 	{
@@ -225,7 +225,7 @@ int ADC_low_Calibration(void)
 		CALIBRATION.low_temp[2] = DFT_Check(2, 225, 275); //입력 1A (249~251)
 		if(CORE.gr_select == NCT_SELECT)	{CALIBRATION.low_temp[3] = DFT_Check(3, 225, 275);} //입력 1A (249~251)
 //	else															{CALIBRATION.low_temp[5] = DFT_Check(5, 5220, 6380);} //입력 5mA (5771.813)
-		else															{CALIBRATION.low_temp[5] = DFT_Check(5, 0, 6380);} 		//입력 1mA (?)
+		else															{CALIBRATION.low_temp[5] = DFT_Check(5, 0, 50000);} 		//입력 1mA (?)
 	}
 	else //1A
 	{

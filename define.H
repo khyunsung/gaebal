@@ -77,6 +77,38 @@
 #define  HIMIX_SEND  *GpioIntRegs_GPBSET_High |= 0x0400
 #define  HIMIX_STOP  *GpioIntRegs_GPBCLEAR_High |= 0x0400
 
+#define F_OCR50_1         0x00000001
+#define F_OCR50_2         0x00000002
+#define F_OCR51_1         0x00000004
+#define F_OCR51_2         0x00000008
+#define F_OCGR50          0x00000010
+#define F_OCGR51          0x00000020
+#define F_RUVR            0x00000040
+#define F_MUVR            0x00000080
+#define F_SUVR            0x00000100
+#define F_P47             0x00000200
+#define F_N47             0x00000400
+#define F_OVR             0x00000800
+#define F_OVGR            0x00001000
+#define F_DGR             0x00002000
+#define F_SGR             0x00004000
+//#define CBM             0x00008000
+//#define CBM2            0x00010000
+//#define SYSCH           0x00020000
+//#define CAI             0x00040000
+//#define CAV             0x00080000
+//#define CAS             0x00100000
+//#define DGR2            0x00200004
+//#define SGR2            0x00200008
+//#define RLYSET          0x00400000
+//#define SYSSET          0x00800000
+//#define COMFLAG         0x01000000
+//#define TIMESET         0x02000000
+//#define PASSSET         0x04000000
+//#define CBSET           0x08000000
+//#define SYSASET         0x10000000
+//#define SETUVR          0x20000000
+
 // relay 동작 상태
 #define RELAY_NORMAL      0
 #define RELAY_DETECT      1
@@ -152,12 +184,15 @@
 #define IEC_EINV_c    0
 
 //#define INSTANT_PICKUP_LIMIT   18
-#define INSTANT_PICKUP_LIMIT   8
-#define DEFINITE_PICKUP_LIMIT  30
+#define INSTANT_PICKUP_LIMIT   12
+#define DEFINITE_PICKUP_LIMIT  5
 #define INVERSE_PICKUP_LIMIT   30
 #define DROPOUT_LIMIT          8
-
-#define DO_CONTACT_TIME        10
+#define TOTAL_DELAY			       25 // 총 계전기 동작 시간 = RMS_CAL_TIME + ALGORITHM_TIME(LOGIC_DELAY_TIME + PICKUP_DELAY + WAITING DELAY) + DO_CONTACT_TIME
+																	// 여기에서 TOTAL_DELAY = 상수 변수인 RMS_CAL_TIME + DO_CONTACT_TIME + LOGIC_DELAY_TIME;
+//#define DO_CONTACT_TIME        10 //MAX 15msec 
+//#define RMS_CAL_TIME					 12 //MIN 6~7msec, MAX18~20msec	
+//#define LOGIC_DELAY_TIME			 3	//OCR(inst, def의 경우) 3msec
 
 #define Ia   0
 #define Ib   1
@@ -245,8 +280,6 @@
 #define DT_66           23
 #define DT_51LR         24
 #define DT_48           25
-
-
 
 #define WAVE_OCR50_1_BIT  0x0001
 #define WAVE_OCR50_2_BIT  0x0002

@@ -847,64 +847,59 @@ interrupt void TINT1_ISR(void)
 	++HIMIX.timer; // himix 송신 시간간격 계산용 timer
 
 	// 계전요소 pickup, op, dropout 계산용 타이머
-	// OCR50-1
-	++OCR50_1.Pickup_Count;
-	++OCR50_1.Dropout_Count;
-
-	// OCR50-2
-	++OCR50_2.Pickup_Count;	
-	++OCR50_2.Dropout_Count;
+	++OCR50_1.op_count;	// OCR50-1
+	++OCR50_2.op_count;	// OCR50-2
 
 	// OCR51-1
-	++OCR51_1.Pickup_Count;
+	++OCR51_1.op_count;
 	++OCR51_1.Dropout_Count;
 	
 	// OCR51-2
-	++OCR51_2.Pickup_Count;
+	++OCR51_2.op_count;
 	++OCR51_2.Dropout_Count;
 
 	// OCGR50
-	++OCGR50.Pickup_Count;
+	++OCGR50.op_count;
 	++OCGR50.Dropout_Count;
 
 	// OCGR51
-	++OCGR51.Pickup_Count;	
+	++OCGR51.op_count;	
 	++OCGR51.Dropout_Count;
 
 	// UVR-1
-	++UVR_1.Pickup_Count;
+	++UVR_1.op_count;
 	++UVR_1.Dropout_Count;
 
 	// UVR-2
-	++UVR_2.Pickup_Count;	
+	++UVR_2.op_count;	
 	++UVR_2.Dropout_Count;
 	
 	// UVR-3
-	++UVR_3.Pickup_Count;
+	++UVR_3.op_count;
 	++UVR_3.Dropout_Count;
 	
 	// 47P
-	++P47.Pickup_Count;	
+	++P47.op_count;	
 	++P47.Dropout_Count;
 	
 	// 47N
-	++N47.Pickup_Count;
+	++N47.op_count;
 	++N47.Dropout_Count;
 	
 	// OVR
-	++OVR.Pickup_Count;
+	++OVR.op_count;
 	++OVR.Dropout_Count;
 	
 	// OVGR
-	++OVGR.Pickup_Count;	
+	++OVGR.op_count;	
 	++OVGR.Dropout_Count;
 
 	// DGR
-	++DGR.Pickup_Count;
+	++DGR.op_count;
 	++DGR.Dropout_Count;
 
 	// SGR
-	++SGR.Pickup_Count;
+	++SGR.op_count;
 	++SGR.Dropout_Count;
 
 	// R-Hour용 타이머

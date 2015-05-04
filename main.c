@@ -191,7 +191,7 @@ void real_main(void)
 		// cb trip 들어가 있으면
 		if(SYSTEM.do_control & 0x0008)
 		{
-			if((RELAY_STATUS.pickup == 0) && (RELAY_STATUS.operation == 0))
+			if((RELAY_STATUS.pickup == 0) && (RELAY_STATUS.operation_realtime == 0))
 			{
 				// cb trip 해제
 				//cb open이 명백하거나 타이머 넘었을경우
