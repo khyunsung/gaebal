@@ -1621,12 +1621,7 @@ void booting_setting_check(void)
 
 //-------- LED, DO 초기화
 	SYSTEM.led_on = OP_LED;	// op led on
-	
-	SYSTEM.do_control = 0x0080;	// 7번 Self relay를 normal B접점을 A접점으로 만들어 줌
 
-	// lockout 상태 읽기
-	if(*GpioIntRegs_GPBDAT_High & 0x0020)	{SYSTEM.do_control |= 0x0040;}	// 86 open
-	else																	{SYSTEM.do_control |= 0x0010;}	// 86 close
 //-------- LED, DO 초기화 END
 
 	// 샘플 필터링 활성 화

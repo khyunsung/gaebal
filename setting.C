@@ -396,48 +396,52 @@ void setting_post_handling(unsigned int *ar_address)
 	else if(ar_address == OCR51_1_USE)
 	{
 		OCR51_1.Pickup_Threshold = (float)OCR51_1.current_set;
-		OCR51_1.Pickup_Threshold *= 0.102; // 0.102 = 0.1 * 1.02
+		OCR51_1.Pickup_Threshold *= 0.1;
 	
 		OCR51_1.Dropout_Threshold = (float)OCR51_1.current_set;
 		OCR51_1.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
 		
 		OCR51_1.op_status = RELAY_NORMAL;
-		OCR51_1.drop_status = DROPOUT_NORMAL;
-		
-		OCR51_1.do_output = 0;
-		for(i = 0; i < 9; i++)
-		{
-			if(OCR51_1.do_relay & (0x0001 << i))
-			OCR51_1.do_output |= DO_ON_BIT[i];
-		}
+		OCR51_1.Op_Ratio = 0.0;
+		OCR51_1.Op_Phase = 0;
+		OCR51_1.Op_Time = 0.0;
 	
-		OCR51_1.setting = (float)OCR51_1.current_set;		
-		OCR51_1.setting *= 0.1;
-		
-		if(CORE.rated_ct != CT_1A)
-		OCR51_1.setting *= 5;
+//DO 정리 필요		
+//		OCR51_1.do_output = 0;
+//		for(i = 0; i < 9; i++)
+//		{
+//			if(OCR51_1.do_relay & (0x0001 << i))
+//			OCR51_1.do_output |= DO_ON_BIT[i];
+//		}
+		OCR51_1.pickup_limit = INVERSE_PICKUP_LIMIT;
+
+//		OCR51_1.setting = (float)OCR51_1.current_set;		
+//		OCR51_1.setting *= 0.1;
+//		
+//		if(CORE.rated_ct != CT_1A)
+//		OCR51_1.setting *= 5;
+//	
+//		OCR51_1.Mbyk = (float)OCR51_1.time_lever;
+//		OCR51_1.Mbyk *= 0.01;
+//		
+//		if(OCR51_1.mode == INVERSE)
+//		{
+//			OCR51_1.Mbyk *= IEC_INV_k;
+//			OCR51_1.a = IEC_INV_a;
+//		}
+//		else if(OCR51_1.mode == V_INVERSE)
+//		{
+//			OCR51_1.Mbyk *= IEC_VINV_k;
+//			OCR51_1.a = IEC_VINV_a;
+//		}
+//		else
+//		{
+//			OCR51_1.Mbyk *= IEC_EINV_k;
+//			OCR51_1.a = IEC_EINV_a;
+//		}
 	
-		OCR51_1.Mbyk = (float)OCR51_1.time_lever;
-		OCR51_1.Mbyk *= 0.01;
-		
-		if(OCR51_1.mode == INVERSE)
-		{
-			OCR51_1.Mbyk *= IEC_INV_k;
-			OCR51_1.a = IEC_INV_a;
-		}
-		else if(OCR51_1.mode == V_INVERSE)
-		{
-			OCR51_1.Mbyk *= IEC_VINV_k;
-			OCR51_1.a = IEC_VINV_a;
-		}
-		else
-		{
-			OCR51_1.Mbyk *= IEC_EINV_k;
-			OCR51_1.a = IEC_EINV_a;
-		}
-	
-		OCR51_1.event_ready = OCR51_1_SET_EVENT;
-		OCR51_1.event_ready |= (unsigned long)(OCR51_1.mode << 8);
+//	OCR51_1.event_ready = OCR51_1_SET_EVENT;
+//	OCR51_1.event_ready |= (unsigned long)(OCR51_1.mode << 8);
 		
 		RELAY_STATUS.pickup							&= ~F_OCR51_1;
 		RELAY_STATUS.operation_realtime	&= ~F_OCR51_1;

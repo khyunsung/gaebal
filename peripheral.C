@@ -550,6 +550,7 @@ void key_drive(void)
 					}
 				}
 			}
+
 			else if((SYSTEM.pushed_key == CB_ON_KEY) || (SYSTEM.pushed_key == CB_OFF_KEY))	// cb on/off
 			{
  //2015.02.25

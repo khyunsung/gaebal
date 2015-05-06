@@ -408,19 +408,25 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long op_count;
-	unsigned int Dropout_Count;            
-	
-	unsigned long event_ready;
-	
-	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
 
+	unsigned long op_count;
+	unsigned int pickup_limit;
+	unsigned long event_ready;
+	unsigned int op_status;
+
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int mode_temp;
 	unsigned int current_set_temp;
 	unsigned int time_lever_temp;
 	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } OCR51_1;
 
 extern struct
@@ -871,6 +877,12 @@ extern struct
 	unsigned long pt_primary_temp;
 	unsigned int rated_current_temp;
 } CPT;
+
+extern struct
+{
+	unsigned int manual_relay_test;
+	unsigned int manual_do_out;
+} AUX_RELAY_TEST;
 
 extern struct
 {

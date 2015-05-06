@@ -339,6 +339,79 @@ void OCR50_2_RELAY(void)
 		}
 	}
 }
+
+void OCR51_1_RELAY(void)
+{
+	if(OCR51_1.use == 0xaaaa)
+	{
+		// 선택 di on일 때 유효
+//	if((SYSTEM_SET.ocr_mode == OCR_TURN) && ((DIGITAL_INPUT.di_status & SYSTEM_SET.ocr_di_mask) == 0x0000))
+		if(PROTECT.Max_RMS > OCR51_1.Pickup_Threshold)
+		{
+			if(OCR51_1.op_status == RELAY_NORMAL)
+			{
+				OCR51_1.op_status = RELAY_DETECT;
+				OCR51_1.op_count = 0;
+			}
+			else if(OCR51_1.op_status == RELAY_DETECT)
+			{
+				if(OCR51_1.op_count > OCR51_1.pickup_limit)
+				{	
+					OCR51_1.op_status = RELAY_PICKUP;
+					RELAY_STATUS.pickup |= F_OCR51_1;  //alarm ON
+					OCR51_1.Pickup_Time = OCR51_1.op_count;
+					OCR51_1.op_count = 0;
+				}
+			}
+			else if(OCR51_1.op_status == RELAY_PICKUP)
+			{
+				OCR51_1.Op_Ratio	= PROTECT.Max_RMS / OCR51_1.Pickup_Threshold;
+
+				OCR51_1.Op_Time_set = Inverse_GetDelayTime(OCR51_1.mode, OCR51_1.time_lever, OCR51_1.Op_Ratio);
+				OCR51_1.Op_Time_set -= (INVERSE_PICKUP_LIMIT+TOTAL_DELAY_51);
+				if(OCR51_1.op_count > OCR51_1.Op_Time_set)
+				{
+					OCR51_1.op_status	= RELAY_TRIP;
+					OCR51_1.Op_Ratio	= PROTECT.Max_RMS / OCR51_1.Pickup_Threshold; //배수
+					OCR51_1.Op_Phase	= PROTECT.Op_Phase; //상
+					OCR51_1.Delay_Time = OCR51_1.op_count;
+					OCR51_1.Op_Time		= OCR51_1.Delay_Time + OCR51_1.Pickup_Time + TOTAL_DELAY_51; //동작 시간
+
+//				SYSTEM.do_control &= 0xff9f; //DO operation //원래 수정해야 함
+//				SYSTEM.do_control |= OCR51_1.do_output;
+//				OCR51_1.do_output_off = OCR51_1.do_output; //DO backup
+					DO_Output(0x0008); //test 용
+					TIMER.cb_open = 0;
+
+					RELAY_STATUS.pickup									&= ~F_OCR51_1; //계전요소 alarm OFF
+					RELAY_STATUS.operation_realtime			|= F_OCR51_1;  //현재 동작 상태 변수 설정
+					RELAY_STATUS.operation_sum_holding	|= F_OCR51_1;  //누적 동작 상태 변수 설정
+					
+//				Save_Screen_Info(); //POP UP 해제가 안되서 일단 막음
+				}
+			}
+		}
+		else
+		{
+			if(PROTECT.Max_RMS < OCR51_1.Dropout_Threshold)  //under 99%
+			{
+				if((OCR51_1.op_status == RELAY_DETECT) || (OCR51_1.op_status == RELAY_PICKUP))
+				{
+					OCR51_1.op_status = RELAY_NORMAL;
+					RELAY_STATUS.pickup &= ~F_OCR51_1; //계전요소 alarm OFF
+				}
+				else if(OCR51_1.op_status == RELAY_TRIP)
+				{
+					OCR51_1.op_status = RELAY_NORMAL; //50_1상태 NORMAL
+					//do_release(&OCR51_1.do_output_off); //DO open
+					DO_Output(0x0000); //DO open, test 용
+					RELAY_STATUS.operation_realtime &= ~F_OCR51_1; //동작 상태 변수 해제
+				}
+			}
+		}
+	}
+}
+
 void protective_relay(void)
 {
 	float compare_value = 0.0;
@@ -357,8 +430,10 @@ void protective_relay(void)
 	}
 
 	// OCR50-1
-//OCR50_1_RELAY();
-	OCR50_2_RELAY();
+	OCR50_1_RELAY();
+//OCR50_2_RELAY();
+//OCR51_1_RELAY();
+
 //	if(OCR50_1.use == 0xaaaa)
 //	{
 //		// 선택 di on일 때 유효
@@ -470,62 +545,62 @@ void protective_relay(void)
 //	}
 
 	// OCR51-1
-	if(OCR51_1.use == 0xaaaa)
-	{
-		if((SYSTEM_SET.ocr_mode == OCR_TURN) && (DIGITAL_INPUT.di_status == 0))
-//		goto R3;
-		
-		// 삼상 중 하나라도 크면
-		if((MEASUREMENT.rms_value[Ia] >= OCR51_1.Pickup_Threshold) || (MEASUREMENT.rms_value[Ib] >= OCR51_1.Pickup_Threshold) || (MEASUREMENT.rms_value[Ic] >= OCR51_1.Pickup_Threshold))
-		{
-			// 최초
-			if(OCR51_1.op_status == RELAY_NORMAL)
-			relay_normal_to_detect(&OCR51_1.op_count, &OCR51_1.op_status);
-			
-			// 대기
-			else if(OCR51_1.op_status == RELAY_DETECT)
-			{
-				if(OCR51_1.op_count > INVERSE_PICKUP_LIMIT)
-				{	
-					compare_value = over_phase_value_check(Ia, OCR51_1.Pickup_Threshold, &OCR51_1.event_ready);
-			
-					relay_detect_to_pickup(&OCR51_1.op_count, &OCR51_1.op_status, OCR51_1.event_ready, WAVE_OCR51_1_BIT);
-				}
-			}
-		
-			else if(OCR51_1.op_status == RELAY_PICKUP)
-			{
-				OCR51_1.Op_Time_set = Inverse_Op_Timeset(Ia, OCR51_1.setting, OCR51_1.Mbyk, OCR51_1.a);
-				
-				
-				// 동작
-				if(OCR51_1.op_count > OCR51_1.Op_Time_set)
-				{
-					compare_value = over_phase_value_check(Ia, OCR51_1.Pickup_Threshold, &OCR51_1.event_ready);
-				
-					EVENT.optime = OCR51_1.op_count + INVERSE_PICKUP_LIMIT;
-					relay_pickup_to_operation(&OCR51_1.do_output, WAVE_OCR51_1_BIT, compare_value, OCR51_1.event_ready, &OCR51_1.op_status);
-				}
-			}
-		}				
-	
-		// dropout
-		if((MEASUREMENT.rms_value[Ia] < OCR51_1.Dropout_Threshold) &&
-	   	   (MEASUREMENT.rms_value[Ib] < OCR51_1.Dropout_Threshold) &&
-	   	   (MEASUREMENT.rms_value[Ic] < OCR51_1.Dropout_Threshold))
-		{
-			// 사고난 후에 작동하라는 의미
-			if((OCR51_1.drop_status == DROPOUT_NORMAL) && (OCR51_1.op_status != RELAY_NORMAL))
-			relay_opeartion_to_dropout(&OCR51_1.Dropout_Count, &OCR51_1.drop_status);
-			
-			// 8ms 쳐다 봄
-			else if(OCR51_1.drop_status == DROPOUT_DETECT)
-			{
-				if(OCR51_1.Dropout_Count > DROPOUT_LIMIT)
-				relay_dropout_to_normal(&OCR51_1.event_ready, &OCR51_1.op_status, WAVE_OCR51_1_BIT, &OCR51_1.do_output_off);
-			}
-		}
-	}
+//	if(OCR51_1.use == 0xaaaa)
+//	{
+//		if((SYSTEM_SET.ocr_mode == OCR_TURN) && (DIGITAL_INPUT.di_status == 0))
+////		goto R3;
+//		
+//		// 삼상 중 하나라도 크면
+//		if((MEASUREMENT.rms_value[Ia] >= OCR51_1.Pickup_Threshold) || (MEASUREMENT.rms_value[Ib] >= OCR51_1.Pickup_Threshold) || (MEASUREMENT.rms_value[Ic] >= OCR51_1.Pickup_Threshold))
+//		{
+//			// 최초
+//			if(OCR51_1.op_status == RELAY_NORMAL)
+//			relay_normal_to_detect(&OCR51_1.op_count, &OCR51_1.op_status);
+//			
+//			// 대기
+//			else if(OCR51_1.op_status == RELAY_DETECT)
+//			{
+//				if(OCR51_1.op_count > INVERSE_PICKUP_LIMIT)
+//				{	
+//					compare_value = over_phase_value_check(Ia, OCR51_1.Pickup_Threshold, &OCR51_1.event_ready);
+//			
+//					relay_detect_to_pickup(&OCR51_1.op_count, &OCR51_1.op_status, OCR51_1.event_ready, WAVE_OCR51_1_BIT);
+//				}
+//			}
+//		
+//			else if(OCR51_1.op_status == RELAY_PICKUP)
+//			{
+//				OCR51_1.Op_Time_set = Inverse_Op_Timeset(Ia, OCR51_1.setting, OCR51_1.Mbyk, OCR51_1.a);
+//				
+//				
+//				// 동작
+//				if(OCR51_1.op_count > OCR51_1.Op_Time_set)
+//				{
+//					compare_value = over_phase_value_check(Ia, OCR51_1.Pickup_Threshold, &OCR51_1.event_ready);
+//				
+//					EVENT.optime = OCR51_1.op_count + INVERSE_PICKUP_LIMIT;
+//					relay_pickup_to_operation(&OCR51_1.do_output, WAVE_OCR51_1_BIT, compare_value, OCR51_1.event_ready, &OCR51_1.op_status);
+//				}
+//			}
+//		}				
+//	
+//		// dropout
+//		if((MEASUREMENT.rms_value[Ia] < OCR51_1.Dropout_Threshold) &&
+//	   	   (MEASUREMENT.rms_value[Ib] < OCR51_1.Dropout_Threshold) &&
+//	   	   (MEASUREMENT.rms_value[Ic] < OCR51_1.Dropout_Threshold))
+//		{
+//			// 사고난 후에 작동하라는 의미
+//			if((OCR51_1.drop_status == DROPOUT_NORMAL) && (OCR51_1.op_status != RELAY_NORMAL))
+//			relay_opeartion_to_dropout(&OCR51_1.Dropout_Count, &OCR51_1.drop_status);
+//			
+//			// 8ms 쳐다 봄
+//			else if(OCR51_1.drop_status == DROPOUT_DETECT)
+//			{
+//				if(OCR51_1.Dropout_Count > DROPOUT_LIMIT)
+//				relay_dropout_to_normal(&OCR51_1.event_ready, &OCR51_1.op_status, WAVE_OCR51_1_BIT, &OCR51_1.do_output_off);
+//			}
+//		}
+//	}
 
 	// OCR51-2
 	if(OCR51_2.use == 0xaaaa)
@@ -1211,152 +1286,36 @@ unsigned long Inverse_Op_Timeset(unsigned int ar_channel, float ar_setting, floa
 		if(MEASUREMENT.rms_value[ar_channel + 2] > compare_value)
 		compare_value = MEASUREMENT.rms_value[ar_channel + 2];
 	}
+	else	{compare_value = MEASUREMENT.rms_value[ar_channel];} 	//Io, Vo
 	
-	//Io, Vo
-	else
-	compare_value = MEASUREMENT.rms_value[ar_channel];
-	
-	
-					
-	// 동작 시간 계산
-	float_temp = pow((compare_value / ar_setting), ar_a);
-					
+	float_temp = pow((compare_value / ar_setting), ar_a); // 동작 시간 계산
 	float_temp -= 1;
-					
 	float_temp2 = ar_mbyk / float_temp;
-					
-	// 총 동작 시간에서 17ms 까먹은 거 감안
-	float_temp2 *= 1000;
-				
+	float_temp2 *= 1000; // 총 동작 시간에서 17ms 까먹은 거 감안
 	float_temp2 -= 30;
-				
 	return((unsigned long)float_temp2);
 }
 
-//2015.02.25
-//void h50_pickup_process(void)
-//{
-//	float compare_value = 0;
-//	unsigned int phase_temp = 0;
-//	
-//	// 최초
-//	if(H50.op_status == RELAY_NORMAL)
-//	relay_normal_to_detect(&H50.op_count, &H50.op_status);
-//	
-//	// 대기
-//	else if(H50.op_status == RELAY_DETECT)
-//	{
-//		if(H50.op_count > INSTANT_PICKUP_LIMIT)
-//		{	
-//			if(H50.mode == KEPCO_TYPE)
-//			{
-//				if((MEASUREMENT.rms_value[Ia] <= H50.Pickup_Threshold) && (MEASUREMENT.rms_value[Ia] >= MOTOR.flc_k_Pickup_Threshold))
-//				phase_temp = 0x0001;
-//				
-//				if((MEASUREMENT.rms_value[Ib] <= H50.Pickup_Threshold) && (MEASUREMENT.rms_value[Ib] >= MOTOR.flc_k_Pickup_Threshold))
-//				phase_temp |= 0x0002;
-//				
-//				if((MEASUREMENT.rms_value[Ic] <= H50.Pickup_Threshold) && (MEASUREMENT.rms_value[Ic] >= MOTOR.flc_k_Pickup_Threshold))
-//				phase_temp |= 0x0004;
-//			}
-//			
-//			else
-//			{
-//				if(MEASUREMENT.rms_value[Ia] >= H50.Pickup_Threshold)
-//				phase_temp = 0x0001;
-//				
-//				if(MEASUREMENT.rms_value[Ib] >= H50.Pickup_Threshold)
-//				phase_temp |= 0x0002;
-//				
-//				if(MEASUREMENT.rms_value[Ic] >= H50.Pickup_Threshold)
-//				phase_temp |= 0x0004;
-//			}
-//	               
-//			H50.event_ready &= 0xffffff00;
-//			H50.event_ready |= (unsigned long)phase_temp;
-//					
-//			relay_detect_to_pickup(&H50.op_count, &H50.op_status, H50.event_ready, WAVE_50H_BIT);
-//		}
-//	}
-//	
-//	else if(H50.op_status == RELAY_PICKUP)
-//	{
-//		// 동작
-//		if(H50.op_count > 7)
-//		{
-//			if(H50.mode == KEPCO_TYPE)
-//			{
-//				if((MEASUREMENT.rms_value[Ia] <= H50.Pickup_Threshold) && (MEASUREMENT.rms_value[Ia] >= MOTOR.flc_k_Pickup_Threshold))
-//				{
-//					phase_temp = 0x0001;
-//						
-//					compare_value = MEASUREMENT.rms_value[Ia];
-//				}
-//				
-//				if((MEASUREMENT.rms_value[Ib] <= H50.Pickup_Threshold) && (MEASUREMENT.rms_value[Ib] >= MOTOR.flc_k_Pickup_Threshold))
-//				{
-//					phase_temp |= 0x0002;
-//					
-//					if(MEASUREMENT.rms_value[Ib] > compare_value)
-//					compare_value = MEASUREMENT.rms_value[Ib];
-//				}
-//				
-//				if((MEASUREMENT.rms_value[Ic] <= H50.Pickup_Threshold) && (MEASUREMENT.rms_value[Ic] >= MOTOR.flc_k_Pickup_Threshold))
-//				{
-//					phase_temp |= 0x0004;
-//						
-//					if(MEASUREMENT.rms_value[Ic] > compare_value)
-//					compare_value = MEASUREMENT.rms_value[Ic];
-//				}
-//			}
-//				
-//			else
-//			{
-//				if(MEASUREMENT.rms_value[Ia] >= H50.Pickup_Threshold)
-//				{
-//					phase_temp = 0x0001;
-//						
-//					compare_value = MEASUREMENT.rms_value[Ia];
-//				}
-//				
-//				if(MEASUREMENT.rms_value[Ib] >= H50.Pickup_Threshold)
-//				{
-//					phase_temp |= 0x0002;
-//						
-//					if(MEASUREMENT.rms_value[Ib] > compare_value)
-//					compare_value = MEASUREMENT.rms_value[Ib];
-//				}
-//				
-//				if(MEASUREMENT.rms_value[Ic] >= H50.Pickup_Threshold)
-//				{
-//					phase_temp |= 0x0004;
-//						
-//					if(MEASUREMENT.rms_value[Ic] > compare_value)
-//					compare_value = MEASUREMENT.rms_value[Ic];
-//				}
-//			}
-//				
-//			H50.event_ready &= 0xffffff00;
-//			H50.event_ready |= phase_temp;
-//					
-//			compare_value /= H50.Pickup_Threshold;
-//					
-//			EVENT.optime = H50.op_count + INSTANT_PICKUP_LIMIT;
-//			relay_pickup_to_operation(&H50.do_output, WAVE_50H_BIT, compare_value, H50.event_ready, &H50.op_status);
-//		}
-//	}
-//}
-//
-//void h50_dropout_process(void)
-//{
-//	// 사고난 후에 작동하라는 의미
-//	if((H50.drop_status == DROPOUT_NORMAL) && (H50.op_status != RELAY_NORMAL))
-//	relay_opeartion_to_dropout(&H50.Dropout_Count, &H50.drop_status);
-//	
-//	else if(H50.drop_status == DROPOUT_DETECT)
-//	{
-//		if(H50.Dropout_Count > DROPOUT_LIMIT)
-//		relay_dropout_to_normal(&H50.event_ready, &H50.op_status, WAVE_50H_BIT, &H50.do_output_off);
-//	}
-//}
-//2015.02.25 END
+unsigned long Inverse_GetDelayTime(int mode, float OP_level, float Ratio)
+{
+	float DelayTime;
+
+	OP_level *= 0.01; 
+	switch(mode)
+	{
+		case  INVERSE:								//Normal inverse type
+				DelayTime=(0.14/(pow(Ratio,0.02)-1))*OP_level;
+				break;
+		case  V_INVERSE:								//Very inverse type
+				DelayTime=(13.5/(pow(Ratio,1.0)-1))*OP_level;
+				break;
+		case  E_INVERSE:								//Extremely inverse type
+				DelayTime=(80.0/(pow(Ratio,2.0)-1))*OP_level;
+				break;
+		default:
+				break;
+	}
+	return((unsigned long)(DelayTime * 1000.));
+}
+
+

@@ -73,6 +73,7 @@ extern void display_time(unsigned int *);
 extern void rtc_handling(void);
 
 extern unsigned long Inverse_Op_Timeset(unsigned int, float, float, float);
+extern unsigned long Inverse_GetDelayTime(int, float, float);
 
 extern void eerom_control(unsigned int, unsigned int);
 extern void eerom_write(unsigned int, void *);

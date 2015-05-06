@@ -849,10 +849,7 @@ interrupt void TINT1_ISR(void)
 	// 계전요소 pickup, op, dropout 계산용 타이머
 	++OCR50_1.op_count;	// OCR50-1
 	++OCR50_2.op_count;	// OCR50-2
-
-	// OCR51-1
-	++OCR51_1.op_count;
-	++OCR51_1.Dropout_Count;
+	++OCR51_1.op_count; // OCR51-1
 	
 	// OCR51-2
 	++OCR51_2.op_count;

@@ -32,7 +32,7 @@
 #pragma CODE_SECTION(display_time, "ramfuncs");
 #pragma CODE_SECTION(rtc_handling, "ramfuncs");
 #pragma CODE_SECTION(protective_relay, "ramfuncs");
-#pragma CODE_SECTION(Inverse_Op_Timeset, "ramfuncs");
+#pragma CODE_SECTION(Inverse_GetDelayTime, "ramfuncs");
 #pragma CODE_SECTION(setting_view, "ramfuncs");
 #pragma CODE_SECTION(event_direct_save, "ramfuncs");
 #pragma CODE_SECTION(measure_view_detail, "ramfuncs");
@@ -193,6 +193,7 @@
 //#define DO_CONTACT_TIME        10 //MAX 15msec 
 //#define RMS_CAL_TIME					 12 //MIN 6~7msec, MAX18~20msec	
 //#define LOGIC_DELAY_TIME			 3	//OCR(inst, def의 경우) 3msec
+#define TOTAL_DELAY_51	       31 // 총 계전기 동작 시간 = RMS_CAL_TIME + ALGORITHM_TIME(LOGIC_DELAY_TIME + PICKUP_DELAY + WAITING DELAY) + DO_CONTACT_TIME
 
 #define Ia   0
 #define Ib   1
