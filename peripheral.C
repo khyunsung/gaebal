@@ -514,39 +514,24 @@ void key_drive(void)
 			if(SYSTEM.pushed_key == ACK_KEY) //Ack 키
 			{
 				// 계전요소 사고 시에만 유효하게.
-				// 계전요소 누적 상태 변수(RELAY_STATUS.operation_sum)는 0이 아니고
-				// 계전요소 현재 상태 변수(RELAY_STATUS.operation)는 0 이어야만 유효
-				if((RELAY_STATUS.operation_sum) && (RELAY_STATUS.operation == 0))
+				// 계전요소 누적 상태 변수(RELAY_STATUS.operation_sum_holding)는 0이 아니고, 계전요소 현재 상태 변수(RELAY_STATUS.operation_realtime)는 0 이어야만 유효
+				if((RELAY_STATUS.operation_sum_holding) && (RELAY_STATUS.operation_realtime == 0))
 				{
-					// ack 키 누름 이벤트 저장
-					event_direct_save(&EVENT.mode_change);
+					event_direct_save(&EVENT.mode_change);	// ack 키 누름 이벤트 저장
 					
-					// 모든 do를 open 시키기 위함
-					SYSTEM.do_control = 0x00c0;
+					SYSTEM.do_control = 0x00c0;	// 모든 do를 open 시키기 위함
 					
 					WAVE.hold = 0;
 					
-					// 계전요소 누적 상태 변수 클리어
-					RELAY_STATUS.operation_sum = 0;
+					RELAY_STATUS.operation_sum_holding = 0; // 계전요소 누적 상태 변수 클리어
 					
-					// fault led off
-					SYSTEM.led_on &= ~FAULT_LED;
+					SYSTEM.led_on &= ~FAULT_LED; // fault led off
 					
 					//계전요소 동작시 popup 창 관련 변수 클리어
 					RELAY_STATUS.popup_mask = 0;
 					RELAY_STATUS.popup_property = 0;
 					RELAY_STATUS.popup_ratio = 0;
 					RELAY_STATUS.popup_optime = 0;
-					
-					// popup 화면에서만 유효함
-					if(SYSTEM.position == 0x00000040)
-					{
-						// 루트화면 id
-						SYSTEM.position = 0;//SYSTEM.return_position;
-						
-						// lcd 화면 갱신 플래그
-						LCD.refresh_status = 0;
-					}
 				}
 				
 				// latch가 걸려 있을때
@@ -565,6 +550,7 @@ void key_drive(void)
 					}
 				}
 			}
+
 			else if((SYSTEM.pushed_key == CB_ON_KEY) || (SYSTEM.pushed_key == CB_OFF_KEY))	// cb on/off
 			{
  //2015.02.25
@@ -1519,21 +1505,18 @@ void wave_save_process(void)
 // led 표시 가공 작업
 void led_handling(void)
 {
-	// fault led 점멸 작업용
-	SYSTEM.led_mode ^= 0x0001;
-	
+	SYSTEM.led_mode ^= 0x0001;	// fault led 점멸 작업용
 	if(SYSTEM.led_mode)
 	{
 		// 계전요소가 pickup 중이거나 또는 계전요소 동작이 발생했는데 ack가 안눌린경우
-		if((RELAY_STATUS.pickup) || (RELAY_STATUS.operation_sum))
-		SYSTEM.led_on |= FAULT_LED; // 일단 led 켠다
+		if((RELAY_STATUS.pickup) || (RELAY_STATUS.operation_sum_holding))	{SYSTEM.led_on |= FAULT_LED;} // 일단 led 켠다
 	}
 	else
 	{
-		// 계전요소 동작이 없었을 경우 또는 ack를 눌른 후
-		if(RELAY_STATUS.operation_sum == 0)
-		SYSTEM.led_on &= ~FAULT_LED; // led 끈다
+		// 계전요소 동작이 없었을 경우 또는 ack를 누른 후
+		if(RELAY_STATUS.operation_sum_holding == 0)												{SYSTEM.led_on &= ~FAULT_LED;} // led 끈다
 	}
+
 	
 	// local 제어가 가능할 경우에만 해당 led 사용함
 	if(LOCAL_CONTROL.mode == 0xaaaa)

@@ -2271,8 +2271,8 @@ void comm_drive(void)
 				*COMM_2_CB = DIDO.do_status;
 				
 				//계전요소
-				*COMM_2_relay1 = RELAY_STATUS.operation_sum >> 8;
-				*COMM_2_relay2 = RELAY_STATUS.operation_sum ;
+				*COMM_2_relay1 = RELAY_STATUS.operation_sum_holding >> 8;
+				*COMM_2_relay2 = RELAY_STATUS.operation_sum_holding ;
 				
 				//사고상
 				*COMM_2_fault = RELAY_STATUS.popup_property;

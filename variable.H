@@ -292,32 +292,31 @@ struct
 	unsigned int do_relay;
 	
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
+	unsigned int do_output;
+	unsigned int do_output_off;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 	
-	unsigned long Pickup_Count;
-	unsigned int Dropout_Count;
-	
+	unsigned long op_count;
 	unsigned int pickup_limit;
-	
 	unsigned long event_ready;
-	
-	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
-	
+	unsigned int op_status;
+
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int mode_temp;
 	unsigned int current_set_temp;
 	unsigned int delay_time_temp;
-	unsigned int do_relay_temp;
+	unsigned int do_relay_temp;	
 
+	float Op_Ratio;
 	unsigned int Op_Phase;
-	float Op_Ratio;	
-	float Op_time;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } OCR50_1;
 
 struct
@@ -330,28 +329,31 @@ struct
 	unsigned int do_relay;
 	
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
+	unsigned int do_output;
+	unsigned int do_output_off;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 	
-	unsigned long Pickup_Count;
-	unsigned int Dropout_Count;
-	
+	unsigned long op_count;
 	unsigned int pickup_limit;
-	
 	unsigned long event_ready;
-	
-	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
+	unsigned int op_status;
 
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int mode_temp;
 	unsigned int current_set_temp;
 	unsigned int delay_time_temp;
 	unsigned int do_relay_temp;	
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } OCR50_2;
 
 struct
@@ -374,19 +376,25 @@ struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
-	unsigned int Dropout_Count;            
-	
-	unsigned long event_ready;
-	
-	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
 
+	unsigned long op_count;
+	unsigned int pickup_limit;
+	unsigned long event_ready;
+	unsigned int op_status;
+
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int mode_temp;
 	unsigned int current_set_temp;
 	unsigned int time_lever_temp;
 	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } OCR51_1;
 
 struct
@@ -409,7 +417,7 @@ struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;            
 	
 	unsigned long event_ready;
@@ -440,7 +448,7 @@ struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	//unsigned int Op_Timer_Count;
 	unsigned int pickup_limit;
@@ -477,7 +485,7 @@ struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 
 	unsigned long event_ready;
@@ -507,7 +515,7 @@ struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	
 	unsigned long event_ready;
@@ -539,7 +547,7 @@ struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	
 	unsigned long event_ready;
@@ -571,7 +579,7 @@ struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	
 	unsigned long event_ready;
@@ -603,7 +611,7 @@ struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	
 	unsigned long event_ready;
@@ -633,7 +641,7 @@ struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	
 	unsigned long event_ready;
@@ -669,7 +677,7 @@ struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	
 	unsigned int pickup_limit;
@@ -708,7 +716,7 @@ struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	        
 	unsigned int pickup_limit;
@@ -745,7 +753,7 @@ struct
 	float Dropout_Threshold_Io; // 순서 지킬것
 	float Pickup_Threshold_Vo; // 순서 지킬것
 	float Dropout_Threshold_Vo; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	int angle_low;
 	int angle_high;
@@ -785,7 +793,7 @@ struct
 	float Dropout_Threshold_Io; // 순서 지킬것
 	float Pickup_Threshold_Vo; // 순서 지킬것
 	float Dropout_Threshold_Vo; // 순서 지킬것
-	unsigned long Pickup_Count;
+	unsigned long op_count;
 	unsigned int Dropout_Count;
 	int angle_low;
 	int angle_high;
@@ -809,13 +817,14 @@ struct
 struct
 {
 	unsigned int pickup;
-	unsigned int operation;
-	unsigned int operation_sum;
+	unsigned int operation_realtime;
+	unsigned int operation_sum_holding;
 		
 	unsigned long popup_property;
 	float popup_ratio;
 	unsigned long popup_optime;
 	unsigned int popup_mask;
+
 } RELAY_STATUS;
 //--------- RELAY VARIABLE END
 
@@ -839,6 +848,12 @@ struct
 	unsigned long pt_primary_temp;
 	unsigned int rated_current_temp;
 } CPT;
+
+struct
+{
+	unsigned int manual_relay_test;
+	unsigned int manual_do_out;
+} AUX_RELAY_TEST;
 
 struct
 {
@@ -1157,43 +1172,38 @@ struct
 } ACCUMULATION;
 
 	// 비트위치가 반대로 들어가네
-	//                 x L1 H1 L2 H2 L3 H3 L4 H4 L5 H5 L6 H6  x  x  x     DISPLAY
-	//                00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15
-	// DO_01-H1-0x2000   0  0  1  0  0  0  0  0  0  0  0  0  0  0  0  0 ->   1   ->ALARM
-	// DO_02-L1-0x4000   0  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0 ->   2   ->ALARM
-	// DO_03-H2-0x0800   0  0  0  0  1  0  0  0  0  0  0  0  0  0  0  0 ->   3   ->ALARM
-	// DO_04-L2-0x1000   0  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0 ->   4   ->ALARM
-	// DO_05-H3-0x0200   0  0  0  0  0  0  1  0  0  0  0  0  0  0  0  0 ->   5   ->ALARM
-	// DO_06-L3-0x0400   0  0  0  0  0  1  0  0  0  0  0  0  0  0  0  0 ->   6   ->ALARM
-	// DO_07-H4-0x0080   0  0  0  0  0  0  0  0  1  0  0  0  0  0  0  0 ->  10   ->SYSTEM ALARM 부팅 시 항상 킬 것, 7번 Self relay를 normal B접점을 A접점으로 만들어 줌
-	// DO_08-H5-0x0020   0  0  0  0  0  0  0  0  0  0  1  0  0  0  0  0 ->   7   ->CB CLOSE(ON)
-	// DO_09-H6-0x0008   0  0  0  0  0  0  0  0  0  0  0  0  1  0  0  0 ->   8   ->CB OPEN(OFF)
-  // DO_10-L6-0x0010   0  0  0  0  0  0  0  0  0  0  0  1  0  0  0  0 ->   9   ->lockout relay CLOSE
-  //!DO_10-L5-0x0040   0  0  0  0  0  0  0  0  0  1  0  0  0  0  0  0 ->   9   ->lockout relay OPEN
-	// DO_10 close 되면 gpio53 0
-	// DO_10 open  되면 gpio53 1	
-unsigned int const DO_ON_BIT[9] = 
+	//                   x L1 H1 L2   H2 L3 H3 L4   H4 L5 H5 L6   H6  x  x  x     DISPLAY
+	//                  00 01 02 03   04 05 06 07   08 09 10 11   12 13 14 15
+	// DO_01-H1-0x2000   0  0  1  0    0  0  0  0    0  0  0  0    0  0  0  0 ->   1   ->ALARM
+	// DO_02-L1-0x4000   0  1  0  0    0  0  0  0    0  0  0  0    0  0  0  0 ->   2   ->ALARM
+	// DO_03-H2-0x0800   0  0  0  0    1  0  0  0    0  0  0  0    0  0  0  0 ->   3   ->ALARM
+	// DO_04-L2-0x1000   0  0  0  1    0  0  0  0    0  0  0  0    0  0  0  0 ->   4   ->ALARM
+	// DO_05-H3-0x0200   0  0  0  0    0  0  1  0    0  0  0  0    0  0  0  0 ->   5   ->ALARM
+	// DO_06-H4-0x0080   0  0  0  0    0  0  0  0    1  0  0  0    0  0  0  0 ->   6   ->Normal B접점
+	// DO_07-H5-0x0020   0  0  0  0    0  0  0  0    0  0  1  0    0  0  0  0 ->   7   ->CB CLOSE(ON)
+	// DO_08-H6-0x0008   0  0  0  0    0  0  0  0    0  0  0  0    1  0  0  0 ->   8   ->CB OPEN(OFF)
+unsigned int const DO_ON_BIT[8] = 
 {
 	0x2000, //ALARM1			 	1	(DO_01 ON)
 	0x4000, //ALARM2			 	2	(DO_02 ON)
 	0x0800, //ALARM3			 	3	(DO_03 ON)
 	0x1000, //ALARM4			 	4	(DO_04 ON)
 	0x0200, //ALARM5			 	5	(DO_05 ON)
-	0x0400, //ALARM6			 	6	(DO_06 ON)
-	0x0020, //CB CLOSE(ON) 	7	(DO_08 ON)
-	0x0008, //CB OPEN(OFF) 	8	(DO_09 ON)
-	0x0010  //lockout(ON)	 	9	(DO_10 ON)
+	0x0080, //SYSTEM ALARM	6 (DO_06 ON)
+	0x0020, //CB CLOSE(ON) 	7	(DO_07 ON)
+	0x0008  //CB OPEN(OFF) 	8	(DO_08 ON)
 };
 
-unsigned int const DO_OFF_BIT[7] = 
+unsigned int const DO_OFF_BIT[8] = 
 {
-	0xdfff, //ALARM1 		1	(DO_01 OFF)
-	0xbfff, //ALARM2 		2	(DO_02 OFF)
-	0xf7ff, //ALARM3 		3	(DO_03 OFF)
-	0xefff, //ALARM4 		4	(DO_04 OFF)
-	0xfdff, //ALARM5 		5	(DO_05 OFF)
-	0xfbff, //ALARM6 		6	(DO_06 OFF)
-	0xffdf  //CB OPEN		8	(DO_08 OFF)
+	~0x2000, //ALARM1			 	1	(DO_01 OFF)
+	~0x4000, //ALARM2			 	2	(DO_02 OFF)
+	~0x0800, //ALARM3			 	3	(DO_03 OFF)
+	~0x1000, //ALARM4			 	4	(DO_04 OFF)
+	~0x0200, //ALARM5			 	5	(DO_05 OFF)
+	~0x0080, //SYSTEM ALARM	6 (DO_06 OFF)
+	~0x0020, //CB CLOSE(ON) 	7	(DO_07 OFF)
+	~0x0008  //CB OPEN(OFF) 	8	(DO_08 OFF)
 };
 
 

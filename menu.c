@@ -1406,8 +1406,8 @@ void menu_41_06(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCR50_1.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -1415,20 +1415,19 @@ void menu_41_06(unsigned int value, int display)
 			(OCR50_1.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCR50_1.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCR50_1.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCR50_1.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OCR50_1.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -1489,8 +1488,8 @@ void menu_41_09(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCR50_1.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -1498,8 +1497,7 @@ void menu_41_09(unsigned int value, int display)
 			(OCR50_1.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCR50_1.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCR50_1.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCR50_1.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -1843,8 +1841,8 @@ void menu_42_07(unsigned int value, int display) //2015.02.25
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCR50_1.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -1852,20 +1850,19 @@ void menu_42_07(unsigned int value, int display) //2015.02.25
 			(OCR50_1.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCR50_1.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCR50_1.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCR50_1.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OCR50_1.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -1924,8 +1921,8 @@ void menu_42_10(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCR50_1.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -1933,8 +1930,7 @@ void menu_42_10(unsigned int value, int display)
 			(OCR50_1.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCR50_1.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCR50_1.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCR50_1.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCR50_1.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -2235,8 +2231,8 @@ void menu_43_06(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",	
 			(OCR50_2.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -2244,20 +2240,19 @@ void menu_43_06(unsigned int value, int display)
 			(OCR50_2.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCR50_2.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCR50_2.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCR50_2.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OCR50_2.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -2318,8 +2313,8 @@ void menu_43_09(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCR50_2.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -2327,8 +2322,7 @@ void menu_43_09(unsigned int value, int display)
 			(OCR50_2.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCR50_2.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCR50_2.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCR50_2.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -2619,8 +2613,8 @@ void menu_44_07(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCR50_2.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -2628,20 +2622,19 @@ void menu_44_07(unsigned int value, int display)
 			(OCR50_2.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCR50_2.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCR50_2.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCR50_2.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OCR50_2.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -2700,8 +2693,8 @@ void menu_44_10(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCR50_2.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -2709,8 +2702,7 @@ void menu_44_10(unsigned int value, int display)
 			(OCR50_2.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCR50_2.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCR50_2.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCR50_2.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCR50_2.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -3027,8 +3019,8 @@ void menu_45_07(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCR51_1.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCR51_1.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCR51_1.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -3036,20 +3028,19 @@ void menu_45_07(unsigned int value, int display)
 			(OCR51_1.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCR51_1.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCR51_1.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCR51_1.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCR51_1.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCR51_1.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OCR51_1.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -3108,8 +3099,8 @@ void menu_45_10(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCR51_1.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCR51_1.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCR51_1.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -3117,8 +3108,7 @@ void menu_45_10(unsigned int value, int display)
 			(OCR51_1.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCR51_1.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCR51_1.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCR51_1.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCR51_1.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCR51_1.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -3381,8 +3371,8 @@ void menu_46_07(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCR51_2.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCR51_2.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCR51_2.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -3390,20 +3380,19 @@ void menu_46_07(unsigned int value, int display)
 			(OCR51_2.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCR51_2.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCR51_2.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCR51_2.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCR51_2.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCR51_2.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OCR51_2.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -3462,8 +3451,8 @@ void menu_46_10(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCR51_2.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCR51_2.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCR51_2.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -3471,8 +3460,7 @@ void menu_46_10(unsigned int value, int display)
 			(OCR51_2.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCR51_2.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCR51_2.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCR51_2.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCR51_2.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCR51_2.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -3701,8 +3689,8 @@ void menu_47_06(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCGR50.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -3710,20 +3698,19 @@ void menu_47_06(unsigned int value, int display)
 			(OCGR50.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCGR50.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCGR50.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCGR50.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OCGR50.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -3782,8 +3769,8 @@ void menu_47_09(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCGR50.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -3791,8 +3778,7 @@ void menu_47_09(unsigned int value, int display)
 			(OCGR50.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCGR50.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCGR50.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCGR50.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -4015,8 +4001,8 @@ void menu_48_07(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCGR50.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -4024,20 +4010,19 @@ void menu_48_07(unsigned int value, int display)
 			(OCGR50.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCGR50.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCGR50.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCGR50.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OCGR50.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -4096,8 +4081,8 @@ void menu_48_10(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCGR50.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -4105,8 +4090,7 @@ void menu_48_10(unsigned int value, int display)
 			(OCGR50.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCGR50.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCGR50.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCGR50.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCGR50.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -4371,8 +4355,8 @@ void menu_49_07(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCGR51.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCGR51.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCGR51.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -4380,20 +4364,19 @@ void menu_49_07(unsigned int value, int display)
 			(OCGR51.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCGR51.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCGR51.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCGR51.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCGR51.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCGR51.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OCGR51.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -4452,8 +4435,8 @@ void menu_49_10(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OCGR51.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OCGR51.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OCGR51.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -4461,8 +4444,7 @@ void menu_49_10(unsigned int value, int display)
 			(OCGR51.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OCGR51.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OCGR51.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OCGR51.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OCGR51.do_relay_temp & 0x100)? FULLDOT:' '
+			(OCGR51.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -4676,8 +4658,8 @@ void menu_50_06(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(UVR_1.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(UVR_1.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(UVR_1.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -4685,20 +4667,19 @@ void menu_50_06(unsigned int value, int display)
 			(UVR_1.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(UVR_1.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(UVR_1.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(UVR_1.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(UVR_1.do_relay_temp & 0x100)? FULLDOT:' '
+			(UVR_1.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		UVR_1.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -4752,8 +4733,8 @@ void menu_50_09(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(UVR_1.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(UVR_1.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(UVR_1.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -4761,8 +4742,7 @@ void menu_50_09(unsigned int value, int display)
 			(UVR_1.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(UVR_1.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(UVR_1.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(UVR_1.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(UVR_1.do_relay_temp & 0x100)? FULLDOT:' '
+			(UVR_1.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -4975,8 +4955,8 @@ void menu_51_06(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(UVR_2.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(UVR_2.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(UVR_2.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -4984,20 +4964,19 @@ void menu_51_06(unsigned int value, int display)
 			(UVR_2.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(UVR_2.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(UVR_2.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(UVR_2.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(UVR_2.do_relay_temp & 0x100)? FULLDOT:' '
+			(UVR_2.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		UVR_2.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -5051,8 +5030,8 @@ void menu_51_09(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(UVR_2.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(UVR_2.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(UVR_2.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -5060,8 +5039,7 @@ void menu_51_09(unsigned int value, int display)
 			(UVR_2.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(UVR_2.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(UVR_2.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(UVR_2.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(UVR_2.do_relay_temp & 0x100)? FULLDOT:' '
+			(UVR_2.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -5274,8 +5252,8 @@ void menu_52_06(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(UVR_3.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(UVR_3.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(UVR_3.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -5283,20 +5261,19 @@ void menu_52_06(unsigned int value, int display)
 			(UVR_3.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(UVR_3.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(UVR_3.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(UVR_3.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(UVR_3.do_relay_temp & 0x100)? FULLDOT:' '
+			(UVR_3.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		UVR_3.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -5350,8 +5327,8 @@ void menu_52_09(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(UVR_3.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(UVR_3.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(UVR_3.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -5359,8 +5336,7 @@ void menu_52_09(unsigned int value, int display)
 			(UVR_3.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(UVR_3.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(UVR_3.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(UVR_3.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(UVR_3.do_relay_temp & 0x100)? FULLDOT:' '
+			(UVR_3.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -5573,8 +5549,8 @@ void menu_53_06(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(P47.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(P47.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(P47.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -5582,20 +5558,19 @@ void menu_53_06(unsigned int value, int display)
 			(P47.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(P47.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(P47.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(P47.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(P47.do_relay_temp & 0x100)? FULLDOT:' '
+			(P47.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		P47.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -5649,8 +5624,8 @@ void menu_53_09(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(P47.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(P47.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(P47.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -5658,8 +5633,7 @@ void menu_53_09(unsigned int value, int display)
 			(P47.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(P47.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(P47.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(P47.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(P47.do_relay_temp & 0x100)? FULLDOT:' '
+			(P47.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -5854,8 +5828,8 @@ void menu_54_06(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(N47.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(N47.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(N47.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -5863,20 +5837,19 @@ void menu_54_06(unsigned int value, int display)
 			(N47.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(N47.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(N47.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(N47.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(N47.do_relay_temp & 0x100)? FULLDOT:' '
+			(N47.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		N47.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -5930,8 +5903,8 @@ void menu_54_09(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(N47.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(N47.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(N47.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -5939,8 +5912,7 @@ void menu_54_09(unsigned int value, int display)
 			(N47.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(N47.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(N47.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(N47.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(N47.do_relay_temp & 0x100)? FULLDOT:' '
+			(N47.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -6185,8 +6157,8 @@ void menu_55_07(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OVR.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -6194,20 +6166,19 @@ void menu_55_07(unsigned int value, int display)
 			(OVR.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OVR.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OVR.do_relay_temp & 0x100)? FULLDOT:' '
+			(OVR.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OVR.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -6261,8 +6232,8 @@ void menu_55_10(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OVR.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -6270,8 +6241,7 @@ void menu_55_10(unsigned int value, int display)
 			(OVR.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OVR.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OVR.do_relay_temp & 0x100)? FULLDOT:' '
+			(OVR.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -6471,8 +6441,8 @@ void menu_56_07(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OVR.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -6480,20 +6450,19 @@ void menu_56_07(unsigned int value, int display)
 			(OVR.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OVR.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OVR.do_relay_temp & 0x100)? FULLDOT:' '
+			(OVR.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OVR.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -6547,8 +6516,8 @@ void menu_56_10(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OVR.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -6556,8 +6525,7 @@ void menu_56_10(unsigned int value, int display)
 			(OVR.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OVR.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OVR.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OVR.do_relay_temp & 0x100)? FULLDOT:' '
+			(OVR.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -6758,8 +6726,8 @@ void menu_57_06(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OVGR.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -6767,20 +6735,19 @@ void menu_57_06(unsigned int value, int display)
 			(OVGR.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OVGR.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OVGR.do_relay_temp & 0x100)? FULLDOT:' '
+			(OVGR.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OVGR.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -6834,8 +6801,8 @@ void menu_57_09(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OVGR.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -6843,8 +6810,7 @@ void menu_57_09(unsigned int value, int display)
 			(OVGR.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OVGR.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OVGR.do_relay_temp & 0x100)? FULLDOT:' '
+			(OVGR.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -7039,8 +7005,8 @@ void menu_58_07(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OVGR.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -7048,20 +7014,19 @@ void menu_58_07(unsigned int value, int display)
 			(OVGR.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OVGR.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OVGR.do_relay_temp & 0x100)? FULLDOT:' '
+			(OVGR.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		OVGR.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -7115,8 +7080,8 @@ void menu_58_10(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(OVGR.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -7124,8 +7089,7 @@ void menu_58_10(unsigned int value, int display)
 			(OVGR.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(OVGR.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(OVGR.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(OVGR.do_relay_temp & 0x100)? FULLDOT:' '
+			(OVGR.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -7437,8 +7401,8 @@ void menu_59_08(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(DGR.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(DGR.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(DGR.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -7446,20 +7410,19 @@ void menu_59_08(unsigned int value, int display)
 			(DGR.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(DGR.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(DGR.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(DGR.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(DGR.do_relay_temp & 0x100)? FULLDOT:' '
+			(DGR.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		DGR.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -7537,8 +7500,8 @@ void menu_59_12(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(DGR.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(DGR.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(DGR.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -7546,8 +7509,7 @@ void menu_59_12(unsigned int value, int display)
 			(DGR.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(DGR.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(DGR.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(DGR.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(DGR.do_relay_temp & 0x100)? FULLDOT:' '
+			(DGR.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -7821,8 +7783,8 @@ void menu_60_08(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(SGR.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(SGR.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(SGR.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -7830,20 +7792,19 @@ void menu_60_08(unsigned int value, int display)
 			(SGR.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(SGR.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(SGR.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(SGR.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(SGR.do_relay_temp & 0x100)? FULLDOT:' '
+			(SGR.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		SGR.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -7916,8 +7877,8 @@ void menu_60_12(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(SGR.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(SGR.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(SGR.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -7925,8 +7886,7 @@ void menu_60_12(unsigned int value, int display)
 			(SGR.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(SGR.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(SGR.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(SGR.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(SGR.do_relay_temp & 0x100)? FULLDOT:' '
+			(SGR.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -9517,6 +9477,9 @@ void menu_83_04(unsigned int value, int display)
 			Screen_Position.x = 5;
 			Screen_Position.select = 1;
 		} else if(Screen_Position.select == 1) {
+			AUX_RELAY_TEST.manual_relay_test = 0;
+			AUX_RELAY_TEST.manual_do_out = 0;
+
 			Screen_Position.y = 84;
 			Screen_Position.x = 5;
 			Screen_Position.select = 0;
@@ -9566,32 +9529,31 @@ void menu_83_06(unsigned int value, int display)
 	unsigned int i;
 	char str[2][22];
 	static unsigned int auto_relay_test= 1;
-	static unsigned int do_on_bit[10] =
-		{0x2000, 0x4000, 0x0800, 0x1000, 0x0200, 0x0400, 0x0080, 0x0020, 0x0008, 0x0080};
 
-	sprintf(str[0]," 1 2 3 4 5 6 7 8 9 0\0");
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");
 
 	if(display) {
-		for(i = 0; i < 10; i++) {
-			sprintf(str[1],"R%c %c %c %c %c %c %c %c %c %c\0",
-				(auto_relay_test & 0x01)? FULLDOT: ' ',
-				(auto_relay_test & 0x02)? FULLDOT: ' ',
-				(auto_relay_test & 0x04)? FULLDOT: ' ',
-				(auto_relay_test & 0x08)? FULLDOT: ' ',
-				(auto_relay_test & 0x10)? FULLDOT: ' ',
-				(auto_relay_test & 0x20)? FULLDOT: ' ',
-				(auto_relay_test & 0x40)? FULLDOT: ' ',
-				(auto_relay_test & 0x80)? FULLDOT: ' ',
-				(auto_relay_test & 0x100)? FULLDOT:' ',
-				(auto_relay_test & 0x200)? FULLDOT:' '
+		for(i = 0; i < 8; i++) {
+			sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+				(auto_relay_test & 0x01)? FULLDOT: ' ', //01
+				(auto_relay_test & 0x02)? FULLDOT: ' ', //02
+				(auto_relay_test & 0x04)? FULLDOT: ' ', //03
+				(auto_relay_test & 0x08)? FULLDOT: ' ', //04
+				(auto_relay_test & 0x10)? FULLDOT: ' ', //05
+				(auto_relay_test & 0x20)? FULLDOT: ' ', //06
+				(auto_relay_test & 0x40)? FULLDOT: ' ', //07
+				(auto_relay_test & 0x80)? FULLDOT: ' '  //08
 			);
 			screen_frame2(str);
-			auto_relay_test <<= 1;
+			DO_Output(DO_ON_BIT[i]);
+			delay_us(400000);
 
-			DO_Output(do_on_bit[i]);
-			delay_us(500000);
-			DO_Output((i==8)? 0x40: 0);
-			delay_us(500000);
+			sprintf(str[1],"RLY.                \0");
+			screen_frame2(str);
+			DO_Output(DO_OFF_BIT[i]);
+			delay_us(400000);
+			
+			auto_relay_test <<= 1;
 		}
 		
 		auto_relay_test = 1;
@@ -9691,35 +9653,33 @@ void menu_84_03(unsigned int value, int display)
 void menu_84_05(unsigned int value, int display)
 {
 	char str[2][22];
-	unsigned int manual_relay_test = 0;
-
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
-			(manual_relay_test & 0x01)? FULLDOT: ' ',
-			(manual_relay_test & 0x02)? FULLDOT: ' ',
-			(manual_relay_test & 0x04)? FULLDOT: ' ',
-			(manual_relay_test & 0x08)? FULLDOT: ' ',
-			(manual_relay_test & 0x10)? FULLDOT: ' ',
-			(manual_relay_test & 0x20)? FULLDOT: ' ',
-			(manual_relay_test & 0x40)? FULLDOT: ' ',
-			(manual_relay_test & 0x80)? FULLDOT: ' ',
-			(manual_relay_test & 0x100)? FULLDOT:' '
+	
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(AUX_RELAY_TEST.manual_relay_test & 0x01)? FULLDOT: ' ',
+			(AUX_RELAY_TEST.manual_relay_test & 0x02)? FULLDOT: ' ',
+			(AUX_RELAY_TEST.manual_relay_test & 0x04)? FULLDOT: ' ',
+			(AUX_RELAY_TEST.manual_relay_test & 0x08)? FULLDOT: ' ',
+			(AUX_RELAY_TEST.manual_relay_test & 0x10)? FULLDOT: ' ',
+			(AUX_RELAY_TEST.manual_relay_test & 0x20)? FULLDOT: ' ',
+			(AUX_RELAY_TEST.manual_relay_test & 0x40)? FULLDOT: ' ',
+			(AUX_RELAY_TEST.manual_relay_test & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
-		manual_relay_test |= (1 << Screen_Position.select);
+		AUX_RELAY_TEST.manual_relay_test |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
-		manual_relay_test &= ~(1 << Screen_Position.select);
+		AUX_RELAY_TEST.manual_relay_test &= ~(1 << Screen_Position.select);
 	} else if(value == ENTER_KEY) {
 		Screen_Position.y = 84;
 		Screen_Position.x = 6;
@@ -9731,7 +9691,7 @@ void menu_84_05(unsigned int value, int display)
 void menu_84_06(unsigned int value, int display)
 {
 	char str[2][22];
-
+	
 	sprintf(str[0],"                    \0");
 	sprintf(str[1],"WANT TO TEST ? [Y/N]\0");
 
@@ -9753,6 +9713,17 @@ void menu_84_06(unsigned int value, int display)
 		Screen_Position.select %= 2;
 	} else if(value == ENTER_KEY) {
 		if(Screen_Position.select == 0) {
+
+			if(AUX_RELAY_TEST.manual_relay_test & 0x01) {AUX_RELAY_TEST.manual_do_out |= DO_ON_BIT[0];}
+			if(AUX_RELAY_TEST.manual_relay_test & 0x02) {AUX_RELAY_TEST.manual_do_out |= DO_ON_BIT[1];}
+			if(AUX_RELAY_TEST.manual_relay_test & 0x04) {AUX_RELAY_TEST.manual_do_out |= DO_ON_BIT[2];}
+			if(AUX_RELAY_TEST.manual_relay_test & 0x08) {AUX_RELAY_TEST.manual_do_out |= DO_ON_BIT[3];}
+			if(AUX_RELAY_TEST.manual_relay_test & 0x10) {AUX_RELAY_TEST.manual_do_out |= DO_ON_BIT[4];}
+			if(AUX_RELAY_TEST.manual_relay_test & 0x20) {AUX_RELAY_TEST.manual_do_out |= DO_ON_BIT[5];}
+			if(AUX_RELAY_TEST.manual_relay_test & 0x40) {AUX_RELAY_TEST.manual_do_out |= DO_ON_BIT[6];}
+			if(AUX_RELAY_TEST.manual_relay_test & 0x80) {AUX_RELAY_TEST.manual_do_out |= DO_ON_BIT[7];}
+			DO_Output(AUX_RELAY_TEST.manual_do_out);
+			
 			Screen_Position.y = 84;
 			Screen_Position.x = 7;
 			cursor_move(0, 0);//cursor off
@@ -9777,6 +9748,8 @@ void menu_84_07(unsigned int value, int display)
 	}
 
 	if(value) {
+			DO_Output(~AUX_RELAY_TEST.manual_do_out);
+
 			Screen_Position.y = 84;
 			Screen_Position.x = 8;
 			Screen_Position.select = 0;
@@ -12210,8 +12183,8 @@ void menu_104_05(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(SYSTEM_ALARM.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(SYSTEM_ALARM.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(SYSTEM_ALARM.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -12219,20 +12192,19 @@ void menu_104_05(unsigned int value, int display)
 			(SYSTEM_ALARM.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(SYSTEM_ALARM.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(SYSTEM_ALARM.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(SYSTEM_ALARM.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(SYSTEM_ALARM.do_relay_temp & 0x100)? FULLDOT:' '
+			(SYSTEM_ALARM.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		if(Screen_Position.select-- <= 0) Screen_Position.select = 8;
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 7;
 	} else if(value == RIGHT_KEY) {
-		if(Screen_Position.select++ >= 8) Screen_Position.select = 0;
+		if(Screen_Position.select++ >= 7) Screen_Position.select = 0;
 	} else if(value == UP_KEY) {
 		SYSTEM_ALARM.do_relay_temp |= (1 << Screen_Position.select);
 	} else if(value == DOWN_KEY) {
@@ -12287,8 +12259,8 @@ void menu_104_08(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8 9\0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c %c\0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(SYSTEM_ALARM.do_relay_temp & 0x01)? FULLDOT: ' ',
 			(SYSTEM_ALARM.do_relay_temp & 0x02)? FULLDOT: ' ',
 			(SYSTEM_ALARM.do_relay_temp & 0x04)? FULLDOT: ' ',
@@ -12296,8 +12268,7 @@ void menu_104_08(unsigned int value, int display)
 			(SYSTEM_ALARM.do_relay_temp & 0x10)? FULLDOT: ' ',
 			(SYSTEM_ALARM.do_relay_temp & 0x20)? FULLDOT: ' ',
 			(SYSTEM_ALARM.do_relay_temp & 0x40)? FULLDOT: ' ',
-			(SYSTEM_ALARM.do_relay_temp & 0x80)? FULLDOT: ' ',
-			(SYSTEM_ALARM.do_relay_temp & 0x100)? FULLDOT:' '
+			(SYSTEM_ALARM.do_relay_temp & 0x80)? FULLDOT: ' '
 	);
 
 	if(display) {
@@ -12788,12 +12759,12 @@ void menu_152_03(unsigned int value, int display)
 	{
 		if(CORE.gr_select == NCT_SELECT)
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  HIGH LEVEL INPUT  \0");
 			sprintf(str[1]," APPLY 110V, 6A, 6A \0");
 		}
 		else
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  HIGH LEVEL INPUT  \0");
 			sprintf(str[1]," APPLY 110V,6A,10mA \0");
 		}
 	}
@@ -12801,12 +12772,12 @@ void menu_152_03(unsigned int value, int display)
 	{
 		if(CORE.gr_select == NCT_SELECT)
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  HIGH LEVEL INPUT  \0");
 			sprintf(str[1]," APPLY 110V, 2A, 2A \0");
 		}
 		else
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  HIGH LEVEL INPUT  \0");
 			sprintf(str[1]," APPLY 110V,2A,10mA \0");
 		}
 	}
@@ -12847,12 +12818,12 @@ void menu_152_04(unsigned int value, int display)
 	{
 		if(CORE.gr_select == NCT_SELECT)
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  LOW LEVEL INPUT   \0");
 			sprintf(str[1]," APPLY  10V, 1A, 1A \0");
 		}
 		else
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  LOW LEVEL INPUT   \0");
 			sprintf(str[1]," APPLY  10V, 1A,5mA \0");
 		}
 	}
@@ -12860,12 +12831,12 @@ void menu_152_04(unsigned int value, int display)
 	{
 		if(CORE.gr_select == NCT_SELECT)
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  LOW LEVEL INPUT   \0");
 			sprintf(str[1]," APPLY 10V,0.2A,0.2A\0");
 		}
 		else
 		{
-			sprintf(str[0]," SLOPE CALIBRATION  \0");
+			sprintf(str[0],"  LOW LEVEL INPUT   \0");
 			sprintf(str[1]," APPLY 10V,0.2A,5mA \0");
 		}
 	}
