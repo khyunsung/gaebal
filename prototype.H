@@ -91,9 +91,24 @@ void make_crc_send(unsigned int *, unsigned int *, unsigned int);
 void serial_write(unsigned int, unsigned int *, unsigned int *);
 void serial_ok_nak_send(unsigned int);
 
-
 void protective_relay(void);
 void OCR50_1_RELAY(void);
+void OCR50_2_RELAY(void);
+void OCR51_1_RELAY(void);
+void OCR51_2_RELAY(void);
+void OCGR50_RELAY(void);
+
+void OCGR51_RELAY(void);
+void UVR_1_RELAY(void);
+void UVR_2_RELAY(void);
+void UVR_3_RELAY(void);
+void P47_RELAY(void);
+
+void N47_RELAY(void);
+void OVR_RELAY(void);
+void OVGR_RELAY(void);
+void DGR_RELAY(void);
+void SGR_RELAY(void);
 
 void flash_sector_erase(unsigned int *);
 void flash_word_write(unsigned int *, unsigned int);
@@ -187,22 +202,18 @@ void relay_pickup_to_operation(unsigned int *, unsigned int, float, unsigned lon
 void relay_opeartion_to_dropout(unsigned int *, unsigned int *);
 void relay_dropout_to_normal(unsigned long *, unsigned int *, unsigned int, unsigned int *);
 
-//void h50_pickup_process(void);
-//void h50_dropout_process(void);
-
-void supervision_relay(unsigned int);
+//void supervision_relay(unsigned int);
 
 void float_to_8bit_fram(void *, unsigned int *, unsigned int);
 void float_to_integer(float, unsigned int *, float);
 
-void relay_use_view(unsigned int, unsigned int);
-
 void wave_dump_serial_sram(unsigned int *, unsigned int, unsigned int);
-//void do_test_check(unsigned int);
 void himix_drive(void);
 void himix_crc(unsigned int);
 
 void relay_value_set_handling(unsigned int *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+void Relay_On(unsigned int);
+void Relay_Off(unsigned int);
 void do_release(unsigned int *);
 float over_phase_value_check(unsigned int, float, unsigned long *);
 float under_phase_value_check(unsigned int, float, unsigned long *);
@@ -216,4 +227,4 @@ void VFD_Single_Line_dump(char, const char *);
 void DO_Output(unsigned int);
 void Event_Item_Display(void);		//khs, 2015-04-01 오후 3:31:35
 void Event_Time_Display(void);		//khs, 2015-04-01 오후 3:31:35
-void Save_Screen_Info();
+void Save_Screen_Info(void);

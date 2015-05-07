@@ -30,7 +30,7 @@ void real_main(void)
 {
 	unsigned int i;
 	unsigned int j;
-	unsigned int temp;
+//	unsigned int temp;
 
 	menu_init();
 
@@ -115,19 +115,19 @@ void real_main(void)
 //-------- wave 처리 END
 
 //-------- tcs/ccs
-		if(SUPERVISION.mode == 0xaaaa)
-		{
-			if(SUPERVISION.monitor_update)
-			{
-				SUPERVISION.monitor_update = 0; // 플래그 초기화
-
-				SUPERVISION.monitoring[0] /= 720; // 1초동안 값 평균
-				supervision_relay(0); // tcs 실행
-
-				SUPERVISION.monitoring[1] /= 720; // 1초동안 값 평균
-				supervision_relay(1);	//ccs 실행
-			}
-		}
+//		if(SUPERVISION.mode == 0xaaaa)
+//		{
+//			if(SUPERVISION.monitor_update)
+//			{
+//				SUPERVISION.monitor_update = 0; // 플래그 초기화
+//
+//				SUPERVISION.monitoring[0] /= 720; // 1초동안 값 평균
+//				supervision_relay(0); // tcs 실행
+//
+//				SUPERVISION.monitoring[1] /= 720; // 1초동안 값 평균
+//				supervision_relay(1);	//ccs 실행
+//			}
+//		}
 //-------- tcs/ccs END
 
 //-------- event 저장
@@ -137,38 +137,38 @@ void real_main(void)
 		if(EVENT.di_off & 0x0000ffff)	{event_direct_save(&EVENT.di_off);}
 		if(EVENT.di_on & 0x0000ffff)	{event_direct_save(&EVENT.di_on);}
 
-		if(SYSTEM.do_status != SYSTEM.do_status_backup)	// do 상태가 바뀌면
-		{
-			temp = SYSTEM.do_status_backup ^ SYSTEM.do_status;	// 틀어진 놈 필터링
-			for(i = 0; i < 9; i++)
-			{
-				if(temp & DO_ON_BIT[i])	// 틀어졌나?
-				{
-					if(SYSTEM.do_status & DO_ON_BIT[i])	// close? 비트가 1
-					{
-						EVENT.do_on |= ON_BIT[i];
-					}
-					else	// open
-					{
-						EVENT.do_off |= ON_BIT[i];
-					}
-				}
-				//-------- DO display, Wave 저장, COMM용 (DO display 기능은 현재 없음)
-				if(SYSTEM.do_status & DO_ON_BIT[i])
-				{
-					DIGITAL_OUTPUT.do_status |= ON_BIT[i]; // DIGITAL_OUTPUT.do_status - DO display 변수 최종
-				}
-				else
-				{
-					DIGITAL_OUTPUT.do_status &= OFF_BIT[i];
-				}
-				//-------- DO display, Wave 저장, COMM용 END
-			}
-			SYSTEM.do_status_backup = SYSTEM.do_status;
-		}
-		// 위에서 분류해 놓은대로 이벤트 저장
-		if(EVENT.do_off & 0x0000ffff)	{event_direct_save(&EVENT.do_off);}
-		if(EVENT.do_on & 0x0000ffff)	{event_direct_save(&EVENT.do_on);}
+//		if(SYSTEM.do_status != SYSTEM.do_status_backup)	// do 상태가 바뀌면
+//		{
+//			temp = SYSTEM.do_status_backup ^ SYSTEM.do_status;	// 틀어진 놈 필터링
+//			for(i = 0; i < 9; i++)
+//			{
+//				if(temp & DO_ON_BIT[i])	// 틀어졌나?
+//				{
+//					if(SYSTEM.do_status & DO_ON_BIT[i])	// close? 비트가 1
+//					{
+//						EVENT.do_on |= ON_BIT[i];
+//					}
+//					else	// open
+//					{
+//						EVENT.do_off |= ON_BIT[i];
+//					}
+//				}
+//				//-------- DO display, Wave 저장, COMM용 (DO display 기능은 현재 없음)
+//				if(SYSTEM.do_status & DO_ON_BIT[i])
+//				{
+//					DIGITAL_OUTPUT.do_status |= ON_BIT[i]; // DIGITAL_OUTPUT.do_status - DO display 변수 최종
+//				}
+//				else
+//				{
+//					DIGITAL_OUTPUT.do_status &= OFF_BIT[i];
+//				}
+//				//-------- DO display, Wave 저장, COMM용 END
+//			}
+//			SYSTEM.do_status_backup = SYSTEM.do_status;
+//		}
+//		// 위에서 분류해 놓은대로 이벤트 저장
+//		if(EVENT.do_off & 0x0000ffff)	{event_direct_save(&EVENT.do_off);}
+//		if(EVENT.do_on & 0x0000ffff)	{event_direct_save(&EVENT.do_on);}
 //-------- event 저장 END
 
 //-------- LED로 표시할 data 1초마다 체크
@@ -1223,49 +1223,49 @@ void float_to_integer(float ar_value, unsigned int *ar_address, float scale)
 // ar_index - 계산이 tcs, ccs 구분
 //            0-tcs, 1-ccs
 // do 제어부분 검토 후 confirm
-void supervision_relay(unsigned int ar_index)
-{
-	// 설정된 값보다 작아지면
-	if(SUPERVISION.monitoring[ar_index] < SUPERVISION.pickup[ar_index])
-	{
-		// 일종의 pickup
-		if(SUPERVISION.status[ar_index] == RELAY_NORMAL)
-		SUPERVISION.status[ar_index] = RELAY_DETECT;
-		
-		// pickup
-		else if(SUPERVISION.status[ar_index] == RELAY_DETECT)
-		{
-			//카운터 증가
-			++SUPERVISION.pickup_count[ar_index];
-			
-			// 설정된 동작시간이상되면
-			if(SUPERVISION.pickup_count[ar_index] > SUPERVISION.time[ar_index])
-			{
-				// do 제어
-				//86을 일단 지운다
-				SYSTEM.do_control &= 0xff9f;
-				SYSTEM.do_control |= SUPERVISION.do_output[ar_index]; // 지정된 do 동작 비트 셋
-				
-				SUPERVISION.do_output_off[ar_index] = SUPERVISION.do_output[ar_index];
-							
-				SUPERVISION.status[ar_index] = RELAY_PICKUP;
-				
-				
-				// event				
-			}
-		}
-				
-		else
-		{
-			SUPERVISION.status[ar_index] = RELAY_NORMAL;
-			SUPERVISION.pickup_count[ar_index] = 0;
-					
-			// do 제어
-			do_release(&SUPERVISION.do_output_off[ar_index]);
-			//SYSTEM.do_control &= DIGITAL_OUTPUT.property;
-		}
-	}
-}
+//void supervision_relay(unsigned int ar_index)
+//{
+//	// 설정된 값보다 작아지면
+//	if(SUPERVISION.monitoring[ar_index] < SUPERVISION.pickup[ar_index])
+//	{
+//		// 일종의 pickup
+//		if(SUPERVISION.status[ar_index] == RELAY_NORMAL)
+//		SUPERVISION.status[ar_index] = RELAY_DETECT;
+//		
+//		// pickup
+//		else if(SUPERVISION.status[ar_index] == RELAY_DETECT)
+//		{
+//			//카운터 증가
+//			++SUPERVISION.pickup_count[ar_index];
+//			
+//			// 설정된 동작시간이상되면
+//			if(SUPERVISION.pickup_count[ar_index] > SUPERVISION.time[ar_index])
+//			{
+//				// do 제어
+//				//86을 일단 지운다
+//				SYSTEM.do_control &= 0xff9f;
+//				SYSTEM.do_control |= SUPERVISION.do_output[ar_index]; // 지정된 do 동작 비트 셋
+//				
+//				SUPERVISION.do_output_off[ar_index] = SUPERVISION.do_output[ar_index];
+//							
+//				SUPERVISION.status[ar_index] = RELAY_PICKUP;
+//				
+//				
+//				// event				
+//			}
+//		}
+//				
+//		else
+//		{
+//			SUPERVISION.status[ar_index] = RELAY_NORMAL;
+//			SUPERVISION.pickup_count[ar_index] = 0;
+//					
+//			// do 제어
+//			do_release(&SUPERVISION.do_output_off[ar_index]);
+//			//SYSTEM.do_control &= DIGITAL_OUTPUT.property;
+//		}
+//	}
+//}
 
 // 문] "TDD(Total Demand Distortion)에 대한 식이 있는지 그것을 구하면 어떻게 구하는것인지"
 //답]   THD[%] = {고조파전류/기본파전류}*100 = {root(I2^2+I3^2+,,,I50^2)/I1}*100

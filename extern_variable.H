@@ -225,12 +225,13 @@ extern struct
 	
 	unsigned int remote1_local0;
 	
-	unsigned int do_status;
+//unsigned int do_status;
 	unsigned int do_control;
+	unsigned int do_out;
 	unsigned int di_present;
 	unsigned int di_past;
 	unsigned int di_debounce_timer[8];
-	unsigned int do_status_backup;
+//unsigned int do_status_backup;
 	
 	unsigned int led_on;
 	unsigned int led_mode;
@@ -437,6 +438,7 @@ extern struct
 	unsigned int current_set;
 	unsigned int time_lever;
 	unsigned int do_relay;
+
 	unsigned int do_output;// 순서 지킬것
 	unsigned int do_output_off;// 순서 지킬것
 	
@@ -448,19 +450,25 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long op_count;
-	unsigned int Dropout_Count;            
-	
-	unsigned long event_ready;
-	
-	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
 
+	unsigned long op_count;
+	unsigned int pickup_limit;
+	unsigned long event_ready;
+	unsigned int op_status;
+
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int mode_temp;
 	unsigned int current_set_temp;
 	unsigned int time_lever_temp;
-	unsigned int do_relay_temp;    
+	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;   
 } OCR51_2;
 
 extern struct
@@ -479,20 +487,25 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long op_count;
-	unsigned int Dropout_Count;
-	unsigned int pickup_limit;
-	
-	unsigned long event_ready;
-	
-	unsigned int op_status;
-	unsigned int drop_status;
 
+	unsigned long op_count;
+	unsigned int pickup_limit;
+	unsigned long event_ready;
+	unsigned int op_status;
+
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int mode_temp;
 	unsigned int current_set_temp;
 	unsigned int delay_time_temp;
-	unsigned int do_relay_temp;    
+	unsigned int do_relay_temp;
+	
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } OCGR50;
 
 extern struct
@@ -515,19 +528,25 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long op_count;
-	unsigned int Dropout_Count;
-    
-	unsigned long event_ready;
-    
-	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
 
+	unsigned long op_count;
+	unsigned int pickup_limit;
+	unsigned long event_ready;
+	unsigned int op_status;   //순서엄수
+
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int mode_temp;
 	unsigned int current_set_temp;
 	unsigned int time_lever_temp;
 	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } OCGR51;
 
 extern struct
@@ -545,21 +564,26 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
+
 	unsigned long op_count;
-	unsigned int Dropout_Count;
-	
+	unsigned int pickup_limit;
 	unsigned long event_ready;
-	
 	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
-	
 	unsigned int over_volt;
 
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int voltage_set_temp;
 	unsigned int voltage_set_temp2;
 	unsigned int delay_time_temp;
 	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } UVR_1;
 
 extern struct
@@ -577,21 +601,26 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
+
 	unsigned long op_count;
-	unsigned int Dropout_Count;
-	
+	unsigned int pickup_limit;
 	unsigned long event_ready;
-	
 	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
-	
 	unsigned int over_volt;
 
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int voltage_set_temp;
 	unsigned int voltage_set_temp2;
 	unsigned int delay_time_temp;
 	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } UVR_2;
 
 extern struct
@@ -609,21 +638,26 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
+
 	unsigned long op_count;
-	unsigned int Dropout_Count;
-	
+	unsigned int pickup_limit;
 	unsigned long event_ready;
-	
 	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
-	
 	unsigned int over_volt;
 
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int voltage_set_temp;
 	unsigned int voltage_set_temp2;
 	unsigned int delay_time_temp;
 	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } UVR_3;
 
 extern struct
@@ -641,19 +675,25 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long op_count;
-	unsigned int Dropout_Count;
-	
-	unsigned long event_ready;
-	
-	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
 
+	unsigned long op_count;
+	unsigned int pickup_limit;
+	unsigned long event_ready;
+	unsigned int op_status;   //순서엄수
+
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int voltage_set_temp;
 	unsigned int voltage_set_temp2;
 	unsigned int delay_time_temp;
 	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } P47;
 
 extern struct
@@ -671,19 +711,25 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long op_count;
-	unsigned int Dropout_Count;
-	
-	unsigned long event_ready;
-	
-	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
 
+	unsigned long op_count;
+	unsigned int pickup_limit;
+	unsigned long event_ready;
+	unsigned int op_status;   //순서엄수
+
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int voltage_set_temp;
 	unsigned int voltage_set_temp2;
 	unsigned int delay_time_temp;
 	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } N47;
 
 extern struct
@@ -696,6 +742,7 @@ extern struct
 	unsigned int time_lever;
 	unsigned int do_relay;
 
+	unsigned int delay_ms;
 	unsigned int do_output;// 순서 지킬것
 	unsigned int do_output_off;// 순서 지킬것
 	
@@ -707,16 +754,13 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long op_count;
-	unsigned int Dropout_Count;
-	
-	unsigned int pickup_limit;
-	
-	unsigned long event_ready;
-	
-	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
 
+	unsigned long op_count;
+	unsigned int pickup_limit;
+	unsigned long event_ready;
+	unsigned int op_status;   //순서엄수
+
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int mode_temp;
 	unsigned int voltage_set_temp;
@@ -724,6 +768,13 @@ extern struct
 	unsigned int delay_time_temp;
 	unsigned int time_lever_temp;
 	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } OVR;
 
 extern struct
@@ -735,6 +786,7 @@ extern struct
 	unsigned int time_lever;	
 	unsigned int do_relay;
 
+	unsigned int delay_ms;
 	unsigned int do_output;// 순서 지킬것
 	unsigned int do_output_off;// 순서 지킬것
 	
@@ -746,22 +798,26 @@ extern struct
 	// 내부운용	
 	float Pickup_Threshold; // 순서 지킬것
 	float Dropout_Threshold; // 순서 지킬것
-	unsigned long op_count;
-	unsigned int Dropout_Count;
-	        
-	unsigned int pickup_limit;
-	
-	unsigned long event_ready;
-	
-	unsigned int op_status;   //순서엄수
-	unsigned int drop_status; //순서엄수
 
+	unsigned long op_count;
+	unsigned int pickup_limit;
+	unsigned long event_ready;
+	unsigned int op_status;   //순서엄수
+
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int mode_temp;
 	unsigned int voltage_set_temp;
 	unsigned int voltage_set_temp2;
 	unsigned int time_lever_temp;	
 	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } OVGR;
 
 extern struct
@@ -783,17 +839,16 @@ extern struct
 	float Dropout_Threshold_Io; // 순서 지킬것
 	float Pickup_Threshold_Vo; // 순서 지킬것
 	float Dropout_Threshold_Vo; // 순서 지킬것
+
+	unsigned int pickup_limit;
 	unsigned long op_count;
-	unsigned int Dropout_Count;
 	int angle_low;
 	int angle_high;
 	float angle_sub;
-	
 	unsigned long event_ready;
-	
 	unsigned int op_status;
-	unsigned int drop_status;
 
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int current_set_temp; 
 	unsigned int current_set_temp2;
@@ -802,6 +857,13 @@ extern struct
 	unsigned int angle_set_temp;
 	unsigned int delay_time_temp;
 	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } DGR;
 
 extern struct
@@ -823,17 +885,16 @@ extern struct
 	float Dropout_Threshold_Io; // 순서 지킬것
 	float Pickup_Threshold_Vo; // 순서 지킬것
 	float Dropout_Threshold_Vo; // 순서 지킬것
+
+	unsigned int pickup_limit;
 	unsigned long op_count;
-	unsigned int Dropout_Count;
 	int angle_low;
 	int angle_high;
 	float angle_sub;
-	
 	unsigned long event_ready;
-	
 	unsigned int op_status;
-	unsigned int drop_status;
 
+	// 추가 부분
 	unsigned int use_temp;
 	unsigned int current_set_temp; 
 	unsigned int current_set_temp2;
@@ -842,6 +903,13 @@ extern struct
 	unsigned int angle_set_temp;
 	unsigned int delay_time_temp;
 	unsigned int do_relay_temp;
+
+	float Op_Ratio;
+	unsigned int Op_Phase;
+	float Op_Time;
+
+	unsigned long Pickup_Time;
+	unsigned long Delay_Time;
 } SGR;
 
 extern struct
@@ -1198,10 +1266,10 @@ extern struct
 	float io_max;
 } ACCUMULATION;
 
-extern unsigned int const DO_ON_BIT[9];
-extern unsigned int const DO_OFF_BIT[7];
-extern unsigned int const ON_BIT[9];
-extern unsigned int const OFF_BIT[9];
+extern unsigned int const DO_ON_BIT[8];
+extern unsigned int const DO_OFF_BIT[8];
+//extern unsigned int const ON_BIT[9];
+//extern unsigned int const OFF_BIT[9];
 
 extern float cos_table[12];
 extern float sin_table[12];

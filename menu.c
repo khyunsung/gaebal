@@ -14040,8 +14040,8 @@ void menu_157_02(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0],"AX.1 2 3 4 5 6 7 8  \0");
-	sprintf(str[1],"RY.%c %c %c %c %c %c %c %c  \0",
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
 			(DIGITAL_OUTPUT.property_temp & 0x01) ? 'L': 'U',
 			(DIGITAL_OUTPUT.property_temp & 0x02) ? 'L': 'U',
 			(DIGITAL_OUTPUT.property_temp & 0x04) ? 'L': 'U',
@@ -14054,7 +14054,7 @@ void menu_157_02(unsigned int value, int display)
 
 	if(display) {
 		screen_frame2(str);
-		cursor_move(1, Screen_Position.select*2 + 3);
+		cursor_move(1, Screen_Position.select*2 + 5);
 		return;
 	}
 

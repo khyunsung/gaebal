@@ -346,13 +346,12 @@ void setting_post_handling(unsigned int *ar_address)
 		OCR50_1.Op_Phase = 0;
 		OCR50_1.Op_Time = 0.0;
 
-//DO 정리 필요		
-//		OCR50_1.do_output = 0;
-//		for(i = 0; i < 9; i++)
-//		{
-//			if(OCR50_1.do_relay & (0x0001 << i))
-//			OCR50_1.do_output |= DO_ON_BIT[i];
-//		}
+		OCR50_1.do_output = 0;
+		for(i = 0; i < 8; i++)
+		{
+			if(OCR50_1.do_relay & (0x0001 << i))
+			OCR50_1.do_output |= DO_ON_BIT[i];
+		}
 		
 		if(OCR50_1.mode == DEFINITE)
 		{
@@ -386,13 +385,12 @@ void setting_post_handling(unsigned int *ar_address)
 		OCR50_2.Op_Phase = 0;
 		OCR50_2.Op_Time = 0.0;
 
-//DO 정리 필요		
-//		OCR50_2.do_output = 0;
-//		for(i = 0; i < 9; i++)
-//		{
-//			if(OCR50_2.do_relay & (0x0001 << i))
-//			OCR50_2.do_output |= DO_ON_BIT[i];
-//		}
+		OCR50_2.do_output = 0;
+		for(i = 0; i < 8; i++)
+		{
+			if(OCR50_2.do_relay & (0x0001 << i))
+			OCR50_2.do_output |= DO_ON_BIT[i];
+		}
 		
 		if(OCR50_2.mode == DEFINITE)
 		{
@@ -426,13 +424,13 @@ void setting_post_handling(unsigned int *ar_address)
 		OCR51_1.Op_Phase = 0;
 		OCR51_1.Op_Time = 0.0;
 	
-//DO 정리 필요		
-//		OCR51_1.do_output = 0;
-//		for(i = 0; i < 9; i++)
-//		{
-//			if(OCR51_1.do_relay & (0x0001 << i))
-//			OCR51_1.do_output |= DO_ON_BIT[i];
-//		}
+		OCR51_1.do_output = 0;
+		for(i = 0; i < 8; i++)
+		{
+			if(OCR51_1.do_relay & (0x0001 << i))
+			OCR51_1.do_output |= DO_ON_BIT[i];
+		}
+
 		OCR51_1.pickup_limit = INVERSE_PICKUP_LIMIT;
 
 //		OCR51_1.setting = (float)OCR51_1.current_set;		
@@ -470,48 +468,52 @@ void setting_post_handling(unsigned int *ar_address)
 	else if(ar_address == OCR51_2_USE)
 	{
 		OCR51_2.Pickup_Threshold = (float)OCR51_2.current_set;
-		OCR51_2.Pickup_Threshold *= 0.102; // 0.102 = 0.1 * 1.02
+		OCR51_2.Pickup_Threshold *= 0.1;
 	
 		OCR51_2.Dropout_Threshold = (float)OCR51_2.current_set;
 		OCR51_2.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
 		
 		OCR51_2.op_status = RELAY_NORMAL;
-		OCR51_2.drop_status = DROPOUT_NORMAL;
-		
+		OCR51_2.Op_Ratio = 0.0;
+		OCR51_2.Op_Phase = 0;
+		OCR51_2.Op_Time = 0.0;
+	
 		OCR51_2.do_output = 0;
-		for(i = 0; i < 9; i++)
+		for(i = 0; i < 8; i++)
 		{
 			if(OCR51_2.do_relay & (0x0001 << i))
 			OCR51_2.do_output |= DO_ON_BIT[i];
 		}
+
+		OCR51_2.pickup_limit = INVERSE_PICKUP_LIMIT;
+
+//		OCR51_2.setting = (float)OCR51_2.current_set;		
+//		OCR51_2.setting *= 0.1;
+//		
+//		if(CORE.rated_ct != CT_1A)
+//		OCR51_2.setting *= 5;
+//	
+//		OCR51_2.Mbyk = (float)OCR51_2.time_lever;
+//		OCR51_2.Mbyk *= 0.01;
+//		
+//		if(OCR51_2.mode == INVERSE)
+//		{
+//			OCR51_2.Mbyk *= IEC_INV_k;
+//			OCR51_2.a = IEC_INV_a;
+//		}
+//		else if(OCR51_2.mode == V_INVERSE)
+//		{
+//			OCR51_2.Mbyk *= IEC_VINV_k;
+//			OCR51_2.a = IEC_VINV_a;
+//		}
+//		else
+//		{
+//			OCR51_2.Mbyk *= IEC_EINV_k;
+//			OCR51_2.a = IEC_EINV_a;
+//		}
 	
-		OCR51_2.setting = (float)OCR51_2.current_set;
-		OCR51_2.setting *= 0.1;
-		
-		if(CORE.rated_ct != CT_1A)
-		OCR51_2.setting *= 5;
-	
-		OCR51_2.Mbyk = (float)OCR51_2.time_lever;
-		OCR51_2.Mbyk *= 0.01;
-		
-		if(OCR51_2.mode == INVERSE)
-		{
-			OCR51_2.Mbyk *= IEC_INV_k;
-			OCR51_2.a = IEC_INV_a;
-		}
-		else if(OCR51_2.mode == V_INVERSE)
-		{
-			OCR51_2.Mbyk *= IEC_VINV_k;
-			OCR51_2.a = IEC_VINV_a;
-		}
-		else
-		{
-			OCR51_2.Mbyk *= IEC_EINV_k;
-			OCR51_2.a = IEC_EINV_a;
-		}
-	
-		OCR51_2.event_ready = OCR51_2_SET_EVENT;
-		OCR51_2.event_ready |= (unsigned long)(OCR51_2.mode << 8);
+//	OCR51_2.event_ready = OCR51_2_SET_EVENT;
+//	OCR51_2.event_ready |= (unsigned long)(OCR51_2.mode << 8);
 		
 		RELAY_STATUS.pickup							&= ~F_OCR51_2;
 		RELAY_STATUS.operation_realtime	&= ~F_OCR51_2;
@@ -526,10 +528,12 @@ void setting_post_handling(unsigned int *ar_address)
 		OCGR50.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
 		
 		OCGR50.op_status = RELAY_NORMAL;
-		OCGR50.drop_status = DROPOUT_NORMAL;
+		OCGR50.Op_Ratio = 0.0;
+		OCGR50.Op_Phase = 0;
+		OCGR50.Op_Time = 0.0;
 		
 		OCGR50.do_output = 0;
-		for(i = 0; i < 9; i++)
+		for(i = 0; i < 8; i++)
 		{
 			if(OCGR50.do_relay & (0x0001 << i))
 			OCGR50.do_output |= DO_ON_BIT[i];
@@ -565,43 +569,45 @@ void setting_post_handling(unsigned int *ar_address)
 		OCGR51.Dropout_Threshold *= 0.0097; // 0.0097 = 0.01 * 0.97
 		
 		OCGR51.op_status = RELAY_NORMAL;
-		OCGR51.drop_status = DROPOUT_NORMAL;
+		OCGR51.Op_Ratio = 0.0;
+		OCGR51.Op_Phase = 0;
+		OCGR51.Op_Time = 0.0;
 		
 		OCGR51.do_output = 0;
-		for(i = 0; i < 9; i++)
+		for(i = 0; i < 8; i++)
 		{
 			if(OCGR51.do_relay & (0x0001 << i))
 			OCGR51.do_output |= DO_ON_BIT[i];
 		}
 		
-		OCGR51.setting = (float)OCGR51.current_set;
-		OCGR51.setting *= 0.01;
+//		OCGR51.setting = (float)OCGR51.current_set;
+//		OCGR51.setting *= 0.01;
+//		
+//		if(CORE.rated_ct != CT_1A)
+//		OCGR51.setting *= 5;
+//		
+//		OCGR51.Mbyk = (float)OCGR51.time_lever;
+//		OCGR51.Mbyk *= 0.01;
+//		
+//		if(OCGR51.mode == INVERSE)
+//		{
+//			OCGR51.Mbyk *= IEC_INV_k;
+//			OCGR51.a = IEC_INV_a;
+//		}
+//		else if(OCGR51.mode == V_INVERSE)
+//		{
+//			OCGR51.Mbyk *= IEC_VINV_k;
+//			OCGR51.a = IEC_VINV_a;
+//		}
+//		else
+//		{
+//			OCGR51.Mbyk *= IEC_EINV_k;
+//			OCGR51.a = IEC_EINV_a;
+//		}
 		
-		if(CORE.rated_ct != CT_1A)
-		OCGR51.setting *= 5;
-		
-		OCGR51.Mbyk = (float)OCGR51.time_lever;
-		OCGR51.Mbyk *= 0.01;
-		
-		if(OCGR51.mode == INVERSE)
-		{
-			OCGR51.Mbyk *= IEC_INV_k;
-			OCGR51.a = IEC_INV_a;
-		}
-		else if(OCGR51.mode == V_INVERSE)
-		{
-			OCGR51.Mbyk *= IEC_VINV_k;
-			OCGR51.a = IEC_VINV_a;
-		}
-		else
-		{
-			OCGR51.Mbyk *= IEC_EINV_k;
-			OCGR51.a = IEC_EINV_a;
-		}
-		
-		OCGR51.event_ready = OCGR51_SET_EVENT;
-		OCGR51.event_ready |= (unsigned long)(OCGR51.mode << 8);
-		OCGR51.event_ready |= 0x00000008;
+//		OCGR51.event_ready = OCGR51_SET_EVENT;
+//		OCGR51.event_ready |= (unsigned long)(OCGR51.mode << 8);
+//		OCGR51.event_ready |= 0x00000008;
 		
 		RELAY_STATUS.pickup							&= ~F_OCGR51;
 		RELAY_STATUS.operation_realtime	&= ~F_OCGR51;
@@ -619,10 +625,12 @@ void setting_post_handling(unsigned int *ar_address)
 		UVR_1.Dropout_Threshold *= GPT.pt_secondary;
 			
 		UVR_1.op_status = RELAY_NORMAL;
-		UVR_1.drop_status = DROPOUT_NORMAL;
+		UVR_1.Op_Ratio = 0.0;
+		UVR_1.Op_Phase = 0;
+		UVR_1.Op_Time = 0.0;
 		
 		UVR_1.do_output = 0;
-		for(i = 0; i < 9; i++)
+		for(i = 0; i < 8; i++)
 		{
 			if(UVR_1.do_relay & (0x0001 << i))
 			UVR_1.do_output |= DO_ON_BIT[i];
@@ -630,12 +638,14 @@ void setting_post_handling(unsigned int *ar_address)
 		
 		UVR_1.delay_ms = UVR_1.delay_time * 10;
 		UVR_1.delay_ms -=DEFINITE_PICKUP_LIMIT;
-		UVR_1.event_ready = UVR_1_SET_EVENT;
-		UVR_1.event_ready |= 0x00000100;
+
+//		UVR_1.event_ready = UVR_1_SET_EVENT;
+//		UVR_1.event_ready |= 0x00000100;
+
 		UVR_1.over_volt = 0;
 		
-		RELAY_STATUS.pickup							&= ~F_RUVR;
-		RELAY_STATUS.operation_realtime	&= ~F_RUVR;
+		RELAY_STATUS.pickup							&= ~F_UVR_1;
+		RELAY_STATUS.operation_realtime	&= ~F_UVR_1;
 		
 		do_release(&UVR_1.do_output_off);
 	}
@@ -652,10 +662,12 @@ void setting_post_handling(unsigned int *ar_address)
 		UVR_2.Dropout_Threshold *= GPT.pt_secondary;
 		
 		UVR_2.op_status = RELAY_NORMAL;
-		UVR_2.drop_status = DROPOUT_NORMAL;
+		UVR_2.Op_Ratio = 0.0;
+		UVR_2.Op_Phase = 0;
+		UVR_2.Op_Time = 0.0;
 		
 		UVR_2.do_output = 0;
-		for(i = 0; i < 9; i++)
+		for(i = 0; i < 8; i++)
 		{
 			if(UVR_2.do_relay & (0x0001 << i))
 			UVR_2.do_output |= DO_ON_BIT[i];
@@ -664,13 +676,13 @@ void setting_post_handling(unsigned int *ar_address)
 		UVR_2.delay_ms = UVR_2.delay_time * 10;
 		UVR_2.delay_ms -= DEFINITE_PICKUP_LIMIT;
 	
-		UVR_2.event_ready = UVR_2_SET_EVENT;
-		UVR_2.event_ready |= 0x00000100;
+//		UVR_2.event_ready = UVR_2_SET_EVENT;
+//		UVR_2.event_ready |= 0x00000100;
 		
 		UVR_2.over_volt = 0;
 		
-		RELAY_STATUS.pickup							&= ~F_MUVR;
-		RELAY_STATUS.operation_realtime	&= ~F_MUVR;
+		RELAY_STATUS.pickup							&= ~F_UVR_2;
+		RELAY_STATUS.operation_realtime	&= ~F_UVR_2;
 		
 		do_release(&UVR_2.do_output_off);
 	}
@@ -687,10 +699,12 @@ void setting_post_handling(unsigned int *ar_address)
 		UVR_3.Dropout_Threshold *= GPT.pt_secondary;
 		
 		UVR_3.op_status = RELAY_NORMAL;
-		UVR_3.drop_status = DROPOUT_NORMAL;
+		UVR_3.Op_Ratio = 0.0;
+		UVR_3.Op_Phase = 0;
+		UVR_3.Op_Time = 0.0;
 	
 		UVR_3.do_output = 0;
-		for(i = 0; i < 9; i++)
+		for(i = 0; i < 8; i++)
 		{
 			if(UVR_3.do_relay & (0x0001 << i))
 			UVR_3.do_output |= DO_ON_BIT[i];
@@ -699,13 +713,13 @@ void setting_post_handling(unsigned int *ar_address)
 		UVR_3.delay_ms = UVR_3.delay_time * 10;
 		UVR_3.delay_ms -= DEFINITE_PICKUP_LIMIT;
 	
-		UVR_3.event_ready = UVR_3_SET_EVENT;
-		UVR_3.event_ready |= 0x00000100;
+//		UVR_3.event_ready = UVR_3_SET_EVENT;
+//		UVR_3.event_ready |= 0x00000100;
 		
 		UVR_3.over_volt = 0;
 		
-		RELAY_STATUS.pickup							&= ~F_SUVR;
-		RELAY_STATUS.operation_realtime	&= ~F_SUVR;
+		RELAY_STATUS.pickup							&= ~F_UVR_3;
+		RELAY_STATUS.operation_realtime	&= ~F_UVR_3;
 		
 		do_release(&UVR_3.do_output_off);
 	}
@@ -722,10 +736,12 @@ void setting_post_handling(unsigned int *ar_address)
 		P47.Dropout_Threshold *= GPT.pt_secondary;
 	
 		P47.op_status = RELAY_NORMAL;
-		P47.drop_status = DROPOUT_NORMAL;
+		P47.Op_Ratio = 0.0;
+		P47.Op_Phase = 0;
+		P47.Op_Time = 0.0;
 	
 		P47.do_output = 0;
-		for(i = 0; i < 9; i++)
+		for(i = 0; i < 8; i++)
 		{
 			if(P47.do_relay & (0x0001 << i))
 			P47.do_output |= DO_ON_BIT[i];
@@ -734,8 +750,8 @@ void setting_post_handling(unsigned int *ar_address)
 		P47.delay_ms = P47.delay_time * 10;
 		P47.delay_ms -= DEFINITE_PICKUP_LIMIT;
 	
-		P47.event_ready = P47_SET_EVENT;
-		P47.event_ready |= 0x00000100;
+//		P47.event_ready = P47_SET_EVENT;
+//		P47.event_ready |= 0x00000100;
 	
 		RELAY_STATUS.pickup							&= ~F_P47;
 		RELAY_STATUS.operation_realtime	&= ~F_P47;
@@ -753,10 +769,12 @@ void setting_post_handling(unsigned int *ar_address)
 		N47.Dropout_Threshold *= GPT.pt_secondary;
 
 		N47.op_status = RELAY_NORMAL;
-		N47.drop_status = DROPOUT_NORMAL;
+		N47.Op_Ratio = 0.0;
+		N47.Op_Phase = 0;
+		N47.Op_Time = 0.0;
 
 		N47.do_output = 0;
-		for(i = 0; i < 9; i++)
+		for(i = 0; i < 8; i++)
 		{
 			if(N47.do_relay & (0x0001 << i))
 			N47.do_output |= DO_ON_BIT[i];
@@ -765,8 +783,8 @@ void setting_post_handling(unsigned int *ar_address)
 		N47.delay_ms = N47.delay_time * 10;
 		N47.delay_ms -= DEFINITE_PICKUP_LIMIT;
 
-		N47.event_ready = N47_SET_EVENT;
-		N47.event_ready |= 0x00000100;
+//		N47.event_ready = N47_SET_EVENT;
+//		N47.event_ready |= 0x00000100;
 
 		RELAY_STATUS.pickup							&= ~F_N47;
 		RELAY_STATUS.operation_realtime	&= ~F_N47;
@@ -784,10 +802,12 @@ void setting_post_handling(unsigned int *ar_address)
 		OVR.Dropout_Threshold *= GPT.pt_secondary;
 		
 		OVR.op_status = RELAY_NORMAL;
-		OVR.drop_status = DROPOUT_NORMAL;
+		OVR.Op_Ratio = 0.0;
+		OVR.Op_Phase = 0;
+		OVR.Op_Time = 0.0;
 		
 		OVR.do_output = 0;
-		for(i = 0; i < 9; i++)
+		for(i = 0; i < 8; i++)
 		{
 			if(OVR.do_relay & (0x0001 << i))
 			OVR.do_output |= DO_ON_BIT[i];
@@ -814,8 +834,8 @@ void setting_post_handling(unsigned int *ar_address)
 		
 			OVR.pickup_limit = DEFINITE_PICKUP_LIMIT;
 		}
-		OVR.event_ready = OVR_SET_EVENT;
-		OVR.event_ready |= (unsigned long)(OVR.mode << 8);
+//		OVR.event_ready = OVR_SET_EVENT;
+//		OVR.event_ready |= (unsigned long)(OVR.mode << 8);
 		
 		RELAY_STATUS.pickup							&= ~F_OVR;
 		RELAY_STATUS.operation_realtime	&= ~F_OVR;
@@ -833,10 +853,12 @@ void setting_post_handling(unsigned int *ar_address)
 		OVGR.Dropout_Threshold *= GPT.pt_tertiary;
 		
 		OVGR.op_status = RELAY_NORMAL;
-		OVGR.drop_status = DROPOUT_NORMAL;
+		OVGR.Op_Ratio = 0.0;
+		OVGR.Op_Phase = 0;
+		OVGR.Op_Time = 0.0;
 	
 		OVGR.do_output = 0;
-		for(i = 0; i < 9; i++)
+		for(i = 0; i < 8; i++)
 		{
 			if(OVGR.do_relay & (0x0001 << i))
 			OVGR.do_output |= DO_ON_BIT[i];
@@ -860,9 +882,9 @@ void setting_post_handling(unsigned int *ar_address)
 			OVGR.Op_Time_set = 7;
 			OVGR.pickup_limit = INSTANT_PICKUP_LIMIT;
 		}
-		OVGR.event_ready = OVGR_SET_EVENT;
-		OVGR.event_ready |= (unsigned long)(OVGR.mode << 8);
-		OVGR.event_ready |= 0x00000008;
+//		OVGR.event_ready = OVGR_SET_EVENT;
+//		OVGR.event_ready |= (unsigned long)(OVGR.mode << 8);
+//		OVGR.event_ready |= 0x00000008;
 		
 		RELAY_STATUS.pickup							&= ~F_OVGR;
 		RELAY_STATUS.operation_realtime	&= ~F_OVGR;
@@ -904,28 +926,31 @@ void setting_post_handling(unsigned int *ar_address)
 		DGR.angle_high += 60;
 		
 		DGR.op_status = RELAY_NORMAL;
-		DGR.drop_status = DROPOUT_NORMAL;
+		DGR.Op_Ratio = 0.0;
+		DGR.Op_Phase = 0;
+		DGR.Op_Time = 0.0;
 		
 		DGR.delay_ms = DGR.delay_time * 10;
 		DGR.delay_ms -= DEFINITE_PICKUP_LIMIT;
 		
 		DGR.do_output = 0;
-		for(i = 0; i < 9; i++)
+		for(i = 0; i < 8; i++)
 		{
 			if(DGR.do_relay & (0x0001 << i))
 			{
 				DGR.do_output |= DO_ON_BIT[i];
 			}
 		}
-		if(CORE.gr_select == ZCT_SELECT)
-		{
-			DGR.event_ready = SGR_SET_EVENT;
-		}
-		else
-		{
-			DGR.event_ready = DGR_SET_EVENT;
-		}
-		DGR.event_ready |= 0x00000100;
+	
+//		if(CORE.gr_select == ZCT_SELECT)
+//		{
+//			DGR.event_ready = SGR_SET_EVENT;
+//		}
+//		else
+//		{
+//			DGR.event_ready = DGR_SET_EVENT;
+//		}
+//		DGR.event_ready |= 0x00000100;
 		
 		RELAY_STATUS.pickup							&= ~F_DGR;
 		RELAY_STATUS.operation_realtime	&= ~F_DGR;
@@ -967,28 +992,31 @@ void setting_post_handling(unsigned int *ar_address)
 		SGR.angle_high += 60;
 		
 		SGR.op_status = RELAY_NORMAL;
-		SGR.drop_status = DROPOUT_NORMAL;
+		SGR.Op_Ratio = 0.0;
+		SGR.Op_Phase = 0;
+		SGR.Op_Time = 0.0;
 		
 		SGR.delay_ms = SGR.delay_time * 10;
 		SGR.delay_ms -= DEFINITE_PICKUP_LIMIT;
 		
 		SGR.do_output = 0;
-		for(i = 0; i < 9; i++)
+		for(i = 0; i < 8; i++)
 		{
 			if(SGR.do_relay & (0x0001 << i))
 			{
 				SGR.do_output |= DO_ON_BIT[i];
 			}
 		}
-		if(CORE.gr_select == ZCT_SELECT)
-		{
-			SGR.event_ready = SGR_SET_EVENT;
-		}
-		else
-		{
-			SGR.event_ready = SGR_SET_EVENT;
-		}
-		SGR.event_ready |= 0x00000100;
+
+//		if(CORE.gr_select == ZCT_SELECT)
+//		{
+//			SGR.event_ready = SGR_SET_EVENT;
+//		}
+//		else
+//		{
+//			SGR.event_ready = SGR_SET_EVENT;
+//		}
+//		SGR.event_ready |= 0x00000100;
 		
 		RELAY_STATUS.pickup							&= ~F_SGR;
 		RELAY_STATUS.operation_realtime	&= ~F_SGR;

@@ -9,13 +9,12 @@
 
 // ram으로 올라가는 code 선언
 #pragma CODE_SECTION(InitFlash, "ramfuncs");
-//#pragma CODE_SECTION(TINT0_ISR, "ramfuncs");
 #pragma CODE_SECTION(TINT1_ISR, "ramfuncs");
-//#pragma CODE_SECTION(TINT2_ISR, "ramfuncs");
 #pragma CODE_SECTION(XINT3_ISR, "ramfuncs");
 #pragma CODE_SECTION(SCIRXB_ISR, "ramfuncs");
 #pragma CODE_SECTION(SCITXINTB_ISR, "ramfuncs");
 #pragma CODE_SECTION(SCITXINTC_ISR, "ramfuncs");
+
 #pragma CODE_SECTION(real_main, "ramfuncs");
 //#pragma CODE_SECTION(manager_handling, "ramfuncs");
 #pragma CODE_SECTION(make_crc_send, "ramfuncs");
@@ -38,18 +37,37 @@
 #pragma CODE_SECTION(measure_view_detail, "ramfuncs");
 
 #pragma CODE_SECTION(OCR50_1_RELAY, "ramfuncs");
+#pragma CODE_SECTION(OCR50_2_RELAY, "ramfuncs");
+#pragma CODE_SECTION(OCR51_1_RELAY, "ramfuncs");
+#pragma CODE_SECTION(OCR51_1_RELAY, "ramfuncs");
+#pragma CODE_SECTION(OCGR50_RELAY, "ramfuncs");
+
+#pragma CODE_SECTION(OCGR51_RELAY, "ramfuncs");
+#pragma CODE_SECTION(UVR_1_RELAY, "ramfuncs");
+#pragma CODE_SECTION(UVR_2_RELAY, "ramfuncs");
+#pragma CODE_SECTION(UVR_3_RELAY, "ramfuncs");
+#pragma CODE_SECTION(P47_RELAY, "ramfuncs");
+
+#pragma CODE_SECTION(N47_RELAY, "ramfuncs");
+#pragma CODE_SECTION(OVR_RELAY, "ramfuncs");
+#pragma CODE_SECTION(OVGR_RELAY, "ramfuncs");
+#pragma CODE_SECTION(DGR_RELAY, "ramfuncs");
+#pragma CODE_SECTION(SGR_RELAY, "ramfuncs");
+
 #pragma CODE_SECTION(relay_normal_to_detect, "ramfuncs");
 #pragma CODE_SECTION(relay_detect_to_pickup, "ramfuncs");
 #pragma CODE_SECTION(relay_pickup_to_operation, "ramfuncs");
 #pragma CODE_SECTION(relay_opeartion_to_dropout, "ramfuncs");
 #pragma CODE_SECTION(relay_dropout_to_normal, "ramfuncs");
 
-#pragma CODE_SECTION(supervision_relay, "ramfuncs");
+//#pragma CODE_SECTION(supervision_relay, "ramfuncs");
 
 #pragma CODE_SECTION(float_to_8bit_fram, "ramfuncs");
 #pragma CODE_SECTION(wave_dump_serial_sram, "ramfuncs");
 
-#pragma CODE_SECTION(do_release, "ramfuncs");
+#pragma CODE_SECTION(Relay_On, "ramfuncs");
+#pragma CODE_SECTION(Relay_Off, "ramfuncs");
+//#pragma CODE_SECTION(do_release, "ramfuncs");
 #pragma CODE_SECTION(over_phase_value_check, "ramfuncs");
 #pragma CODE_SECTION(under_phase_value_check, "ramfuncs");
 
@@ -83,9 +101,9 @@
 #define F_OCR51_2         0x00000008
 #define F_OCGR50          0x00000010
 #define F_OCGR51          0x00000020
-#define F_RUVR            0x00000040
-#define F_MUVR            0x00000080
-#define F_SUVR            0x00000100
+#define F_UVR_1           0x00000040
+#define F_UVR_2           0x00000080
+#define F_UVR_3           0x00000100
 #define F_P47             0x00000200
 #define F_N47             0x00000400
 #define F_OVR             0x00000800

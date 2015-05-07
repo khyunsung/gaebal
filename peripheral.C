@@ -1602,4 +1602,38 @@ void DO_Output(unsigned int ar_value)
 	TLE6208_CS_HIGH;	
 }
 
+void Relay_On(unsigned int ar_value)
+{
+	unsigned int i;
+
+	SYSTEM.do_out |= ar_value;
+
+	TLE6208_CS_LOW;	//chip select
+	for(i = 0; i < 16; i++)
+	{
+		TLE6208_CLK_HIGH;
+		if(SYSTEM.do_out & (0x8000 >> i))	{TLE6208_DI_HIGH;}
+		else															{TLE6208_DI_LOW;}
+		TLE6208_CLK_LOW;			
+	}
+	TLE6208_CS_HIGH;	
+}
+
+void Relay_Off(unsigned int ar_value)
+{
+	unsigned int i;
+
+	SYSTEM.do_out &= ~ar_value;
+
+	TLE6208_CS_LOW;	//chip select
+	for(i = 0; i < 16; i++)
+	{
+		TLE6208_CLK_HIGH;
+		if(SYSTEM.do_out & (0x8000 >> i))	{TLE6208_DI_HIGH;}
+		else															{TLE6208_DI_LOW;}
+		TLE6208_CLK_LOW;			
+	}
+	TLE6208_CS_HIGH;	
+}
+
 

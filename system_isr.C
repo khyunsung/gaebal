@@ -706,54 +706,44 @@ interrupt void TINT1_ISR(void)
 {
 //-------- DO 출력
 	// do 부품에 시리얼데이터로 주는데, 15bit 부터 시리얼로 날려줌 (비트위치가 반대로 들어가네)
-	// 해당 비트가 1일 때 do가 close됨. 당근 0이면 open
-	// 단 86용 접점은 close, open 비트가 따로 있음(do10)
-	//                 x L1 H1 L2 H2 L3 H3 L4 H4 L5 H5 L6 H6  x  x  x
-	//                00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15
-	// do1-H1-0x2000   0  0  1  0  0  0  0  0  0  0  0  0  0  0  0  0  
-	// do2-L1-0x4000   0  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
-	// do3-H2-0x0800   0  0  0  0  1  0  0  0  0  0  0  0  0  0  0  0
-	// do4-L2-0x1000   0  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0
-	// do5-H3-0x0200   0  0  0  0  0  0  1  0  0  0  0  0  0  0  0  0
-	// do6-L3-0x0400   0  0  0  0  0  1  0  0  0  0  0  0  0  0  0  0
-	// do7-H4-0x0080   0  0  0  0  0  0  0  0  1  0  0  0  0  0  0  0 -> 계전기 상태알람용. 상시 close (부팅 시 항상 킬것)
-	// do8-H5-0x0020   0  0  0  0  0  0  0  0  0  0  1  0  0  0  0  0
-	// do9-H6-0x0008   0  0  0  0  0  0  0  0  0  0  0  0  1  0  0  0
-	// do10-L6-0x0010  0  0  0  0  0  0  0  0  0  0  0  1  0  0  0  0
-	//!do10-L5-0x0040  0  0  0  0  0  0  0  0  0  1  0  0  0  0  0  0
-	// do10은 86이기 때문에, 전원이 꺼져도 상태를 유지함
-	// 따라서 전원이 켜졌을때 86의 현재 상태를 알아야 함
-	// do10 close 되면 gpio53 0
-	// do10 open 되면  gpio53 1	-> booting_setting_check() 밑부분 참조
-	// 상태에 따라 SYSTEM.do_control 값에 반영함
+	//                   x L1 H1 L2   H2 L3 H3 L4   H4 L5 H5 L6   H6  x  x  x     DISPLAY
+	//                  00 01 02 03   04 05 06 07   08 09 10 11   12 13 14 15
+	// DO_01-H1-0x2000   0  0  1  0    0  0  0  0    0  0  0  0    0  0  0  0 ->   1   ->ALARM
+	// DO_02-L1-0x4000   0  1  0  0    0  0  0  0    0  0  0  0    0  0  0  0 ->   2   ->ALARM
+	// DO_03-H2-0x0800   0  0  0  0    1  0  0  0    0  0  0  0    0  0  0  0 ->   3   ->ALARM
+	// DO_04-L2-0x1000   0  0  0  1    0  0  0  0    0  0  0  0    0  0  0  0 ->   4   ->ALARM
+	// DO_05-H3-0x0200   0  0  0  0    0  0  1  0    0  0  0  0    0  0  0  0 ->   5   ->ALARM
+	// DO_06-H4-0x0080   0  0  0  0    0  0  0  0    1  0  0  0    0  0  0  0 ->   6   ->Normal B접점
+	// DO_07-H5-0x0020   0  0  0  0    0  0  0  0    0  0  1  0    0  0  0  0 ->   7   ->CB CLOSE(ON)
+	// DO_08-H6-0x0008   0  0  0  0    0  0  0  0    0  0  0  0    1  0  0  0 ->   8   ->CB OPEN(OFF)
 	
 	// 현재do 상태와 SYSTEM.do_control 값이 다르면
 	// SYSTEM.do_control - do 제어 변수
 	// SYSTEM.do_status - do 현재 상태
 
-	if(SYSTEM.do_status != SYSTEM.do_control)	// 현재상태와 제어변수가 다르면
-	{
-		TLE6208_CS_LOW;	// do 제어 ic chip select 명령
-		for(TIMER1.temp16_1 = 0; TIMER1.temp16_1 < 16; TIMER1.temp16_1++)	// 상기 명시해둔 bitmap에 의거 16bit를 보내야 함
-		{
-			TLE6208_CLK_HIGH;	// status는 rising edge
-			if(SYSTEM.do_control & (0x8000 >> TIMER1.temp16_1))	//bit가 1이면 high
-			{
-				TLE6208_DI_HIGH;
-			}
-			else	// bit 0이면 low
-			{
-				TLE6208_DI_LOW;
-			}
-			TLE6208_CLK_LOW;	// 출력은 falling edge
-		}
-		TLE6208_CS_HIGH;	// do 제어 ic chip select 명령해제
-
-		// SYSTEM.do_control 값을  SYSTEM.do_status 저장하고, SYSTEM.do_status를 MMI DO status로 표시해줌
-		SYSTEM.do_status = SYSTEM.do_control;
-	}
-	// 최상위 인터럽트 허용하려고 사용했는데 필요 없는지 확인 필요
-	EINT;
+//	if(SYSTEM.do_status != SYSTEM.do_control)	// 현재상태와 제어변수가 다르면
+//	{
+//		TLE6208_CS_LOW;	// do 제어 ic chip select 명령
+//		for(TIMER1.temp16_1 = 0; TIMER1.temp16_1 < 16; TIMER1.temp16_1++)	// 상기 명시해둔 bitmap에 의거 16bit를 보내야 함
+//		{
+//			TLE6208_CLK_HIGH;	// status는 rising edge
+//			if(SYSTEM.do_control & (0x8000 >> TIMER1.temp16_1))	//bit가 1이면 high
+//			{
+//				TLE6208_DI_HIGH;
+//			}
+//			else	// bit 0이면 low
+//			{
+//				TLE6208_DI_LOW;
+//			}
+//			TLE6208_CLK_LOW;	// 출력은 falling edge
+//		}
+//		TLE6208_CS_HIGH;	// do 제어 ic chip select 명령해제
+//
+//		// SYSTEM.do_control 값을  SYSTEM.do_status 저장하고, SYSTEM.do_status를 MMI DO status로 표시해줌
+//		SYSTEM.do_status = SYSTEM.do_control;
+//	}
+//	// 최상위 인터럽트 허용하려고 사용했는데 필요 없는지 확인 필요
+//	EINT;
 //-------- DO 출력 END
 
 //-------- display용 시간 계산
@@ -850,54 +840,18 @@ interrupt void TINT1_ISR(void)
 	++OCR50_1.op_count;	// OCR50-1
 	++OCR50_2.op_count;	// OCR50-2
 	++OCR51_1.op_count; // OCR51-1
-	
-	// OCR51-2
-	++OCR51_2.op_count;
-	++OCR51_2.Dropout_Count;
-
-	// OCGR50
-	++OCGR50.op_count;
-	++OCGR50.Dropout_Count;
-
-	// OCGR51
-	++OCGR51.op_count;	
-	++OCGR51.Dropout_Count;
-
-	// UVR-1
-	++UVR_1.op_count;
-	++UVR_1.Dropout_Count;
-
-	// UVR-2
-	++UVR_2.op_count;	
-	++UVR_2.Dropout_Count;
-	
-	// UVR-3
-	++UVR_3.op_count;
-	++UVR_3.Dropout_Count;
-	
-	// 47P
-	++P47.op_count;	
-	++P47.Dropout_Count;
-	
-	// 47N
-	++N47.op_count;
-	++N47.Dropout_Count;
-	
-	// OVR
-	++OVR.op_count;
-	++OVR.Dropout_Count;
-	
-	// OVGR
-	++OVGR.op_count;	
-	++OVGR.Dropout_Count;
-
-	// DGR
-	++DGR.op_count;
-	++DGR.Dropout_Count;
-
-	// SGR
-	++SGR.op_count;
-	++SGR.Dropout_Count;
+	++OCR51_2.op_count; // OCR51-2
+	++OCGR50.op_count; // OCGR50
+	++OCGR51.op_count;	// OCGR51
+	++UVR_1.op_count; // UVR-1
+	++UVR_2.op_count;	// UVR-2 
+	++UVR_3.op_count; // UVR-3
+	++P47.op_count;	// 47P
+	++N47.op_count; // 47N
+	++OVR.op_count; // OVR
+	++OVGR.op_count; // OVGR
+	++DGR.op_count; // DGR
+	++SGR.op_count; // SGR
 
 	// R-Hour용 타이머
 	// #define DISPLAY_CUT_I_1A        0.021 // (0.04 / 2) * 1.05

@@ -88,6 +88,22 @@ extern void serial_ok_nak_send(unsigned int);
 
 extern void protective_relay(void);
 extern void OCR50_1_RELAY(void);
+extern void OCR50_2_RELAY(void);
+extern void OCR51_1_RELAY(void);
+extern void OCR51_2_RELAY(void);
+extern void OCGR50_RELAY(void);
+
+extern void OCGR51_RELAY(void);
+extern void UVR_1_RELAY(void);
+extern void UVR_2_RELAY(void);
+extern void UVR_3_RELAY(void);
+extern void P47_RELAY(void);
+
+extern void N47_RELAY(void);
+extern void OVR_RELAY(void);
+extern void OVGR_RELAY(void);
+extern void DGR_RELAY(void);
+extern void SGR_RELAY(void);
 
 extern void flash_sector_erase(unsigned int *);
 extern void flash_word_write(unsigned int *, unsigned int);
@@ -181,24 +197,19 @@ extern void relay_pickup_to_operation(unsigned int *, unsigned int, float, unsig
 extern void relay_opeartion_to_dropout(unsigned int *, unsigned int *);
 extern void relay_dropout_to_normal(unsigned long *, unsigned int *, unsigned int, unsigned int *);
 
-//extern void h50_pickup_process(void);
-//extern void h50_dropout_process(void);
-
-extern void supervision_relay(unsigned int);
-//extern void factory_enter(void); //2015.02.25
+//extern void supervision_relay(unsigned int);
 
 extern void float_to_8bit_fram(void *, unsigned int *, unsigned int);
 extern void float_to_integer(float, unsigned int *, float);
 
-extern void relay_use_view(unsigned int, unsigned int);
-
 extern void wave_dump_serial_sram(unsigned int *, unsigned int, unsigned int);
-//extern void do_test_check(unsigned int);
 extern void himix_drive(void);
 extern void himix_crc(unsigned int);
 
 extern void relay_value_set_handling(unsigned int *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 
+extern void Relay_On(unsigned int);
+extern void Relay_Off(unsigned int);
 extern void do_release(unsigned int *);
 extern float over_phase_value_check(unsigned int, float, unsigned long *);
 extern float under_phase_value_check(unsigned int, float, unsigned long *);
@@ -214,4 +225,4 @@ extern void VFD_Single_Line_dump(char, const char *);
 extern void DO_Output(unsigned int);
 extern void Event_Item_Display(void);
 extern void Event_Time_Display(void);
-extern void Save_Screen_Info();
+extern void Save_Screen_Info(void);
