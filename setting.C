@@ -35,19 +35,39 @@ unsigned int setting_save(unsigned int *ar_temp, unsigned int *ar_address, unsig
 	
 // 설정 값에 따른 이벤트 저장
 //---------계전요소 설정 이벤트 저장
-//	if(ar_address == OCR50_1_USE)				{EVENT.relay_set |= OCR50_1_SET_EVENT;}
-//	else if(ar_address == OCR50_2_USE)	{EVENT.relay_set |= OCR50_2_SET_EVENT;}
-//	else if(ar_address == OCR51_1_USE)	{EVENT.relay_set |= OCR51_1_SET_EVENT;}
-//	else if(ar_address == OCR51_2_USE)	{EVENT.relay_set |= OCR51_2_SET_EVENT;}
-//	else if(ar_address == OCGR50_USE)		{EVENT.relay_set |= OCGR50_SET_EVENT;}
-//	else if(ar_address == OCGR51_USE)		{EVENT.relay_set |= OCGR51_SET_EVENT;}
-//	else if(ar_address == UVR_1_USE)		{EVENT.relay_set |= UVR_1_SET_EVENT;}
-//	else if(ar_address == UVR_2_USE)		{EVENT.relay_set |= UVR_2_SET_EVENT;}
-//	else if(ar_address == UVR_3_USE)		{EVENT.relay_set |= UVR_3_SET_EVENT;}
-//	else if(ar_address == P47_USE)			{EVENT.relay_set |= P47_SET_EVENT;}
-//	else if(ar_address == N47_USE)			{EVENT.relay_set |= N47_SET_EVENT;}
-//	else if(ar_address == OVR_USE)			{EVENT.relay_set |= OVR_SET_EVENT;}
-//	else if(ar_address == OVGR_USE)			{EVENT.relay_set |= OVGR_SET_EVENT;}
+	if(ar_address == OCR50_1_USE) {
+		EVENT.relay_set |= OCR50_1_SET_EVENT;		event_direct_save(&EVENT.relay_set);
+	}	else if(ar_address == OCR50_2_USE) {
+		EVENT.relay_set |= OCR50_2_SET_EVENT;		event_direct_save(&EVENT.relay_set);
+	} else if(ar_address == OCR51_1_USE)	{
+		EVENT.relay_set |= OCR51_1_SET_EVENT;   event_direct_save(&EVENT.relay_set);
+	}	else if(ar_address == OCR51_2_USE)	{
+		EVENT.relay_set |= OCR51_2_SET_EVENT;   event_direct_save(&EVENT.relay_set);
+	}	else if(ar_address == OCGR50_USE)		{
+		EVENT.relay_set |= OCGR50_SET_EVENT;    event_direct_save(&EVENT.relay_set);
+	}	else if(ar_address == OCGR51_USE)		{
+		EVENT.relay_set |= OCGR51_SET_EVENT;    event_direct_save(&EVENT.relay_set);
+	}	else if(ar_address == UVR_1_USE)		{
+		EVENT.relay_set |= UVR_1_SET_EVENT;     event_direct_save(&EVENT.relay_set);
+	} else if(ar_address == UVR_2_USE)		{
+		EVENT.relay_set |= UVR_2_SET_EVENT;     event_direct_save(&EVENT.relay_set);
+	}	else if(ar_address == UVR_3_USE)		{
+		EVENT.relay_set |= UVR_3_SET_EVENT;     event_direct_save(&EVENT.relay_set);
+	}	else if(ar_address == P47_USE)			{
+		EVENT.relay_set |= P47_SET_EVENT;       event_direct_save(&EVENT.relay_set);
+	}	else if(ar_address == N47_USE)			{
+		EVENT.relay_set |= N47_SET_EVENT;       event_direct_save(&EVENT.relay_set);
+	}	else if(ar_address == OVR_USE)			{
+		EVENT.relay_set |= OVR_SET_EVENT;       event_direct_save(&EVENT.relay_set);
+	}	else if(ar_address == OVGR_USE)			{
+		EVENT.relay_set |= OVGR_SET_EVENT;      event_direct_save(&EVENT.relay_set);
+	} else if(ar_address == DGR_USE)			{
+		EVENT.relay_set |= DGR_SET_EVENT;      event_direct_save(&EVENT.relay_set);
+	} else if(ar_address == SGR_USE)			{
+		EVENT.relay_set |= SGR_SET_EVENT;      event_direct_save(&EVENT.relay_set);
+	}
+	
+	
 
 //2015.02.24
 // 설정 값에 따라 메뉴에서 보이게 안보이게 필요

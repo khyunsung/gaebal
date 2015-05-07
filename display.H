@@ -1123,6 +1123,37 @@ const char* event2[2]={"   ] RELAY OPERATION",
                       //12345678901234567890
 const char* event3[2]={"   ] RELAY SETTING  ",
                        "                    "};
+const char* event31[2]={"   ] 50-1 SETTING   ",
+                       "                    "};
+const char* event32[2]={"   ] 50-2 SETTING   ",
+                       "                    "};
+const char* event33[2]={"   ] 51-1 SETTING   ",
+                       "                    "};
+const char* event34[2]={"   ] 51-2 SETTING   ",
+                       "                    "};
+const char* event35[2]={"   ] 50G  SETTING   ",
+                       "                    "};
+const char* event36[2]={"   ] 51G  SETTING   ",
+                       "                    "};
+const char* event37[2]={"   ] 27R  SETTING   ",
+                       "                    "};
+const char* event38[2]={"   ] 27M  SETTING   ",
+                       "                    "};
+const char* event39[2]={"   ] 27S  SETTING   ",
+                       "                    "};
+const char* event3a[2]={"   ] 47P  SETTING   ",
+                       "                    "};
+const char* event3b[2]={"   ] 47N  SETTING   ",
+                       "                    "};
+const char* event3c[2]={"   ] 59  SETTING    ",
+                       "                    "};
+const char* event3d[2]={"   ] 64  SETTING    ",
+                       "                    "};
+const char* event3e[2]={"   ] 67GD  SETTING  ",
+                       "                    "};
+const char* event3f[2]={"   ] 67GS  SETTING  ",
+                       "                    "};
+
                       //12345678901234567890
 const char* event4[2]={"   ] SYSTEM SETTING ",
                        "                    "};
@@ -1367,34 +1398,34 @@ const char* east_egg2[2]={"H/W - KIM YOON HEO",
 const char* east_egg3[2]={"SPECIAL THANKS",
                           "LEE BYUNG HO"};
 
-                         //12345678901234567890
+                          //12345678901234567890
 const char* Trip_Message[14][2]={
 													{" 50-1 SHORT CIRCUIT ",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{" 50-2 SHORT CIRCUIT ",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{" 51-1 SHORT CIRCUIT ",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{" 51-2 SHORT CIRCUIT ",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{" 50G GROUND FAULT   ",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{" 51G GROUND FAULT   ",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{" 27R UNDER VOLTAGE1 ",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{" 27M UNDER VOLTAGE1 ",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{" 27S UNDER VOLTAGE1 ",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{"47 UNBALANCE VOLTAGE",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{"  59 OVER VOLTAGE   ",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{"  64 GROUND FAULT   ",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{" 67GD GROUND FAULT  ",
                            " [Fault Phase: Ia ] "},
-													{" 50-1 SHORT CIRCUIT ",
+													{" 67GS GROUND FAULT  ",
                            " [Fault Phase: Ia ] "}
                          };

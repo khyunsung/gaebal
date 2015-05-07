@@ -14309,10 +14309,24 @@ void Event_Item_Display(void)		//khs, 2015-03-31 ¿ÀÈÄ 7:36:32
 	// relay set
 	else if(EVENT.temp == 0x02)
 	{
-		screen_frame3(event3);
-		
 		temp16 = *(EVENT_INDEX2 + (EVENT.view_point * 18));
 		temp16 &= 0x00ff;
+
+		if(temp16 == (OCR50_1_SET_EVENT >> 16))        {			screen_frame3(event31);
+		} else if(temp16 == (OCR50_2_SET_EVENT >> 16)) {			screen_frame3(event32);
+		} else if(temp16 == (OCR51_1_SET_EVENT >> 16)) {			screen_frame3(event33);
+		} else if(temp16 == (OCR51_2_SET_EVENT >> 16)) {			screen_frame3(event34);
+		} else if(temp16 == (OCGR50_SET_EVENT >> 16)) {			screen_frame3(event35);
+		} else if(temp16 == (OCGR51_SET_EVENT >> 16)) {			screen_frame3(event36);
+		} else if(temp16 == (UVR_1_SET_EVENT  >> 16)) {			screen_frame3(event37);
+		} else if(temp16 == (UVR_2_SET_EVENT  >> 16)) {			screen_frame3(event38);
+		} else if(temp16 == (UVR_3_SET_EVENT  >> 16)) {			screen_frame3(event39);
+		} else if(temp16 == (P47_SET_EVENT  >> 16)) {			screen_frame3(event3a);
+		} else if(temp16 == (P47_SET_EVENT  >> 16)) {			screen_frame3(event3b);
+		} else if(temp16 == (OVR_SET_EVENT  >> 16)) {			screen_frame3(event3c);
+		} else if(temp16 == (OVGR_SET_EVENT  >> 16)) {		screen_frame3(event3d);
+		} else if(temp16 == (DGR_SET_EVENT  >> 16)) {			screen_frame3(event3e);
+		} else if(temp16 == (SGR_SET_EVENT  >> 16)) {			screen_frame3(event3f);}
 		
 //		LCD.line_2nd_adder = event_relay[temp16];
 //		LCD.line_2nd_addressing = LCD_L2_05;

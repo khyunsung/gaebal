@@ -1519,11 +1519,11 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 	{
 		//word count
 		// ocr50-1
-		if(MANAGER.rx_buffer[3] == 0x00)
-		serial_write(5, &OCR50_1.use, OCR50_1_USE);
-		
+		if(MANAGER.rx_buffer[3] == 0x00) {
+			serial_write(5, &OCR50_1.use, OCR50_1_USE);
+			event_direct_save(&EVENT.relay_set);
 		// ocr50-2
-		else if(MANAGER.rx_buffer[3] == 0x01)
+		} else if(MANAGER.rx_buffer[3] == 0x01)
 		serial_write(5, &OCR50_2.use, OCR50_2_USE);
 		
 		// ocr51-1
