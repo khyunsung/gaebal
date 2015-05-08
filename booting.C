@@ -71,21 +71,31 @@ void booting_setting_check(void)
 	temp[1] = *RATED_CT;
 	temp[2] = *GR_SELECT;
 	temp[9] = *CORE_CRC;
-	
+
+	CORE.Hz = temp[0];		
+	CORE.rated_ct = temp[1];
+	CORE.gr_select = temp[2];
+
 	i = Setting_CRC(temp, 3);	// 일단 crc 계산
 	if(i != temp[9])	// crc가 틀리면 강제로 rated value set로 진입
 	{
-//	SYSTEM.position = 0xf0000000;
-//	return;
+		EINT;	// 여기서부터 인터럽트 활성 화
+		Screen_Position.y = 151;
+		Screen_Position.x = 2;
+		Screen_Position.select = 0; //init. screen info.
+		KHS_Key_Press = 0xefff;
+		menu_drive();
+		KHS_Key_Press = 0xffff;
+		menu_drive();
 
-//		KHS_Key_Press = 0xff;
-//		menu_151_02(KHS_Key_Press, 0);
-//		menu_151_02(KHS_Key_Press, 1);
+		for(;;) {
+			if(TIMER.key > 80)	key_drive();
+			if(TIMER.lcd > 200)	menu_drive();
+		}
 	}
-	//일단 crc 정상
-	CORE.Hz = temp[0];		
-	CORE.rated_ct = temp[1];		
-	CORE.gr_select = temp[2]; //2015.02.25
+//	CORE.Hz = temp[0];		
+//	CORE.rated_ct = temp[1];		
+//	CORE.gr_select = temp[2];
 
 	//-------- 시스템 속성을 결정하는 초기 시스템 검사 끝	
 		

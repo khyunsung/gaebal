@@ -212,6 +212,7 @@
 //#define RMS_CAL_TIME					 12 //MIN 6~7msec, MAX18~20msec	
 //#define LOGIC_DELAY_TIME			 3	//OCR(inst, def의 경우) 3msec
 #define TOTAL_DELAY_51	       31 // 총 계전기 동작 시간 = RMS_CAL_TIME + ALGORITHM_TIME(LOGIC_DELAY_TIME + PICKUP_DELAY + WAITING DELAY) + DO_CONTACT_TIME
+//#define LOGIC_DELAY_TIME			 82	//OCR(inv의 경우) 82msec
 
 #define Ia   0
 #define Ib   1

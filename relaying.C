@@ -1255,18 +1255,20 @@ void protective_relay(void)
 	OCR50_1_RELAY();
 //OCR50_2_RELAY();
 	OCR51_1_RELAY();
-	OCR51_2_RELAY();
-	OCGR50_RELAY();
-	OCGR51_RELAY();
-	UVR_1_RELAY();
-	UVR_2_RELAY();
-	UVR_3_RELAY();
-	P47_RELAY();
-	N47_RELAY();
-	OVR_RELAY();
-	OVGR_RELAY();
-	DGR_RELAY();
-	SGR_RELAY();
+//	OCR51_2_RELAY();
+
+//	OCGR50_RELAY();
+//	OCGR51_RELAY();
+//	UVR_1_RELAY();
+//	UVR_2_RELAY();
+//	UVR_3_RELAY();
+//	P47_RELAY();
+//	N47_RELAY();
+//	OVR_RELAY();
+//	OVGR_RELAY();
+//	DGR_RELAY();
+//	SGR_RELAY();
+
 //	if(OCR50_1.use == 0xaaaa)
 //	{
 //		// 선택 di on일 때 유효

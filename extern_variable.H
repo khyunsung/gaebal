@@ -1266,6 +1266,14 @@ extern struct
 	float io_max;
 } ACCUMULATION;
 
+typedef struct screen_move_info {
+	unsigned int x;
+	unsigned int y;
+	unsigned int select;
+	unsigned int data_change;
+} Screen_Position_Info;
+extern Screen_Position_Info Screen_Position, Cursor_Position, Save_Current_Screen;
+
 extern unsigned int const DO_ON_BIT[8];
 extern unsigned int const DO_OFF_BIT[8];
 //extern unsigned int const ON_BIT[9];

@@ -27,12 +27,6 @@ enum {
 	POPUP_MENU
 };
 
-typedef struct screen_move_info {
-	uint16 x;
-	uint16 y;
-	uint16 select;
-	uint16 data_change;
-} Screen_Position_Info;
 Screen_Position_Info Screen_Position, Cursor_Position, Save_Current_Screen;
 
 int Button_Press;
@@ -12630,7 +12624,7 @@ void menu_151_05(unsigned int value, int display)  //2015.02.17
 			//CORE 정보 저장
 			crc = Setting_CRC(&CORE.Hz, 3);
 			flash_sector_erase(RATED_Hz);
-//		flash_word_write(RATED_Hz, MODBUS.baudrate); //코어 셋팅 깨짐 test 용
+//			flash_word_write(RATED_Hz, MODBUS.baudrate); //코어 셋팅 깨짐 test 용
 			flash_word_write(RATED_Hz, CORE.Hz); 
 			flash_word_write(RATED_CT, CORE.rated_ct);
 			flash_word_write(GR_SELECT, CORE.gr_select);
