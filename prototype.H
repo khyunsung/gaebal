@@ -227,4 +227,4 @@ void VFD_Single_Line_dump(char, const char *);
 void DO_Output(unsigned int);
 void Event_Item_Display(void);		//khs, 2015-04-01 오후 3:31:35
 void Event_Time_Display(void);		//khs, 2015-04-01 오후 3:31:35
-void Save_Screen_Info(void);
+void Save_Screen_Info(unsigned int);

@@ -27,6 +27,12 @@ enum {
 	POPUP_MENU
 };
 
+typedef struct screen_move_info {
+	uint16 x;
+	uint16 y;
+	uint16 select;
+	uint16 data_change;
+} Screen_Position_Info;
 Screen_Position_Info Screen_Position, Cursor_Position, Save_Current_Screen;
 
 int Button_Press;
@@ -9344,6 +9350,22 @@ void menu_82_11(unsigned int value, int display)
 	} else if(value == ENTER_KEY) {
 		if(Screen_Position.select == 0) {
 			//설정값 저장
+			TIME.buffer = &TIME.year_temp;
+			
+			TIME.year = TIME.year_temp;
+			TIME.month = TIME.month_temp;
+			TIME.day = TIME.day_temp;
+			TIME.hour = TIME.hour_temp;
+			TIME.minute = TIME.minute_temp;
+			TIME.second = TIME.second_temp;
+			TIME.milisecond = TIME.milisecond_temp;
+	
+			TIME.update = 0;
+			rtc_handling();
+			rtc_handling();
+			rtc_handling();
+			rtc_handling();
+			rtc_handling();
 
 			Screen_Position.y = 82;
 			Screen_Position.x = 12;
@@ -14169,7 +14191,8 @@ void menu_dummy(unsigned int value, int display)
 void menu_popup(unsigned int value, int display)
 {
 	char str[2][22];
-
+	char *phase_character[10] = {"Ia","Ib","Ic","In","In2","Is","Va","Vb","Vc","Vn"};
+	
 //if(OpRly==1)			Sprintf(VFDFBuffer.up," 50-1 SHORT CIRCUIT ");
 //else if(OpRly==2)	Sprintf(VFDFBuffer.up," 50-2 SHORT CIRCUIT ");
 //else if(OpRly==3)	Sprintf(VFDFBuffer.up," 51-1 OVER CURRENT  ");
@@ -14185,8 +14208,10 @@ void menu_popup(unsigned int value, int display)
 //else if(OpRly==14)	Sprintf(VFDFBuffer.up," 67GD GROUND FAULT  ");
 //else if(OpRly==15)	Sprintf(VFDFBuffer.up," 67GS GROUND FAULT  ");
 
-	sprintf(str[0], "%s\0", Trip_Message[0][0]);
-	sprintf(str[1], "%s\0", Trip_Message[1][1]);
+	//CB_STATUS = 
+	CB_Status = 1;
+	sprintf(str[0], "%s\0", Trip_Message[CB_Status][0]);
+	sprintf(str[1], " [Fault Phase: %s] \0", phase_character[Popup_OpPhase_Info % 11]);
 
 	if(display) {
 		screen_frame2(str);
@@ -14195,7 +14220,7 @@ void menu_popup(unsigned int value, int display)
 	}
 
 	if(value == ACK_KEY) {
-		if(0) { //Reset Case
+		if(RELAY_STATUS.operation_realtime == 0) { //Reset Case
 			Screen_Position.y = Save_Current_Screen.y;
 			Screen_Position.x = Save_Current_Screen.x;
 			Screen_Position.select = Save_Current_Screen.select;
@@ -14725,10 +14750,12 @@ void menu_init(void)
 	menu_tables[Screen_Position.y][Screen_Position.x](NULL, 1);
 }
 
-void Save_Screen_Info(void)//2015-2-16, khs
+void Save_Screen_Info(unsigned int a)//2015-2-16, khs
 {
 	memcpy(&Save_Current_Screen, &Screen_Position, sizeof(Screen_Position));
 	Screen_Position.data_change = POPUP_MENU;
+	if(Popup_OpPhase_Info) return;
+	Popup_OpPhase_Info = a;
 }
 
 void Restore_Screen_Info(void)//2015-2-16, khs

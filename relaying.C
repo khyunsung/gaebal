@@ -10,13 +10,13 @@ void relay_normal_to_detect(unsigned long *ar_op_count, unsigned int *ar_op_stat
 
 void relay_detect_to_pickup(unsigned long *ar_op_count, unsigned int *ar_op_status, unsigned long ar_event_mask, unsigned int ar_relay_status)
 {
-//	*ar_op_count = 0;
-//	EVENT.pickup |= ar_event_mask;
-//	event_direct_save(&EVENT.pickup);
-//	// op 대기
-//	*ar_op_status = RELAY_PICKUP;
-//	*(ar_op_status + 1) = DROPOUT_NORMAL;
-//	RELAY_STATUS.pickup |= ar_relay_status;
+	*ar_op_count = 0;
+	EVENT.pickup |= ar_event_mask;
+	event_direct_save(&EVENT.pickup);
+	// op 대기
+	*ar_op_status = RELAY_PICKUP;
+	*(ar_op_status + 1) = DROPOUT_NORMAL;
+	RELAY_STATUS.pickup |= ar_relay_status;
 }
 
 void relay_pickup_to_operation(unsigned int *ar_do_out, unsigned int ar_relay_bit, float ar_ratio, unsigned long ar_event_mask, unsigned int *ar_op_status)
@@ -33,34 +33,34 @@ void relay_pickup_to_operation(unsigned int *ar_do_out, unsigned int ar_relay_bi
 	// wave capture 시작 추가
 	if((WAVE.post_start != 0x1234) && (WAVE.hold == 0))	WAVE.post_start = 0x1234;
 						
-//ar_ratio *= 100;
-//EVENT.ratio = (unsigned int)ar_ratio;
-//EVENT.operation |= ar_event_mask;
-//event_direct_save(&EVENT.operation);
-//*ar_op_status = RELAY_TRIP;
-//EVENT.optime += DO_CONTACT_TIME;
+	ar_ratio *= 100;
+	EVENT.ratio = (unsigned int)ar_ratio;
+	EVENT.operation |= ar_event_mask;
+	event_direct_save(&EVENT.operation);
+	*ar_op_status = RELAY_TRIP;
+	//EVENT.optime += DO_CONTACT_TIME;
 	TIMER.cb_open = 0;
-//RELAY_STATUS.pickup &= ~ar_relay_bit;
-//RELAY_STATUS.operation_sum_holding |= ar_relay_bit;
+	RELAY_STATUS.pickup &= ~ar_relay_bit;
+	RELAY_STATUS.operation_sum_holding |= ar_relay_bit;
 	
 	// under 요소들 최초 동작 후 ack 누른후 popup이 뜨지 않아야 disable 가능하기 때문에
 	// popup을 띄우지 않는다
-//	if((RELAY_STATUS.popup_mask == 0) && (RELAY_STATUS.operation_realtime == 0))
-//	{		
-//		RELAY_STATUS.popup_property = ar_event_mask;
-//		RELAY_STATUS.popup_ratio = ar_ratio;
-//		RELAY_STATUS.popup_optime = EVENT.optime;
-//		
-//		
-//		RELAY_STATUS.popup_mask = 0x1234;
-//		
-//		//SYSTEM.return_position = SYSTEM.position;
-//		
-//		SYSTEM.position = 0x00000040;
-//		
-//		LCD.refresh_status = 0;
-//	}
-//	RELAY_STATUS.operation_realtime |= ar_relay_bit;
+	if((RELAY_STATUS.popup_mask == 0) && (RELAY_STATUS.operation_realtime == 0))
+	{		
+		RELAY_STATUS.popup_property = ar_event_mask;
+		RELAY_STATUS.popup_ratio = ar_ratio;
+		RELAY_STATUS.popup_optime = EVENT.optime;
+		
+		
+		RELAY_STATUS.popup_mask = 0x1234;
+		
+		//SYSTEM.return_position = SYSTEM.position;
+		
+		SYSTEM.position = 0x00000040;
+		
+		LCD.refresh_status = 0;
+	}
+	RELAY_STATUS.operation_realtime |= ar_relay_bit;
 }
 
 void relay_opeartion_to_dropout(unsigned int *ar_dropout_count, unsigned int *ar_drop_status)
@@ -225,6 +225,8 @@ void OCR50_1_RELAY(void)
 					RELAY_STATUS.pickup |= F_OCR50_1;  //alarm ON
 					OCR50_1.Pickup_Time = OCR50_1.op_count;
 					OCR50_1.op_count = 0;
+					
+					//relay_pickup_to_operation(&OCR50_1.do_output, WAVE_OCR50_1_BIT, compare_value, OCR50_1.event_ready, &OCR50_1.op_status);
 				}
 			}
 			else if(OCR50_1.op_status == RELAY_PICKUP)
@@ -248,7 +250,7 @@ void OCR50_1_RELAY(void)
 					RELAY_STATUS.operation_realtime			|= F_OCR50_1;  //현재 동작 상태 변수 설정
 					RELAY_STATUS.operation_sum_holding	|= F_OCR50_1;  //누적 동작 상태 변수 설정
 					
-//				Save_Screen_Info(); //POP UP 해제가 안되서 일단 막음
+					Save_Screen_Info(PROTECT.Op_Phase); //POP UP 해제가 안되서 일단 막음
 				}
 			}
 		}
@@ -293,6 +295,8 @@ void OCR50_2_RELAY(void)
 					RELAY_STATUS.pickup |= F_OCR50_2;  //alarm ON
 					OCR50_2.Pickup_Time = OCR50_2.op_count;
 					OCR50_2.op_count = 0;
+					
+					relay_detect_to_pickup(&OCR50_2.op_count, &OCR50_2.op_status, OCR50_2.event_ready, WAVE_OCR50_2_BIT);					
 				}
 			}
 			else if(OCR50_2.op_status == RELAY_PICKUP)
@@ -316,7 +320,7 @@ void OCR50_2_RELAY(void)
 					RELAY_STATUS.operation_realtime			|= F_OCR50_2;  //현재 동작 상태 변수 설정
 					RELAY_STATUS.operation_sum_holding	|= F_OCR50_2;  //누적 동작 상태 변수 설정
 					
-//				Save_Screen_Info(); //POP UP 해제가 안되서 일단 막음
+					Save_Screen_Info(PROTECT.Op_Phase); //POP UP 해제가 안되서 일단 막음
 				}
 			}
 		}
@@ -388,7 +392,7 @@ void OCR51_1_RELAY(void)
 					RELAY_STATUS.operation_realtime			|= F_OCR51_1;  //현재 동작 상태 변수 설정
 					RELAY_STATUS.operation_sum_holding	|= F_OCR51_1;  //누적 동작 상태 변수 설정
 					
-//				Save_Screen_Info(); //POP UP 해제가 안되서 일단 막음
+					Save_Screen_Info(PROTECT.Op_Phase); //POP UP 해제가 안되서 일단 막음
 				}
 			}
 		}

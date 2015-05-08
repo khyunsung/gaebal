@@ -1399,33 +1399,35 @@ const char* east_egg3[2]={"SPECIAL THANKS",
                           "LEE BYUNG HO"};
 
                           //12345678901234567890
-const char* Trip_Message[14][2]={
-													{" 50-1 SHORT CIRCUIT ",
+const char* Trip_Message[15][2]={
+													{" 50-1 SHORT CIRCUIT ",		//0
                            " [Fault Phase: Ia ] "},
-													{" 50-2 SHORT CIRCUIT ",
+													{" 50-2 SHORT CIRCUIT ",    //1
                            " [Fault Phase: Ia ] "},
-													{" 51-1 SHORT CIRCUIT ",
+													{" 51-1 SHORT CIRCUIT ",    //2
                            " [Fault Phase: Ia ] "},
-													{" 51-2 SHORT CIRCUIT ",
+													{" 51-2 SHORT CIRCUIT ",    //3
                            " [Fault Phase: Ia ] "},
-													{" 50G GROUND FAULT   ",
+													{" 50G GROUND FAULT   ",    //4
                            " [Fault Phase: Ia ] "},
-													{" 51G GROUND FAULT   ",
+													{" 51G GROUND FAULT   ",    //5
                            " [Fault Phase: Ia ] "},
-													{" 27R UNDER VOLTAGE1 ",
+													{" 27R UNDER VOLTAGE1 ",    //6
                            " [Fault Phase: Ia ] "},
-													{" 27M UNDER VOLTAGE1 ",
+													{" 27M UNDER VOLTAGE1 ",    //7
                            " [Fault Phase: Ia ] "},
-													{" 27S UNDER VOLTAGE1 ",
+													{" 27S UNDER VOLTAGE1 ",    //8
                            " [Fault Phase: Ia ] "},
-													{"47 UNBALANCE VOLTAGE",
+													{"47P UNBALANCE VOLT. ",    //9
                            " [Fault Phase: Ia ] "},
-													{"  59 OVER VOLTAGE   ",
+													{"47N UNBALANCE VOLT. ",    //10
                            " [Fault Phase: Ia ] "},
-													{"  64 GROUND FAULT   ",
+													{"  59 OVER VOLTAGE   ",    //11
                            " [Fault Phase: Ia ] "},
-													{" 67GD GROUND FAULT  ",
+													{"  64 GROUND FAULT   ",    //12
                            " [Fault Phase: Ia ] "},
-													{" 67GS GROUND FAULT  ",
+													{" 67GD GROUND FAULT  ",    //13
+                           " [Fault Phase: Ia ] "},
+													{" 67GS GROUND FAULT  ",    //14
                            " [Fault Phase: Ia ] "}
                          };

@@ -328,7 +328,7 @@ void setting_post_handling(unsigned int *ar_address)
 //	}
 //	else if(ar_address == COMM_ADDRESS)
 //	{
-//		*COMM_2_ADDRESS = COMM.address;
+//		*COMM_2_ADDRESS = ADDRESS.address;
 //		*COMM_2_BAUDRATE = COMM.baudrate;
 //	}
 

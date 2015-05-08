@@ -214,16 +214,16 @@
 #define TOTAL_DELAY_51	       31 // 총 계전기 동작 시간 = RMS_CAL_TIME + ALGORITHM_TIME(LOGIC_DELAY_TIME + PICKUP_DELAY + WAITING DELAY) + DO_CONTACT_TIME
 //#define LOGIC_DELAY_TIME			 82	//OCR(inv의 경우) 82msec
 
-#define Ia   0
-#define Ib   1
-#define Ic   2
-#define In   3
-#define In2  4
-#define Is   5
-#define Va   6
-#define Vb   7
-#define Vc   8
-#define Vn   9
+#define Ia   1
+#define Ib   2
+#define Ic   3
+#define In   4
+#define In2  5
+#define Is   6
+#define Va   7
+#define Vb   8
+#define Vc   9
+#define Vn   10
 
 #define OCR_TURN  0x1234
 

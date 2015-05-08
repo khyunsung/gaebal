@@ -52,7 +52,7 @@ void manager_handling(void)
 	if(MANAGER.rx_buffer[2] == 0x00)
 	{
 			MANAGER.tx_buffer[0] = 0x23;
-			MANAGER.tx_buffer[1] = COMM.address;
+			MANAGER.tx_buffer[1] = ADDRESS.address;
 			MANAGER.tx_buffer[2] = 0;		//타입정보 프레임: 0
 			MANAGER.tx_buffer[3] = 0;		//타입정보 프레임: 0
 
@@ -160,7 +160,7 @@ void manager_handling(void)
 		
 			ManagerSystem.set_time1 = 1;
 			ManagerSystem.set_time2 = 2;
-			ManagerSystem.modbus_id = COMM.address;
+			ManagerSystem.modbus_id = ADDRESS.address;
 			ManagerSystem.local_control = (LOCAL_CONTROL.mode == 0xaaaa)?2:1;
 			ManagerSystem.dgr_angle = SYSTEM_SET.ocgr_dgr;
 			ManagerSystem.sgr_angle = 0;
@@ -195,7 +195,7 @@ void manager_handling(void)
 //		// time read
 //		else if(MANAGER.rx_buffer[3] == 0x03)	{make_crc_send(MANAGER.tx_buffer, &TIME.year, 12);}
 //		// comm
-//		else if(MANAGER.rx_buffer[3] == 0x04)	{make_crc_send(MANAGER.tx_buffer, &COMM.address, 4);}
+//		else if(MANAGER.rx_buffer[3] == 0x04)	{make_crc_send(MANAGER.tx_buffer, &ADDRESS.address, 1);}
 //		// local control
 //		else if(MANAGER.rx_buffer[3] == 0x05)	{make_crc_send(MANAGER.tx_buffer, &LOCAL_CONTROL.mode, 2);}
 //		// ocgr/dgr
@@ -212,7 +212,7 @@ void manager_handling(void)
 	{
 		// header
 		MANAGER.tx_buffer[0] = '#';
-		MANAGER.tx_buffer[1] = COMM.address;
+		MANAGER.tx_buffer[1] = ADDRESS.address;
 		MANAGER.tx_buffer[2] = MANAGER.rx_buffer[2];
 		MANAGER.tx_buffer[3] = MANAGER.rx_buffer[3];
 	
@@ -581,7 +581,7 @@ void manager_handling(void)
 			{
 				// header
 				MANAGER.tx_buffer[0] = '#';
-				MANAGER.tx_buffer[1] = COMM.address;
+				MANAGER.tx_buffer[1] = ADDRESS.address;
 				MANAGER.tx_buffer[2] = MANAGER.rx_buffer[2];
 				MANAGER.tx_buffer[3] = MANAGER.rx_buffer[3];
 			
@@ -1044,7 +1044,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		{
 			// header
 			MANAGER.tx_buffer[0] = '#';
-			MANAGER.tx_buffer[1] = COMM.address;
+			MANAGER.tx_buffer[1] = ADDRESS.address;
 			MANAGER.tx_buffer[2] = MANAGER.rx_buffer[2];
 			MANAGER.tx_buffer[3] = MANAGER.rx_buffer[3];
 			
@@ -1114,7 +1114,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		
 		// header
 		*(Manager_tx_long    ) = '#';
-		*(Manager_tx_long + 1) = COMM.address;
+		*(Manager_tx_long + 1) = ADDRESS.address;
 		*(Manager_tx_long + 2) = MANAGER.rx_buffer[2];
 		*(Manager_tx_long + 3) = MANAGER.rx_buffer[3];
 		
@@ -1151,7 +1151,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		
 		// header
 		*(Manager_tx_long    ) = '#';
-		*(Manager_tx_long + 1) = COMM.address;
+		*(Manager_tx_long + 1) = ADDRESS.address;
 		*(Manager_tx_long + 2) = MANAGER.rx_buffer[2];
 		*(Manager_tx_long + 3) = MANAGER.rx_buffer[3];
 		
@@ -1188,7 +1188,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		
 		// header
 		*(Manager_tx_long    ) = '#';
-		*(Manager_tx_long + 1) = COMM.address;
+		*(Manager_tx_long + 1) = ADDRESS.address;
 		*(Manager_tx_long + 2) = MANAGER.rx_buffer[2];
 		*(Manager_tx_long + 3) = MANAGER.rx_buffer[3];
 		
@@ -1225,7 +1225,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		
 		// header
 		*(Manager_tx_long    ) = '#';
-		*(Manager_tx_long + 1) = COMM.address;
+		*(Manager_tx_long + 1) = ADDRESS.address;
 		*(Manager_tx_long + 2) = MANAGER.rx_buffer[2];
 		*(Manager_tx_long + 3) = MANAGER.rx_buffer[3];
 		
@@ -1262,7 +1262,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		
 		// header
 		*(Manager_tx_long    ) = '#';
-		*(Manager_tx_long + 1) = COMM.address;
+		*(Manager_tx_long + 1) = ADDRESS.address;
 		*(Manager_tx_long + 2) = MANAGER.rx_buffer[2];
 		*(Manager_tx_long + 3) = MANAGER.rx_buffer[3];
 		
@@ -1299,7 +1299,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		
 		// header
 		*(Manager_tx_long    ) = '#';
-		*(Manager_tx_long + 1) = COMM.address;
+		*(Manager_tx_long + 1) = ADDRESS.address;
 		*(Manager_tx_long + 2) = MANAGER.rx_buffer[2];
 		*(Manager_tx_long + 3) = MANAGER.rx_buffer[3];
 		
@@ -1336,7 +1336,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		
 		// header
 		*(Manager_tx_long    ) = '#';
-		*(Manager_tx_long + 1) = COMM.address;
+		*(Manager_tx_long + 1) = ADDRESS.address;
 		*(Manager_tx_long + 2) = MANAGER.rx_buffer[2];
 		*(Manager_tx_long + 3) = MANAGER.rx_buffer[3];
 		
@@ -1374,7 +1374,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		
 		// header
 		*(Manager_tx_long    ) = '#';
-		*(Manager_tx_long + 1) = COMM.address;
+		*(Manager_tx_long + 1) = ADDRESS.address;
 		*(Manager_tx_long + 2) = MANAGER.rx_buffer[2];
 		*(Manager_tx_long + 3) = MANAGER.rx_buffer[3];
 		
@@ -1412,7 +1412,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		
 		// header
 		*(Manager_tx_long    ) = '#';
-		*(Manager_tx_long + 1) = COMM.address;
+		*(Manager_tx_long + 1) = ADDRESS.address;
 		*(Manager_tx_long + 2) = MANAGER.rx_buffer[2];
 		*(Manager_tx_long + 3) = MANAGER.rx_buffer[3];
 		
@@ -1449,7 +1449,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		
 		// header
 		*(Manager_tx_long    ) = '#';
-		*(Manager_tx_long + 1) = COMM.address;
+		*(Manager_tx_long + 1) = ADDRESS.address;
 		*(Manager_tx_long + 2) = MANAGER.rx_buffer[2];
 		*(Manager_tx_long + 3) = MANAGER.rx_buffer[3];
 		
@@ -1487,7 +1487,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		
 		// header
 		*(Manager_tx_long    ) = '#';
-		*(Manager_tx_long + 1) = COMM.address;
+		*(Manager_tx_long + 1) = ADDRESS.address;
 		*(Manager_tx_long + 2) = MANAGER.rx_buffer[2];
 		*(Manager_tx_long + 3) = MANAGER.rx_buffer[3];
 		
@@ -1766,7 +1766,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		//MANAGER.rx_buffer[8], word개수
 		// header
 		MANAGER.tx_buffer[0] = '#';
-		MANAGER.tx_buffer[1] = COMM.address;
+		MANAGER.tx_buffer[1] = ADDRESS.address;
 		MANAGER.tx_buffer[2] = MANAGER.rx_buffer[2];
 		MANAGER.tx_buffer[3] = MANAGER.rx_buffer[3];
 		
@@ -1830,7 +1830,7 @@ void make_crc_send(unsigned int *tx_buffer, unsigned int *ar_variable, unsigned 
 	// 송신을 위한 기본작업
 	// header 제작
 	*(tx_buffer) = '#';
-	*(tx_buffer + 1) = COMM.address;
+	*(tx_buffer + 1) = ADDRESS.address;
 	*(tx_buffer + 2) = MANAGER.rx_buffer[2]; // F/C1 수신된 function code를 그대로 되돌려 줌. 왜. 정상 프레임이니까
 	*(tx_buffer + 3) = MANAGER.rx_buffer[3]; // F/C2 수신된 function code를 그대로 되돌려 줌. 왜. 정상 프레임이니까
 	
@@ -1969,7 +1969,7 @@ void serial_ok_nak_send(unsigned int ar_nak_code)
 	
 	// 송신프레임 정비
 	MANAGER.tx_buffer[0] = '#';           // 시작헤더
-	MANAGER.tx_buffer[1] = COMM.address;  // 내 아이디
+	MANAGER.tx_buffer[1] = ADDRESS.address;  // 내 아이디
 	
 	// 0이 아니면 nak임
 	if(ar_nak_code)

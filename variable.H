@@ -1932,6 +1932,6 @@ const long CALIB_Vo_MIN = 600000L;	// ¾à 0.006921696
 const long CALIB_Vo_MAX = 800000L;	// ¾à 0.006921696
 
 unsigned int Calibration_Menu_Escape = 0;
-
+unsigned int Popup_OpPhase_Info = 0;
+unsigned int CB_Status = 0;
 #endif
-

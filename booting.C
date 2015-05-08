@@ -1533,24 +1533,24 @@ void booting_setting_check(void)
 	COMM.use = 0xaaaa;
 	else
 	COMM.use = 0;
-	
-	if(setting_load(&COMM.address, 2, COMM_ADDRESS))
+
+	if(setting_load(&ADDRESS.address, 1, MOD_ADDR))
 	{
 		i = 0;
-		i |= setting_min_max_check(&COMM.address, COMM_ADDR_MIN, COMM_ADDR_MAX);
+		i |= setting_min_max_check(&ADDRESS.address, COMM_ADDR_MIN, COMM_ADDR_MAX);
 		i |= setting_min_max_check(&COMM.baudrate, COMM_BAUD_MIN, COMM_BAUD_MAX);
 	}
 	else
 	{
 		//default
-		COMM.address = COMM_ADDR_MAX;
+		ADDRESS.address = COMM_ADDR_MAX;
 		COMM.baudrate = COMM_BAUD_MAX;
 		i = 1;
 	}
 	if(i)
-	setting_save(&COMM.address, COMM_ADDRESS, 2);
+		setting_save(&ADDRESS.address, MOD_ADDR, 1);
 	
-	*COMM_2_ADDRESS = COMM.address;
+	*COMM_2_ADDRESS = ADDRESS.address;
 	*COMM_2_BAUDRATE = COMM.baudrate;
 	*COMM_BOOT = 0x55;
 	

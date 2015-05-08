@@ -81,9 +81,9 @@ void real_main(void)
 			// header 이상하면 pc로 nak 송신
 			if(MANAGER.rx_buffer[0] != '#')	{serial_ok_nak_send(0x01);}
 
-			// 두번째 id 검사하는데 0 또는 COMM.address에 지정된 값이 들어오지 않으면 nak
+			// 두번째 id 검사하는데 0 또는 ADDRESS.address에 지정된 값이 들어오지 않으면 nak
 			// id 이상
-			else if((MANAGER.rx_buffer[1] != 0) && (MANAGER.rx_buffer[1] != COMM.address))	{serial_ok_nak_send(0x02);}
+			else if((MANAGER.rx_buffer[1] != 0) && (MANAGER.rx_buffer[1] != ADDRESS.address))	{serial_ok_nak_send(0x02);}
 
 			// 일단 헤더는 정상 통과
 			// 일단 정상
