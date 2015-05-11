@@ -91,24 +91,24 @@ void make_crc_send(unsigned int *, unsigned int *, unsigned int);
 void serial_write(unsigned int, unsigned int *, unsigned int *);
 void serial_ok_nak_send(unsigned int);
 
-void protective_relay(void);
-void OCR50_1_RELAY(void);
-void OCR50_2_RELAY(void);
-void OCR51_1_RELAY(void);
-void OCR51_2_RELAY(void);
-void OCGR50_RELAY(void);
+void RROTECTIVE_RELAY(void);
+void RELAY_OCR50_1(void);
+void RELAY_OCR50_2(void);
+void RELAY_OCR51_1(void);
+void RELAY_OCR51_2(void);
+void RELAY_OCGR50(void);
 
-void OCGR51_RELAY(void);
-void UVR_1_RELAY(void);
-void UVR_2_RELAY(void);
-void UVR_3_RELAY(void);
-void P47_RELAY(void);
+void RELAY_OCGR51(void);
+void RELAY_UVR_1(void);
+void RELAY_UVR_2(void);
+void RELAY_UVR_3(void);
+void RELAY_P47(void);
 
-void N47_RELAY(void);
-void OVR_RELAY(void);
-void OVGR_RELAY(void);
-void DGR_RELAY(void);
-void SGR_RELAY(void);
+void RELAY_N47(void);
+void RELAY_OVR(void);
+void RELAY_OVGR(void);
+void RELAY_DGR(void);
+void RELAY_SGR(void);
 
 void flash_sector_erase(unsigned int *);
 void flash_word_write(unsigned int *, unsigned int);

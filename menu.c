@@ -27,12 +27,6 @@ enum {
 	POPUP_MENU
 };
 
-typedef struct screen_move_info {
-	uint16 x;
-	uint16 y;
-	uint16 select;
-	uint16 data_change;
-} Screen_Position_Info;
 Screen_Position_Info Screen_Position, Cursor_Position, Save_Current_Screen;
 
 int Button_Press;
@@ -8700,15 +8694,15 @@ void menu_81_04(unsigned int value, int display)
 		CPT.ct_primary_temp -= number_digit[Screen_Position.select % 4];
 		if(CPT.ct_primary_temp <= CT_MIN || CPT.ct_primary_temp >= 60000)	CPT.ct_primary_temp = CT_MIN;
 	} else if(value == ENTER_KEY) {
-		if(SGR.use==ENABLE) {
-			Screen_Position.y = 81;
-			Screen_Position.x = 6;
-			Screen_Position.select = 5;
-		}
-		else {
+		if(CORE.gr_select == NCT_SELECT) {
 			Screen_Position.y = 81;
 			Screen_Position.x = 5;
 			Screen_Position.select = 3;
+		}
+		else {
+			Screen_Position.y = 81;
+			Screen_Position.x = 6;
+			Screen_Position.select = 5;
 		}
 	}
 }
@@ -8897,21 +8891,21 @@ void menu_81_08(unsigned int value, int display)
 {
 	char str[2][22];
 
-	if(SGR.use==ENABLE) {
-		if(CORE.rated_ct == CT_5A) {
-			sprintf(str[0],"CT_Ph  : %4d/5 [A]%c\0",CPT.ct_primary_temp,ENTER);
-			sprintf(str[1],"PT_Ph :%6ld/%3d[V]\0",CPT.pt_primary_temp,GPT.pt_secondary);
-		} else {
-			sprintf(str[0],"CT_Ph  : %4d/1 [A]%c\0",CPT.ct_primary_temp,ENTER);
-			sprintf(str[1],"PT_Ph :%6ld/%3d[V]\0",CPT.pt_primary_temp,GPT.pt_secondary);
-		}
-	} else {
+	if(CORE.gr_select == NCT_SELECT) {
 		if(CORE.rated_ct == CT_5A) {
 			sprintf(str[0],"CT_Ph  : %4d/5 [A]%c\0",CPT.ct_primary_temp,ENTER);
 			sprintf(str[1],"CT_Io  : %4d/5 [A] \0",CPT.nct_primary_temp);
 		} else {
 			sprintf(str[0],"CT_Ph  : %4d/1 [A]%c\0",CPT.ct_primary_temp,ENTER);
 			sprintf(str[1],"CT_Io  : %4d/1 [A] \0",CPT.nct_primary_temp);
+		}
+	} else {
+		if(CORE.rated_ct == CT_5A) {
+			sprintf(str[0],"CT_Ph  : %4d/5 [A]%c\0",CPT.ct_primary_temp,ENTER);
+			sprintf(str[1],"PT_Ph :%6ld/%3d[V]\0",CPT.pt_primary_temp,GPT.pt_secondary);
+		} else {
+			sprintf(str[0],"CT_Ph  : %4d/1 [A]%c\0",CPT.ct_primary_temp,ENTER);
+			sprintf(str[1],"PT_Ph :%6ld/%3d[V]\0",CPT.pt_primary_temp,GPT.pt_secondary);
 		}
 	}
 
@@ -8931,14 +8925,14 @@ void menu_81_09(unsigned int value, int display)
 {
 	char str[2][22];
 
-	if(SGR.use==ENABLE) {
-		if(CPT.rated_current_temp >= 1000)	{sprintf(str[0],"RATED CURR : %4d[A]\0",CPT.rated_current_temp/10);}
-		else																{sprintf(str[0],"RATED CURR : %4.1f[A]\0",((float)CPT.rated_current_temp*0.1));}
-		sprintf(str[1],"                    \0");
-	} else {
+	if(CORE.gr_select == NCT_SELECT) {
 		sprintf(str[0],"PT_Ph :%6ld/%3d[V]\0",CPT.pt_primary_temp,GPT.pt_secondary);
 		if(CPT.rated_current_temp >= 1000)	{sprintf(str[1],"RATED CURR : %4d[A]\0",CPT.rated_current_temp/10);}
 		else																{sprintf(str[1],"RATED CURR : %4.1f[A]\0",((float)CPT.rated_current_temp*0.1));}
+	} else {
+		if(CPT.rated_current_temp >= 1000)	{sprintf(str[0],"RATED CURR : %4d[A]\0",CPT.rated_current_temp/10);}
+		else																{sprintf(str[0],"RATED CURR : %4.1f[A]\0",((float)CPT.rated_current_temp*0.1));}
+		sprintf(str[1],"                    \0");
 	}
 
 	if(display) {
@@ -8981,7 +8975,7 @@ void menu_81_10(unsigned int value, int display)
 		if(Screen_Position.select == 0) {
 			//설정값 저장
 			CPT.ct_primary = CPT.ct_primary_temp;
-			CPT.nct_primary = CPT.nct_primary_temp;
+			if(CORE.gr_select == NCT_SELECT) {CPT.nct_primary = CPT.nct_primary_temp;}
 			CPT.pt_primary = CPT.pt_primary_temp;
 			CPT.pt_primary_low = CPT.pt_primary_temp & 0xffff;
 			CPT.pt_primary_temp >>=16;
@@ -10398,11 +10392,10 @@ void menu_89_03(unsigned int value, int display)
 			Screen_Position.select = 0;
 		} else if(Screen_Position.select == 1) {
 			OCR_MODE_SET.ocr_mode_temp = OCR_MODE_SET.ocr_mode;
-			OCR_MODE_SET.di_number_temp = OCR_MODE_SET.di_number;
 
 			Screen_Position.y = 103;
 			Screen_Position.x = 4;
-			(OCR_MODE_SET.ocr_mode == NORMAL) ? (Screen_Position.select = 0) : (Screen_Position.select = 1);
+			(OCR_MODE_SET.ocr_mode == OCR_NORMAL) ? (Screen_Position.select = 0) : (Screen_Position.select = 1);
 		}
 	}
 }
@@ -11990,7 +11983,7 @@ void menu_103_04(unsigned int value, int display)
 	char str[2][22];
 
 	if(display) {
-		sprintf(str[0],"PRE MODE  : %s \0", OCR_MODE_SET.ocr_mode == NORMAL? "NORMAL " : "SELECT ");  
+		sprintf(str[0],"PRE MODE  : %s \0", OCR_MODE_SET.ocr_mode == OCR_NORMAL? "NORMAL " : "SELECT ");  
 		sprintf(str[1]," NORMAL?    SELECT? \0");
 		screen_frame2(str);
 
@@ -12010,12 +12003,12 @@ void menu_103_04(unsigned int value, int display)
 		Screen_Position.select %= 2;
 	} else if(value == ENTER_KEY) {
 		if(Screen_Position.select == 0) {
-			OCR_MODE_SET.ocr_mode_temp = NORMAL;
+			OCR_MODE_SET.ocr_mode_temp = OCR_NORMAL;
 			Screen_Position.y = 103;
-			Screen_Position.x = 6;
-			cursor_move(0, 0);
+			Screen_Position.x = 5;
+			Screen_Position.select = 0;
 		} else if(Screen_Position.select == 1) {
-			OCR_MODE_SET.ocr_mode_temp = SELECT;
+			OCR_MODE_SET.ocr_mode_temp = OCR_SELECT;
 			Screen_Position.y = 103;
 			Screen_Position.x = 5;
 			Screen_Position.select = 0;
@@ -12024,54 +12017,6 @@ void menu_103_04(unsigned int value, int display)
 }
 
 void menu_103_05(unsigned int value, int display)
-{
-	char str[2][22];
-
-	sprintf(str[0],"PRE-SET   : DI %d   \0",OCR_MODE_SET.di_number);
-	sprintf(str[1],"NEW DI    : DI %d   \0",OCR_MODE_SET.di_number_temp);
-
-	if(display) {
-		screen_frame2(str);
-		if(Screen_Position.select == 0) {
-			cursor_move(1, 15);
-		}
-		return;
-	}
-
-	if(value == UP_KEY) {
-		OCR_MODE_SET.di_number_temp += 1;
-		if(OCR_MODE_SET.di_number_temp >= 8) OCR_MODE_SET.di_number_temp = 8;
-	} else if(value == DOWN_KEY) {
-		OCR_MODE_SET.di_number_temp -= 1;
-		if(OCR_MODE_SET.di_number_temp <= 1)	OCR_MODE_SET.di_number_temp = 1;
-	} else if(value == ENTER_KEY) {
-		Screen_Position.y = 103;
-		Screen_Position.x = 6;
-		cursor_move(0, 0);
-	}
-}
-
-void menu_103_06(unsigned int value, int display)
-{
-	char str[2][22];
-
-	sprintf(str[0],"NEW SETTING :      %c\0", ENTER);
-	if(OCR_MODE_SET.ocr_mode_temp == NORMAL)	{sprintf(str[1],"       %s       \0", "NORMAL");}
-	else	{sprintf(str[1],"   %s / DI %d    \0", "SELECT", OCR_MODE_SET.di_number_temp);}
-
-	if(display) {
-		screen_frame2(str);
-		return;
-	}
-
-	if(value == ENTER_KEY) {
-			Screen_Position.y = 103;
-			Screen_Position.x = 7;
-			Screen_Position.select = 1;
-	}
-}
-
-void menu_103_07(unsigned int value, int display)
 {
 	char str[2][22];
 
@@ -12098,10 +12043,9 @@ void menu_103_07(unsigned int value, int display)
 		if(Screen_Position.select == 0) {
 
 			OCR_MODE_SET.ocr_mode = OCR_MODE_SET.ocr_mode_temp;
-			OCR_MODE_SET.di_number = OCR_MODE_SET.di_number_temp;
-			if(setting_save(&OCR_MODE_SET.ocr_mode, OCR_MODE, 2))
+			if(setting_save(&OCR_MODE_SET.ocr_mode, OCR_MODE, 1))
 			{
-				setting_load(&OCR_MODE_SET.ocr_mode, 2, OCR_MODE);
+				setting_load(&OCR_MODE_SET.ocr_mode, 1, OCR_MODE);
 			}
 			else
 			{
@@ -12109,17 +12053,17 @@ void menu_103_07(unsigned int value, int display)
 			}
 
 			Screen_Position.y = 103;
-			Screen_Position.x = 8;
+			Screen_Position.x = 6;
 			cursor_move(0, 0);//cursor off
 		} else if(Screen_Position.select == 1) {
 			Screen_Position.y = 103;
-			Screen_Position.x = 9;
+			Screen_Position.x = 7;
 			cursor_move(0, 0);//cursor off
 		}
 	}
 }
 
-void menu_103_08(unsigned int value, int display)
+void menu_103_06(unsigned int value, int display)
 {
 	char str[2][22];
 
@@ -12138,7 +12082,7 @@ void menu_103_08(unsigned int value, int display)
 	}
 }
 
-void menu_103_09(unsigned int value, int display)
+void menu_103_07(unsigned int value, int display)
 {
 	char str[2][22];
 
@@ -14640,7 +14584,7 @@ const Screen_Function_Pointer menu_tables[200][18] = { //2015.02.17
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_100_04, menu_100_05, menu_100_06, menu_100_07, menu_100_08,},                        // 100
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_101_04, menu_101_05, menu_101_06, menu_101_07, menu_101_08, menu_101_09,},           // 101
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_102_05, menu_102_06,},																									 // 102
-		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_103_04, menu_103_05, menu_103_06, menu_103_07, menu_103_08, menu_103_09,},           // 103
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_103_04, menu_103_05, menu_103_06, menu_103_07,},           													 // 103
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_104_04, menu_104_05, menu_104_06, menu_104_07, menu_104_08, menu_104_09, menu_104_10, menu_104_11,}, // 104
 		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 105
 		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 106

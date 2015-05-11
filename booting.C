@@ -756,31 +756,25 @@ void booting_setting_check(void)
 	}
 
 	//OCR MODE 
-	if(setting_load(&OCR_MODE_SET.ocr_mode, 2, OCR_MODE))
+	if(setting_load(&OCR_MODE_SET.ocr_mode, 1, OCR_MODE))
 	{
 		i = 0;
-		if((OCR_MODE_SET.ocr_mode != NORMAL) && (OCR_MODE_SET.ocr_mode != SELECT))
+		if((OCR_MODE_SET.ocr_mode != OCR_NORMAL) && (OCR_MODE_SET.ocr_mode != OCR_SELECT))
 		{
-			OCR_MODE_SET.ocr_mode = SELECT;
+			OCR_MODE_SET.ocr_mode = OCR_SELECT;
 			i = 1;
-		}
-		if(OCR_MODE_SET.ocr_mode == SELECT)
-		{
-			i |= setting_min_max_check(&OCR_MODE_SET.di_number, 0, 8);
 		}
 	}
 	else
 	{
-		OCR_MODE_SET.ocr_mode = SELECT;
-		OCR_MODE_SET.di_number = 3;
-
+		OCR_MODE_SET.ocr_mode = OCR_SELECT;
 		i = 1;
 	}
 	if(i)
 	{
-		if(setting_save(&OCR_MODE_SET.ocr_mode, OCR_MODE, 2))
+		if(setting_save(&OCR_MODE_SET.ocr_mode, OCR_MODE, 1))
 		{
-			setting_load(&OCR_MODE_SET.ocr_mode, 2, OCR_MODE);
+			setting_load(&OCR_MODE_SET.ocr_mode, 1, OCR_MODE);
 		}
 		else
 		{

@@ -1209,10 +1209,9 @@ void wave_save_process(void)
 			
 			else
 			{
-				if(SYSTEM_SET.ocgr_dgr == DGR_SELECT)
-				wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_In2_wave_buffer + FLASH.source_count));	
-				
-				else
+//			if(SYSTEM_SET.ocgr_dgr == DGR_SELECT)
+//			wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_In2_wave_buffer + FLASH.source_count));	
+//			else
 				wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_In_wave_buffer + FLASH.source_count));	
 			}
 		}
@@ -1232,10 +1231,9 @@ void wave_save_process(void)
 			
 			else
 			{
-				if(SYSTEM_SET.ocgr_dgr == DGR_SELECT)
-				wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_In2_wave_buffer + FLASH.source_count));	
-				
-				else
+//			if(SYSTEM_SET.ocgr_dgr == DGR_SELECT)
+//			wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_In2_wave_buffer + FLASH.source_count));	
+//			else
 				wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_In_wave_buffer + FLASH.source_count));	
 			}
 		}
@@ -1255,14 +1253,12 @@ void wave_save_process(void)
 			
 			else
 			{
-				if(SYSTEM_SET.ocgr_dgr == DGR_SELECT)
-				wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Post_In2_wave_buffer + FLASH.source_count));
-				
-				else
+//			if(SYSTEM_SET.ocgr_dgr == DGR_SELECT)
+//			wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Post_In2_wave_buffer + FLASH.source_count));
+//			else
 				wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Post_In_wave_buffer + FLASH.source_count));
 			}
 		}
-		
 	}
 	
 	

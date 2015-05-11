@@ -693,7 +693,7 @@ daum:		;
 		}
 	}
 	
-	// real_main()에서 protective_relay() 실행하라는 플래그
+	// real_main()에서 RROTECTIVE_RELAY() 실행하라는 플래그
 	SAMPLE.ending = 1;
 	
 	// 인터럽트 pending 해제 -> 우선순위 낮은 인터럽트 실행가능하게 한다는 뜻이여

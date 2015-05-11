@@ -86,24 +86,24 @@ extern void make_crc_send(unsigned int *, unsigned int *, unsigned int);
 extern void serial_write(unsigned int, unsigned int *, unsigned int *);
 extern void serial_ok_nak_send(unsigned int);
 
-extern void protective_relay(void);
-extern void OCR50_1_RELAY(void);
-extern void OCR50_2_RELAY(void);
-extern void OCR51_1_RELAY(void);
-extern void OCR51_2_RELAY(void);
-extern void OCGR50_RELAY(void);
+extern void RROTECTIVE_RELAY(void);
+extern void RELAY_OCR50_1(void);
+extern void RELAY_OCR50_2(void);
+extern void RELAY_OCR51_1(void);
+extern void RELAY_OCR51_2(void);
+extern void RELAY_OCGR50(void);
 
-extern void OCGR51_RELAY(void);
-extern void UVR_1_RELAY(void);
-extern void UVR_2_RELAY(void);
-extern void UVR_3_RELAY(void);
-extern void P47_RELAY(void);
+extern void RELAY_OCGR51(void);
+extern void RELAY_UVR_1(void);
+extern void RELAY_UVR_2(void);
+extern void RELAY_UVR_3(void);
+extern void RELAY_P47(void);
 
-extern void N47_RELAY(void);
-extern void OVR_RELAY(void);
-extern void OVGR_RELAY(void);
-extern void DGR_RELAY(void);
-extern void SGR_RELAY(void);
+extern void RELAY_N47(void);
+extern void RELAY_OVR(void);
+extern void RELAY_OVGR(void);
+extern void RELAY_DGR(void);
+extern void RELAY_SGR(void);
 
 extern void flash_sector_erase(unsigned int *);
 extern void flash_word_write(unsigned int *, unsigned int);

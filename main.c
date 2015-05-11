@@ -23,7 +23,7 @@ void main(void)
 	EINT;	// 여기서부터 인터럽트 활성 화
 
 	// 진짜 main 함수
-	real_main();	
+	real_main();
 }
 
 void real_main(void)
@@ -39,7 +39,7 @@ void real_main(void)
 		//relay
 		if(SAMPLE.ending)	
 		{
-			protective_relay();
+			RROTECTIVE_RELAY();
 		}
 
 		// key

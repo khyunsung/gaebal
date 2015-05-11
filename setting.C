@@ -157,7 +157,7 @@ void setting_post_handling(unsigned int *ar_address)
 		DISPLAY.multipllier[4] = CPT.nct_ratio;
 		//ZCT
 //	DISPLAY.multipllier[5] = 133.33333333333333333333333333333; //외부 ZCT 비 = 200:1.5=133.33[mA]=0.13333[A]
-		DISPLAY.multipllier[5] = 1;
+		DISPLAY.multipllier[5] = 1000;
 		DISPLAY.multipllier[7] = CPT.pt_ratio;
 		DISPLAY.multipllier[8] = CPT.pt_ratio;
 		DISPLAY.multipllier[9] = CPT.gpt_ratio;
@@ -196,7 +196,7 @@ void setting_post_handling(unsigned int *ar_address)
 		DISPLAY.multipllier[4] = CPT.nct_ratio;
 		//ZCT
 //		DISPLAY.multipllier[5] = 133.33333333333333333333333333333; //외부 ZCT 비 = 200:1.5=133.33[mA]=0.13333[A]
-		DISPLAY.multipllier[5] = 1;
+		DISPLAY.multipllier[5] = 1000;
 		DISPLAY.multipllier[6] = CPT.pt_ratio;
 		DISPLAY.multipllier[7] = CPT.pt_ratio;
 		DISPLAY.multipllier[8] = CPT.pt_ratio;
@@ -1437,12 +1437,11 @@ void MODBUS_Default_Settings(void)
 
 void OCR_MODE_Default_Settings(void)
 {
-	OCR_MODE_SET.ocr_mode = SELECT;
-	OCR_MODE_SET.di_number = 3;
+	OCR_MODE_SET.ocr_mode = OCR_SELECT;
 
-	if(setting_save(&OCR_MODE_SET.ocr_mode, OCR_MODE, 2))
+	if(setting_save(&OCR_MODE_SET.ocr_mode, OCR_MODE, 1))
 	{
-		setting_load(&OCR_MODE_SET.ocr_mode, 2, OCR_MODE);
+		setting_load(&OCR_MODE_SET.ocr_mode, 1, OCR_MODE);
 	}
 	else
 	{

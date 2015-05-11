@@ -30,29 +30,29 @@
 #pragma CODE_SECTION(delay_us, "ramfuncs");
 #pragma CODE_SECTION(display_time, "ramfuncs");
 #pragma CODE_SECTION(rtc_handling, "ramfuncs");
-#pragma CODE_SECTION(protective_relay, "ramfuncs");
+#pragma CODE_SECTION(RROTECTIVE_RELAY, "ramfuncs");
 #pragma CODE_SECTION(Inverse_GetDelayTime, "ramfuncs");
 #pragma CODE_SECTION(setting_view, "ramfuncs");
 #pragma CODE_SECTION(event_direct_save, "ramfuncs");
 #pragma CODE_SECTION(measure_view_detail, "ramfuncs");
 
-#pragma CODE_SECTION(OCR50_1_RELAY, "ramfuncs");
-#pragma CODE_SECTION(OCR50_2_RELAY, "ramfuncs");
-#pragma CODE_SECTION(OCR51_1_RELAY, "ramfuncs");
-#pragma CODE_SECTION(OCR51_1_RELAY, "ramfuncs");
-#pragma CODE_SECTION(OCGR50_RELAY, "ramfuncs");
+#pragma CODE_SECTION(RELAY_OCR50_1, "ramfuncs");
+#pragma CODE_SECTION(RELAY_OCR50_2, "ramfuncs");
+#pragma CODE_SECTION(RELAY_OCR51_1, "ramfuncs");
+#pragma CODE_SECTION(RELAY_OCR51_2, "ramfuncs");
+#pragma CODE_SECTION(RELAY_OCGR50, "ramfuncs");
 
-#pragma CODE_SECTION(OCGR51_RELAY, "ramfuncs");
-#pragma CODE_SECTION(UVR_1_RELAY, "ramfuncs");
-#pragma CODE_SECTION(UVR_2_RELAY, "ramfuncs");
-#pragma CODE_SECTION(UVR_3_RELAY, "ramfuncs");
-#pragma CODE_SECTION(P47_RELAY, "ramfuncs");
+#pragma CODE_SECTION(RELAY_OCGR51, "ramfuncs");
+#pragma CODE_SECTION(RELAY_UVR_1, "ramfuncs");
+#pragma CODE_SECTION(RELAY_UVR_2, "ramfuncs");
+#pragma CODE_SECTION(RELAY_UVR_3, "ramfuncs");
+#pragma CODE_SECTION(RELAY_P47, "ramfuncs");
 
-#pragma CODE_SECTION(N47_RELAY, "ramfuncs");
-#pragma CODE_SECTION(OVR_RELAY, "ramfuncs");
-#pragma CODE_SECTION(OVGR_RELAY, "ramfuncs");
-#pragma CODE_SECTION(DGR_RELAY, "ramfuncs");
-#pragma CODE_SECTION(SGR_RELAY, "ramfuncs");
+#pragma CODE_SECTION(RELAY_N47, "ramfuncs");
+#pragma CODE_SECTION(RELAY_OVR, "ramfuncs");
+#pragma CODE_SECTION(RELAY_OVGR, "ramfuncs");
+#pragma CODE_SECTION(RELAY_DGR, "ramfuncs");
+#pragma CODE_SECTION(RELAY_SGR, "ramfuncs");
 
 #pragma CODE_SECTION(relay_normal_to_detect, "ramfuncs");
 #pragma CODE_SECTION(relay_detect_to_pickup, "ramfuncs");
@@ -89,8 +89,8 @@
 #define ENABLE  0xaaaa
 #define DISABLE 0xbbbb
 
-#define NORMAL 0xaaaa
-#define SELECT 0xbbbb
+#define OCR_NORMAL  0xaaaa
+#define OCR_SELECT  0xbbbb
 
 #define  HIMIX_SEND  *GpioIntRegs_GPBSET_High |= 0x0400
 #define  HIMIX_STOP  *GpioIntRegs_GPBCLEAR_High |= 0x0400
@@ -214,18 +214,16 @@
 #define TOTAL_DELAY_51	       31 // 총 계전기 동작 시간 = RMS_CAL_TIME + ALGORITHM_TIME(LOGIC_DELAY_TIME + PICKUP_DELAY + WAITING DELAY) + DO_CONTACT_TIME
 //#define LOGIC_DELAY_TIME			 82	//OCR(inv의 경우) 82msec
 
-#define Ia   1
-#define Ib   2
-#define Ic   3
-#define In   4
-#define In2  5
-#define Is   6
-#define Va   7
-#define Vb   8
-#define Vc   9
-#define Vn   10
-
-#define OCR_TURN  0x1234
+#define Ia   0
+#define Ib   1
+#define Ic   2
+#define In   3
+#define In2  4
+#define Is   5
+#define Va   6
+#define Vb   7
+#define Vc   8
+#define Vn   9
 
 #define KEPCO_TYPE  0x1234
 

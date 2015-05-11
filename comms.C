@@ -162,13 +162,13 @@ void manager_handling(void)
 			ManagerSystem.set_time2 = 2;
 			ManagerSystem.modbus_id = ADDRESS.address;
 			ManagerSystem.local_control = (LOCAL_CONTROL.mode == 0xaaaa)?2:1;
-			ManagerSystem.dgr_angle = SYSTEM_SET.ocgr_dgr;
+			ManagerSystem.dgr_angle = 0;
 			ManagerSystem.sgr_angle = 0;
 			ManagerSystem.uvr_27r = 7;
 			ManagerSystem.uvr_27m = 8;
 			ManagerSystem.uvr_27s = 9;
-			ManagerSystem.ocr_mode_set = (SYSTEM_SET.ocr_mode == OCR_TURN)?2:1;
-			ManagerSystem.ocr_di = SYSTEM_SET.ocr_di_mask;
+			ManagerSystem.ocr_mode_set = (OCR_MODE_SET.ocr_mode == OCR_NORMAL)?2:1;
+			ManagerSystem.ocr_di = OCR_MODE_SET.ocr_di_mask;
 			ManagerSystem.pt_rating_2nd = 12;
 			ManagerSystem.pt_rating_3rd = 13;
 

@@ -350,6 +350,8 @@ extern struct
 
 	unsigned long Pickup_Time;
 	unsigned long Delay_Time;
+	unsigned int di_err_flag;
+	unsigned int di_on_flag;
 } OCR50_1;
 
 extern struct
@@ -387,6 +389,8 @@ extern struct
 
 	unsigned long Pickup_Time;
 	unsigned long Delay_Time;
+	unsigned int di_err_flag;
+	unsigned int di_on_flag;
 } OCR50_2;
 
 extern struct
@@ -428,6 +432,8 @@ extern struct
 
 	unsigned long Pickup_Time;
 	unsigned long Delay_Time;
+	unsigned int di_err_flag;
+	unsigned int di_on_flag;
 } OCR51_1;
 
 extern struct
@@ -468,7 +474,9 @@ extern struct
 	float Op_Time;
 
 	unsigned long Pickup_Time;
-	unsigned long Delay_Time;   
+	unsigned long Delay_Time;
+	unsigned int di_err_flag;
+	unsigned int di_on_flag;
 } OCR51_2;
 
 extern struct
@@ -1057,12 +1065,9 @@ extern struct
 extern struct
 {
 	unsigned int ocr_mode;
-	unsigned int di_number;
-
 	unsigned int ocr_di_mask;
 
 	unsigned int ocr_mode_temp;
-	unsigned int di_number_temp;
 } OCR_MODE_SET;
 
 extern struct
@@ -1212,16 +1217,6 @@ extern struct
 	unsigned int temp16_1;
 	unsigned int temp16_2;
 } TIMER1;
-
-extern struct
-{
-	unsigned int ocgr_dgr;
-	unsigned int zct_angle;
-	
-	unsigned int ocr_mode;
-	unsigned int di_number;
-	unsigned int ocr_di_mask;
-} SYSTEM_SET;
 
 extern struct
 {
