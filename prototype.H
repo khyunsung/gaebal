@@ -91,7 +91,7 @@ void make_crc_send(unsigned int *, unsigned int *, unsigned int);
 void serial_write(unsigned int, unsigned int *, unsigned int *);
 void serial_ok_nak_send(unsigned int);
 
-void RROTECTIVE_RELAY(void);
+void PROTECTIVE_RELAY(void);
 void RELAY_OCR50_1(void);
 void RELAY_OCR50_2(void);
 void RELAY_OCR51_1(void);
@@ -214,7 +214,7 @@ void himix_crc(unsigned int);
 void relay_value_set_handling(unsigned int *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 void Relay_On(unsigned int);
 void Relay_Off(unsigned int);
-void do_release(unsigned int *);
+//void do_release(unsigned int *);
 float over_phase_value_check(unsigned int, float, unsigned long *);
 float under_phase_value_check(unsigned int, float, unsigned long *);
 

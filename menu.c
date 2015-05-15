@@ -4234,20 +4234,19 @@ void menu_49_04(unsigned int value, int display)
 
 void menu_49_05(unsigned int value, int display)
 {
-//const unsigned int number_digit[3] = {100, 10, 1};
 	char str[2][22];
 
 	if(CORE.rated_ct == CT_5A) {
 		const unsigned int number_digit[3] = {100, 10, 1};
-		sprintf(str[0],"PRE-SET  : %5.1f [A]\0",(float)(OCGR51.current_set*0.1));
-		sprintf(str[1],"CURRENT  : %5.1f [A]\0",(float)(OCGR51.current_set_temp*0.1));
+		sprintf(str[0],"PRE-SET  : %5.2f [A]\0",(float)(OCGR51.current_set*0.01));
+		sprintf(str[1],"CURRENT  : %5.2f [A]\0",(float)(OCGR51.current_set_temp*0.01));
 	
 		if(display) {
 			screen_frame2(str);
 			if(Screen_Position.select == 0) {
 				cursor_move(1, 12);
 			} else if (Screen_Position.select == 1) {
-				cursor_move(1, 13);
+				cursor_move(1, 14);
 			} else if (Screen_Position.select == 2) {
 				cursor_move(1, 15);
 			}
@@ -4405,13 +4404,13 @@ void menu_49_09(unsigned int value, int display)
 {
 	char str[2][22];
 
-	if(CORE.rated_ct == CT_5A) {
-		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCGR51.current_set_temp*0.1),ENTER);
-		sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OCGR51.time_lever_temp*0.01));
-	} else { //1A
-		sprintf(str[0],"CURRENT : %5.2f [A]%c\0",(float)(OCGR51.current_set_temp*0.01),ENTER);
-		sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OCGR51.time_lever_temp*0.01));
-	}
+//	if(CORE.rated_ct == CT_5A) {
+	sprintf(str[0],"CURRENT : %5.2f [A]%c\0",(float)(OCGR51.current_set_temp*0.01),ENTER);
+	sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OCGR51.time_lever_temp*0.01));
+//	} else { //1A
+//		sprintf(str[0],"CURRENT : %5.2f [A]%c\0",(float)(OCGR51.current_set_temp*0.01),ENTER);
+//		sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OCGR51.time_lever_temp*0.01));
+//	}
 
 	if(display) {
 		screen_frame2(str);

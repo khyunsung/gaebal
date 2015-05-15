@@ -357,13 +357,13 @@ void setting_post_handling(unsigned int *ar_address)
 		{
 			OCR50_1.pickup_limit = DEFINITE_PICKUP_LIMIT;
 			
-			OCR50_1.delay_ms = OCR50_1.delay_time * 10; //msec로 변환
-			OCR50_1.delay_ms = OCR50_1.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY;
+			OCR50_1.delay_ms = OCR50_1.delay_time * 10; //10msec -> msec로 변환
+			OCR50_1.delay_ms = OCR50_1.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY_50;
 		}
 		else
 		{
 			OCR50_1.pickup_limit = INSTANT_PICKUP_LIMIT;
-			OCR50_1.delay_ms = 7;
+			OCR50_1.delay_ms = 40 - INSTANT_PICKUP_LIMIT - TOTAL_DELAY_50; //순시 목표 40msec
 		}
 //	OCR50_1.event_ready = OCR50_1_SET_EVENT;
 //	OCR50_1.event_ready |= (unsigned long)(OCR50_1.mode << 8);
@@ -396,13 +396,13 @@ void setting_post_handling(unsigned int *ar_address)
 		{
 			OCR50_2.pickup_limit = DEFINITE_PICKUP_LIMIT;
 			
-			OCR50_2.delay_ms = OCR50_2.delay_time * 10; //msec로 변환
-			OCR50_2.delay_ms = OCR50_2.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY;
+			OCR50_2.delay_ms = OCR50_2.delay_time * 10; //10msec -> msec로 변환
+			OCR50_2.delay_ms = OCR50_2.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY_50;
 		}
 		else
 		{
 			OCR50_2.pickup_limit = INSTANT_PICKUP_LIMIT;
-			OCR50_2.delay_ms = 7;
+			OCR50_2.delay_ms = 40 - INSTANT_PICKUP_LIMIT - TOTAL_DELAY_50; //순시 목표 40msec
 		}
 //	OCR50_2.event_ready = OCR50_2_SET_EVENT;
 //	OCR50_2.event_ready |= (unsigned long)(OCR50_2.mode << 8);
@@ -433,31 +433,6 @@ void setting_post_handling(unsigned int *ar_address)
 
 		OCR51_1.pickup_limit = INVERSE_PICKUP_LIMIT;
 
-//		OCR51_1.setting = (float)OCR51_1.current_set;		
-//		OCR51_1.setting *= 0.1;
-//		
-//		if(CORE.rated_ct != CT_1A)
-//		OCR51_1.setting *= 5;
-//	
-//		OCR51_1.Mbyk = (float)OCR51_1.time_lever;
-//		OCR51_1.Mbyk *= 0.01;
-//		
-//		if(OCR51_1.mode == INVERSE)
-//		{
-//			OCR51_1.Mbyk *= IEC_INV_k;
-//			OCR51_1.a = IEC_INV_a;
-//		}
-//		else if(OCR51_1.mode == V_INVERSE)
-//		{
-//			OCR51_1.Mbyk *= IEC_VINV_k;
-//			OCR51_1.a = IEC_VINV_a;
-//		}
-//		else
-//		{
-//			OCR51_1.Mbyk *= IEC_EINV_k;
-//			OCR51_1.a = IEC_EINV_a;
-//		}
-	
 //	OCR51_1.event_ready = OCR51_1_SET_EVENT;
 //	OCR51_1.event_ready |= (unsigned long)(OCR51_1.mode << 8);
 		
@@ -487,31 +462,6 @@ void setting_post_handling(unsigned int *ar_address)
 
 		OCR51_2.pickup_limit = INVERSE_PICKUP_LIMIT;
 
-//		OCR51_2.setting = (float)OCR51_2.current_set;		
-//		OCR51_2.setting *= 0.1;
-//		
-//		if(CORE.rated_ct != CT_1A)
-//		OCR51_2.setting *= 5;
-//	
-//		OCR51_2.Mbyk = (float)OCR51_2.time_lever;
-//		OCR51_2.Mbyk *= 0.01;
-//		
-//		if(OCR51_2.mode == INVERSE)
-//		{
-//			OCR51_2.Mbyk *= IEC_INV_k;
-//			OCR51_2.a = IEC_INV_a;
-//		}
-//		else if(OCR51_2.mode == V_INVERSE)
-//		{
-//			OCR51_2.Mbyk *= IEC_VINV_k;
-//			OCR51_2.a = IEC_VINV_a;
-//		}
-//		else
-//		{
-//			OCR51_2.Mbyk *= IEC_EINV_k;
-//			OCR51_2.a = IEC_EINV_a;
-//		}
-	
 //	OCR51_2.event_ready = OCR51_2_SET_EVENT;
 //	OCR51_2.event_ready |= (unsigned long)(OCR51_2.mode << 8);
 		
@@ -522,10 +472,10 @@ void setting_post_handling(unsigned int *ar_address)
 	else if(ar_address == OCGR50_USE)
 	{
 		OCGR50.Pickup_Threshold = (float)OCGR50.current_set;
-		OCGR50.Pickup_Threshold *= 0.102; // 0.102 = 0.1 * 1.02
+		OCGR50.Pickup_Threshold *= 0.1;
 		
 		OCGR50.Dropout_Threshold = (float)OCGR50.current_set;
-		OCGR50.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
+		OCGR50.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
 		
 		OCGR50.op_status = RELAY_NORMAL;
 		OCGR50.Op_Ratio = 0.0;
@@ -541,20 +491,19 @@ void setting_post_handling(unsigned int *ar_address)
 		
 		if(OCGR50.mode == DEFINITE)
 		{
-			OCGR50.delay_ms = OCGR50.delay_time * 10;
-			OCGR50.delay_ms -= DEFINITE_PICKUP_LIMIT;
-		
 			OCGR50.pickup_limit = DEFINITE_PICKUP_LIMIT;
+			
+			OCGR50.delay_ms = OCGR50.delay_time * 10; //10msec -> msec로 변환
+			OCGR50.delay_ms = OCGR50.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY_50;
 		}
 		else
 		{
-			OCGR50.delay_ms = 7;
 			OCGR50.pickup_limit = INSTANT_PICKUP_LIMIT;
+			OCGR50.delay_ms = 40 - INSTANT_PICKUP_LIMIT - TOTAL_DELAY_50; //순시 목표 40msec
 		}
-		
-		OCGR50.event_ready = OCGR50_SET_EVENT;
-		OCGR50.event_ready |= (unsigned long)(OCGR50.mode << 8);
-		OCGR50.event_ready |= 0x00000008;
+//	OCGR50.event_ready = OCGR50_SET_EVENT;
+//	OCGR50.event_ready |= (unsigned long)(OCGR50.mode << 8);
+//	OCGR50.event_ready |= 0x00000008;
 		
 		RELAY_STATUS.pickup							&= ~F_OCGR50;
 		RELAY_STATUS.operation_realtime	&= ~F_OCGR50;
@@ -563,7 +512,7 @@ void setting_post_handling(unsigned int *ar_address)
 	else if(ar_address == OCGR51_USE)
 	{
 		OCGR51.Pickup_Threshold = (float)OCGR51.current_set;
-		OCGR51.Pickup_Threshold *= 0.0102; // 0.0102 = 0.01 * 1.02
+		OCGR51.Pickup_Threshold *= 0.01;
 		
 		OCGR51.Dropout_Threshold = (float)OCGR51.current_set;
 		OCGR51.Dropout_Threshold *= 0.0097; // 0.0097 = 0.01 * 0.97
@@ -579,32 +528,9 @@ void setting_post_handling(unsigned int *ar_address)
 			if(OCGR51.do_relay & (0x0001 << i))
 			OCGR51.do_output |= DO_ON_BIT[i];
 		}
-		
-//		OCGR51.setting = (float)OCGR51.current_set;
-//		OCGR51.setting *= 0.01;
-//		
-//		if(CORE.rated_ct != CT_1A)
-//		OCGR51.setting *= 5;
-//		
-//		OCGR51.Mbyk = (float)OCGR51.time_lever;
-//		OCGR51.Mbyk *= 0.01;
-//		
-//		if(OCGR51.mode == INVERSE)
-//		{
-//			OCGR51.Mbyk *= IEC_INV_k;
-//			OCGR51.a = IEC_INV_a;
-//		}
-//		else if(OCGR51.mode == V_INVERSE)
-//		{
-//			OCGR51.Mbyk *= IEC_VINV_k;
-//			OCGR51.a = IEC_VINV_a;
-//		}
-//		else
-//		{
-//			OCGR51.Mbyk *= IEC_EINV_k;
-//			OCGR51.a = IEC_EINV_a;
-//		}
-		
+
+		OCGR51.pickup_limit = INVERSE_PICKUP_LIMIT;
+
 //		OCGR51.event_ready = OCGR51_SET_EVENT;
 //		OCGR51.event_ready |= (unsigned long)(OCGR51.mode << 8);
 //		OCGR51.event_ready |= 0x00000008;
@@ -647,7 +573,7 @@ void setting_post_handling(unsigned int *ar_address)
 		RELAY_STATUS.pickup							&= ~F_UVR_1;
 		RELAY_STATUS.operation_realtime	&= ~F_UVR_1;
 		
-		do_release(&UVR_1.do_output_off);
+		Relay_Off(UVR_1.do_output); //로 대체
 	}
 
 	else if(ar_address == UVR_2_USE)
@@ -684,7 +610,7 @@ void setting_post_handling(unsigned int *ar_address)
 		RELAY_STATUS.pickup							&= ~F_UVR_2;
 		RELAY_STATUS.operation_realtime	&= ~F_UVR_2;
 		
-		do_release(&UVR_2.do_output_off);
+		Relay_Off(UVR_2.do_output); //로 대체
 	}
 
 	else if(ar_address == UVR_3_USE)
@@ -721,7 +647,7 @@ void setting_post_handling(unsigned int *ar_address)
 		RELAY_STATUS.pickup							&= ~F_UVR_3;
 		RELAY_STATUS.operation_realtime	&= ~F_UVR_3;
 		
-		do_release(&UVR_3.do_output_off);
+		Relay_Off(UVR_3.do_output); //로 대체
 	}
 
 	else if(ar_address == P47_USE)
@@ -793,14 +719,11 @@ void setting_post_handling(unsigned int *ar_address)
 	else if(ar_address == OVR_USE)
 	{
 		OVR.Pickup_Threshold = (float)OVR.voltage_set;
-		OVR.Pickup_Threshold *= 0.102; // 0.102 = 0.1 * 1.02
+		OVR.Pickup_Threshold *= 0.1;
 	
 		OVR.Dropout_Threshold = (float)OVR.voltage_set;
 		OVR.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
-		
-		OVR.Pickup_Threshold *= GPT.pt_secondary;
-		OVR.Dropout_Threshold *= GPT.pt_secondary;
-		
+
 		OVR.op_status = RELAY_NORMAL;
 		OVR.Op_Ratio = 0.0;
 		OVR.Op_Phase = 0;
@@ -815,24 +738,14 @@ void setting_post_handling(unsigned int *ar_address)
 	
 		if(OVR.mode == INVERSE)
 		{
-			OVR.setting = (float)OVR.voltage_set;
-			OVR.setting *= 0.1;
-			
-			OVR.setting *= GPT.pt_secondary;
-		
-			OVR.Mbyk = (float)OVR.delay_time;
-			OVR.Mbyk *= 0.01;
-			OVR.Mbyk *= IEC_INV_k;
-		
 			OVR.pickup_limit = INVERSE_PICKUP_LIMIT;
 		}
-		else
+		else if(OVR.mode == DEFINITE)
 		{
-			OVR.Op_Time_set = (unsigned long)OVR.delay_time;
-			OVR.Op_Time_set *= 10;
-			OVR.Op_Time_set -= DEFINITE_PICKUP_LIMIT;
-		
 			OVR.pickup_limit = DEFINITE_PICKUP_LIMIT;
+			
+			OVR.delay_ms = OVR.delay_time * 100; //100msec -> msec로 변환
+			OVR.delay_ms = OVR.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY_59;
 		}
 //		OVR.event_ready = OVR_SET_EVENT;
 //		OVR.event_ready |= (unsigned long)(OVR.mode << 8);
@@ -844,13 +757,10 @@ void setting_post_handling(unsigned int *ar_address)
 	else if(ar_address == OVGR_USE)
 	{
 		OVGR.Pickup_Threshold = (float)OVGR.voltage_set;
-		OVGR.Pickup_Threshold *= 0.102; // 0.102 = 0.1 * 1.02
+		OVGR.Pickup_Threshold *= 0.1;
 	
 		OVGR.Dropout_Threshold = (float)OVGR.voltage_set;
 		OVGR.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
-		
-		OVGR.Pickup_Threshold *= GPT.pt_tertiary;
-		OVGR.Dropout_Threshold *= GPT.pt_tertiary;
 		
 		OVGR.op_status = RELAY_NORMAL;
 		OVGR.Op_Ratio = 0.0;
@@ -866,21 +776,12 @@ void setting_post_handling(unsigned int *ar_address)
 	
 		if(OVGR.mode == INVERSE)
 		{
-			OVGR.setting = (float)OVGR.voltage_set;
-			OVGR.setting *= 0.1;
-			
-			OVGR.setting *= GPT.pt_tertiary;
-		
-			OVGR.Mbyk = (float)OVGR.time_lever;
-			OVGR.Mbyk *= 0.01;
-			OVGR.Mbyk *= IEC_INV_k;
-		
 			OVGR.pickup_limit = INVERSE_PICKUP_LIMIT;
 		}
-		else
+		else if(OVGR.mode == INSTANT)
 		{
-			OVGR.Op_Time_set = 7;
 			OVGR.pickup_limit = INSTANT_PICKUP_LIMIT;
+			OVGR.delay_ms = 40 - INSTANT_PICKUP_LIMIT - TOTAL_DELAY_64; //순시 목표 40msec
 		}
 //		OVGR.event_ready = OVGR_SET_EVENT;
 //		OVGR.event_ready |= (unsigned long)(OVGR.mode << 8);
@@ -892,134 +793,102 @@ void setting_post_handling(unsigned int *ar_address)
 
 	else if(ar_address == DGR_USE)
 	{
-		DGR.Pickup_Threshold_Io = (float)DGR.current_set;
-		DGR.Pickup_Threshold_Io *= 0.102; // 0.102 = 0.1 * 1.02
-		
-		DGR.Dropout_Threshold_Io = (float)DGR.current_set;
-		DGR.Dropout_Threshold_Io *= 0.097; // 0.097 = 0.1 * 0.97
-		
-		if(CORE.gr_select != ZCT_SELECT)
+		if(CORE.gr_select == NCT_SELECT)
 		{
-			if(CORE.rated_ct != CT_1A)
+			DGR.Pickup_Threshold_Io = (float)DGR.current_set;
+			DGR.Pickup_Threshold_Io *= 0.1;
+			
+			DGR.Dropout_Threshold_Io = (float)DGR.current_set;
+			DGR.Dropout_Threshold_Io *= 0.097; // 0.097 = 0.1 * 0.97
+			
+			DGR.Pickup_Threshold_Vo = (float)DGR.voltage_set;
+			DGR.Pickup_Threshold_Vo *= 0.1;
+			
+			DGR.Dropout_Threshold_Vo = (float)DGR.voltage_set;
+			DGR.Dropout_Threshold_Vo *= 0.097; // 0.097 = 0.1 * 0.97
+			
+			DGR.angle_low = (float)DGR.angle_set;
+			DGR.angle_low -= 60;
+			
+			if(DGR.angle_low < 0)
+			DGR.angle_low += 360;
+			
+			DGR.angle_high = (float)DGR.angle_set;
+			DGR.angle_high += 60;
+			
+			DGR.op_status = RELAY_NORMAL;
+			DGR.Op_Ratio = 0.0;
+			DGR.Op_Phase = 0;
+			DGR.Op_Time = 0.0;
+			
+			DGR.delay_ms = DGR.delay_time * 10;
+			DGR.delay_ms -= DEFINITE_PICKUP_LIMIT;
+			
+			DGR.do_output = 0;
+			for(i = 0; i < 8; i++)
 			{
-				DGR.Pickup_Threshold_Io *= 5;
-				DGR.Dropout_Threshold_Io *= 5;
+				if(DGR.do_relay & (0x0001 << i))
+				{
+					DGR.do_output |= DO_ON_BIT[i];
+				}
 			}
-		}
 		
-		DGR.Pickup_Threshold_Vo = (float)DGR.voltage_set;
-		DGR.Pickup_Threshold_Vo *= 0.102; // 0.102 = 0.1 * 1.02
-		
-		DGR.Dropout_Threshold_Vo = (float)DGR.voltage_set;
-		DGR.Dropout_Threshold_Vo *= 0.097; // 0.097 = 0.1 * 0.97
-		
-		DGR.Pickup_Threshold_Vo *= GPT.pt_tertiary;
-		DGR.Dropout_Threshold_Vo *= GPT.pt_tertiary;
-		
-		DGR.angle_low = (float)DGR.angle_set;
-		DGR.angle_low -= 60;
-		
-		if(DGR.angle_low < 0)
-		DGR.angle_low += 360;
-		
-		DGR.angle_high = (float)DGR.angle_set;
-		DGR.angle_high += 60;
-		
-		DGR.op_status = RELAY_NORMAL;
-		DGR.Op_Ratio = 0.0;
-		DGR.Op_Phase = 0;
-		DGR.Op_Time = 0.0;
-		
-		DGR.delay_ms = DGR.delay_time * 10;
-		DGR.delay_ms -= DEFINITE_PICKUP_LIMIT;
-		
-		DGR.do_output = 0;
-		for(i = 0; i < 8; i++)
-		{
-			if(DGR.do_relay & (0x0001 << i))
-			{
-				DGR.do_output |= DO_ON_BIT[i];
-			}
-		}
-	
-//		if(CORE.gr_select == ZCT_SELECT)
-//		{
-//			DGR.event_ready = SGR_SET_EVENT;
-//		}
-//		else
-//		{
-//			DGR.event_ready = DGR_SET_EVENT;
-//		}
+//		DGR.event_ready = DGR_SET_EVENT;
 //		DGR.event_ready |= 0x00000100;
-		
-		RELAY_STATUS.pickup							&= ~F_DGR;
-		RELAY_STATUS.operation_realtime	&= ~F_DGR;
+			
+			RELAY_STATUS.pickup							&= ~F_DGR;
+			RELAY_STATUS.operation_realtime	&= ~F_DGR;
+		}
 	}
 
 	else if(ar_address == SGR_USE)
 	{
-		SGR.Pickup_Threshold_Io = (float)SGR.current_set;
-		SGR.Pickup_Threshold_Io *= 0.102; // 0.102 = 0.1 * 1.02
-		
-		SGR.Dropout_Threshold_Io = (float)SGR.current_set;
-		SGR.Dropout_Threshold_Io *= 0.097; // 0.097 = 0.1 * 0.97
-		
-		if(CORE.gr_select != ZCT_SELECT)
+		if(CORE.gr_select == ZCT_SELECT)
 		{
-			if(CORE.rated_ct != CT_1A)
+			SGR.Pickup_Threshold_Io = (float)SGR.current_set;
+			SGR.Pickup_Threshold_Io *= 0.1;
+			
+			SGR.Dropout_Threshold_Io = (float)SGR.current_set;
+			SGR.Dropout_Threshold_Io *= 0.097; // 0.097 = 0.1 * 0.97
+			
+			SGR.Pickup_Threshold_Vo = (float)SGR.voltage_set;
+			SGR.Pickup_Threshold_Vo *= 0.1;
+			
+			SGR.Dropout_Threshold_Vo = (float)SGR.voltage_set;
+			SGR.Dropout_Threshold_Vo *= 0.097; // 0.097 = 0.1 * 0.97
+			
+			SGR.angle_low = (float)SGR.angle_set;
+			SGR.angle_low -= 60;
+			
+			if(SGR.angle_low < 0)
+			SGR.angle_low += 360;
+			
+			SGR.angle_high = (float)SGR.angle_set;
+			SGR.angle_high += 60;
+			
+			SGR.op_status = RELAY_NORMAL;
+			SGR.Op_Ratio = 0.0;
+			SGR.Op_Phase = 0;
+			SGR.Op_Time = 0.0;
+			
+			SGR.delay_ms = SGR.delay_time * 10;
+			SGR.delay_ms -= DEFINITE_PICKUP_LIMIT;
+			
+			SGR.do_output = 0;
+			for(i = 0; i < 8; i++)
 			{
-				SGR.Pickup_Threshold_Io *= 5;
-				SGR.Dropout_Threshold_Io *= 5;
+				if(SGR.do_relay & (0x0001 << i))
+				{
+					SGR.do_output |= DO_ON_BIT[i];
+				}
 			}
-		}
-		
-		SGR.Pickup_Threshold_Vo = (float)SGR.voltage_set;
-		SGR.Pickup_Threshold_Vo *= 0.102; // 0.102 = 0.1 * 1.02
-		
-		SGR.Dropout_Threshold_Vo = (float)SGR.voltage_set;
-		SGR.Dropout_Threshold_Vo *= 0.097; // 0.097 = 0.1 * 0.97
-		
-		SGR.Pickup_Threshold_Vo *= GPT.pt_tertiary;
-		SGR.Dropout_Threshold_Vo *= GPT.pt_tertiary;
-		
-		SGR.angle_low = (float)SGR.angle_set;
-		SGR.angle_low -= 60;
-		
-		if(SGR.angle_low < 0)
-		SGR.angle_low += 360;
-		
-		SGR.angle_high = (float)SGR.angle_set;
-		SGR.angle_high += 60;
-		
-		SGR.op_status = RELAY_NORMAL;
-		SGR.Op_Ratio = 0.0;
-		SGR.Op_Phase = 0;
-		SGR.Op_Time = 0.0;
-		
-		SGR.delay_ms = SGR.delay_time * 10;
-		SGR.delay_ms -= DEFINITE_PICKUP_LIMIT;
-		
-		SGR.do_output = 0;
-		for(i = 0; i < 8; i++)
-		{
-			if(SGR.do_relay & (0x0001 << i))
-			{
-				SGR.do_output |= DO_ON_BIT[i];
-			}
-		}
-
-//		if(CORE.gr_select == ZCT_SELECT)
-//		{
-//			SGR.event_ready = SGR_SET_EVENT;
-//		}
-//		else
-//		{
-//			SGR.event_ready = SGR_SET_EVENT;
-//		}
+	
+//		SGR.event_ready = SGR_SET_EVENT;
 //		SGR.event_ready |= 0x00000100;
-		
-		RELAY_STATUS.pickup							&= ~F_SGR;
-		RELAY_STATUS.operation_realtime	&= ~F_SGR;
+			
+			RELAY_STATUS.pickup							&= ~F_SGR;
+			RELAY_STATUS.operation_realtime	&= ~F_SGR;
+		}
 	}
 }
 

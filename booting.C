@@ -170,31 +170,6 @@ void booting_setting_check(void)
 	delay_us(100000); // rtc 시간을 읽어와서 내부 TIME.xxx 변수에 쟁기기 완료
 	
 // CALIBRATION FACTOR, SRAM CHECK
-	//-------- 시작 화면 표시
-//	lcd_control_write(0x0c);
-//	delay_us(1000);
-//	lcd_control_write(LCD_CLEAR);
-//	delay_us(2000);
-//	LCD.line_buffer1 = "CAL. FACTOR -";
-//	LCD.line_buffer2 = "SRAM CHECK  -";
-//	for(i = 0; i < 20; i++)
-//	{
-//		if(LCD.line_buffer1[i] == 0)	{break;}
-//		else	{lcd_character_write(LCD.line_buffer1[i]);}
-//		delay_us(1000);
-//	}
-//	lcd_control_write(0xc0);
-//	delay_us(1000);
-//	for(i = 0; i < 20; i++)
-//	{
-//		if(LCD.line_buffer2[i] == 0)	{break;}
-//		else	{lcd_character_write(LCD.line_buffer2[i]);}
-//		delay_us(1000);
-//	}
-//	lcd_control_write(LCD_L1_14);
-//	delay_us(1000);
-	//-------- 시작 화면 표시 END
-	
 	//-------- calibration factor 읽어서 확인
 	for(i = 0; i < 10; i++)	// offset
 	{
@@ -228,39 +203,6 @@ void booting_setting_check(void)
 		temp[50 + (i << 1)] = *temp16_p;
 		temp[51 + (i << 1)] = *(temp16_p + 1);
 	}
-//	for(i = 0; i < 3; i++)	//power
-//	{
-//		void_p = &CALIBRATION.slope_power[i];
-//		temp16_p = (unsigned int*)void_p;
-//		eerom_read(0x70 + (i << 1), temp16_p);
-//		eerom_read(0x71 + (i << 1), temp16_p + 1);
-//		temp[70 + (i << 1)] = *temp16_p;
-//		temp[71 + (i << 1)] = *(temp16_p + 1);
-//	}
-//	for(i = 0; i < 3; i++)	//power cos
-//	{
-//		void_p = &CALIBRATION.Power_Cos[i];
-//		temp16_p = (unsigned int*)void_p;
-//		eerom_read(0x80 + (i << 1), temp16_p);
-//		eerom_read(0x81 + (i << 1), temp16_p + 1);
-//		temp[76 + (i << 1)] = *temp16_p;
-//		temp[77 + (i << 1)] = *(temp16_p + 1);
-//	}
-//	for(i = 0; i < 3; i++)	//power sin
-//	{
-//		void_p = &CALIBRATION.Power_Sin[i];
-//		temp16_p = (unsigned int*)void_p;
-//		eerom_read(0x86 + (i << 1), temp16_p);
-//		eerom_read(0x87 + (i << 1), temp16_p + 1);
-//		temp[82 + (i << 1)] = *temp16_p;
-//		temp[83 + (i << 1)] = *(temp16_p + 1);
-//	}
-//	void_p = &CALIBRATION.frequency_offset;
-//	temp16_p = (unsigned int*)void_p;
-//	eerom_read(0x90 + (i << 1), temp16_p);
-//	eerom_read(0x91 + (i << 1), temp16_p + 1);
-//	temp[88] = *temp16_p;
-//	temp[89] = *(temp16_p + 1);
 	eerom_read(0xa0, &i);
 
 //j = Setting_CRC(temp, 90);
@@ -313,36 +255,10 @@ void booting_setting_check(void)
 		CALIBRATION.angle[8] = -0.02152767;
 		CALIBRATION.angle[9] = -0.0323419;
 
-//		CALIBRATION.slope_power[0] = 0.1110592;
-//		CALIBRATION.slope_power[1] = 0.1115916;
-//		CALIBRATION.slope_power[2] = 0.1115241;
-//
-//		CALIBRATION.Power_Cos[0] = 0.9980001;
-//		CALIBRATION.Power_Cos[1] = 1.003941;
-//		CALIBRATION.Power_Cos[2] = 1.002217;
-//
-//		CALIBRATION.Power_Sin[0] = -0.08913197;
-//		CALIBRATION.Power_Sin[1] = -0.08636435;
-//		CALIBRATION.Power_Sin[2] = -0.08633978;
-
 		CALIBRATION.frequency_offset = 0.001021814;
-
-//	LCD.line_buffer1 = "FAIL";
 	}
-//else	{LCD.line_buffer1 = "GOOD";}
 	CALIBRATION.frequency_offset = 60 - CALIBRATION.frequency_offset;
 	//-------- calibration factor 읽어서 확인 END
-
-	//-------- 결과 화면 표시
-//	for(i = 0; i < 20; i++)
-//	{
-//		if(LCD.line_buffer1[i] == 0)	{break;}
-//		else	{lcd_character_write(LCD.line_buffer1[i]);}
-//		delay_us(1000);
-//	}
-//	lcd_control_write(LCD_L2_14);
-//	delay_us(1000);
-	//-------- 결과 화면 표시 END
 
 	//-------- SRAM에 지우고 쓰고 다시 읽어서 확인
 //	for(temp32 = 0; temp32 < 0x40000; temp32++)

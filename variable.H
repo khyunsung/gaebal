@@ -284,8 +284,17 @@ struct
 //--------- RELAY VARIABLE
 struct
 {
-	unsigned int Op_Phase;
-	float Max_RMS;	
+	unsigned int I_Op_Phase;
+	unsigned int In_Op_Phase;
+	unsigned int Is_Op_Phase;
+	unsigned int V_Op_Phase;
+	unsigned int Vn_Op_Phase;
+
+	float Max_I_RMS;
+	float Max_In_RMS;
+	float Max_Is_RMS;
+	float Max_V_RMS;
+	float Max_Vn_RMS;
 } PROTECT;
 
 struct
@@ -299,7 +308,6 @@ struct
 	
 	unsigned int delay_ms;
 	unsigned int do_output;
-	unsigned int do_output_off;
 	
 	// 내부운용	
 	float Pickup_Threshold;
@@ -338,7 +346,6 @@ struct
 	
 	unsigned int delay_ms;
 	unsigned int do_output;
-	unsigned int do_output_off;
 	
 	// 내부운용	
 	float Pickup_Threshold;
@@ -375,17 +382,12 @@ struct
 	unsigned int time_lever;
 	unsigned int do_relay;
 
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
-	
 	unsigned long Op_Time_set;
-	float setting;
-	float Mbyk;
-	float a;
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 
 	unsigned long op_count;
 	unsigned int pickup_limit;
@@ -418,17 +420,12 @@ struct
 	unsigned int time_lever;
 	unsigned int do_relay;
 
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
-	
 	unsigned long Op_Time_set;
-	float setting;
-	float Mbyk;
-	float a;
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 
 	unsigned long op_count;
 	unsigned int pickup_limit;
@@ -462,12 +459,11 @@ struct
 	unsigned int do_relay;
 	
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 
 	unsigned long op_count;
 	unsigned int pickup_limit;
@@ -498,22 +494,18 @@ struct
 	unsigned int time_lever;
 	unsigned int do_relay;
 
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
-	
 	unsigned long Op_Time_set;
-	float setting;
-	float Mbyk;
-	float a;
+	unsigned long Op_Time_set_temp;
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 
 	unsigned long op_count;
 	unsigned int pickup_limit;
 	unsigned long event_ready;
-	unsigned int op_status;   //순서엄수
+	unsigned int op_status;
 
 	// 추가 부분
 	unsigned int use_temp;
@@ -539,17 +531,16 @@ struct
 	unsigned int do_relay;
 	
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 
 	unsigned long op_count;
 	unsigned int pickup_limit;
 	unsigned long event_ready;
-	unsigned int op_status;   //순서엄수
+	unsigned int op_status;
 	unsigned int over_volt;
 
 	// 추가 부분
@@ -576,17 +567,16 @@ struct
 	unsigned int do_relay;
 	
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 
 	unsigned long op_count;
 	unsigned int pickup_limit;
 	unsigned long event_ready;
-	unsigned int op_status;   //순서엄수
+	unsigned int op_status;
 	unsigned int over_volt;
 
 	// 추가 부분
@@ -613,17 +603,16 @@ struct
 	unsigned int do_relay;
 	
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 
 	unsigned long op_count;
 	unsigned int pickup_limit;
 	unsigned long event_ready;
-	unsigned int op_status;   //순서엄수
+	unsigned int op_status;
 	unsigned int over_volt;
 
 	// 추가 부분
@@ -650,17 +639,16 @@ struct
 	unsigned int do_relay;
 	
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 
 	unsigned long op_count;
 	unsigned int pickup_limit;
 	unsigned long event_ready;
-	unsigned int op_status;   //순서엄수
+	unsigned int op_status;
 
 	// 추가 부분
 	unsigned int use_temp;
@@ -686,17 +674,16 @@ struct
 	unsigned int do_relay;
 	
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 
 	unsigned long op_count;
 	unsigned int pickup_limit;
 	unsigned long event_ready;
-	unsigned int op_status;   //순서엄수
+	unsigned int op_status;
 
 	// 추가 부분
 	unsigned int use_temp;
@@ -724,22 +711,18 @@ struct
 	unsigned int do_relay;
 
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
-	
-	float setting;
-	float Mbyk;
-		
 	unsigned long Op_Time_set;
+	unsigned long Op_Time_set_temp;
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 
 	unsigned long op_count;
 	unsigned int pickup_limit;
 	unsigned long event_ready;
-	unsigned int op_status;   //순서엄수
+	unsigned int op_status;
 
 	// 추가 부분
 	unsigned int use_temp;
@@ -768,22 +751,18 @@ struct
 	unsigned int do_relay;
 
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
-	
-	float setting;
-	float Mbyk;
-	
 	unsigned long Op_Time_set;
+	unsigned long Op_Time_set_temp;
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold; // 순서 지킬것
-	float Dropout_Threshold; // 순서 지킬것
+	float Pickup_Threshold;
+	float Dropout_Threshold;
 
 	unsigned long op_count;
 	unsigned int pickup_limit;
 	unsigned long event_ready;
-	unsigned int op_status;   //순서엄수
+	unsigned int op_status;
 
 	// 추가 부분
 	unsigned int use_temp;
@@ -812,14 +791,13 @@ struct
 	unsigned int do_relay;
 	
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold_Io; // 순서 지킬것
-	float Dropout_Threshold_Io; // 순서 지킬것
-	float Pickup_Threshold_Vo; // 순서 지킬것
-	float Dropout_Threshold_Vo; // 순서 지킬것
+	float Pickup_Threshold_Io;
+	float Dropout_Threshold_Io;
+	float Pickup_Threshold_Vo;
+	float Dropout_Threshold_Vo;
 
 	unsigned int pickup_limit;
 	unsigned long op_count;
@@ -858,14 +836,13 @@ struct
 	unsigned int do_relay;
 	
 	unsigned int delay_ms;
-	unsigned int do_output;// 순서 지킬것
-	unsigned int do_output_off;// 순서 지킬것
+	unsigned int do_output;
 	
 	// 내부운용	
-	float Pickup_Threshold_Io; // 순서 지킬것
-	float Dropout_Threshold_Io; // 순서 지킬것
-	float Pickup_Threshold_Vo; // 순서 지킬것
-	float Dropout_Threshold_Vo; // 순서 지킬것
+	float Pickup_Threshold_Io;
+	float Dropout_Threshold_Io;
+	float Pickup_Threshold_Vo;
+	float Dropout_Threshold_Vo;
 
 	unsigned int pickup_limit;
 	unsigned long op_count;
@@ -974,7 +951,6 @@ struct
 	
 	//0이 tcs, 1이 ccs
 	unsigned int do_output[2];
-	unsigned int do_output_off[2];
 	long monitoring[2];
 	unsigned int pickup_count[2];
 	unsigned int pickup[2];

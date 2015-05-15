@@ -39,7 +39,7 @@ void real_main(void)
 		//relay
 		if(SAMPLE.ending)	
 		{
-			RROTECTIVE_RELAY();
+			PROTECTIVE_RELAY();
 		}
 
 		// key

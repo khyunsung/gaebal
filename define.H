@@ -30,7 +30,7 @@
 #pragma CODE_SECTION(delay_us, "ramfuncs");
 #pragma CODE_SECTION(display_time, "ramfuncs");
 #pragma CODE_SECTION(rtc_handling, "ramfuncs");
-#pragma CODE_SECTION(RROTECTIVE_RELAY, "ramfuncs");
+#pragma CODE_SECTION(PROTECTIVE_RELAY, "ramfuncs");
 #pragma CODE_SECTION(Inverse_GetDelayTime, "ramfuncs");
 #pragma CODE_SECTION(setting_view, "ramfuncs");
 #pragma CODE_SECTION(event_direct_save, "ramfuncs");
@@ -201,18 +201,22 @@
 #define IEC_EINV_a    2
 #define IEC_EINV_c    0
 
-//#define INSTANT_PICKUP_LIMIT   18
-#define INSTANT_PICKUP_LIMIT   12
+#define INSTANT_PICKUP_LIMIT   10
 #define DEFINITE_PICKUP_LIMIT  5
-#define INVERSE_PICKUP_LIMIT   30
-#define DROPOUT_LIMIT          8
-#define TOTAL_DELAY			       25 // 총 계전기 동작 시간 = RMS_CAL_TIME + ALGORITHM_TIME(LOGIC_DELAY_TIME + PICKUP_DELAY + WAITING DELAY) + DO_CONTACT_TIME
+#define INVERSE_PICKUP_LIMIT   5
+
+#define TOTAL_DELAY_50	       20 //50-1, 50-2, 50G, INST, DEF 확인 완료
+																	// 총 계전기 동작 시간 = RMS_CAL_TIME + ALGORITHM_TIME(LOGIC_DELAY_TIME + PICKUP_DELAY + WAITING DELAY) + DO_CONTACT_TIME
 																	// 여기에서 TOTAL_DELAY = 상수 변수인 RMS_CAL_TIME + DO_CONTACT_TIME + LOGIC_DELAY_TIME;
-//#define DO_CONTACT_TIME        10 //MAX 15msec 
-//#define RMS_CAL_TIME					 12 //MIN 6~7msec, MAX18~20msec	
-//#define LOGIC_DELAY_TIME			 3	//OCR(inst, def의 경우) 3msec
-#define TOTAL_DELAY_51	       31 // 총 계전기 동작 시간 = RMS_CAL_TIME + ALGORITHM_TIME(LOGIC_DELAY_TIME + PICKUP_DELAY + WAITING DELAY) + DO_CONTACT_TIME
-//#define LOGIC_DELAY_TIME			 82	//OCR(inv의 경우) 82msec
+//#define DO_CONTACT_TIME      10 //MAX 15msec 
+//#define RMS_CAL_TIME				 12 //MIN 6~7msec, MAX18~20msec	
+//#define LOGIC_DELAY_TIME		 3	//OCR(inst, def의 경우) 3msec
+
+#define TOTAL_DELAY_51	       20 // 51-1, 51-2 확인 완료
+                                  // 총 계전기 동작 시간 = RMS_CAL_TIME + ALGORITHM_TIME(LOGIC_DELAY_TIME + PICKUP_DELAY + WAITING DELAY) + DO_CONTACT_TIME
+#define TOTAL_DELAY_51G				 14 // 51G 확인 완료
+#define TOTAL_DELAY_59	       25 
+#define TOTAL_DELAY_64	       25 
 
 #define Ia   0
 #define Ib   1

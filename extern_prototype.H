@@ -86,7 +86,7 @@ extern void make_crc_send(unsigned int *, unsigned int *, unsigned int);
 extern void serial_write(unsigned int, unsigned int *, unsigned int *);
 extern void serial_ok_nak_send(unsigned int);
 
-extern void RROTECTIVE_RELAY(void);
+extern void PROTECTIVE_RELAY(void);
 extern void RELAY_OCR50_1(void);
 extern void RELAY_OCR50_2(void);
 extern void RELAY_OCR51_1(void);
@@ -210,7 +210,7 @@ extern void relay_value_set_handling(unsigned int *, unsigned int, unsigned int,
 
 extern void Relay_On(unsigned int);
 extern void Relay_Off(unsigned int);
-extern void do_release(unsigned int *);
+//extern void do_release(unsigned int *);
 extern float over_phase_value_check(unsigned int, float, unsigned long *);
 extern float under_phase_value_check(unsigned int, float, unsigned long *);
 
