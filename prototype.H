@@ -51,7 +51,6 @@ float Degree_Check(unsigned int);
 // display °èÃø
 void power_update(void);
 
-void setting_view(float, unsigned int, unsigned int, unsigned int);
 void display_aux_relay(unsigned int);
 void point_setting_left_right_action(unsigned int, unsigned int);
 void point_setting_up_down_action(unsigned int *, unsigned int, unsigned int, unsigned int);
@@ -190,7 +189,6 @@ void wave_flash_sector_erase(unsigned int *);
 
 void led_handling(void);
 
-void measure_view_detail(float, unsigned int, unsigned int);
 void power_view(float, unsigned int, unsigned int);
 void harmonics(void);
 void harmonic_sample_backup(unsigned int);

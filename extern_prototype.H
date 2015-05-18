@@ -44,7 +44,6 @@ extern float DFT_Check(unsigned int, float, float);
 extern void power_update(void);
 extern float Degree_Check(unsigned int);
 
-extern void setting_view(float, unsigned int, unsigned int, unsigned int);
 extern void display_aux_relay(unsigned int);
 extern void point_setting_left_right_action(unsigned int, unsigned int);
 extern void point_setting_up_down_action(unsigned int *, unsigned int, unsigned int, unsigned int);
@@ -185,7 +184,6 @@ extern void wave_flash_sector_erase(unsigned int *);
 
 extern void led_handling(void);
 
-extern void measure_view_detail(float, unsigned int, unsigned int);
 extern void power_view(float, unsigned int, unsigned int);
 extern void harmonics(void);
 extern void harmonic_sample_backup(unsigned int);

@@ -289,12 +289,16 @@ struct
 	unsigned int Is_Op_Phase;
 	unsigned int V_Op_Phase;
 	unsigned int Vn_Op_Phase;
+	
+	unsigned int Min_V_Op_Phase;
 
 	float Max_I_RMS;
 	float Max_In_RMS;
 	float Max_Is_RMS;
 	float Max_V_RMS;
 	float Max_Vn_RMS;
+
+	float Min_V_RMS;
 } PROTECT;
 
 struct
@@ -541,7 +545,7 @@ struct
 	unsigned int pickup_limit;
 	unsigned long event_ready;
 	unsigned int op_status;
-	unsigned int over_volt;
+	unsigned int over_volt_flag;
 
 	// 추가 부분
 	unsigned int use_temp;
@@ -577,7 +581,7 @@ struct
 	unsigned int pickup_limit;
 	unsigned long event_ready;
 	unsigned int op_status;
-	unsigned int over_volt;
+	unsigned int over_volt_flag;
 
 	// 추가 부분
 	unsigned int use_temp;
@@ -613,7 +617,7 @@ struct
 	unsigned int pickup_limit;
 	unsigned long event_ready;
 	unsigned int op_status;
-	unsigned int over_volt;
+	unsigned int over_volt_flag;
 
 	// 추가 부분
 	unsigned int use_temp;

@@ -542,14 +542,11 @@ void setting_post_handling(unsigned int *ar_address)
 	else if(ar_address == UVR_1_USE)
 	{
 		UVR_1.Pickup_Threshold = (float)UVR_1.voltage_set;
-		UVR_1.Pickup_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
+		UVR_1.Pickup_Threshold *= 0.1; // 0.097 = 0.1 * 0.97
 		
 		UVR_1.Dropout_Threshold = (float)UVR_1.voltage_set;
 		UVR_1.Dropout_Threshold *= 0.102; // 0.102 = 0.1 * 1.02
 		
-		UVR_1.Pickup_Threshold *= GPT.pt_secondary;
-		UVR_1.Dropout_Threshold *= GPT.pt_secondary;
-			
 		UVR_1.op_status = RELAY_NORMAL;
 		UVR_1.Op_Ratio = 0.0;
 		UVR_1.Op_Phase = 0;
@@ -562,13 +559,13 @@ void setting_post_handling(unsigned int *ar_address)
 			UVR_1.do_output |= DO_ON_BIT[i];
 		}
 		
-		UVR_1.delay_ms = UVR_1.delay_time * 10;
-		UVR_1.delay_ms -=DEFINITE_PICKUP_LIMIT;
+		UVR_1.delay_ms = UVR_1.delay_time * 100; //100msec -> msec로 변환
+		UVR_1.delay_ms = UVR_1.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY_27;
 
 //		UVR_1.event_ready = UVR_1_SET_EVENT;
 //		UVR_1.event_ready |= 0x00000100;
 
-		UVR_1.over_volt = 0;
+		UVR_1.over_volt_flag = 0;
 		
 		RELAY_STATUS.pickup							&= ~F_UVR_1;
 		RELAY_STATUS.operation_realtime	&= ~F_UVR_1;
@@ -579,13 +576,10 @@ void setting_post_handling(unsigned int *ar_address)
 	else if(ar_address == UVR_2_USE)
 	{
 		UVR_2.Pickup_Threshold = (float)UVR_2.voltage_set;
-		UVR_2.Pickup_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
+		UVR_2.Pickup_Threshold *= 0.1;
 	
 		UVR_2.Dropout_Threshold = (float)UVR_2.voltage_set;
 		UVR_2.Dropout_Threshold *= 0.102; // 0.102 = 0.1 * 1.02
-		
-		UVR_2.Pickup_Threshold *= GPT.pt_secondary;
-		UVR_2.Dropout_Threshold *= GPT.pt_secondary;
 		
 		UVR_2.op_status = RELAY_NORMAL;
 		UVR_2.Op_Ratio = 0.0;
@@ -599,13 +593,13 @@ void setting_post_handling(unsigned int *ar_address)
 			UVR_2.do_output |= DO_ON_BIT[i];
 		}
 	
-		UVR_2.delay_ms = UVR_2.delay_time * 10;
-		UVR_2.delay_ms -= DEFINITE_PICKUP_LIMIT;
-	
+		UVR_2.delay_ms = UVR_2.delay_time * 100; //100msec -> msec로 변환
+		UVR_2.delay_ms = UVR_2.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY_27;
+
 //		UVR_2.event_ready = UVR_2_SET_EVENT;
 //		UVR_2.event_ready |= 0x00000100;
 		
-		UVR_2.over_volt = 0;
+		UVR_2.over_volt_flag = 0;
 		
 		RELAY_STATUS.pickup							&= ~F_UVR_2;
 		RELAY_STATUS.operation_realtime	&= ~F_UVR_2;
@@ -616,13 +610,10 @@ void setting_post_handling(unsigned int *ar_address)
 	else if(ar_address == UVR_3_USE)
 	{
 		UVR_3.Pickup_Threshold = (float)UVR_3.voltage_set;
-		UVR_3.Pickup_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
+		UVR_3.Pickup_Threshold *= 0.1;
 	
 		UVR_3.Dropout_Threshold = (float)UVR_3.voltage_set;
 		UVR_3.Dropout_Threshold *= 0.102; // 0.102 = 0.1 * 1.02
-		
-		UVR_3.Pickup_Threshold *= GPT.pt_secondary;
-		UVR_3.Dropout_Threshold *= GPT.pt_secondary;
 		
 		UVR_3.op_status = RELAY_NORMAL;
 		UVR_3.Op_Ratio = 0.0;
@@ -636,13 +627,13 @@ void setting_post_handling(unsigned int *ar_address)
 			UVR_3.do_output |= DO_ON_BIT[i];
 		}
 	
-		UVR_3.delay_ms = UVR_3.delay_time * 10;
-		UVR_3.delay_ms -= DEFINITE_PICKUP_LIMIT;
+		UVR_3.delay_ms = UVR_3.delay_time * 100; //100msec -> msec로 변환
+		UVR_3.delay_ms = UVR_3.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY_27;
 	
 //		UVR_3.event_ready = UVR_3_SET_EVENT;
 //		UVR_3.event_ready |= 0x00000100;
 		
-		UVR_3.over_volt = 0;
+		UVR_3.over_volt_flag = 0;
 		
 		RELAY_STATUS.pickup							&= ~F_UVR_3;
 		RELAY_STATUS.operation_realtime	&= ~F_UVR_3;
@@ -653,13 +644,10 @@ void setting_post_handling(unsigned int *ar_address)
 	else if(ar_address == P47_USE)
 	{
 		P47.Pickup_Threshold = (float)P47.voltage_set;
-		P47.Pickup_Threshold *= 0.102; // 0.102 = 0.1 * 1.02
+		P47.Pickup_Threshold *= 0.1;
 	
 		P47.Dropout_Threshold = (float)P47.voltage_set;
 		P47.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
-	
-		P47.Pickup_Threshold *= GPT.pt_secondary;
-		P47.Dropout_Threshold *= GPT.pt_secondary;
 	
 		P47.op_status = RELAY_NORMAL;
 		P47.Op_Ratio = 0.0;
@@ -686,13 +674,10 @@ void setting_post_handling(unsigned int *ar_address)
 	else if(ar_address == N47_USE)
 	{
 		N47.Pickup_Threshold = (float)N47.voltage_set;
-		N47.Pickup_Threshold *= 0.102; // 0.102 = 0.1 * 1.02
+		N47.Pickup_Threshold *= 0.1;
 
 		N47.Dropout_Threshold = (float)N47.voltage_set;
 		N47.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
-
-		N47.Pickup_Threshold *= GPT.pt_secondary;
-		N47.Dropout_Threshold *= GPT.pt_secondary;
 
 		N47.op_status = RELAY_NORMAL;
 		N47.Op_Ratio = 0.0;

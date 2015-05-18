@@ -32,9 +32,7 @@
 #pragma CODE_SECTION(rtc_handling, "ramfuncs");
 #pragma CODE_SECTION(PROTECTIVE_RELAY, "ramfuncs");
 #pragma CODE_SECTION(Inverse_GetDelayTime, "ramfuncs");
-#pragma CODE_SECTION(setting_view, "ramfuncs");
 #pragma CODE_SECTION(event_direct_save, "ramfuncs");
-#pragma CODE_SECTION(measure_view_detail, "ramfuncs");
 
 #pragma CODE_SECTION(RELAY_OCR50_1, "ramfuncs");
 #pragma CODE_SECTION(RELAY_OCR50_2, "ramfuncs");
@@ -146,6 +144,9 @@
 #define AUTO		0x1234
 #define MANUAL	0x5678
 
+#define ON		0x1234
+#define OFF		0x5678
+
 #define CB_CONTROL_TIME_MIN   1
 #define CB_CONTROL_TIME_MAX   5
 
@@ -215,6 +216,7 @@
 #define TOTAL_DELAY_51	       20 // 51-1, 51-2 확인 완료
                                   // 총 계전기 동작 시간 = RMS_CAL_TIME + ALGORITHM_TIME(LOGIC_DELAY_TIME + PICKUP_DELAY + WAITING DELAY) + DO_CONTACT_TIME
 #define TOTAL_DELAY_51G				 14 // 51G 확인 완료
+#define TOTAL_DELAY_27	       18 
 #define TOTAL_DELAY_59	       25 
 #define TOTAL_DELAY_64	       25 
 
