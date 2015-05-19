@@ -216,7 +216,9 @@
 #define TOTAL_DELAY_51	       20 // 51-1, 51-2 확인 완료
                                   // 총 계전기 동작 시간 = RMS_CAL_TIME + ALGORITHM_TIME(LOGIC_DELAY_TIME + PICKUP_DELAY + WAITING DELAY) + DO_CONTACT_TIME
 #define TOTAL_DELAY_51G				 14 // 51G 확인 완료
-#define TOTAL_DELAY_27	       18 
+#define TOTAL_DELAY_27	       18
+#define TOTAL_DELAY_47P	       23 
+#define TOTAL_DELAY_47N	       23
 #define TOTAL_DELAY_59	       25 
 #define TOTAL_DELAY_64	       25 
 

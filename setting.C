@@ -661,8 +661,10 @@ void setting_post_handling(unsigned int *ar_address)
 			P47.do_output |= DO_ON_BIT[i];
 		}
 	
-		P47.delay_ms = P47.delay_time * 10;
-		P47.delay_ms -= DEFINITE_PICKUP_LIMIT;
+		P47.pickup_limit = DEFINITE_PICKUP_LIMIT;
+			
+		P47.delay_ms = P47.delay_time * 100; //100msec -> msec로 변환
+		P47.delay_ms = P47.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY_47P;
 	
 //		P47.event_ready = P47_SET_EVENT;
 //		P47.event_ready |= 0x00000100;
@@ -691,8 +693,10 @@ void setting_post_handling(unsigned int *ar_address)
 			N47.do_output |= DO_ON_BIT[i];
 		}
 
-		N47.delay_ms = N47.delay_time * 10;
-		N47.delay_ms -= DEFINITE_PICKUP_LIMIT;
+		N47.pickup_limit = DEFINITE_PICKUP_LIMIT;
+			
+		N47.delay_ms = N47.delay_time * 100; //100msec -> msec로 변환
+		N47.delay_ms = N47.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY_47N;
 
 //		N47.event_ready = N47_SET_EVENT;
 //		N47.event_ready |= 0x00000100;

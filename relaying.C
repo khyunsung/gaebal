@@ -204,6 +204,18 @@ float under_phase_value_check(unsigned int ar_phase, float ar_compare, unsigned 
 	return(compare_value);
 }
 
+void Check_47P_10V(void)
+{
+	if((PROTECT.V1_RMS < 10.0) && (RELAY_STATUS.operation_sum_holding & F_P47))
+	{
+		Relay_Off(P47.do_output); //DO open
+		P47.op_status = RELAY_NORMAL; //P47상태 NORMAL
+		RELAY_STATUS.operation_realtime &= ~F_P47; //동작 상태 변수 해제
+		RELAY_STATUS.operation_sum_holding &= ~F_P47;
+		P47.over_volt_flag = OFF;
+	}
+}
+
 void RELAY_OCR50_1(void)
 {
 	if(OCR50_1.use == 0xaaaa)
@@ -411,7 +423,6 @@ void RELAY_OCR51_1(void)
 						Relay_On(OCR51_1.do_output);
 
 						OCR51_1.op_status	= RELAY_TRIP;
-//					OCR51_1.Op_Ratio	= PROTECT.Max_I_RMS / OCR51_1.Pickup_Threshold; //배수
 						OCR51_1.Op_Phase	= PROTECT.I_Op_Phase; //상
 						OCR51_1.Delay_Time = OCR51_1.op_count;
 						OCR51_1.Op_Time		= OCR51_1.Delay_Time + OCR51_1.Pickup_Time + TOTAL_DELAY_51; //동작 시간
@@ -494,7 +505,6 @@ void RELAY_OCR51_2(void)
 						Relay_On(OCR51_2.do_output);
 
 						OCR51_2.op_status	= RELAY_TRIP;
-//					OCR51_2.Op_Ratio	= PROTECT.Max_I_RMS / OCR51_2.Pickup_Threshold; //배수
 						OCR51_2.Op_Phase	= PROTECT.I_Op_Phase; //상
 						OCR51_2.Delay_Time = OCR51_2.op_count;
 						OCR51_2.Op_Time		= OCR51_2.Delay_Time + OCR51_2.Pickup_Time + TOTAL_DELAY_51; //동작 시간
@@ -1047,58 +1057,72 @@ void RELAY_P47(void)
 {
 	if(P47.use == 0xaaaa)
 	{
-		if(PROTECT.Max_I_RMS > P47.Pickup_Threshold)
+		if(PROTECT.V1_RMS > P47.Pickup_Threshold)	{P47.over_volt_flag = ON;}
+
+		if(P47.op_status == RELAY_NORMAL)
 		{
-			if(P47.op_status == RELAY_NORMAL)
+			if((PROTECT.V1_RMS <= P47.Pickup_Threshold) && (P47.over_volt_flag==ON))
 			{
 				P47.op_status = RELAY_DETECT;
 				P47.op_count = 0;
 			}
-			else if(P47.op_status == RELAY_DETECT)
-			{
-				if(P47.op_count > P47.pickup_limit)
-				{	
-					P47.op_status = RELAY_PICKUP;
-					RELAY_STATUS.pickup |= F_P47;  //alarm ON
-					P47.Pickup_Time = P47.op_count;
-					P47.op_count = 0;
-				}
-			}
-			else if(P47.op_status == RELAY_PICKUP)
-			{
-				if(P47.op_count > P47.delay_ms)
-				{
-					Relay_On(P47.do_output);
-
-					P47.op_status	= RELAY_TRIP;
-					P47.Op_Ratio	= PROTECT.Max_I_RMS / P47.Pickup_Threshold; //배수
-					P47.Op_Phase	= PROTECT.V_Op_Phase; //상
-					P47.Delay_Time = P47.op_count;
-					P47.Op_Time		= P47.Delay_Time + P47.Pickup_Time + TOTAL_DELAY_50; //동작 시간
-
-					RELAY_STATUS.pickup									&= ~F_P47; //계전요소 alarm OFF
-					RELAY_STATUS.operation_realtime			|= F_P47;  //현재 동작 상태 변수 설정
-					RELAY_STATUS.operation_sum_holding	|= F_P47;  //누적 동작 상태 변수 설정
-					
-//				Save_Screen_Info(); //POP UP 해제가 안되서 일단 막음
-				}
-			}
 		}
-		else
+
+		if(P47.op_status == RELAY_DETECT)
 		{
-			if(PROTECT.Max_I_RMS < P47.Dropout_Threshold)  //under 99%
+			if((PROTECT.V1_RMS > P47.Dropout_Threshold)||(PROTECT.V1_RMS < 5.0))
 			{
-				if((P47.op_status == RELAY_DETECT) || (P47.op_status == RELAY_PICKUP))
-				{
 					P47.op_status = RELAY_NORMAL;
 					RELAY_STATUS.pickup &= ~F_P47; //계전요소 alarm OFF
-				}
-				else if(P47.op_status == RELAY_TRIP)
-				{
-					Relay_Off(P47.do_output); //DO open
-					P47.op_status = RELAY_NORMAL; //50_1상태 NORMAL
-					RELAY_STATUS.operation_realtime &= ~F_P47; //동작 상태 변수 해제
-				}
+					P47.over_volt_flag = OFF;
+					return;
+			}
+			
+			if(P47.op_count > P47.pickup_limit)
+			{	
+				P47.op_status = RELAY_PICKUP;
+				RELAY_STATUS.pickup |= F_P47;  //alarm ON
+				P47.Pickup_Time = P47.op_count;
+				P47.op_count = 0;
+			}
+		}
+
+		if(P47.op_status == RELAY_PICKUP)
+		{
+			if((PROTECT.V1_RMS > P47.Dropout_Threshold)||(PROTECT.V1_RMS < 5.0))
+			{
+				P47.op_status = RELAY_NORMAL;
+				RELAY_STATUS.pickup &= ~F_P47; //계전요소 alarm OFF
+				P47.over_volt_flag = OFF;
+				return;
+			}
+
+			if(P47.op_count > P47.delay_ms)
+			{
+				Relay_On(P47.do_output);
+
+				P47.op_status	= RELAY_TRIP;
+				P47.Op_Ratio	= PROTECT.V1_RMS / P47.Pickup_Threshold; //배수
+				P47.Op_Phase	= PROTECT.Min_V_Op_Phase; //상
+				P47.Delay_Time = P47.op_count;
+				P47.Op_Time		= P47.Delay_Time + P47.Pickup_Time + TOTAL_DELAY_47P; //동작 시간
+
+				RELAY_STATUS.pickup									&= ~F_P47; //계전요소 alarm OFF
+				RELAY_STATUS.operation_realtime			|= F_P47;  //현재 동작 상태 변수 설정
+				RELAY_STATUS.operation_sum_holding	|= F_P47;  //누적 동작 상태 변수 설정
+				
+//			Save_Screen_Info(); //POP UP 해제가 안되서 일단 막음
+			}
+		}
+
+		if(P47.op_status == RELAY_TRIP)
+		{
+			if((PROTECT.V1_RMS > P47.Dropout_Threshold)||(PROTECT.V1_RMS < 5.0))  //under 99% or 5V 보다 작으면
+			{			
+				Relay_Off(P47.do_output); //DO open
+				P47.op_status = RELAY_NORMAL; //P47상태 NORMAL
+				RELAY_STATUS.operation_realtime &= ~F_P47; //동작 상태 변수 해제
+				P47.over_volt_flag = OFF;
 			}
 		}
 	}
@@ -1108,7 +1132,7 @@ void RELAY_N47(void)
 {
 	if(N47.use == 0xaaaa)
 	{
-		if(PROTECT.Max_I_RMS > N47.Pickup_Threshold)
+		if(PROTECT.V2_RMS >= N47.Pickup_Threshold)
 		{
 			if(N47.op_status == RELAY_NORMAL)
 			{
@@ -1117,7 +1141,7 @@ void RELAY_N47(void)
 			}
 			else if(N47.op_status == RELAY_DETECT)
 			{
-				if(N47.op_count > N47.pickup_limit)
+				if(N47.op_count >= N47.pickup_limit)
 				{	
 					N47.op_status = RELAY_PICKUP;
 					RELAY_STATUS.pickup |= F_N47;  //alarm ON
@@ -1127,27 +1151,27 @@ void RELAY_N47(void)
 			}
 			else if(N47.op_status == RELAY_PICKUP)
 			{
-				if(N47.op_count > N47.delay_ms)
+				if(N47.op_count >= N47.delay_ms)
 				{
 					Relay_On(N47.do_output);
 
 					N47.op_status	= RELAY_TRIP;
-					N47.Op_Ratio	= PROTECT.Max_I_RMS / N47.Pickup_Threshold; //배수
+					N47.Op_Ratio	= PROTECT.V2_RMS / N47.Pickup_Threshold; //배수 V_Op_Phase
 					N47.Op_Phase	= PROTECT.V_Op_Phase; //상
 					N47.Delay_Time = N47.op_count;
-					N47.Op_Time		= N47.Delay_Time + N47.Pickup_Time + TOTAL_DELAY_50; //동작 시간
+					N47.Op_Time		= N47.Delay_Time + N47.Pickup_Time + TOTAL_DELAY_47N; //동작 시간
 
 					RELAY_STATUS.pickup									&= ~F_N47; //계전요소 alarm OFF
 					RELAY_STATUS.operation_realtime			|= F_N47;  //현재 동작 상태 변수 설정
 					RELAY_STATUS.operation_sum_holding	|= F_N47;  //누적 동작 상태 변수 설정
-					
+
 //				Save_Screen_Info(); //POP UP 해제가 안되서 일단 막음
 				}
 			}
 		}
 		else
 		{
-			if(PROTECT.Max_I_RMS < N47.Dropout_Threshold)  //under 99%
+			if(PROTECT.V2_RMS <= N47.Dropout_Threshold)  //under 99%
 			{
 				if((N47.op_status == RELAY_DETECT) || (N47.op_status == RELAY_PICKUP))
 				{
@@ -1258,7 +1282,6 @@ void RELAY_OVR(void)
 						Relay_On(OVR.do_output);
 	
 						OVR.op_status	= RELAY_TRIP;
-	//				OVR.Op_Ratio	= PROTECT.Max_V_RMS / OVR.Pickup_Threshold; //배수
 						OVR.Op_Phase	= PROTECT.V_Op_Phase; //상
 						OVR.Delay_Time = OVR.op_count;
 						OVR.Op_Time		= OVR.Delay_Time + OVR.Pickup_Time + TOTAL_DELAY_59; //동작 시간
@@ -1298,7 +1321,7 @@ void RELAY_OVGR(void)
 	{
 		if(OVGR.mode==INSTANT)
 		{
-			if(PROTECT.Max_V_RMS >= OVGR.Pickup_Threshold)
+			if(PROTECT.Max_Vn_RMS >= OVGR.Pickup_Threshold)
 			{
 				if(OVGR.op_status == RELAY_NORMAL)
 				{
@@ -1322,8 +1345,8 @@ void RELAY_OVGR(void)
 						Relay_On(OVGR.do_output);
 	
 						OVGR.op_status	= RELAY_TRIP;
-						OVGR.Op_Ratio	= PROTECT.Max_V_RMS / OVGR.Pickup_Threshold; //배수 V_Op_Phase
-						OVGR.Op_Phase	= PROTECT.V_Op_Phase; //상
+						OVGR.Op_Ratio	= PROTECT.Max_Vn_RMS / OVGR.Pickup_Threshold; //배수 V_Op_Phase
+						OVGR.Op_Phase	= PROTECT.Vn_Op_Phase; //상
 						OVGR.Delay_Time = OVGR.op_count;
 						OVGR.Op_Time		= OVGR.Delay_Time + OVGR.Pickup_Time + TOTAL_DELAY_64; //동작 시간
 	
@@ -1337,7 +1360,7 @@ void RELAY_OVGR(void)
 			}
 			else
 			{
-				if(PROTECT.Max_V_RMS <= OVGR.Dropout_Threshold)  //under 99%
+				if(PROTECT.Max_Vn_RMS <= OVGR.Dropout_Threshold)  //under 99%
 				{
 					if((OVGR.op_status == RELAY_DETECT) || (OVGR.op_status == RELAY_PICKUP))
 					{
@@ -1355,7 +1378,7 @@ void RELAY_OVGR(void)
 		}
 		else if(OVGR.mode==INVERSE)
 		{
-			if(PROTECT.Max_V_RMS >= OVGR.Pickup_Threshold)
+			if(PROTECT.Max_Vn_RMS >= OVGR.Pickup_Threshold)
 			{
 				if(OVGR.op_status == RELAY_NORMAL)
 				{
@@ -1374,7 +1397,7 @@ void RELAY_OVGR(void)
 				}
 				else if(OVGR.op_status == RELAY_PICKUP)
 				{
-					OVGR.Op_Ratio	= PROTECT.Max_V_RMS / OVGR.Pickup_Threshold;
+					OVGR.Op_Ratio	= PROTECT.Max_Vn_RMS / OVGR.Pickup_Threshold;
 	
 					OVGR.Op_Time_set_temp = Inverse_GetDelayTime(OVGR.mode, OVGR.time_lever, OVGR.Op_Ratio);
 					if(OVGR.Op_Time_set_temp > (INVERSE_PICKUP_LIMIT+TOTAL_DELAY_64)) OVGR.Op_Time_set = OVGR.Op_Time_set_temp - (INVERSE_PICKUP_LIMIT+TOTAL_DELAY_64);
@@ -1385,8 +1408,7 @@ void RELAY_OVGR(void)
 						Relay_On(OVGR.do_output);
 	
 						OVGR.op_status	= RELAY_TRIP;
-	//				OVGR.Op_Ratio	= PROTECT.Max_V_RMS / OVGR.Pickup_Threshold; //배수
-						OVGR.Op_Phase	= PROTECT.V_Op_Phase; //상
+						OVGR.Op_Phase	= PROTECT.Vn_Op_Phase; //상
 						OVGR.Delay_Time = OVGR.op_count;
 						OVGR.Op_Time		= OVGR.Delay_Time + OVGR.Pickup_Time + TOTAL_DELAY_64; //동작 시간
 	
@@ -1400,7 +1422,7 @@ void RELAY_OVGR(void)
 			}
 			else
 			{
-				if(PROTECT.Max_V_RMS <= OVGR.Dropout_Threshold)  //under 99%
+				if(PROTECT.Max_Vn_RMS <= OVGR.Dropout_Threshold)  //under 99%
 				{
 					if((OVGR.op_status == RELAY_DETECT) || (OVGR.op_status == RELAY_PICKUP))
 					{
@@ -1576,6 +1598,7 @@ void PROTECTIVE_RELAY(void)
 		PROTECT.V_Op_Phase = Vc+1;
 		PROTECT.Max_V_RMS = MEASUREMENT.rms_value[Vc];
 	}
+	PROTECT.Vn_Op_Phase = Vn+1;
 	PROTECT.Max_Vn_RMS = MEASUREMENT.rms_value[Vn];
 	//-------- 최대 전압 상 저장 END
 
@@ -1594,6 +1617,11 @@ void PROTECTIVE_RELAY(void)
 	}
 	//-------- 최소 전압 상 저장 END
 
+	//-------- 정상/역상 전압 저장
+	PROTECT.V1_RMS = MEASUREMENT.V1_value;
+	PROTECT.V2_RMS = MEASUREMENT.V2_value;
+	//-------- 정상/역상 전압 저장 END
+
 	OCR_MODE_SET.ocr_di_mask = (DIGITAL_INPUT.di_status & 0x018);
 
 	RELAY_OCR50_1();
@@ -1605,8 +1633,8 @@ void PROTECTIVE_RELAY(void)
 	RELAY_UVR_1();
 	RELAY_UVR_2();
 	RELAY_UVR_3();
-//	RELAY_P47();
-//	RELAY_N47();
+	RELAY_P47();
+	RELAY_N47();
 	RELAY_OVR();
 	RELAY_OVGR();
 //	RELAY_DGR();

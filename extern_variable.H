@@ -326,6 +326,8 @@ extern struct
 	float Max_Vn_RMS;
 
 	float Min_V_RMS;
+	float V1_RMS;	
+	float V2_RMS;
 } PROTECT;
 
 extern struct
@@ -680,6 +682,7 @@ extern struct
 	unsigned int pickup_limit;
 	unsigned long event_ready;
 	unsigned int op_status;
+	unsigned int over_volt_flag;
 
 	// 추가 부분
 	unsigned int use_temp;
