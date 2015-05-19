@@ -44,6 +44,7 @@ extern float DFT_Check(unsigned int, float, float);
 extern void power_update(void);
 extern float Degree_Check(unsigned int);
 
+extern void setting_view(float, unsigned int, unsigned int, unsigned int);
 extern void display_aux_relay(unsigned int);
 extern void point_setting_left_right_action(unsigned int, unsigned int);
 extern void point_setting_up_down_action(unsigned int *, unsigned int, unsigned int, unsigned int);
@@ -184,6 +185,7 @@ extern void wave_flash_sector_erase(unsigned int *);
 
 extern void led_handling(void);
 
+extern void measure_view_detail(float, unsigned int, unsigned int);
 extern void power_view(float, unsigned int, unsigned int);
 extern void harmonics(void);
 extern void harmonic_sample_backup(unsigned int);
@@ -208,7 +210,7 @@ extern void relay_value_set_handling(unsigned int *, unsigned int, unsigned int,
 
 extern void Relay_On(unsigned int);
 extern void Relay_Off(unsigned int);
-//extern void do_release(unsigned int *);
+extern void do_release(unsigned int *);
 extern float over_phase_value_check(unsigned int, float, unsigned long *);
 extern float under_phase_value_check(unsigned int, float, unsigned long *);
 
@@ -224,3 +226,4 @@ extern void DO_Output(unsigned int);
 extern void Event_Item_Display(void);
 extern void Event_Time_Display(void);
 extern void Save_Screen_Info(unsigned int);
+extern void Restore_Screen_Info(void);

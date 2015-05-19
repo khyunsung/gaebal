@@ -9997,6 +9997,12 @@ void menu_86_04(unsigned int value, int display)
 			Screen_Position.y = 86;
 			Screen_Position.x = 5;
 			cursor_move(0, 0);//cursor off
+			for(str[0][0] = 0; str[0][0] < 200; str[0][0]++)
+				*(EVENT_ROLLOVER + str[0][0]) = 0;
+			EVENT.view_start = 0;
+			EVENT.view_point = 0;
+			EVENT.rollover = 0;
+			EVENT.sp = 0;
 		} else if(Screen_Position.select == 1) {
 			Screen_Position.y = 86;
 			Screen_Position.x = 6;
@@ -14131,10 +14137,13 @@ void menu_dummy(unsigned int value, int display)
 
 }
 
+void menu_reset(unsigned int, int);
 void menu_popup(unsigned int value, int display)
 {
 	char str[2][22];
 	char *phase_character[10] = {"Ia","Ib","Ic","In","In2","Is","Va","Vb","Vc","Vn"};
+	unsigned long j;
+	unsigned int i;
 	
 //if(OpRly==1)			Sprintf(VFDFBuffer.up," 50-1 SHORT CIRCUIT ");
 //else if(OpRly==2)	Sprintf(VFDFBuffer.up," 50-2 SHORT CIRCUIT ");
@@ -14151,10 +14160,15 @@ void menu_popup(unsigned int value, int display)
 //else if(OpRly==14)	Sprintf(VFDFBuffer.up," 67GD GROUND FAULT  ");
 //else if(OpRly==15)	Sprintf(VFDFBuffer.up," 67GS GROUND FAULT  ");
 
-	//CB_STATUS = 
-	CB_Status = 1;
-	sprintf(str[0], "%s\0", Trip_Message[CB_Status][0]);
-	sprintf(str[1], " [Fault Phase: %s] \0", phase_character[Popup_OpPhase_Info % 11]);
+	j = 0x00010000;
+	for(i = 0; i < 15; i++) {
+		if(CB_Status & j) break;
+		j <<= 1;
+	}
+	if(i == 15) i = 0;
+	
+	sprintf(str[0], "%s\0", Trip_Message[i][0]);
+	sprintf(str[1], " [Fault Phase: %s ] \0", phase_character[CB_Status % 10]);
 
 	if(display) {
 		screen_frame2(str);
@@ -14164,10 +14178,12 @@ void menu_popup(unsigned int value, int display)
 
 	if(value == ACK_KEY) {
 		if(RELAY_STATUS.operation_realtime == 0) { //Reset Case
-			Screen_Position.y = Save_Current_Screen.y;
-			Screen_Position.x = Save_Current_Screen.x;
-			Screen_Position.select = Save_Current_Screen.select;
-			Screen_Position.data_change = Save_Current_Screen.data_change;
+//			Screen_Position.y = Save_Current_Screen.y;
+//			Screen_Position.x = Save_Current_Screen.x;
+//			Screen_Position.select = Save_Current_Screen.select;
+//			Screen_Position.data_change = Save_Current_Screen.data_change;
+			Restore_Screen_Info();
+			Popup_Action = 0;
 		} else {//Not Reset Case
 			Screen_Position.y = 98;
 			Screen_Position.x = 1;
@@ -14175,37 +14191,6 @@ void menu_popup(unsigned int value, int display)
 			Screen_Position.data_change = NORMAL_MENU;
 		}
 	}
-}
-
-void menu_reset(unsigned int value, int display)
-{
-	char str[2][22];
-
-	sprintf(str[0], "  [[[ Warning ! ]]]  \0");//900 is sample.
-	sprintf(str[1], " Fault is not Reset. \0", 98, 0);
-		
-		
-	if(display) {
-		screen_frame2(str);
-		cursor_move(0, 0);
-		delay_us(1000000);
-		
-//		Screen_Position.y = 98;
-//		Screen_Position.x = 0;
-//		Screen_Position.select = 0;
-//		Screen_Position.data_change = NORMAL_MENU;
-		
-		menu_popup(0, 1);
-				
-		return;
-	}
-
-//	if(value == ACK_KEY) {
-//		Screen_Position.y = 98;
-//		Screen_Position.x = 0;
-//		Screen_Position.select = 0;
-//		Screen_Position.data_change = NORMAL_MENU;
-//	}
 }
 
 void menu_99_00(unsigned int value, int display)
@@ -14225,9 +14210,10 @@ void Event_Item_Display(void)		//khs, 2015-03-31 오후 7:36:32
 {
 	char temp_char;
 	unsigned int temp16;
+	unsigned int i_tmp[3];
 	int temp_int;
 	char str[22];
-	
+	char str2[2][22];
 
 	EVENT.temp = *(EVENT_INDEX1 + (EVENT.view_point * 18));
 	EVENT.temp &= 0x00ff;
@@ -14235,37 +14221,49 @@ void Event_Item_Display(void)		//khs, 2015-03-31 오후 7:36:32
 	// pickup/op
 	if((EVENT.temp == 0x00) || (EVENT.temp == 0x01))
 	{
-		// pickup
-		if(EVENT.temp == 0x00) {
-			//screen_frame3(event1);
-			screen_frame3(event1);
-		}
-		// op
-		else {
-			//screen_frame3(event2);
-			screen_frame3(event2);
-		}
 		
 		// relay 종류
 		temp16 = *(EVENT_INDEX2 + (EVENT.view_point * 18));
 		temp16 &= 0x00ff;
+		str[0] = (char)temp16;
 //		LCD.line_2nd_adder = event_relay[temp16];
-//		LCD.line_2nd_addressing = LCD_L2_00;
-//		LCD.line_2nd_status = 1;
 		
-		// relay curve
+		// relay curve (특성 정보인데 사용을 하나?)
 		temp16 = *(EVENT_CONTENT1 + (EVENT.view_point * 18));
 		temp16 &= 0x00ff;
 //		LCD.line_3rd_adder = relay_curve[temp16];
-//		LCD.line_3rd_addressing = LCD_L2_08;
-//		LCD.line_3rd_status = 1;
 		
-		//상 정보
+		//상 정보 (Phase)
 		temp16 = *(EVENT_CONTENT2 + (EVENT.view_point * 18));
-		temp16 &= 0x00ff;				
+		temp16 &= 0x00ff;
 //		LCD.line_4th_adder = event_phase[temp16];
-//		LCD.line_4th_addressing = LCD_L2_16;
-//		LCD.line_4th_status = 1;
+
+//		i_tmp[0] =  *(EVENT_OPTIME1 + (EVENT.view_point * 18)) << 24
+//							+ *(EVENT_OPTIME2 + (EVENT.view_point * 18)) << 16
+//							+ *(EVENT_OPTIME3 + (EVENT.view_point * 18)) << 8
+//							+ *(EVENT_OPTIME4 + EVENT.view_point * 18);
+		i_tmp[0]  =  *(EVENT_OPTIME1 + EVENT.view_point * 18); i_tmp[0] <<= 8;
+		i_tmp[0] |=  *(EVENT_OPTIME2 + EVENT.view_point * 18); i_tmp[0] <<= 8;
+		i_tmp[0] |=  *(EVENT_OPTIME3 + EVENT.view_point * 18); i_tmp[0] <<= 8;
+		i_tmp[0] |=  *(EVENT_OPTIME4 + EVENT.view_point * 18);
+							
+//		i_tmp[1] = (*(EVENT_RATIO1 + (EVENT.view_point * 18)) << 8) + *(EVENT_RATIO1 + (EVENT.view_point * 18));
+		i_tmp[1] = *(EVENT_RATIO1 + EVENT.view_point * 18);
+		i_tmp[1] <<= 8;
+		i_tmp[1] |= *(EVENT_RATIO2 + EVENT.view_point * 18);
+		
+
+		//"59  Vr:   1.35 "
+		//"  Ph:AB     Ot: 0.986"
+		if(str[0]) {
+			sprintf(str2[0],"   %s  %s: %.2f   \0", event_relay[str[0]], Event_Volt_Curr[str[0]], ((float)i_tmp[1])/100.0F);
+			sprintf(str2[1],"  Ph:%s   Ot: %.3f   \0", event_phase[temp16], ((float)i_tmp[0])/1000.0F);
+		} else {
+			sprintf(str2[0],"   ] NO EVENT !    \x01\0");
+			sprintf(str2[1],"                     \0");
+		}
+
+		screen_frame2(str2);
 	}
 	
 	// relay set
@@ -14470,6 +14468,9 @@ void Event_Time_Display(void)		//khs, 2015-04-03 오후 7:16:58
 		msecond &= 0x00ff;
 		msecond <<= 8;
 		msecond |= (*(EVENT_MS2 + (EVENT.view_point * 18)) & 0x00ff);
+
+		//이벤트가 없을때는 시간 표시를 하지 않는다.
+		if(year == 0 && month == 0 && day == 0 && hour == 0 && minute == 0 && second == 0) return;
 
 		delay_us(1000);
 		sprintf(str, " DAY : %2d.%2d.%2d     %c\0", year, month, day, ENTER);
@@ -14695,6 +14696,10 @@ void menu_init(void)
 
 void Save_Screen_Info(unsigned int a)//2015-2-16, khs
 {
+	if(Popup_Action == 1)	return;
+
+	Popup_Action = 1;
+	
 	memcpy(&Save_Current_Screen, &Screen_Position, sizeof(Screen_Position));
 	Screen_Position.data_change = POPUP_MENU;
 	if(Popup_OpPhase_Info) return;
@@ -14704,6 +14709,32 @@ void Save_Screen_Info(unsigned int a)//2015-2-16, khs
 void Restore_Screen_Info(void)//2015-2-16, khs
 {
 	memcpy(&Screen_Position, &Save_Current_Screen, sizeof(Screen_Position));
+}
+
+void menu_reset(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(RELAY_STATUS.operation_realtime) { //Not Reset Case
+		sprintf(str[0], "  [[[ Warning ! ]]]  \0");//900 is sample.
+		sprintf(str[1], " Fault is not Reset. \0", 98, 0);
+	
+	
+		if(display) {
+			screen_frame2(str);
+			cursor_move(0, 0);
+			delay_us(1000000);
+			
+			menu_popup(KHS_Key_Press, 0);
+			menu_popup(KHS_Key_Press, 1);
+	
+			return;
+		}
+	} else {
+		Restore_Screen_Info();
+		menu_tables[Screen_Position.y][Screen_Position.x](KHS_Key_Press, 0); //2015.02.17
+		menu_tables[Screen_Position.y][Screen_Position.x](KHS_Key_Press, 1); //2015.02.17
+	}
 }
 
 //int Test_Popup = 0;//khs, 2015-04-06 오후 5:16:08

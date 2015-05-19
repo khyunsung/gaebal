@@ -93,21 +93,21 @@
 #define  HIMIX_SEND  *GpioIntRegs_GPBSET_High |= 0x0400
 #define  HIMIX_STOP  *GpioIntRegs_GPBCLEAR_High |= 0x0400
 
-#define F_OCR50_1         0x00000001
-#define F_OCR50_2         0x00000002
-#define F_OCR51_1         0x00000004
-#define F_OCR51_2         0x00000008
-#define F_OCGR50          0x00000010
-#define F_OCGR51          0x00000020
-#define F_UVR_1           0x00000040
-#define F_UVR_2           0x00000080
-#define F_UVR_3           0x00000100
-#define F_P47             0x00000200
-#define F_N47             0x00000400
-#define F_OVR             0x00000800
-#define F_OVGR            0x00001000
-#define F_DGR             0x00002000
-#define F_SGR             0x00004000
+#define F_OCR50_1         0x00000001L
+#define F_OCR50_2         0x00000002L
+#define F_OCR51_1         0x00000004L
+#define F_OCR51_2         0x00000008L
+#define F_OCGR50          0x00000010L
+#define F_OCGR51          0x00000020L
+#define F_UVR_1           0x00000040L
+#define F_UVR_2           0x00000080L
+#define F_UVR_3           0x00000100L
+#define F_P47             0x00000200L
+#define F_N47             0x00000400L
+#define F_OVR             0x00000800L
+#define F_OVGR            0x00001000L
+#define F_DGR             0x00002000L
+#define F_SGR             0x00004000L
 //#define CBM             0x00008000
 //#define CBM2            0x00010000
 //#define SYSCH           0x00020000

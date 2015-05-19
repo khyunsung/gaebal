@@ -1376,4 +1376,5 @@ extern const long CALIB_Vo_MAX;
 extern unsigned int KHS_Key_Press;
 extern unsigned int Calibration_Menu_Escape;
 extern unsigned int Popup_OpPhase_Info;
-extern unsigned int CB_Status;
+extern unsigned long CB_Status;
+extern unsigned int Popup_Action;

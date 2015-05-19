@@ -51,6 +51,7 @@ float Degree_Check(unsigned int);
 // display 계측
 void power_update(void);
 
+void setting_view(float, unsigned int, unsigned int, unsigned int);
 void display_aux_relay(unsigned int);
 void point_setting_left_right_action(unsigned int, unsigned int);
 void point_setting_up_down_action(unsigned int *, unsigned int, unsigned int, unsigned int);
@@ -189,6 +190,7 @@ void wave_flash_sector_erase(unsigned int *);
 
 void led_handling(void);
 
+void measure_view_detail(float, unsigned int, unsigned int);
 void power_view(float, unsigned int, unsigned int);
 void harmonics(void);
 void harmonic_sample_backup(unsigned int);
@@ -212,7 +214,7 @@ void himix_crc(unsigned int);
 void relay_value_set_handling(unsigned int *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 void Relay_On(unsigned int);
 void Relay_Off(unsigned int);
-//void do_release(unsigned int *);
+void do_release(unsigned int *);
 float over_phase_value_check(unsigned int, float, unsigned long *);
 float under_phase_value_check(unsigned int, float, unsigned long *);
 
@@ -226,3 +228,4 @@ void DO_Output(unsigned int);
 void Event_Item_Display(void);		//khs, 2015-04-01 오후 3:31:35
 void Event_Time_Display(void);		//khs, 2015-04-01 오후 3:31:35
 void Save_Screen_Info(unsigned int);
+void Restore_Screen_Info(void);
