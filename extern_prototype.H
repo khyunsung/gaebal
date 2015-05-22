@@ -192,7 +192,7 @@ extern void harmonic_sample_backup(unsigned int);
 extern void harmonic_real_imag_calculation(float *, float const *);
 
 extern void Save_Relay_Event(float);
-extern void relay_dropout_to_normal(unsigned long *, unsigned int *, unsigned int, unsigned int *);
+extern void relay_dropout_to_normal(unsigned int);
 
 //extern void supervision_relay(unsigned int);
 

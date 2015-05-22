@@ -172,7 +172,7 @@ void real_main(void)
 //-------- event 저장 END
 
 //-------- LED로 표시할 data 1초마다 체크
-		if(TIMER.led > 1000)	{led_handling();}
+		if(TIMER.led > 700)	{led_handling();}
 		*LED_CS = SYSTEM.led_on; // 주기적으로 led값을 써주지 않으면 led가 꺼지는것 처럼 보임 (latch 회로가 없음), 1ms도 허용치 않음
 //-------- LED로 표시할 data 1초마다 체크 END
 

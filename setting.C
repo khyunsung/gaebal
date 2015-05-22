@@ -551,14 +551,14 @@ void setting_post_handling(unsigned int *ar_address)
 		UVR_1.Op_Ratio = 0.0;
 		UVR_1.Op_Phase = 0;
 		UVR_1.Op_Time = 0.0;
-		
+
 		UVR_1.do_output = 0;
 		for(i = 0; i < 8; i++)
 		{
 			if(UVR_1.do_relay & (0x0001 << i))
 			UVR_1.do_output |= DO_ON_BIT[i];
 		}
-		
+
 		UVR_1.delay_ms = UVR_1.delay_time * 100; //100msec -> msec로 변환
 		UVR_1.delay_ms = UVR_1.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY_27;
 
@@ -566,11 +566,19 @@ void setting_post_handling(unsigned int *ar_address)
 //		UVR_1.event_ready |= 0x00000100;
 
 		UVR_1.over_volt_flag = 0;
-		
+
 		RELAY_STATUS.pickup							&= ~F_UVR_1;
 		RELAY_STATUS.operation_realtime	&= ~F_UVR_1;
-		
+
 		Relay_Off(UVR_1.do_output); //로 대체
+
+		//UVR 초기화 작업
+		RELAY_STATUS.operation_realtime &= ~F_UVR_1; //동작 상태 변수 해제
+		if((RELAY_STATUS.operation_sum_holding) && (RELAY_STATUS.operation_realtime == 0))
+		{
+			RELAY_STATUS.operation_sum_holding = 0; // 계전요소 누적 상태 변수 클리어
+			SYSTEM.led_on &= ~FAULT_LED; // fault led off
+		}
 	}
 
 	else if(ar_address == UVR_2_USE)
@@ -605,6 +613,14 @@ void setting_post_handling(unsigned int *ar_address)
 		RELAY_STATUS.operation_realtime	&= ~F_UVR_2;
 		
 		Relay_Off(UVR_2.do_output); //로 대체
+
+		//UVR 초기화 작업
+		RELAY_STATUS.operation_realtime &= ~F_UVR_2; //동작 상태 변수 해제
+		if((RELAY_STATUS.operation_sum_holding) && (RELAY_STATUS.operation_realtime == 0))
+		{
+			RELAY_STATUS.operation_sum_holding = 0; // 계전요소 누적 상태 변수 클리어
+			SYSTEM.led_on &= ~FAULT_LED; // fault led off
+		}
 	}
 
 	else if(ar_address == UVR_3_USE)
@@ -639,6 +655,14 @@ void setting_post_handling(unsigned int *ar_address)
 		RELAY_STATUS.operation_realtime	&= ~F_UVR_3;
 		
 		Relay_Off(UVR_3.do_output); //로 대체
+
+		//UVR 초기화 작업
+		RELAY_STATUS.operation_realtime &= ~F_UVR_3; //동작 상태 변수 해제
+		if((RELAY_STATUS.operation_sum_holding) && (RELAY_STATUS.operation_realtime == 0))
+		{
+			RELAY_STATUS.operation_sum_holding = 0; // 계전요소 누적 상태 변수 클리어
+			SYSTEM.led_on &= ~FAULT_LED; // fault led off
+		}
 	}
 
 	else if(ar_address == P47_USE)
@@ -811,9 +835,6 @@ void setting_post_handling(unsigned int *ar_address)
 			DGR.Op_Phase = 0;
 			DGR.Op_Time = 0.0;
 			
-			DGR.delay_ms = DGR.delay_time * 10;
-			DGR.delay_ms -= DEFINITE_PICKUP_LIMIT;
-			
 			DGR.do_output = 0;
 			for(i = 0; i < 8; i++)
 			{
@@ -822,7 +843,12 @@ void setting_post_handling(unsigned int *ar_address)
 					DGR.do_output |= DO_ON_BIT[i];
 				}
 			}
-		
+
+			DGR.pickup_limit = DEFINITE_PICKUP_LIMIT;
+			
+			DGR.delay_ms = DGR.delay_time * 100; //100msec -> msec로 변환
+			DGR.delay_ms = DGR.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY_67GD;
+
 //		DGR.event_ready = DGR_SET_EVENT;
 //		DGR.event_ready |= 0x00000100;
 			

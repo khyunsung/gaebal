@@ -13,13 +13,9 @@ void Save_Relay_Event(float ar_ratio)
 	event_direct_save(&EVENT.operation);
 }
 
-void relay_dropout_to_normal(unsigned long *ar_event_ready, unsigned int *ar_op_status, unsigned int ar_relay_bit, unsigned int *ar_do_out_off)
+void relay_dropout_to_normal(unsigned int ar_relay_bit)
 {
 	WAVE.relay &= ~ar_relay_bit;
-	
-// pickup 후 바로 빠졌을 때를 위해
-//	RELAY_STATUS.pickup &= ~ar_relay_bit;
-//	RELAY_STATUS.operation_realtime &= ~ar_relay_bit;
 }
 
 void Check_47P_10V(void)
@@ -1358,7 +1354,7 @@ void RELAY_DGR(void)
 					DGR.Op_Ratio	= PROTECT.Max_I_RMS / DGR.Pickup_Threshold_Vo; //배수
 					DGR.Op_Phase	= PROTECT.V_Op_Phase; //상
 					DGR.Delay_Time = DGR.op_count;
-					DGR.Op_Time		= DGR.Delay_Time + DGR.Pickup_Time + TOTAL_DELAY_50; //동작 시간
+					DGR.Op_Time		= DGR.Delay_Time + DGR.Pickup_Time + TOTAL_DELAY_67GD; //동작 시간
 
 					RELAY_STATUS.pickup									&= ~F_DGR; //계전요소 alarm OFF
 					RELAY_STATUS.operation_realtime			|= F_DGR;  //현재 동작 상태 변수 설정
@@ -1384,8 +1380,8 @@ void RELAY_DGR(void)
 				}
 				else if(DGR.op_status == RELAY_TRIP)
 				{
-					Relay_Off(DGR.do_output); //DO open
-					DGR.op_status = RELAY_NORMAL; //50_1상태 NORMAL
+					Relay_Off(DGR.do_output);
+					DGR.op_status = RELAY_NORMAL; 
 					RELAY_STATUS.operation_realtime &= ~F_DGR; //동작 상태 변수 해제
 				}
 			}

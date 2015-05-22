@@ -519,35 +519,10 @@ void key_drive(void)
 				{
 					event_direct_save(&EVENT.mode_change);	// ack 키 누름 이벤트 저장
 					
-					SYSTEM.do_control = 0x00c0;	// 모든 do를 open 시키기 위함
-					
-					WAVE.hold = 0;
+					//WAVE.hold = 0; //유보
 					
 					RELAY_STATUS.operation_sum_holding = 0; // 계전요소 누적 상태 변수 클리어
-					
 					SYSTEM.led_on &= ~FAULT_LED; // fault led off
-					
-					//계전요소 동작시 popup 창 관련 변수 클리어
-					RELAY_STATUS.popup_mask = 0;
-					RELAY_STATUS.popup_property = 0;
-					RELAY_STATUS.popup_ratio = 0;
-					RELAY_STATUS.popup_optime = 0;
-				}
-				
-				// latch가 걸려 있을때
-				// 주로 껐다 켰을 때를 대비
-				else
-				{
-					// lockout 릴레이 상태가 close 인 경우
-					// lockout을 풀기위해
-					if((*GpioIntRegs_GPBDAT_High & 0x0020) == 0) // GPIO를 통해 감시
-					{
-						// ack 이벤트 기록
-						event_direct_save(&EVENT.mode_change);
-						
-						// 모든 do open 시키기 위해
-						SYSTEM.do_control = 0x00c0;
-					}
 				}
 			}
 

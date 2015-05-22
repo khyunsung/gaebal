@@ -1425,9 +1425,9 @@ const char* Trip_Message[15][2]={
                            " [Fault Phase: Ia ] "},
 													{" 27R UNDER VOLTAGE1 ",    //6
                            " [Fault Phase: Ia ] "},
-													{" 27M UNDER VOLTAGE1 ",    //7
+													{" 27M UNDER VOLTAGE2 ",    //7
                            " [Fault Phase: Ia ] "},
-													{" 27S UNDER VOLTAGE1 ",    //8
+													{" 27S UNDER VOLTAGE3 ",    //8
                            " [Fault Phase: Ia ] "},
 													{"47P UNBALANCE VOLT. ",    //9
                            " [Fault Phase: Ia ] "},
