@@ -196,7 +196,7 @@ void harmonics(void);
 void harmonic_sample_backup(unsigned int);
 void harmonic_real_imag_calculation(float *, float const *);
 
-void relay_pickup_to_operation(unsigned int, float, unsigned long, unsigned int *);
+void Save_Relay_Event(float);
 void relay_dropout_to_normal(unsigned long *, unsigned int *, unsigned int, unsigned int *);
 
 //void supervision_relay(unsigned int);

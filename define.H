@@ -53,7 +53,7 @@
 #pragma CODE_SECTION(RELAY_DGR, "ramfuncs");
 #pragma CODE_SECTION(RELAY_SGR, "ramfuncs");
 
-#pragma CODE_SECTION(relay_pickup_to_operation, "ramfuncs");
+#pragma CODE_SECTION(Save_Relay_Event, "ramfuncs");
 #pragma CODE_SECTION(relay_dropout_to_normal, "ramfuncs");
 
 //#pragma CODE_SECTION(supervision_relay, "ramfuncs");

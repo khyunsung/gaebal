@@ -2,7 +2,7 @@
 #include "extern_variable.h"
 #include "extern_prototype.h"
 
-void relay_pickup_to_operation(unsigned int ar_relay_bit, float ar_ratio, unsigned long ar_phase, unsigned int *ar_op_status)
+void Save_Relay_Event(float ar_ratio)
 {
 //  일단 나중에 구현하자 2015-05-11 오후 2:19:04					
 //	WAVE.relay |= ar_relay_bit;
@@ -10,31 +10,14 @@ void relay_pickup_to_operation(unsigned int ar_relay_bit, float ar_ratio, unsign
 //	if((WAVE.post_start != 0x1234) && (WAVE.hold == 0))	WAVE.post_start = 0x1234;
 						
 	EVENT.ratio = (unsigned int)ar_ratio;
-	EVENT.operation |= ar_phase;
-
 	event_direct_save(&EVENT.operation);
-	*ar_op_status = RELAY_TRIP;
-	TIMER.cb_open = 0;
-	RELAY_STATUS.pickup &= ~ar_relay_bit;
-	RELAY_STATUS.operation_sum_holding |= ar_relay_bit;
-	
-	// under 요소들 최초 동작 후 ack 누른후 popup이 뜨지 않아야 disable 가능하기 때문에
-	// popup을 띄우지 않는다
-//	if((RELAY_STATUS.popup_mask == 0) && (RELAY_STATUS.operation_realtime == 0))
-//	{		
-//		RELAY_STATUS.popup_property = ar_phase;
-//		RELAY_STATUS.popup_ratio = ar_ratio;
-//		RELAY_STATUS.popup_optime = EVENT.optime;
-//		RELAY_STATUS.popup_mask = 0x1234;
-//	}
-	RELAY_STATUS.operation_realtime |= ar_relay_bit;
 }
 
 void relay_dropout_to_normal(unsigned long *ar_event_ready, unsigned int *ar_op_status, unsigned int ar_relay_bit, unsigned int *ar_do_out_off)
 {
 	WAVE.relay &= ~ar_relay_bit;
 	
-	// pickup 후 바로 빠졌을 때를 위해
+// pickup 후 바로 빠졌을 때를 위해
 //	RELAY_STATUS.pickup &= ~ar_relay_bit;
 //	RELAY_STATUS.operation_realtime &= ~ar_relay_bit;
 }
@@ -103,8 +86,9 @@ void RELAY_OCR50_1(void)
 						
 						EVENT.optime = (unsigned long)OCR50_1.Op_Time;
 						EVENT.operation |= (F_OCR50_1 << 16) + OCR50_1.Op_Phase;
-						CB_Status = (CB_Status == 0)? EVENT.operation: CB_Status;
-						relay_pickup_to_operation(WAVE_OCR50_1_BIT, OCR50_1.Op_Ratio * 100.0F, EVENT.operation, &OCR50_1.op_status);
+						EVENT.fault_type = F_OCR50_1;
+						Phase_Info = (Phase_Info == 0)? EVENT.operation: OCR50_1.Op_Phase;
+						Save_Relay_Event(OCR50_1.Op_Ratio * 100.0F);
 						Save_Screen_Info(OCR50_1.Op_Phase);
 					}
 				}
@@ -188,8 +172,9 @@ void RELAY_OCR50_2(void)
 						
 						EVENT.optime = (unsigned long)OCR50_2.Op_Time;
 						EVENT.operation |= (F_OCR50_2 << 16) + OCR50_2.Op_Phase;
-						CB_Status = (CB_Status == 0)? EVENT.operation: CB_Status;
-						relay_pickup_to_operation(WAVE_OCR50_2_BIT, OCR50_2.Op_Ratio * 100.0F, EVENT.operation, &OCR50_2.op_status);
+						Phase_Info = (Phase_Info == 0)? EVENT.operation: OCR50_2.Op_Phase;
+						EVENT.fault_type = F_OCR50_2;
+						Save_Relay_Event(OCR50_2.Op_Ratio * 100.0F);
 						Save_Screen_Info(OCR50_2.Op_Phase);
 					}
 				}
@@ -274,8 +259,9 @@ void RELAY_OCR51_1(void)
 						
 						EVENT.optime = (unsigned long)OCR51_1.Op_Time;
 						EVENT.operation |= (F_OCR51_1 << 16) + OCR51_1.Op_Phase;
-						CB_Status = (CB_Status == 0)? EVENT.operation: CB_Status;
-						relay_pickup_to_operation(WAVE_OCR51_1_BIT, OCR51_1.Op_Ratio * 100.0F, EVENT.operation, &OCR51_1.op_status);
+						Phase_Info = (Phase_Info == 0)? EVENT.operation: OCR51_1.Op_Phase;
+						EVENT.fault_type = F_OCR51_1;
+						Save_Relay_Event(OCR51_1.Op_Ratio * 100.0F);
 						Save_Screen_Info(OCR51_1.Op_Phase);
 					}
 				}
@@ -360,8 +346,9 @@ void RELAY_OCR51_2(void)
 						
 						EVENT.optime = (unsigned long)OCR51_2.Op_Time;
 						EVENT.operation |= (F_OCR51_2 << 16) + OCR51_2.Op_Phase;
-						CB_Status = (CB_Status == 0)? EVENT.operation: CB_Status;
-						relay_pickup_to_operation(WAVE_OCR51_2_BIT, OCR51_2.Op_Ratio * 100.0F, EVENT.operation, &OCR51_2.op_status);
+						Phase_Info = (Phase_Info == 0)? EVENT.operation: OCR51_2.Op_Phase;
+						EVENT.fault_type = F_OCR51_2;
+						Save_Relay_Event(OCR51_2.Op_Ratio * 100.0F);
 						Save_Screen_Info(OCR51_2.Op_Phase);
 					}
 				}
@@ -430,6 +417,11 @@ void RELAY_OCGR50(void)
 					RELAY_STATUS.operation_realtime			|= F_OCGR50;  //현재 동작 상태 변수 설정
 					RELAY_STATUS.operation_sum_holding	|= F_OCGR50;  //누적 동작 상태 변수 설정
 
+					EVENT.optime = (unsigned long)OCGR50.Op_Time;
+					EVENT.operation |= (F_OCGR50 << 16) + OCGR50.Op_Phase;
+					Phase_Info = (Phase_Info == 0)? EVENT.operation: OCGR50.Op_Phase;
+					EVENT.fault_type = F_OCGR50;
+					Save_Relay_Event(OCGR50.Op_Ratio * 100.0F);
 					Save_Screen_Info(OCGR50.Op_Phase);
 				}
 			}
@@ -497,8 +489,12 @@ void RELAY_OCGR51(void)
 					RELAY_STATUS.operation_realtime			|= F_OCGR51;  //현재 동작 상태 변수 설정
 					RELAY_STATUS.operation_sum_holding	|= F_OCGR51;  //누적 동작 상태 변수 설정
 
-					Save_Screen_Info(OCGR51.Op_Phase);
-				}
+					EVENT.optime = (unsigned long)OCGR51.Op_Time;
+					EVENT.operation |= (F_OCGR51 << 16) + OCGR51.Op_Phase;
+					Phase_Info = (Phase_Info == 0)? EVENT.operation: OCGR51.Op_Phase;
+					EVENT.fault_type = F_OCGR51;
+					Save_Relay_Event(OCGR51.Op_Ratio * 100.0F);
+					Save_Screen_Info(OCGR51.Op_Phase);				}
 			}
 		}
 		else
@@ -563,6 +559,13 @@ void RELAY_UVR_1(void)
 						RELAY_STATUS.operation_sum_holding	|= F_UVR_1;  //누적 동작 상태 변수 설정
 						
 						Save_Screen_Info(UVR_1.Op_Phase);
+						
+						EVENT.optime = (unsigned long)UVR_1.Op_Time;
+						EVENT.operation |= (F_UVR_1 << 16) + UVR_1.Op_Phase;
+						EVENT.fault_type = F_UVR_1;
+						Phase_Info = (Phase_Info == 0)? EVENT.operation: UVR_1.Op_Phase;
+						Save_Relay_Event(UVR_1.Op_Ratio * 100.0F);
+						Save_Screen_Info(UVR_1.Op_Phase);						
 					}
 				}
 			}
@@ -689,7 +692,12 @@ void RELAY_UVR_2(void)
 						RELAY_STATUS.operation_realtime			|= F_UVR_2;  //현재 동작 상태 변수 설정
 						RELAY_STATUS.operation_sum_holding	|= F_UVR_2;  //누적 동작 상태 변수 설정
 						
-						Save_Screen_Info(UVR_2.Op_Phase);
+						EVENT.optime = (unsigned long)UVR_2.Op_Time;
+						EVENT.operation |= (F_UVR_2 << 16) + UVR_2.Op_Phase;
+						EVENT.fault_type = F_UVR_2;
+						Phase_Info = (Phase_Info == 0)? EVENT.operation: UVR_2.Op_Phase;
+						Save_Relay_Event(UVR_2.Op_Ratio * 100.0F);
+						Save_Screen_Info(UVR_2.Op_Phase);		
 					}
 				}
 			}
@@ -816,8 +824,12 @@ void RELAY_UVR_3(void)
 						RELAY_STATUS.operation_realtime			|= F_UVR_3;  //현재 동작 상태 변수 설정
 						RELAY_STATUS.operation_sum_holding	|= F_UVR_3;  //누적 동작 상태 변수 설정
 						
-						Save_Screen_Info(UVR_3.Op_Phase);
-					}
+						EVENT.optime = (unsigned long)UVR_3.Op_Time;
+						EVENT.operation |= (F_UVR_3 << 16) + UVR_3.Op_Phase;
+						EVENT.fault_type = F_UVR_3;
+						Phase_Info = (Phase_Info == 0)? EVENT.operation: UVR_3.Op_Phase;
+						Save_Relay_Event(UVR_3.Op_Ratio * 100.0F);
+						Save_Screen_Info(UVR_3.Op_Phase);							}
 				}
 			}
 			else
@@ -960,7 +972,12 @@ void RELAY_P47(void)
 				RELAY_STATUS.operation_realtime			|= F_P47;  //현재 동작 상태 변수 설정
 				RELAY_STATUS.operation_sum_holding	|= F_P47;  //누적 동작 상태 변수 설정
 				
-				Save_Screen_Info(P47.Op_Phase);
+				EVENT.optime = (unsigned long)P47.Op_Time;
+				EVENT.operation |= (F_P47 << 16) + P47.Op_Phase;
+				EVENT.fault_type = F_P47;
+				Phase_Info = (Phase_Info == 0)? EVENT.operation: P47.Op_Phase;
+				Save_Relay_Event(P47.Op_Ratio * 100.0F);
+				Save_Screen_Info(P47.Op_Phase);		
 			}
 		}
 
@@ -1014,7 +1031,12 @@ void RELAY_N47(void)
 					RELAY_STATUS.operation_realtime			|= F_N47;  //현재 동작 상태 변수 설정
 					RELAY_STATUS.operation_sum_holding	|= F_N47;  //누적 동작 상태 변수 설정
 
-					Save_Screen_Info(N47.Op_Phase);
+					EVENT.optime = (unsigned long)N47.Op_Time;
+					EVENT.operation |= (F_N47 << 16) + N47.Op_Phase;
+					EVENT.fault_type = F_N47;
+					Phase_Info = (Phase_Info == 0)? EVENT.operation: N47.Op_Phase;
+					Save_Relay_Event(N47.Op_Ratio * 100.0F);
+					Save_Screen_Info(N47.Op_Phase);		
 				}
 			}
 		}
@@ -1077,7 +1099,12 @@ void RELAY_OVR(void)
 						RELAY_STATUS.operation_realtime			|= F_OVR;  //현재 동작 상태 변수 설정
 						RELAY_STATUS.operation_sum_holding	|= F_OVR;  //누적 동작 상태 변수 설정
 	
-						Save_Screen_Info(OVR.Op_Phase);
+						EVENT.optime = (unsigned long)OVR.Op_Time;
+						EVENT.operation |= (F_OVR << 16) + OVR.Op_Phase;
+						EVENT.fault_type = F_OVR;
+						Phase_Info = (Phase_Info == 0)? EVENT.operation: OVR.Op_Phase;
+						Save_Relay_Event(OVR.Op_Ratio * 100.0F);
+						Save_Screen_Info(OVR.Op_Phase);		
 					}
 				}
 			}
@@ -1203,7 +1230,12 @@ void RELAY_OVGR(void)
 						RELAY_STATUS.operation_realtime			|= F_OVGR;  //현재 동작 상태 변수 설정
 						RELAY_STATUS.operation_sum_holding	|= F_OVGR;  //누적 동작 상태 변수 설정
 	
-						Save_Screen_Info(OVGR.Op_Phase);	
+						EVENT.optime = (unsigned long)OVGR.Op_Time;
+						EVENT.operation |= (F_OVGR << 16) + OVGR.Op_Phase;
+						EVENT.fault_type = F_OVGR;
+						Phase_Info = (Phase_Info == 0)? EVENT.operation: OVGR.Op_Phase;
+						Save_Relay_Event(OVGR.Op_Ratio * 100.0F);
+						Save_Screen_Info(OVGR.Op_Phase);		
 					}
 				}
 			}
@@ -1332,7 +1364,12 @@ void RELAY_DGR(void)
 					RELAY_STATUS.operation_realtime			|= F_DGR;  //현재 동작 상태 변수 설정
 					RELAY_STATUS.operation_sum_holding	|= F_DGR;  //누적 동작 상태 변수 설정
 					
-					Save_Screen_Info(DGR.Op_Phase);
+					EVENT.optime = (unsigned long)DGR.Op_Time;
+					EVENT.operation |= (F_DGR << 16) + DGR.Op_Phase;
+					EVENT.fault_type = F_DGR;
+					Phase_Info = (Phase_Info == 0)? EVENT.operation: DGR.Op_Phase;
+					Save_Relay_Event(DGR.Op_Ratio * 100.0F);
+					Save_Screen_Info(DGR.Op_Phase);		
 				}
 			}
 		}
@@ -1393,7 +1430,12 @@ void RELAY_SGR(void)
 					RELAY_STATUS.operation_realtime			|= F_SGR;  //현재 동작 상태 변수 설정
 					RELAY_STATUS.operation_sum_holding	|= F_SGR;  //누적 동작 상태 변수 설정
 					
-					Save_Screen_Info(SGR.Op_Phase);
+					EVENT.optime = (unsigned long)SGR.Op_Time;
+					EVENT.operation |= (F_SGR << 16) + SGR.Op_Phase;
+					EVENT.fault_type = F_SGR;
+					Phase_Info = (Phase_Info == 0)? EVENT.operation: SGR.Op_Phase;
+					Save_Relay_Event(SGR.Op_Ratio * 100.0F);
+					Save_Screen_Info(SGR.Op_Phase);		
 				}
 			}
 		}

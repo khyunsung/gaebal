@@ -1169,6 +1169,7 @@ extern struct
 	
 	unsigned int ratio;
 	unsigned long optime;
+	unsigned int fault_type;
 	
 	unsigned int group_extra;
 } EVENT;
@@ -1384,5 +1385,5 @@ extern const long CALIB_Vo_MAX;
 extern unsigned int KHS_Key_Press;
 extern unsigned int Calibration_Menu_Escape;
 extern unsigned int Popup_OpPhase_Info;
-extern unsigned long CB_Status;
+extern unsigned int Phase_Info;
 extern unsigned int Popup_Action;

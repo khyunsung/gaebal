@@ -14141,7 +14141,7 @@ void menu_reset(unsigned int, int);
 void menu_popup(unsigned int value, int display)
 {
 	char str[2][22];
-	char *phase_character[10] = {"Ia","Ib","Ic","In","In2","Is","Va","Vb","Vc","Vn"};
+	char *phase_character[11] = {" ", "Ia","Ib","Ic","In","In2","Is","Vab","Vbc","Vca","Vn"};
 	unsigned long j;
 	unsigned int i;
 	
@@ -14160,15 +14160,15 @@ void menu_popup(unsigned int value, int display)
 //else if(OpRly==14)	Sprintf(VFDFBuffer.up," 67GD GROUND FAULT  ");
 //else if(OpRly==15)	Sprintf(VFDFBuffer.up," 67GS GROUND FAULT  ");
 
-	j = 0x00010000;
+	j = 0x0001;
 	for(i = 0; i < 15; i++) {
-		if(CB_Status & j) break;
+		if(EVENT.fault_type & j) break;
 		j <<= 1;
 	}
 	if(i == 15) i = 0;
 	
 	sprintf(str[0], "%s\0", Trip_Message[i][0]);
-	sprintf(str[1], " [Fault Phase: %s ] \0", phase_character[CB_Status % 10]);
+	sprintf(str[1], " [Fault Phase: %s ] \0", phase_character[Phase_Info % 11]);
 
 	if(display) {
 		screen_frame2(str);
@@ -14177,7 +14177,8 @@ void menu_popup(unsigned int value, int display)
 	}
 
 	if(value == ACK_KEY) {
-		if(RELAY_STATUS.operation_realtime == 0) { //Reset Case
+		if(RELAY_STATUS.operation_realtime == 0 || EVENT.fault_type == F_UVR_1 ||EVENT.fault_type == F_UVR_2 || EVENT.fault_type == F_UVR_3)
+		{ //Reset Case
 //			Screen_Position.y = Save_Current_Screen.y;
 //			Screen_Position.x = Save_Current_Screen.x;
 //			Screen_Position.select = Save_Current_Screen.select;
@@ -14225,8 +14226,13 @@ void Event_Item_Display(void)		//khs, 2015-03-31 오후 7:36:32
 		// relay 종류
 		temp16 = *(EVENT_INDEX2 + (EVENT.view_point * 18));
 		temp16 &= 0x00ff;
-		str[0] = (char)temp16;
-//		LCD.line_2nd_adder = event_relay[temp16];
+		
+		i_tmp[0] = 1;
+		for(temp_int = 1; temp_int < 16; temp_int++) {
+			if(temp16 & i_tmp[0]) break;
+			i_tmp[0] <<= 1;
+		}
+		str[0] = temp_int;
 		
 		// relay curve (특성 정보인데 사용을 하나?)
 		temp16 = *(EVENT_CONTENT1 + (EVENT.view_point * 18));
@@ -14728,6 +14734,9 @@ void menu_reset(unsigned int value, int display)
 			menu_popup(KHS_Key_Press, 0);
 			menu_popup(KHS_Key_Press, 1);
 	
+			Screen_Position.y = 98;
+			Screen_Position.x = 0;
+
 			return;
 		}
 	} else {
