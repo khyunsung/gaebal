@@ -1901,7 +1901,7 @@ void measure_display(void) //전압, 전류 값
 		DISPLAY.rms_value_temp[DISPLAY.index] = DISPLAY.rms_value_sum[DISPLAY.index] / 50.;	// 50번 평균값 계산
 		if((DISPLAY.index > 5) && (DISPLAY.index < 10)) //전압 채널(6,7,8,9)
 		{
-			if(DISPLAY.rms_value_temp[DISPLAY.index] < 2)	{DISPLAY.rms_value_temp[DISPLAY.index] = 0;} //전압 채널 계측 문턱값 (2V)
+			if(DISPLAY.rms_value_temp[DISPLAY.index] < 1.9)	{DISPLAY.rms_value_temp[DISPLAY.index] = 0;} //전압 채널 계측 문턱값 (1.9V)
 		}
 		else if(DISPLAY.index < 4) //전류 채널(0,1,2,3)
 		{

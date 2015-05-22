@@ -598,21 +598,19 @@ daum:		;
 	if(MEASUREMENT.frequency_count == 6)
 	MEASUREMENT.frequency_count = 0;
 	
-	// DSGR용 Io담기
-	// SGR사용할 때는 ZCT channel
-	if(CORE.gr_select == ZCT_SELECT)
+//-------- DGR, SGR용 Io담기
+	if(CORE.gr_select == ZCT_SELECT) // SGR사용할 때는 ZCT channel
 	{
 		MEASUREMENT.sgr_rms_Io = MEASUREMENT.rms_value[Is];
 		MEASUREMENT.sgr_angle_Io = MEASUREMENT.angle[Is];
 	}
-	
-	// DGR사용할 때는 NCT channel
-	else
+	else // DGR사용할 때는 NCT channel
 	{
 		MEASUREMENT.dgr_rms_Io = MEASUREMENT.rms_value[In];
 		MEASUREMENT.dgr_angle_Io = MEASUREMENT.angle[In];
 	}
-	
+//-------- DGR, SGR용 Io담기 END
+
 	// wave 저장 시 di/do 값도 저장함. 1.38ms 마다 1회(12샘플)
 	// digital  normal
 	if(WAVE.post_start != 0x1234)
@@ -693,12 +691,9 @@ daum:		;
 		}
 	}
 	
-	// real_main()에서 PROTECTIVE_RELAY() 실행하라는 플래그
-	SAMPLE.ending = 1;
+	SAMPLE.ending = 1; // real_main()에서 PROTECTIVE_RELAY() 실행하라는 플래그
 	
-	// 인터럽트 pending 해제 -> 우선순위 낮은 인터럽트 실행가능하게 한다는 뜻이여
-	*PieCtrlRegs_PIEACK = PIEACK_GROUP12;
-	///////////////////////////
+	*PieCtrlRegs_PIEACK = PIEACK_GROUP12; // 인터럽트 pending 해제 -> 우선순위 낮은 인터럽트 실행가능하게 한다는 뜻
 }
 
 // 1ms timer interrupt

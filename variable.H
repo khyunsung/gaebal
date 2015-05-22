@@ -805,12 +805,15 @@ struct
 	float Dropout_Threshold_Io;
 	float Pickup_Threshold_Vo;
 	float Dropout_Threshold_Vo;
+	int Pickup_Threshold_Angle;
+	int Angle;
+	int angle_low;
+	int angle_high;
+	float diff_angle_rad;
+	float diff_angle_deg;
 
 	unsigned int pickup_limit;
 	unsigned long op_count;
-	int angle_low;
-	int angle_high;
-	float angle_sub;
 	unsigned long event_ready;
 	unsigned int op_status;
 
@@ -827,6 +830,7 @@ struct
 	float Op_Ratio;
 	unsigned int Op_Phase;
 	float Op_Time;
+	int Op_Angle;
 
 	unsigned long Pickup_Time;
 	unsigned long Delay_Time;
@@ -850,12 +854,16 @@ struct
 	float Dropout_Threshold_Io;
 	float Pickup_Threshold_Vo;
 	float Dropout_Threshold_Vo;
+	int Pickup_Threshold_Angle;
+	int Angle;
+	int angle_low;
+	int angle_high;
+	float diff_angle_rad;
+	float diff_angle_deg;
+	
 
 	unsigned int pickup_limit;
 	unsigned long op_count;
-	int angle_low;
-	int angle_high;
-	float angle_sub;
 	unsigned long event_ready;
 	unsigned int op_status;
 
@@ -872,6 +880,7 @@ struct
 	float Op_Ratio;
 	unsigned int Op_Phase;
 	float Op_Time;
+	int Op_Angle;
 
 	unsigned long Pickup_Time;
 	unsigned long Delay_Time;

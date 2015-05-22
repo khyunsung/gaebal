@@ -77,7 +77,6 @@ void integer_setting_up_down_action(void *, unsigned long, unsigned long, unsign
 void display_time(unsigned int *);
 void rtc_handling(void);
 
-unsigned long Inverse_Op_Timeset(unsigned int, float, float, float);
 unsigned long Inverse_GetDelayTime(int ,float ,float);
 
 void eerom_control(unsigned int, unsigned int);
@@ -92,6 +91,7 @@ void serial_write(unsigned int, unsigned int *, unsigned int *);
 void serial_ok_nak_send(unsigned int);
 
 void PROTECTIVE_RELAY(void);
+void Check_47P_10V(void);
 void RELAY_OCR50_1(void);
 void RELAY_OCR50_2(void);
 void RELAY_OCR51_1(void);
@@ -196,10 +196,7 @@ void harmonics(void);
 void harmonic_sample_backup(unsigned int);
 void harmonic_real_imag_calculation(float *, float const *);
 
-void relay_normal_to_detect(unsigned long *, unsigned int *);
-void relay_detect_to_pickup(unsigned long *, unsigned int *, unsigned long, unsigned int);
-void relay_pickup_to_operation(unsigned int *, unsigned int, float, unsigned long, unsigned int *);
-void relay_opeartion_to_dropout(unsigned int *, unsigned int *);
+void relay_pickup_to_operation(unsigned int, float, unsigned long, unsigned int *);
 void relay_dropout_to_normal(unsigned long *, unsigned int *, unsigned int, unsigned int *);
 
 //void supervision_relay(unsigned int);
@@ -214,9 +211,6 @@ void himix_crc(unsigned int);
 void relay_value_set_handling(unsigned int *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 void Relay_On(unsigned int);
 void Relay_Off(unsigned int);
-void do_release(unsigned int *);
-float over_phase_value_check(unsigned int, float, unsigned long *);
-float under_phase_value_check(unsigned int, float, unsigned long *);
 
 void comm_drive(void);
 

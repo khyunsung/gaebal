@@ -32,6 +32,7 @@
 #pragma CODE_SECTION(rtc_handling, "ramfuncs");
 #pragma CODE_SECTION(PROTECTIVE_RELAY, "ramfuncs");
 #pragma CODE_SECTION(Inverse_GetDelayTime, "ramfuncs");
+#pragma CODE_SECTION(Check_47P_10V, "ramfuncs");
 #pragma CODE_SECTION(event_direct_save, "ramfuncs");
 
 #pragma CODE_SECTION(RELAY_OCR50_1, "ramfuncs");
@@ -52,10 +53,7 @@
 #pragma CODE_SECTION(RELAY_DGR, "ramfuncs");
 #pragma CODE_SECTION(RELAY_SGR, "ramfuncs");
 
-#pragma CODE_SECTION(relay_normal_to_detect, "ramfuncs");
-#pragma CODE_SECTION(relay_detect_to_pickup, "ramfuncs");
 #pragma CODE_SECTION(relay_pickup_to_operation, "ramfuncs");
-#pragma CODE_SECTION(relay_opeartion_to_dropout, "ramfuncs");
 #pragma CODE_SECTION(relay_dropout_to_normal, "ramfuncs");
 
 //#pragma CODE_SECTION(supervision_relay, "ramfuncs");
@@ -65,9 +63,6 @@
 
 #pragma CODE_SECTION(Relay_On, "ramfuncs");
 #pragma CODE_SECTION(Relay_Off, "ramfuncs");
-//#pragma CODE_SECTION(do_release, "ramfuncs");
-#pragma CODE_SECTION(over_phase_value_check, "ramfuncs");
-#pragma CODE_SECTION(under_phase_value_check, "ramfuncs");
 
 //#define FS	0x1234 //FI
 //#define MS	0x5678 //MS //2015.02.25

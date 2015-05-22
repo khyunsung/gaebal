@@ -797,13 +797,14 @@ void setting_post_handling(unsigned int *ar_address)
 			DGR.Dropout_Threshold_Vo *= 0.097; // 0.097 = 0.1 * 0.97
 			
 			DGR.angle_low = (float)DGR.angle_set;
-			DGR.angle_low -= 60;
+			DGR.angle_low -= 60.;
 			
-			if(DGR.angle_low < 0)
+			if(DGR.angle_low < 0.)
 			DGR.angle_low += 360;
 			
 			DGR.angle_high = (float)DGR.angle_set;
-			DGR.angle_high += 60;
+			DGR.angle_high += 60.;
+//			DGR.Pickup_Threshold_Angle = DGR.angle_set;
 			
 			DGR.op_status = RELAY_NORMAL;
 			DGR.Op_Ratio = 0.0;
@@ -847,13 +848,14 @@ void setting_post_handling(unsigned int *ar_address)
 			SGR.Dropout_Threshold_Vo *= 0.097; // 0.097 = 0.1 * 0.97
 			
 			SGR.angle_low = (float)SGR.angle_set;
-			SGR.angle_low -= 60;
+			SGR.angle_low -= 60.;
 			
-			if(SGR.angle_low < 0)
+			if(SGR.angle_low < 0.)
 			SGR.angle_low += 360;
 			
 			SGR.angle_high = (float)SGR.angle_set;
-			SGR.angle_high += 60;
+			SGR.angle_high += 60.;
+//			SGR.Pickup_Threshold_Angle = SGR.angle_set;
 			
 			SGR.op_status = RELAY_NORMAL;
 			SGR.Op_Ratio = 0.0;
