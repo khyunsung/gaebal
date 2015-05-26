@@ -61,6 +61,7 @@ extern void delay_us(unsigned long);
 extern void booting_setting_check(void);
 extern unsigned int setting_min_max_check(unsigned int *, unsigned int, unsigned int);
 extern unsigned int pt_setting_min_max_check(unsigned long *, unsigned int, unsigned long);
+extern unsigned int setting_min_max_check_angle(int *, int, int);
 
 extern void voltage_set_view(char* const *, unsigned int, unsigned int);
 

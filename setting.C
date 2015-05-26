@@ -12,24 +12,13 @@ unsigned int setting_save(unsigned int *ar_temp, unsigned int *ar_address, unsig
 	unsigned int crc;
 	unsigned int i;
 	
-	//crc 계산
-	crc = Setting_CRC(ar_temp, ar_wordcount);
-	
-	// 해당 섹터 지움
-	flash_sector_erase(ar_address);
-	
-	// 지정된 개수만 큼 flash에 저장
-	for(i = 0; i < ar_wordcount; i++)
-	flash_word_write((ar_address + i), *(ar_temp + i));
-	
-	// crc 추가로 저장
-	flash_word_write((ar_address + i), crc);
-	
-	// 저장된 값 비교
-	for(i = 0; i < ar_wordcount; i++)
+	crc = Setting_CRC(ar_temp, ar_wordcount); //crc 계산
+	flash_sector_erase(ar_address); // 해당 섹터 지움
+	for(i = 0; i < ar_wordcount; i++){flash_word_write((ar_address + i), *(ar_temp + i));} 	// 지정된 개수만 큼 flash에 저장
+	flash_word_write((ar_address + i), crc); // crc 추가로 저장
+	for(i = 0; i < ar_wordcount; i++) // 저장된 값 비교
 	{
-		// 하나라도 틀리면 fail
-		if(*(ar_temp + i) != *(ar_address + i))
+		if(*(ar_temp + i) != *(ar_address + i)) // 하나라도 틀리면 fail
 		return(0);
 	}
 	
@@ -67,23 +56,6 @@ unsigned int setting_save(unsigned int *ar_temp, unsigned int *ar_address, unsig
 		EVENT.relay_set |= SGR_SET_EVENT;      event_direct_save(&EVENT.relay_set);
 	}
 	
-	
-
-//2015.02.24
-// 설정 값에 따라 메뉴에서 보이게 안보이게 필요
-//	else if(ar_address == DSGR_USE)
-//	{
-//		if(CORE.gr_select == ZCT_SELECT)
-//		EVENT.relay_set |= SGR_SET_EVENT;
-//		
-//		else
-//		EVENT.relay_set |= DGR_SET_EVENT;
-//	}
-//2015.02.24 END
-//	else if(ar_address == SYNCRO_USE)
-//	EVENT.relay_set |= SYNCRO_SET_EVENT;
-//---------계전요소 설정 이벤트 저장 END
- 
 //---------시스템요소 설정 이벤트 저장
 //	else if(ar_address == CT_PRIMARY)
 //	EVENT.system_set |= CT_PT_SET_EVENT;
@@ -92,7 +64,6 @@ unsigned int setting_save(unsigned int *ar_temp, unsigned int *ar_address, unsig
 //	{
 //		if(EVENT.group_extra == 0)
 //		EVENT.system_set |= DI_DEBOUNCE_EVENT;
-//		
 //		else
 //		EVENT.system_set |= DO_PROPERTY_EVENT;
 //	}
@@ -109,21 +80,10 @@ unsigned int setting_save(unsigned int *ar_temp, unsigned int *ar_address, unsig
 //	else if(ar_address == LOCAL_CTRL_USE) //2015.02.24
 //	EVENT.system_set |= L_CONTROL_SET_EVENT;
 //	
-//	else if(ar_address == OCGR_DGR_SEL)
-//	{
-//		if(EVENT.group_extra == 0)
-//		EVENT.system_set |= GR_SET_EVENT;
-//		
-//		else
-//		EVENT.system_set |= ZCT_ANGLE_SET_EVENT;
-//	}
-//	
 //	else if(ar_address == OCR_PROPERTY)
 //	EVENT.system_set |= OCR_MODE_SET_EVENT;
 //---------시스템요소 설정 이벤트 저장 END	
-	
-//	if(ar_address < CT_PRIMARY)	{event_direct_save(&EVENT.relay_set);}
-//	else												{event_direct_save(&EVENT.system_set);}
+
 	return(1);
 }
 
@@ -834,6 +794,7 @@ void setting_post_handling(unsigned int *ar_address)
 			DGR.Op_Ratio = 0.0;
 			DGR.Op_Phase = 0;
 			DGR.Op_Time = 0.0;
+			DGR.Op_Angle = 0;
 			
 			DGR.do_output = 0;
 			for(i = 0; i < 8; i++)

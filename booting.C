@@ -579,6 +579,31 @@ void booting_setting_check(void)
 		}
 	}
 
+	//D/SGR ANGLE
+	if(setting_load(&DSGR_ANGLE.dgr_angle, 2, DGR_ANGLE_COMP))
+	{
+		i = 0;
+		i |= setting_min_max_check_angle(&DSGR_ANGLE.dgr_angle, -100, 100);
+		i |= setting_min_max_check_angle(&DSGR_ANGLE.sgr_angle, -100, 100);
+	}
+	else
+	{
+		DSGR_ANGLE.dgr_angle = 0;
+		DSGR_ANGLE.sgr_angle = 0;
+		i = 1;
+	}
+	if(i)
+	{
+		if(setting_save(&DSGR_ANGLE.dgr_angle, DGR_ANGLE_COMP, 2))
+		{
+			setting_load(&DSGR_ANGLE.dgr_angle, 2, DGR_ANGLE_COMP);
+		}
+		else
+		{
+			//FLASH WRITE ERROR pop up 화면
+		}
+	}
+
 	//UVR MODE
 	if(setting_load(&UVR_MODE.setting1, 3, UVR27R_MODE))
 	{
@@ -1444,22 +1469,6 @@ void booting_setting_check(void)
 	else
 	COMM.use = 0;
 
-	if(setting_load(&ADDRESS.address, 1, MOD_ADDR))
-	{
-		i = 0;
-		i |= setting_min_max_check(&ADDRESS.address, COMM_ADDR_MIN, COMM_ADDR_MAX);
-		i |= setting_min_max_check(&COMM.baudrate, COMM_BAUD_MIN, COMM_BAUD_MAX);
-	}
-	else
-	{
-		//default
-		ADDRESS.address = COMM_ADDR_MAX;
-		COMM.baudrate = COMM_BAUD_MAX;
-		i = 1;
-	}
-	if(i)
-		setting_save(&ADDRESS.address, MOD_ADDR, 1);
-	
 	*COMM_2_ADDRESS = ADDRESS.address;
 	*COMM_2_BAUDRATE = COMM.baudrate;
 	*COMM_BOOT = 0x55;
@@ -1583,6 +1592,17 @@ unsigned int pt_setting_min_max_check(unsigned long *ar_value, unsigned int ar_m
 	if((*ar_value < ar_min) || (*ar_value > ar_max))
 	{
 		*ar_value = ar_max;
+		return(1);
+	}
+	return(0);
+}
+
+unsigned int setting_min_max_check_angle(int *ar_value, int ar_min, int ar_max)
+{
+	// 최소보다 작거나 최대보다 크면 최대값으로 초기화
+	if((*ar_value < ar_min) || (*ar_value > ar_max))
+	{
+		*ar_value = 0;
 		return(1);
 	}
 	return(0);

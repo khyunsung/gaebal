@@ -54,6 +54,7 @@ struct
 	float rms_value[10];
 	float true_rms[10];
 	float angle[10];
+
 	float real_I1_a;
 	float real_I1_b;
 	float real_I1_c;
@@ -63,6 +64,7 @@ struct
 	float real_I1_sum;
 	float imag_I1_sum;
 	float I1_value;
+
 	float real_I2_a;
 	float real_I2_b;
 	float real_I2_c;
@@ -72,6 +74,7 @@ struct
 	float real_I2_sum;
 	float imag_I2_sum;
 	float I2_value;
+
 	float real_V1_a;
 	float real_V1_b;
 	float real_V1_c;
@@ -81,6 +84,7 @@ struct
 	float real_V1_sum;
 	float imag_V1_sum;
 	float V1_value;
+
 	float real_V2_a;
 	float real_V2_b;
 	float real_V2_c;
@@ -90,33 +94,41 @@ struct
 	float real_V2_sum;
 	float imag_V2_sum;
 	float V2_value;
+
 	unsigned int power_1sec;
 	int power_adder;
+
 	float Pa_temp;
 	float Pb_temp;
 	float Pc_temp;
+
 	float Qa_temp;
 	float Qb_temp;
 	float Qc_temp;
+
 	float Pa_value;
 	float Pb_value;
 	float Pc_value;
+
 	float Qa_value;
 	float Qb_value;
 	float Qc_value;
+
 	float freq_real[12];
 	float freq_imag[12];
 	float frequency;
 	float frequency_temp[6];
 	unsigned int frequency_count;
+
 	float freq_real_vn[12];
 	float freq_imag_vn[12];
 	float frequency_vn;
 	float frequency_temp_vn[6];
-	float dgr_rms_Io;
-	float dgr_angle_Io;
-	float sgr_rms_Io;
-	float sgr_angle_Io;
+
+//	float dgr_rms_Io;
+//	float dgr_angle_Io;
+//	float sgr_rms_Io;
+//	float sgr_angle_Io;
 } MEASUREMENT;
 
 struct
@@ -151,7 +163,7 @@ struct
 	float V2_value;
 	float I1_value;
 	float I2_value;
-	float anlge[8];
+	float angle[8];
 } DISPLAY;
 
 struct

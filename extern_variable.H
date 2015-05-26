@@ -131,10 +131,10 @@ extern struct
 	float frequency_vn;
 	float frequency_temp_vn[6];
 	
-	float dgr_rms_Io;
-	float dgr_angle_Io;
-	float sgr_rms_Io;
-	float sgr_angle_Io;
+//	float dgr_rms_Io;
+//	float dgr_angle_Io;
+//	float sgr_rms_Io;
+//	float sgr_angle_Io;
 } MEASUREMENT;
 
 extern struct
@@ -169,7 +169,7 @@ extern struct
 	float V2_value;
 	float I1_value;
 	float I2_value;
-	float anlge[8];
+	float angle[8];
 } DISPLAY;
 
 extern struct

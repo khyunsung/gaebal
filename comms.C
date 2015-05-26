@@ -243,9 +243,9 @@ void manager_handling(void)
 			//Vn
 			float_to_integer(MEASUREMENT.V2_value, &MANAGER.tx_buffer[26], 1.0F);
 			//Vb 위상
-			float_to_integer(DISPLAY.anlge[1], &MANAGER.tx_buffer[30], 1.0F);
+			float_to_integer(DISPLAY.angle[1], &MANAGER.tx_buffer[30], 1.0F);
 			//Vc 위상
-			float_to_integer(DISPLAY.anlge[2], &MANAGER.tx_buffer[34], 1.0F);
+			float_to_integer(DISPLAY.angle[2], &MANAGER.tx_buffer[34], 1.0F);
 			//Vo max
 			float_to_integer(ACCUMULATION.vo_max, &MANAGER.tx_buffer[38], 1.0F);
 			//주파수
@@ -293,11 +293,11 @@ void manager_handling(void)
 			//Ins
 			float_to_integer(MEASUREMENT.I2_value, &MANAGER.tx_buffer[26], 10.0F);
 			//IA 위상
-			float_to_integer(DISPLAY.anlge[3], &MANAGER.tx_buffer[30], 1.0F);
+			float_to_integer(DISPLAY.angle[3], &MANAGER.tx_buffer[30], 1.0F);
 			//Ib 위상
-			float_to_integer(DISPLAY.anlge[4], &MANAGER.tx_buffer[34], 1.0F);
+			float_to_integer(DISPLAY.angle[4], &MANAGER.tx_buffer[34], 1.0F);
 			//Ic 위상
-			float_to_integer(DISPLAY.anlge[5], &MANAGER.tx_buffer[38], 1.0F);
+			float_to_integer(DISPLAY.angle[5], &MANAGER.tx_buffer[38], 1.0F);
 			//Io max
 			float_to_integer(ACCUMULATION.io_max, &MANAGER.tx_buffer[42], 1.0F);
 			
@@ -2194,15 +2194,15 @@ void comm_drive(void)
 			else if(COMM.index == 6)
 			{
 				//Vb 위상
-				float_to_integer(DISPLAY.anlge[1], COMM_2_Vb_degree, 1);
+				float_to_integer(DISPLAY.angle[1], COMM_2_Vb_degree, 1);
 				//Vc 위상
-				float_to_integer(DISPLAY.anlge[2], COMM_2_Vc_degree, 1);
+				float_to_integer(DISPLAY.angle[2], COMM_2_Vc_degree, 1);
 				//Ia 위상
-				float_to_integer(DISPLAY.anlge[3], COMM_2_Ia_degree, 1);
+				float_to_integer(DISPLAY.angle[3], COMM_2_Ia_degree, 1);
 				//Ib 위상
-				float_to_integer(DISPLAY.anlge[4], COMM_2_Ib_degree, 1);
+				float_to_integer(DISPLAY.angle[4], COMM_2_Ib_degree, 1);
 				//Ic 위상
-				float_to_integer(DISPLAY.anlge[5], COMM_2_Ic_degree, 1);
+				float_to_integer(DISPLAY.angle[5], COMM_2_Ic_degree, 1);
 				//역률
 				float_to_integer(DISPLAY.pf3, COMM_2_pf, 1);
 			}

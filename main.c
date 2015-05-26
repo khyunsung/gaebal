@@ -2016,68 +2016,68 @@ void measure2_display(void)
 {
 	//1.5us 
 	//for(temp = 0; temp < 6; temp++)
-	//DISPLAY.anlge[temp] = 0.0;
+	//DISPLAY.angle[temp] = 0.0;
 	
 	//200ns
-	DISPLAY.anlge[0] = 0.0;
-	DISPLAY.anlge[1] = 0.0;
-	DISPLAY.anlge[2] = 0.0;
-	DISPLAY.anlge[3] = 0.0;
-	DISPLAY.anlge[4] = 0.0;
-	DISPLAY.anlge[5] = 0.0;
-	DISPLAY.anlge[6] = 0.0;
-	DISPLAY.anlge[7] = 0.0;
+	DISPLAY.angle[0] = 0.0;
+	DISPLAY.angle[1] = 0.0;
+	DISPLAY.angle[2] = 0.0;
+	DISPLAY.angle[3] = 0.0;
+	DISPLAY.angle[4] = 0.0;
+	DISPLAY.angle[5] = 0.0;
+	DISPLAY.angle[6] = 0.0;
+	DISPLAY.angle[7] = 0.0;
 	
-	if(DISPLAY.rms_value[Va])	{DISPLAY.anlge[0] = MEASUREMENT.angle[Va];}
-	if(DISPLAY.rms_value[Vb])	{DISPLAY.anlge[1] = MEASUREMENT.angle[Vb];}
-	if(DISPLAY.rms_value[Vc])	{DISPLAY.anlge[2] = MEASUREMENT.angle[Vc];}
-	if(DISPLAY.rms_value[Vc])	{DISPLAY.anlge[3] = MEASUREMENT.angle[Vn];}
-	if(DISPLAY.rms_value[Ia])	{DISPLAY.anlge[4] = MEASUREMENT.angle[Ia];}
-	if(DISPLAY.rms_value[Ib])	{DISPLAY.anlge[5] = MEASUREMENT.angle[Ib];}
-	if(DISPLAY.rms_value[Ic])	{DISPLAY.anlge[6] = MEASUREMENT.angle[Ic];}
+	if(DISPLAY.rms_value[Va])	{DISPLAY.angle[0] = MEASUREMENT.angle[Va];}
+	if(DISPLAY.rms_value[Vb])	{DISPLAY.angle[1] = MEASUREMENT.angle[Vb];}
+	if(DISPLAY.rms_value[Vc])	{DISPLAY.angle[2] = MEASUREMENT.angle[Vc];}
+	if(DISPLAY.rms_value[Vc])	{DISPLAY.angle[3] = MEASUREMENT.angle[Vn];}
+	if(DISPLAY.rms_value[Ia])	{DISPLAY.angle[4] = MEASUREMENT.angle[Ia];}
+	if(DISPLAY.rms_value[Ib])	{DISPLAY.angle[5] = MEASUREMENT.angle[Ib];}
+	if(DISPLAY.rms_value[Ic])	{DISPLAY.angle[6] = MEASUREMENT.angle[Ic];}
 	if(CORE.gr_select == NCT_SELECT)
 	{
-		if(DISPLAY.rms_value[In])	{DISPLAY.anlge[7] = MEASUREMENT.angle[In];}
+		if(DISPLAY.rms_value[In])	{DISPLAY.angle[7] = MEASUREMENT.angle[In];}
 	}
 	else
 	{
-		if(DISPLAY.rms_value[Is])	{DISPLAY.anlge[7] = MEASUREMENT.angle[Is];}
+		if(DISPLAY.rms_value[Is])	{DISPLAY.angle[7] = MEASUREMENT.angle[Is];}
 	}
 	
 	// 인터럽트에서는 라디안으로 계산하고 끝냈음
 	// 눈으로 보이는 값은 degree로 환산시킴
-	DISPLAY.anlge[0] *= 57.29577951;  // 180/PI = 57.29577951
-	DISPLAY.anlge[1] *= 57.29577951;
-	DISPLAY.anlge[2] *= 57.29577951;
-	DISPLAY.anlge[3] *= 57.29577951;
-	DISPLAY.anlge[4] *= 57.29577951;
-	DISPLAY.anlge[5] *= 57.29577951;
-	DISPLAY.anlge[6] *= 57.29577951;
-	DISPLAY.anlge[7] *= 57.29577951;
+	DISPLAY.angle[0] *= 57.29577951;  // 180/PI = 57.29577951
+	DISPLAY.angle[1] *= 57.29577951;
+	DISPLAY.angle[2] *= 57.29577951;
+	DISPLAY.angle[3] *= 57.29577951;
+	DISPLAY.angle[4] *= 57.29577951;
+	DISPLAY.angle[5] *= 57.29577951;
+	DISPLAY.angle[6] *= 57.29577951;
+	DISPLAY.angle[7] *= 57.29577951;
 	
 	//Vbc
-	DISPLAY.anlge[1] -= DISPLAY.anlge[0];
-	if(DISPLAY.anlge[1] < 0)	{DISPLAY.anlge[1] += 360;}
+	DISPLAY.angle[1] -= DISPLAY.angle[0];
+	if(DISPLAY.angle[1] < 0)	{DISPLAY.angle[1] += 360;}
 	//Vca
-	DISPLAY.anlge[2] -= DISPLAY.anlge[0];
-	if(DISPLAY.anlge[2] < 0)	{DISPLAY.anlge[2] += 360;}
+	DISPLAY.angle[2] -= DISPLAY.angle[0];
+	if(DISPLAY.angle[2] < 0)	{DISPLAY.angle[2] += 360;}
 	//Vn
-	DISPLAY.anlge[3] -= DISPLAY.anlge[0];
-	if(DISPLAY.anlge[3] < 0)	{DISPLAY.anlge[3] += 360;}
+	DISPLAY.angle[3] -= DISPLAY.angle[0];
+	if(DISPLAY.angle[3] < 0)	{DISPLAY.angle[3] += 360;}
 	//Ia
-	DISPLAY.anlge[4] -= DISPLAY.anlge[0];
-	if(DISPLAY.anlge[4] < 0)	{DISPLAY.anlge[4] += 360;}
+	DISPLAY.angle[4] -= DISPLAY.angle[0];
+	if(DISPLAY.angle[4] < 0)	{DISPLAY.angle[4] += 360;}
 	//Ib
-	DISPLAY.anlge[5] -= DISPLAY.anlge[0];
-	if(DISPLAY.anlge[5] < 0)	{DISPLAY.anlge[5] += 360;}
+	DISPLAY.angle[5] -= DISPLAY.angle[0];
+	if(DISPLAY.angle[5] < 0)	{DISPLAY.angle[5] += 360;}
 	//Ic
-	DISPLAY.anlge[6] -= DISPLAY.anlge[0];
-	if(DISPLAY.anlge[6] < 0)	{DISPLAY.anlge[6] += 360;}
+	DISPLAY.angle[6] -= DISPLAY.angle[0];
+	if(DISPLAY.angle[6] < 0)	{DISPLAY.angle[6] += 360;}
 	//In or Is
-	DISPLAY.anlge[7] -= DISPLAY.anlge[0];
-	if(DISPLAY.anlge[7] < 0)	{DISPLAY.anlge[7] += 360;}
+	DISPLAY.angle[7] -= DISPLAY.angle[0];
+	if(DISPLAY.angle[7] < 0)	{DISPLAY.angle[7] += 360;}
 	//Vab는 무조건 0도
-	DISPLAY.anlge[0] = 0;
+	DISPLAY.angle[0] = 0;
 
 	DISPLAY.switching = 0x0000;
 	TIMER.measurement = 0;

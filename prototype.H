@@ -68,6 +68,7 @@ void delay_us(unsigned long);
 void booting_setting_check(void);
 unsigned int setting_min_max_check(unsigned int *, unsigned int, unsigned int);
 unsigned int pt_setting_min_max_check(unsigned long *, unsigned int, unsigned long);
+unsigned int setting_min_max_check_angle(int *, int, int);
 
 void voltage_set_view(char* const *, unsigned int, unsigned int);
 void relay_use_display(char* const *, unsigned int, unsigned int, unsigned int);

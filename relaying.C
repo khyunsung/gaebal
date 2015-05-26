@@ -1325,6 +1325,7 @@ void RELAY_DGR(void)
 		// 위상차
 		DGR.diff_angle_rad = MEASUREMENT.angle[In] - MEASUREMENT.angle[Vn];
 		DGR.diff_angle_deg = DGR.diff_angle_rad * 57.29577951; // degree로 환산 180/PI = 57.29577951
+		DGR.diff_angle_deg += DSGR_ANGLE.dgr_angle;
 		if(DGR.diff_angle_deg < 0.)	{DGR.diff_angle_deg += 360;}
 		
 		if((PROTECT.Max_In_RMS >= DGR.Pickup_Threshold_Io) && (PROTECT.Max_Vn_RMS >= DGR.Pickup_Threshold_Vo) && ((DGR.diff_angle_deg >= DGR.angle_low) || (DGR.diff_angle_deg <= DGR.angle_high)))
@@ -1336,7 +1337,7 @@ void RELAY_DGR(void)
 			}
 			else if(DGR.op_status == RELAY_DETECT)
 			{
-				if(DGR.op_count > DGR.pickup_limit)
+				if(DGR.op_count >= DGR.pickup_limit)
 				{	
 					DGR.op_status = RELAY_PICKUP;
 					RELAY_STATUS.pickup |= F_DGR;  //alarm ON
@@ -1346,14 +1347,15 @@ void RELAY_DGR(void)
 			}
 			else if(DGR.op_status == RELAY_PICKUP)
 			{
-				if(DGR.op_count > DGR.delay_ms)
+				if(DGR.op_count >= DGR.delay_ms)
 				{
 					Relay_On(DGR.do_output);
 
 					DGR.op_status	= RELAY_TRIP;
-					DGR.Op_Ratio	= PROTECT.Max_I_RMS / DGR.Pickup_Threshold_Vo; //배수
-					DGR.Op_Phase	= PROTECT.V_Op_Phase; //상
+					DGR.Op_Ratio	= PROTECT.Max_In_RMS / DGR.Pickup_Threshold_Io; //배수
+					DGR.Op_Phase	= PROTECT.In_Op_Phase; //상
 					DGR.Delay_Time = DGR.op_count;
+					DGR.Op_Angle = DGR.diff_angle_deg;
 					DGR.Op_Time		= DGR.Delay_Time + DGR.Pickup_Time + TOTAL_DELAY_67GD; //동작 시간
 
 					RELAY_STATUS.pickup									&= ~F_DGR; //계전요소 alarm OFF
@@ -1365,7 +1367,7 @@ void RELAY_DGR(void)
 					EVENT.fault_type = F_DGR;
 					Phase_Info = (Phase_Info == 0)? EVENT.operation: DGR.Op_Phase;
 					Save_Relay_Event(DGR.Op_Ratio * 100.0F);
-					Save_Screen_Info(DGR.Op_Phase);		
+					Save_Screen_Info(DGR.Op_Phase);
 				}
 			}
 		}
@@ -1393,7 +1395,13 @@ void RELAY_SGR(void)
 {
 	if(SGR.use == 0xaaaa)
 	{
-		if(PROTECT.Max_I_RMS > SGR.Pickup_Threshold_Vo)
+		// 위상차
+		SGR.diff_angle_rad = MEASUREMENT.angle[Is] - MEASUREMENT.angle[Vn];
+		SGR.diff_angle_deg = SGR.diff_angle_rad * 57.29577951; // degree로 환산 180/PI = 57.29577951
+		SGR.diff_angle_deg += DSGR_ANGLE.sgr_angle;
+		if(SGR.diff_angle_deg < 0.)	{SGR.diff_angle_deg += 360;}
+		
+		if((PROTECT.Max_Is_RMS >= SGR.Pickup_Threshold_Io) && (PROTECT.Max_Vn_RMS >= SGR.Pickup_Threshold_Vo) && ((SGR.diff_angle_deg >= SGR.angle_low) || (SGR.diff_angle_deg <= SGR.angle_high)))
 		{
 			if(SGR.op_status == RELAY_NORMAL)
 			{
@@ -1402,7 +1410,7 @@ void RELAY_SGR(void)
 			}
 			else if(SGR.op_status == RELAY_DETECT)
 			{
-				if(SGR.op_count > SGR.pickup_limit)
+				if(SGR.op_count >= SGR.pickup_limit)
 				{	
 					SGR.op_status = RELAY_PICKUP;
 					RELAY_STATUS.pickup |= F_SGR;  //alarm ON
@@ -1412,15 +1420,16 @@ void RELAY_SGR(void)
 			}
 			else if(SGR.op_status == RELAY_PICKUP)
 			{
-				if(SGR.op_count > SGR.delay_ms)
+				if(SGR.op_count >= SGR.delay_ms)
 				{
 					Relay_On(SGR.do_output);
 
 					SGR.op_status	= RELAY_TRIP;
-					SGR.Op_Ratio	= PROTECT.Max_I_RMS / SGR.Pickup_Threshold_Vo; //배수
-					SGR.Op_Phase	= PROTECT.V_Op_Phase; //상
+					SGR.Op_Ratio	= PROTECT.Max_Is_RMS / SGR.Pickup_Threshold_Io; //배수
+					SGR.Op_Phase	= PROTECT.Is_Op_Phase; //상
 					SGR.Delay_Time = SGR.op_count;
-					SGR.Op_Time		= SGR.Delay_Time + SGR.Pickup_Time + TOTAL_DELAY_50; //동작 시간
+					SGR.Op_Angle = SGR.diff_angle_deg;
+					SGR.Op_Time		= SGR.Delay_Time + SGR.Pickup_Time + TOTAL_DELAY_67GD; //동작 시간
 
 					RELAY_STATUS.pickup									&= ~F_SGR; //계전요소 alarm OFF
 					RELAY_STATUS.operation_realtime			|= F_SGR;  //현재 동작 상태 변수 설정
@@ -1431,13 +1440,13 @@ void RELAY_SGR(void)
 					EVENT.fault_type = F_SGR;
 					Phase_Info = (Phase_Info == 0)? EVENT.operation: SGR.Op_Phase;
 					Save_Relay_Event(SGR.Op_Ratio * 100.0F);
-					Save_Screen_Info(SGR.Op_Phase);		
+					Save_Screen_Info(SGR.Op_Phase);
 				}
 			}
 		}
-		else
+		else //		if((PROTECT.Max_Is_RMS >= SGR.Pickup_Threshold_Io) && (PROTECT.Max_Vn_RMS >= SGR.Pickup_Threshold_Vo) && ((SGR.diff_angle_deg >= SGR.angle_low) || (SGR.diff_angle_deg <= SGR.angle_high)))
 		{
-			if(PROTECT.Max_I_RMS < SGR.Dropout_Threshold_Vo)  //under 99%
+			if((PROTECT.Max_Is_RMS < SGR.Dropout_Threshold_Io) || (PROTECT.Max_Vn_RMS < SGR.Dropout_Threshold_Vo) || ((SGR.diff_angle_deg < SGR.angle_low) && (SGR.diff_angle_deg > SGR.angle_high)))  //under 97%
 			{
 				if((SGR.op_status == RELAY_DETECT) || (SGR.op_status == RELAY_PICKUP))
 				{
@@ -1446,8 +1455,8 @@ void RELAY_SGR(void)
 				}
 				else if(SGR.op_status == RELAY_TRIP)
 				{
-					Relay_Off(SGR.do_output); //DO open
-					SGR.op_status = RELAY_NORMAL; //50_1상태 NORMAL
+					Relay_Off(SGR.do_output);
+					SGR.op_status = RELAY_NORMAL; 
 					RELAY_STATUS.operation_realtime &= ~F_SGR; //동작 상태 변수 해제
 				}
 			}
@@ -1530,7 +1539,7 @@ void PROTECTIVE_RELAY(void)
 	RELAY_OVR();
 	RELAY_OVGR();
 	RELAY_DGR();
-//	RELAY_SGR();
+	RELAY_SGR();
 
 	SAMPLE.ending = 0;
 }

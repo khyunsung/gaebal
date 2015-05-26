@@ -583,14 +583,12 @@ daum:		;
 			MEASUREMENT.frequency *= -7.957747155;
 			MEASUREMENT.frequency += 50;
 		}
-		
 		else
 		{
 			MEASUREMENT.frequency *= -9.549296586;
 			MEASUREMENT.frequency += 60;
 		}
 	}
-	
 	else
 	MEASUREMENT.frequency = 0;
 	
@@ -599,16 +597,16 @@ daum:		;
 	MEASUREMENT.frequency_count = 0;
 	
 //-------- DGR, SGR용 Io담기
-	if(CORE.gr_select == ZCT_SELECT) // SGR사용할 때는 ZCT channel
-	{
-		MEASUREMENT.sgr_rms_Io = MEASUREMENT.rms_value[Is];
-		MEASUREMENT.sgr_angle_Io = MEASUREMENT.angle[Is];
-	}
-	else // DGR사용할 때는 NCT channel
-	{
-		MEASUREMENT.dgr_rms_Io = MEASUREMENT.rms_value[In];
-		MEASUREMENT.dgr_angle_Io = MEASUREMENT.angle[In];
-	}
+//	if(CORE.gr_select == ZCT_SELECT) // SGR사용할 때는 ZCT channel
+//	{
+//		MEASUREMENT.sgr_rms_Io = MEASUREMENT.rms_value[Is];
+//		MEASUREMENT.sgr_angle_Io = MEASUREMENT.angle[Is];
+//	}
+//	else // DGR사용할 때는 NCT channel
+//	{
+//		MEASUREMENT.dgr_rms_Io = MEASUREMENT.rms_value[In];
+//		MEASUREMENT.dgr_angle_Io = MEASUREMENT.angle[In];
+//	}
 //-------- DGR, SGR용 Io담기 END
 
 	// wave 저장 시 di/do 값도 저장함. 1.38ms 마다 1회(12샘플)

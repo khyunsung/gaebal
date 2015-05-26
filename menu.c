@@ -325,9 +325,9 @@ void menu_00_07(unsigned int value, int display)
 		screen_frame3(str);
 		return;
 	} else if(display == 2) {
-		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[0], DGREE);
+		sprintf(string, "%7.1f %c\0", DISPLAY.angle[0], DGREE);
 		VFD_Single_Line_dump(LCD_L1_06, string);
-		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[1], DGREE);
+		sprintf(string, "%7.1f %c\0", DISPLAY.angle[1], DGREE);
 		VFD_Single_Line_dump(LCD_L2_06, string);
 		return;
 	}
@@ -355,9 +355,9 @@ void menu_00_08(unsigned int value, int display)
 		screen_frame3(str);
 		return;
 	} else if(display == 2) {
-		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[2], DGREE);
+		sprintf(string, "%7.1f %c\0", DISPLAY.angle[2], DGREE);
 		VFD_Single_Line_dump(LCD_L1_06, string);
-		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[3], DGREE);
+		sprintf(string, "%7.1f %c\0", DISPLAY.angle[3], DGREE);
 		VFD_Single_Line_dump(LCD_L2_06, string);
 		return;
 	}
@@ -796,9 +796,9 @@ void menu_01_13(unsigned int value, int display)
 		screen_frame3(str);
 		return;
 	} else if(display == 2) {
-		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[4], DGREE);
+		sprintf(string, "%7.1f %c\0", DISPLAY.angle[4], DGREE);
 		VFD_Single_Line_dump(LCD_L1_06, string);
-		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[5], DGREE);
+		sprintf(string, "%7.1f %c\0", DISPLAY.angle[5], DGREE);
 		VFD_Single_Line_dump(LCD_L2_06, string);
 		return;
 	}
@@ -826,9 +826,9 @@ void menu_01_14(unsigned int value, int display)
 		screen_frame3(str);
 		return;
 	} else if(display == 2) {
-		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[6], DGREE);
+		sprintf(string, "%7.1f %c\0", DISPLAY.angle[6], DGREE);
 		VFD_Single_Line_dump(LCD_L1_06, string);
-		sprintf(string, "%7.1f %c\0", DISPLAY.anlge[7], DGREE);
+		sprintf(string, "%7.1f %c\0", DISPLAY.angle[7], DGREE);
 		VFD_Single_Line_dump(LCD_L2_06, string);
 		return;
 	}
@@ -11278,7 +11278,15 @@ void menu_97_07(unsigned int value, int display)
 		if(Screen_Position.select == 0) {
 			DSGR_ANGLE.dgr_angle = DSGR_ANGLE.dgr_angle_temp;
 			DSGR_ANGLE.sgr_angle = DSGR_ANGLE.sgr_angle_temp;
-//		setting_save(&SGR_ANGLE.dgr_angle, DGR_ANGLE_COMP, 2);
+
+			if(setting_save(&DSGR_ANGLE.dgr_angle, DGR_ANGLE_COMP, 2))
+			{
+				setting_load(&DSGR_ANGLE.dgr_angle, 2, DGR_ANGLE_COMP);
+			}
+			else
+			{
+				//FLASH WRITE ERROR pop up 화면
+			}
 
 			Screen_Position.y = 97;
 			Screen_Position.x = 8;
@@ -14232,7 +14240,7 @@ void Event_Item_Display(void)		//khs, 2015-03-31 오후 7:36:32
 			if(temp16 & i_tmp[0]) break;
 			i_tmp[0] <<= 1;
 		}
-		str[0] = temp_int;
+		str[0] = (temp_int == 16)? 0: temp_int;
 		
 		// relay curve (특성 정보인데 사용을 하나?)
 		temp16 = *(EVENT_CONTENT1 + (EVENT.view_point * 18));
