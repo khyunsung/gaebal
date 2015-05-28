@@ -117,7 +117,7 @@ void setting_post_handling(unsigned int *ar_address)
 		DISPLAY.multipllier[4] = CPT.nct_ratio;
 		//ZCT
 //	DISPLAY.multipllier[5] = 133.33333333333333333333333333333; //외부 ZCT 비 = 200:1.5=133.33[mA]=0.13333[A]
-		DISPLAY.multipllier[5] = 1000;
+		DISPLAY.multipllier[5] = 100;
 		DISPLAY.multipllier[7] = CPT.pt_ratio;
 		DISPLAY.multipllier[8] = CPT.pt_ratio;
 		DISPLAY.multipllier[9] = CPT.gpt_ratio;
@@ -156,7 +156,7 @@ void setting_post_handling(unsigned int *ar_address)
 		DISPLAY.multipllier[4] = CPT.nct_ratio;
 		//ZCT
 //		DISPLAY.multipllier[5] = 133.33333333333333333333333333333; //외부 ZCT 비 = 200:1.5=133.33[mA]=0.13333[A]
-		DISPLAY.multipllier[5] = 1000;
+		DISPLAY.multipllier[5] = 100;
 		DISPLAY.multipllier[6] = CPT.pt_ratio;
 		DISPLAY.multipllier[7] = CPT.pt_ratio;
 		DISPLAY.multipllier[8] = CPT.pt_ratio;
@@ -631,13 +631,14 @@ void setting_post_handling(unsigned int *ar_address)
 		P47.Pickup_Threshold *= 0.1;
 	
 		P47.Dropout_Threshold = (float)P47.voltage_set;
-		P47.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
+		P47.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
 	
 		P47.op_status = RELAY_NORMAL;
 		P47.Op_Ratio = 0.0;
 		P47.Op_Phase = 0;
 		P47.Op_Time = 0.0;
-	
+		P47.over_volt_flag = OFF;
+
 		P47.do_output = 0;
 		for(i = 0; i < 8; i++)
 		{
@@ -848,9 +849,7 @@ void setting_post_handling(unsigned int *ar_address)
 			SGR.Op_Ratio = 0.0;
 			SGR.Op_Phase = 0;
 			SGR.Op_Time = 0.0;
-			
-			SGR.delay_ms = SGR.delay_time * 10;
-			SGR.delay_ms -= DEFINITE_PICKUP_LIMIT;
+			SGR.Op_Angle = 0;
 			
 			SGR.do_output = 0;
 			for(i = 0; i < 8; i++)
@@ -860,7 +859,12 @@ void setting_post_handling(unsigned int *ar_address)
 					SGR.do_output |= DO_ON_BIT[i];
 				}
 			}
-	
+
+			SGR.pickup_limit = DEFINITE_PICKUP_LIMIT;
+			
+			SGR.delay_ms = SGR.delay_time * 100; //100msec -> msec로 변환
+			SGR.delay_ms = SGR.delay_ms - DEFINITE_PICKUP_LIMIT - TOTAL_DELAY_67GS;
+
 //		SGR.event_ready = SGR_SET_EVENT;
 //		SGR.event_ready |= 0x00000100;
 			

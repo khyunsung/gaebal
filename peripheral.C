@@ -524,6 +524,8 @@ void key_drive(void)
 					RELAY_STATUS.operation_sum_holding = 0; // 계전요소 누적 상태 변수 클리어
 					SYSTEM.led_on &= ~FAULT_LED; // fault led off
 				}
+				
+				Check_47P_10V();
 			}
 
 			else if((SYSTEM.pushed_key == CB_ON_KEY) || (SYSTEM.pushed_key == CB_OFF_KEY))	// cb on/off

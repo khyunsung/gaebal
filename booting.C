@@ -1481,7 +1481,7 @@ void booting_setting_check(void)
 	DISPLAY.multipllier[3] = CPT.nct_ratio;
 	DISPLAY.multipllier[4] = CPT.nct_ratio;
 //DISPLAY.multipllier[5] = 133.33333333333333333333333333333; //¿ÜºÎ ZCT ºñ = 200:1.5=133.33[mA]=0.13333[A]
-	DISPLAY.multipllier[5] = 1000;
+	DISPLAY.multipllier[5] = 100;
 	DISPLAY.multipllier[6] = CPT.pt_ratio;
 	DISPLAY.multipllier[7] = CPT.pt_ratio;
 	DISPLAY.multipllier[8] = CPT.pt_ratio;

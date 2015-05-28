@@ -8307,8 +8307,12 @@ void menu_80_09(unsigned int value, int display)
 			else													{OVGR.use_temp = ENABLE;}
 		} else if(Screen_Position.select == 1) {
 		//67GD ENABLE TOGGLE
-			if((DGR.use_temp == ENABLE))	{DGR.use_temp = DISABLE;}
-			else													{DGR.use_temp = ENABLE;}
+			if(CORE.gr_select == NCT_SELECT)
+			{
+				if((DGR.use_temp == ENABLE))	{DGR.use_temp = DISABLE;}
+				else													{DGR.use_temp = ENABLE;}
+			}
+			else {DGR.use_temp = DISABLE;}
 		}
 	}
 }
@@ -8336,8 +8340,12 @@ void menu_80_10(unsigned int value, int display)
 		Screen_Position.select = 0;
 	} else if(value == ENTER_KEY) {
 		//67GS ENABLE TOGGLE
-		if((SGR.use_temp == ENABLE))	{SGR.use_temp = DISABLE;}
-		else													{SGR.use_temp = ENABLE;}
+		if(CORE.gr_select == ZCT_SELECT)
+		{
+			if((SGR.use_temp == ENABLE))	{SGR.use_temp = DISABLE;}
+			else													{SGR.use_temp = ENABLE;}
+		}
+		else {SGR.use_temp = DISABLE;}
 	}
 }
 

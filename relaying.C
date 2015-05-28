@@ -927,7 +927,7 @@ void RELAY_P47(void)
 
 		if(P47.op_status == RELAY_DETECT)
 		{
-			if((PROTECT.V1_RMS > P47.Dropout_Threshold)||(PROTECT.V1_RMS < 5.0))
+			if((PROTECT.V1_RMS > P47.Pickup_Threshold)||(PROTECT.V1_RMS < 5.0))
 			{
 					P47.op_status = RELAY_NORMAL;
 					RELAY_STATUS.pickup &= ~F_P47; //계전요소 alarm OFF
@@ -946,7 +946,7 @@ void RELAY_P47(void)
 
 		if(P47.op_status == RELAY_PICKUP)
 		{
-			if((PROTECT.V1_RMS > P47.Dropout_Threshold)||(PROTECT.V1_RMS < 5.0))
+			if((PROTECT.V1_RMS > P47.Pickup_Threshold)||(PROTECT.V1_RMS < 5.0))
 			{
 				P47.op_status = RELAY_NORMAL;
 				RELAY_STATUS.pickup &= ~F_P47; //계전요소 alarm OFF
@@ -963,6 +963,7 @@ void RELAY_P47(void)
 				P47.Op_Phase	= PROTECT.Min_V_Op_Phase; //상
 				P47.Delay_Time = P47.op_count;
 				P47.Op_Time		= P47.Delay_Time + P47.Pickup_Time + TOTAL_DELAY_47P; //동작 시간
+				P47.op_count = 0;
 
 				RELAY_STATUS.pickup									&= ~F_P47; //계전요소 alarm OFF
 				RELAY_STATUS.operation_realtime			|= F_P47;  //현재 동작 상태 변수 설정
@@ -979,7 +980,9 @@ void RELAY_P47(void)
 
 		if(P47.op_status == RELAY_TRIP)
 		{
-			if((PROTECT.V1_RMS > P47.Dropout_Threshold)||(PROTECT.V1_RMS < 5.0))  //under 99% or 5V 보다 작으면
+			if(P47.over_volt_flag==ON)	if(PROTECT.V1_RMS < P47.Pickup_Threshold)   return;
+//		if((PROTECT.V1_RMS > P47.Dropout_Threshold)||(PROTECT.V1_RMS < 5.0))  //under 99% or 5V 보다 작으면
+			if(P47.op_count > 5)
 			{			
 				Relay_Off(P47.do_output); //DO open
 				P47.op_status = RELAY_NORMAL; //P47상태 NORMAL
@@ -1429,7 +1432,7 @@ void RELAY_SGR(void)
 					SGR.Op_Phase	= PROTECT.Is_Op_Phase; //상
 					SGR.Delay_Time = SGR.op_count;
 					SGR.Op_Angle = SGR.diff_angle_deg;
-					SGR.Op_Time		= SGR.Delay_Time + SGR.Pickup_Time + TOTAL_DELAY_67GD; //동작 시간
+					SGR.Op_Time		= SGR.Delay_Time + SGR.Pickup_Time + TOTAL_DELAY_67GS; //동작 시간
 
 					RELAY_STATUS.pickup									&= ~F_SGR; //계전요소 alarm OFF
 					RELAY_STATUS.operation_realtime			|= F_SGR;  //현재 동작 상태 변수 설정
@@ -1538,8 +1541,8 @@ void PROTECTIVE_RELAY(void)
 	RELAY_N47();
 	RELAY_OVR();
 	RELAY_OVGR();
-	RELAY_DGR();
-	RELAY_SGR();
+	if(CORE.gr_select == NCT_SELECT)	{RELAY_DGR();}
+	if(CORE.gr_select == ZCT_SELECT)	{RELAY_SGR();}
 
 	SAMPLE.ending = 0;
 }
