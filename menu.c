@@ -14202,7 +14202,7 @@ void menu_popup(unsigned int value, int display)
 			Screen_Position.x = 1;
 			Screen_Position.select = 0;
 			Screen_Position.data_change = NORMAL_MENU;
-			key_drive();
+			key_drive();key_drive();key_drive();key_drive();
 		}
 	}
 }
