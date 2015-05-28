@@ -14176,7 +14176,11 @@ void menu_popup(unsigned int value, int display)
 	if(i == 15) i = 0;
 	
 	sprintf(str[0], "%s\0", Trip_Message[i][0]);
-	sprintf(str[1], " [Fault Phase: %s ] \0", phase_character[Phase_Info % 11]);
+	if(Phase_Info == 9 || Phase_Info == 10) {
+		sprintf(str[1], "                    \0");
+	} else {
+		sprintf(str[1], " [Fault Phase: %s ] \0", phase_character[Phase_Info % 11]);
+	}
 
 	if(display) {
 		screen_frame2(str);
@@ -14271,7 +14275,13 @@ void Event_Item_Display(void)		//khs, 2015-03-31 오후 7:36:32
 		//"  Ph:AB     Ot: 0.986"
 		if(str[0]) {
 			sprintf(str2[0],"   %s  %s: %.2f   \0", event_relay[str[0]], Event_Volt_Curr[str[0]], ((float)i_tmp[1])/100.0F);
-			sprintf(str2[1],"  Ph:%s   Ot: %.3f   \0", event_phase[temp16], ((float)i_tmp[0])/1000.0F);
+			if(str[0] == 10 || str[0] == 11) {	//47P, 47N
+				sprintf(str2[1],"          Ot: %.3f   \0", event_phase[temp16], ((float)i_tmp[0])/1000.0F);
+			} else if(str[0] == 10 || str[0] == 11) {	//67GD, 67GS
+				sprintf(str2[1],"  %d\x0DF   Ot: %.3f   \0", temp16, ((float)i_tmp[0])/1000.0F);
+			} else {	// 나머지
+				sprintf(str2[1],"  Ph:%s   Ot: %.3f   \0", event_phase[temp16], ((float)i_tmp[0])/1000.0F);
+			}
 		} else {
 			sprintf(str2[0],"   ] NO EVENT !    \x01\0");
 			sprintf(str2[1],"                     \0");
