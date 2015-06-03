@@ -138,9 +138,10 @@ void menu_00_01(unsigned int value, int display)
 			Screen_Position.y = 0;
 			Screen_Position.x = 2;
 		} else {
-//			Screen_Position.y = 4;
-//			Screen_Position.x = 2;
+			Screen_Position.y = 4;
+			Screen_Position.x = 2;
 		}
+		Screen_Position.select = 0;
 	}
 }
 
@@ -1053,27 +1054,33 @@ void menu_04_02(unsigned int value, int display)
 			" [RLYS] ?  [SYS] ?  " };
 	if(display) {
 		screen_frame3(str);
+		if(Screen_Position.select == 0) {
+			cursor_move(1, 8);
+		} else {
+			cursor_move(1, 17);
+		}
 		return;
 	}
 
 	if(value == LEFT_KEY) {
-		Screen_Position.select = 0;
-		cursor_move(13, 40);
+		Screen_Position.select -= 1;
+		Screen_Position.select %= 2;
 	} else if(value == RIGHT_KEY) {
-		Screen_Position.select = 1;
-		cursor_move(13, 50);
-	} else if(value == ENTER_KEY) {
-		if(Screen_Position.select == 0) {
-			Screen_Position.y = 0;
-			Screen_Position.x = 2;
-		} else {
-			Screen_Position.y = 1;
-			Screen_Position.x = 2;
-		}
-	} else if(value == UP_KEY) {
+		Screen_Position.select += 1;
+		Screen_Position.select %= 2;
+	}  else if(value == UP_KEY) {
 		Screen_Position.y = 0;
 		Screen_Position.x = 1;
-	}
+	}	else if(value == ENTER_KEY) {
+		if(Screen_Position.select == 0) {
+			Screen_Position.y = 4;
+			Screen_Position.x = 3;
+		} else {
+			Screen_Position.y = 24;
+			Screen_Position.x = 3;
+		}
+		Screen_Position.select = 0;
+	} 
 }
 
 void menu_04_03(unsigned int value, int display)
@@ -1109,20 +1116,2451 @@ void menu_04_03(unsigned int value, int display)
 		Screen_Position.select = 0;
 	} else if(value == ENTER_KEY) {
 		if(Screen_Position.select == 0) {
-			Screen_Position.y = 4;
-			Screen_Position.x = 4;
-			(OCR50_1.mode == INSTANT) ? (Screen_Position.select = 0) : (Screen_Position.select = 1);
+			if(OCR50_1.mode == INSTANT)
+			{
+				Screen_Position.y = 4;
+				Screen_Position.x = 4;
+			}
+			else
+			{
+				Screen_Position.y = 5;
+				Screen_Position.x = 4;
+			}
+			cursor_move(0, 0);//cursor off
 		} else if(Screen_Position.select == 1) {
-			Screen_Position.y = 43;
-			Screen_Position.x = 4;
-			(OCR50_2.mode == INSTANT) ? (Screen_Position.select = 0) : (Screen_Position.select = 1);
+			if(OCR50_2.mode == INSTANT)
+			{
+				Screen_Position.y = 6;
+				Screen_Position.x = 4;
+			}
+			else
+			{
+				Screen_Position.y = 7;
+				Screen_Position.x = 4;				
+			}
+			cursor_move(0, 0);//cursor off
 		} else if(Screen_Position.select == 2) {
-			Screen_Position.y = 45;
+			Screen_Position.y = 8;
 			Screen_Position.x = 4;
-			(OCR51_1.mode == INVERSE) ? (Screen_Position.select = 0) : (OCR51_1.mode == V_INVERSE) ? (Screen_Position.select = 1) : (Screen_Position.select = 2) ;
+			cursor_move(0, 0);//cursor off
 		}
 	}
 }
+
+void menu_04_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"50-1 SETTING :     %c\0", ENTER);
+	sprintf(str[1],"50-1 MODE :  INST   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 4;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_04_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(CORE.rated_ct == CT_5A) {
+		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCR50_1.current_set*0.1),ENTER);
+		sprintf(str[1],"                    \0");
+	} else {
+		sprintf(str[0], "CURRENT : %5.2f [A]%c\0",(float)(OCR50_1.current_set*0.01),ENTER);
+		sprintf(str[1], "                    \0");
+	}
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 4;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_04_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OCR50_1.do_relay & 0x01)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x02)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x04)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x08)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x10)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x20)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x40)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 4;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_04_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 4;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_05_03(unsigned int value, int display)
+{
+	const char *str[2] = {
+			"<DISP #2> [51-2] ? \1\0",
+			"[50G ] ?  [51G ] ? \2\0" };
+	if(display==1) {
+		screen_frame3(str);
+		if(Screen_Position.select == 0) {
+			cursor_move(0, 17);
+		} else if(Screen_Position.select == 1) {
+			cursor_move(1, 7);
+		} else if(Screen_Position.select == 2) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select == 0)	{Screen_Position.select  = 2;}
+		else														{Screen_Position.select -= 1;}
+	} else if(value == RIGHT_KEY) {
+		Screen_Position.select += 1;
+		Screen_Position.select %= 3;
+	} else if(value == UP_KEY) {
+		Screen_Position.y = 4;
+		Screen_Position.x = 2;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 6;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == ENTER_KEY) {
+		if(Screen_Position.select == 0) {
+			Screen_Position.y = 9;
+			Screen_Position.x = 4;
+			cursor_move(0, 0);//cursor off
+		} else if(Screen_Position.select == 1) {
+			if(OCGR50.mode == INSTANT)
+			{
+				Screen_Position.y = 10;
+				Screen_Position.x = 4;
+			}
+			else
+			{
+				Screen_Position.y = 11;
+				Screen_Position.x = 4;				
+			}
+			cursor_move(0, 0);//cursor off
+		} else if(Screen_Position.select == 2) {
+			Screen_Position.y = 12;
+			Screen_Position.x = 4;
+			cursor_move(0, 0);//cursor off
+		}
+	}
+}
+
+void menu_05_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"50-1 SETTING :     %c\0", ENTER);
+	sprintf(str[1],"50-1 MODE :  DEF    \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 5;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_05_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(CORE.rated_ct == CT_5A) {
+		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCR50_1.current_set*0.1),ENTER);
+		sprintf(str[1],"TIME    : %5.2f[SEC]\0",(float)(OCR50_1.delay_time*0.01));
+	} else { //1A
+			sprintf(str[0],"CURRENT : %5.2f [A]%c\0",(float)(OCR50_1.current_set*0.01),ENTER); //2015.4.27
+			sprintf(str[1],"TIME    : %5.2f[SEC]\0",(float)(OCR50_1.delay_time*0.01));
+	}
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 5;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_05_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OCR50_1.do_relay & 0x01)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x02)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x04)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x08)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x10)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x20)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x40)? FULLDOT: ' ',
+			(OCR50_1.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 5;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_05_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 4;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_06_03(unsigned int value, int display)
+{
+	const char *str[2] = {
+			"<DISP #3> [27R ] ? \1\0",
+			"[27M ] ?  [27S ] ? \2\0" };
+	if(display==1) {
+		screen_frame3(str);
+		if(Screen_Position.select == 0) {
+			cursor_move(0, 17);
+		} else if(Screen_Position.select == 1) {
+			cursor_move(1, 7);
+		} else if(Screen_Position.select == 2) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select == 0)	{Screen_Position.select  = 2;}
+		else														{Screen_Position.select -= 1;}
+	} else if(value == RIGHT_KEY) {
+		Screen_Position.select += 1;
+		Screen_Position.select %= 3;
+	} else if(value == UP_KEY) {
+		Screen_Position.y = 4;
+		Screen_Position.x = 2;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 7;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == ENTER_KEY) {
+		if(Screen_Position.select == 0) {
+			Screen_Position.y = 13;
+			Screen_Position.x = 4;
+			cursor_move(0, 0);//cursor off
+		} else if(Screen_Position.select == 1) {
+			Screen_Position.y = 14;
+			Screen_Position.x = 4;
+			cursor_move(0, 0);//cursor off
+		} else if(Screen_Position.select == 2) {
+			Screen_Position.y = 15;
+			Screen_Position.x = 4;
+			cursor_move(0, 0);//cursor off
+		}
+	}
+}
+
+void menu_06_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"50-2 SETTING :     %c\0", ENTER);
+	sprintf(str[1],"50-2 MODE :  INST   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 6;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_06_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(CORE.rated_ct == CT_5A) {
+		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCR50_2.current_set*0.1),ENTER);
+		sprintf(str[1],"                    \0");
+	} else {
+		sprintf(str[0], "CURRENT : %5.2f [A]%c\0",(float)(OCR50_2.current_set*0.01),ENTER);
+		sprintf(str[1], "                    \0");
+	}
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 6;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_06_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OCR50_2.do_relay & 0x01)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x02)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x04)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x08)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x10)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x20)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x40)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 6;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_06_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 4;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_07_03(unsigned int value, int display)
+{
+	const char *str[2] = {
+			"<DISP #4> [47P ] ? \1\0",
+			"[47N ] ?  [59  ] ? \2\0" };
+	if(display==1) {
+		screen_frame3(str);
+		if(Screen_Position.select == 0) {
+			cursor_move(0, 17);
+		} else if(Screen_Position.select == 1) {
+			cursor_move(1, 7);
+		} else if(Screen_Position.select == 2) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select == 0)	{Screen_Position.select  = 2;}
+		else														{Screen_Position.select -= 1;}
+	} else if(value == RIGHT_KEY) {
+		Screen_Position.select += 1;
+		Screen_Position.select %= 3;
+	} else if(value == UP_KEY) {
+		Screen_Position.y = 4;
+		Screen_Position.x = 2;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 8;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == ENTER_KEY) {
+		if(Screen_Position.select == 0) {
+			Screen_Position.y = 16;
+			Screen_Position.x = 4;
+			cursor_move(0, 0);//cursor off
+		} else if(Screen_Position.select == 1) {
+			Screen_Position.y = 17;
+			Screen_Position.x = 4;
+			cursor_move(0, 0);//cursor off
+		} else if(Screen_Position.select == 2) {
+			if(OVR.mode == DEFINITE)
+			{
+				Screen_Position.y = 18;
+				Screen_Position.x = 4;
+			}
+			else
+			{
+				Screen_Position.y = 19;
+				Screen_Position.x = 4;				
+			}
+			cursor_move(0, 0);//cursor off
+		}
+	}
+}
+
+void menu_07_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"50-2 SETTING :     %c\0", ENTER);
+	sprintf(str[1],"50-2 MODE :  DEF    \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 7;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_07_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(CORE.rated_ct == CT_5A) {
+		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCR50_2.current_set*0.1),ENTER);
+		sprintf(str[1],"TIME    : %5.2f[SEC]\0",(float)(OCR50_2.delay_time*0.01));
+	} else { //1A
+			sprintf(str[0],"CURRENT : %5.2f [A]%c\0",(float)(OCR50_2.current_set*0.01),ENTER); //2015.4.27
+			sprintf(str[1],"TIME    : %5.2f[SEC]\0",(float)(OCR50_2.delay_time*0.01));
+	}
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 7;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_07_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OCR50_2.do_relay & 0x01)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x02)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x04)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x08)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x10)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x20)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x40)? FULLDOT: ' ',
+			(OCR50_2.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 7;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_07_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 4;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_08_03(unsigned int value, int display)
+{
+	const char *str[2] = {
+			"<DISP #5> [64  ] ? \1\0",
+			"[67GD] ?  [67GS] ? \2\0" };
+	if(display==1) {
+		screen_frame3(str);
+		if(Screen_Position.select == 0) {
+			cursor_move(0, 17);
+		} else if(Screen_Position.select == 1) {
+			cursor_move(1, 7);
+		} else if(Screen_Position.select == 2) {
+			cursor_move(1, 17);
+		}
+		return;
+	}
+
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select == 0)	{Screen_Position.select  = 2;}
+		else														{Screen_Position.select -= 1;}
+	} else if(value == RIGHT_KEY) {
+		Screen_Position.select += 1;
+		Screen_Position.select %= 3;
+	} else if(value == UP_KEY) {
+		Screen_Position.y = 4;
+		Screen_Position.x = 2;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 4;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == ENTER_KEY) {
+		if(Screen_Position.select == 0) {
+			if(OVGR.mode == INSTANT)
+			{
+				Screen_Position.y = 20;
+				Screen_Position.x = 4;
+			}
+			else
+			{
+				Screen_Position.y = 21;
+				Screen_Position.x = 4;
+			}			
+			cursor_move(0, 0);//cursor off
+		} else if(Screen_Position.select == 1) {
+			Screen_Position.y = 22;
+			Screen_Position.x = 4;
+			cursor_move(0, 0);//cursor off
+		} else if(Screen_Position.select == 2) {
+			Screen_Position.y = 23;
+			Screen_Position.x = 4;
+			cursor_move(0, 0);//cursor off
+		}
+	}
+}
+
+void menu_08_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"51-1 SETTING :     %c\0", ENTER);
+	sprintf(str[1],"51-1 MODE :  %s   \0",(OCR51_1.mode == INVERSE) ? "INV " : (OCR51_1.mode == V_INVERSE) ? "VINV": "EINV");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 8;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_08_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(CORE.rated_ct == CT_5A) {
+		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCR51_1.current_set*0.1),ENTER);
+		sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OCR51_1.time_lever*0.01));
+	} else { //1A
+			sprintf(str[0],"CURRENT : %5.2f [A]%c\0",(float)(OCR51_1.current_set*0.01),ENTER);
+			sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OCR51_1.time_lever*0.01));
+	}
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 8;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_08_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OCR51_1.do_relay & 0x01)? FULLDOT: ' ',
+			(OCR51_1.do_relay & 0x02)? FULLDOT: ' ',
+			(OCR51_1.do_relay & 0x04)? FULLDOT: ' ',
+			(OCR51_1.do_relay & 0x08)? FULLDOT: ' ',
+			(OCR51_1.do_relay & 0x10)? FULLDOT: ' ',
+			(OCR51_1.do_relay & 0x20)? FULLDOT: ' ',
+			(OCR51_1.do_relay & 0x40)? FULLDOT: ' ',
+			(OCR51_1.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 8;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_08_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 4;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_09_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"51-2 SETTING :     %c\0", ENTER);
+	sprintf(str[1],"51-2 MODE :  %s   \0",(OCR51_2.mode == INVERSE) ? "INV " : (OCR51_2.mode == V_INVERSE) ? "VINV": "EINV");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 9;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_09_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(CORE.rated_ct == CT_5A) {
+		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCR51_2.current_set*0.1),ENTER);
+		sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OCR51_2.time_lever*0.01));
+	} else { //1A
+			sprintf(str[0],"CURRENT : %5.2f [A]%c\0",(float)(OCR51_2.current_set*0.01),ENTER);
+			sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OCR51_2.time_lever*0.01));
+	}
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 9;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_09_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OCR51_2.do_relay & 0x01)? FULLDOT: ' ',
+			(OCR51_2.do_relay & 0x02)? FULLDOT: ' ',
+			(OCR51_2.do_relay & 0x04)? FULLDOT: ' ',
+			(OCR51_2.do_relay & 0x08)? FULLDOT: ' ',
+			(OCR51_2.do_relay & 0x10)? FULLDOT: ' ',
+			(OCR51_2.do_relay & 0x20)? FULLDOT: ' ',
+			(OCR51_2.do_relay & 0x40)? FULLDOT: ' ',
+			(OCR51_2.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 9;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_09_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 5;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_10_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"50G  SETTING :     %c\0", ENTER);
+	sprintf(str[1],"50G  MODE :  INST   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 10;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_10_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(CORE.rated_ct == CT_5A) {
+		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCGR50.current_set*0.1),ENTER);
+		sprintf(str[1],"                    \0");
+	} else { //1A
+		sprintf(str[0], "CURRENT : %5.2f [A]%c\0",(float)(OCGR50.current_set*0.01),ENTER);
+		sprintf(str[1], "                    \0");
+	}
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 10;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_10_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OCGR50.do_relay & 0x01)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x02)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x04)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x08)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x10)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x20)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x40)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 10;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_10_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 5;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_11_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"50G  SETTING :     %c\0", ENTER);
+	sprintf(str[1],"50G  MODE :  DEF    \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 11;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_11_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(CORE.rated_ct == CT_5A) {
+		sprintf(str[0],"CURRENT : %5.1f [A]%c\0",(float)(OCGR50.current_set*0.1),ENTER);
+		sprintf(str[1],"TIME    : %5.2f[SEC]\0",(float)(OCGR50.delay_time*0.01));
+	} else { //1A
+		sprintf(str[0],"CURRENT : %5.2f [A]%c\0",(float)(OCGR50.current_set*0.01),ENTER);
+		sprintf(str[1],"TIME    : %5.2f[SEC]\0",(float)(OCGR50.delay_time*0.01));
+	}
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 11;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_11_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OCGR50.do_relay & 0x01)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x02)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x04)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x08)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x10)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x20)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x40)? FULLDOT: ' ',
+			(OCGR50.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 11;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_11_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 5;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_12_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"51G  SETTING :     %c\0", ENTER);
+	sprintf(str[1],"51G  MODE :  %s   \0",(OCGR51.mode == INVERSE) ? "INV " : (OCGR51.mode == V_INVERSE) ? "VINV": "EINV");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 12;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_12_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"CURRENT : %5.2f [A]%c\0",(float)(OCGR51.current_set*0.01),ENTER);
+	sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OCGR51.time_lever*0.01));
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 12;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_12_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OCGR51.do_relay & 0x01)? FULLDOT: ' ',
+			(OCGR51.do_relay & 0x02)? FULLDOT: ' ',
+			(OCGR51.do_relay & 0x04)? FULLDOT: ' ',
+			(OCGR51.do_relay & 0x08)? FULLDOT: ' ',
+			(OCGR51.do_relay & 0x10)? FULLDOT: ' ',
+			(OCGR51.do_relay & 0x20)? FULLDOT: ' ',
+			(OCGR51.do_relay & 0x40)? FULLDOT: ' ',
+			(OCGR51.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 12;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_12_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 5;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_13_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"27R  SETTING :     %c\0", ENTER);
+	sprintf(str[1],"VOLTAGE  : %5.1f [V]\0",(float)(UVR_1.voltage_set*0.1));
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 13;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_13_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"TIME    :%5.1f[SEC]%c\0",(float)(UVR_1.delay_time*0.1),ENTER);
+	sprintf(str[1],"                    \0");
+	
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 13;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_13_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(UVR_1.do_relay & 0x01)? FULLDOT: ' ',
+			(UVR_1.do_relay & 0x02)? FULLDOT: ' ',
+			(UVR_1.do_relay & 0x04)? FULLDOT: ' ',
+			(UVR_1.do_relay & 0x08)? FULLDOT: ' ',
+			(UVR_1.do_relay & 0x10)? FULLDOT: ' ',
+			(UVR_1.do_relay & 0x20)? FULLDOT: ' ',
+			(UVR_1.do_relay & 0x40)? FULLDOT: ' ',
+			(UVR_1.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 13;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_13_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 6;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_14_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"27M  SETTING :     %c\0", ENTER);
+	sprintf(str[1],"VOLTAGE  : %5.1f [V]\0",(float)(UVR_2.voltage_set*0.1));
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 14;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_14_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"TIME    :%5.1f[SEC]%c\0",(float)(UVR_2.delay_time*0.1),ENTER);
+	sprintf(str[1],"                    \0");
+	
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 14;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_14_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(UVR_2.do_relay & 0x01)? FULLDOT: ' ',
+			(UVR_2.do_relay & 0x02)? FULLDOT: ' ',
+			(UVR_2.do_relay & 0x04)? FULLDOT: ' ',
+			(UVR_2.do_relay & 0x08)? FULLDOT: ' ',
+			(UVR_2.do_relay & 0x10)? FULLDOT: ' ',
+			(UVR_2.do_relay & 0x20)? FULLDOT: ' ',
+			(UVR_2.do_relay & 0x40)? FULLDOT: ' ',
+			(UVR_2.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 14;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_14_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 6;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_15_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"27S  SETTING :     %c\0", ENTER);
+	sprintf(str[1],"VOLTAGE  : %5.1f [V]\0",(float)(UVR_3.voltage_set*0.1));
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 15;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_15_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"TIME    :%5.1f[SEC]%c\0",(float)(UVR_3.delay_time*0.1),ENTER);
+	sprintf(str[1],"                    \0");
+	
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 15;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_15_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(UVR_3.do_relay & 0x01)? FULLDOT: ' ',
+			(UVR_3.do_relay & 0x02)? FULLDOT: ' ',
+			(UVR_3.do_relay & 0x04)? FULLDOT: ' ',
+			(UVR_3.do_relay & 0x08)? FULLDOT: ' ',
+			(UVR_3.do_relay & 0x10)? FULLDOT: ' ',
+			(UVR_3.do_relay & 0x20)? FULLDOT: ' ',
+			(UVR_3.do_relay & 0x40)? FULLDOT: ' ',
+			(UVR_3.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 15;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_15_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 6;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_16_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"47P  SETTING :     %c\0", ENTER);
+	sprintf(str[1],"VOLTAGE  : %5.1f [V]\0",(float)(P47.voltage_set*0.1));
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 16;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_16_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"TIME    :%5.1f[SEC]%c\0",(float)(P47.delay_time*0.1),ENTER);
+	sprintf(str[1],"                    \0");
+	
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 16;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_16_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(P47.do_relay & 0x01)? FULLDOT: ' ',
+			(P47.do_relay & 0x02)? FULLDOT: ' ',
+			(P47.do_relay & 0x04)? FULLDOT: ' ',
+			(P47.do_relay & 0x08)? FULLDOT: ' ',
+			(P47.do_relay & 0x10)? FULLDOT: ' ',
+			(P47.do_relay & 0x20)? FULLDOT: ' ',
+			(P47.do_relay & 0x40)? FULLDOT: ' ',
+			(P47.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 16;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_16_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 7;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_17_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"47N  SETTING :     %c\0", ENTER);
+	sprintf(str[1],"VOLTAGE  : %5.1f [V]\0",(float)(N47.voltage_set*0.1));
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 17;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_17_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"TIME    :%5.1f[SEC]%c\0",(float)(N47.delay_time*0.1),ENTER);
+	sprintf(str[1],"                    \0");
+	
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 17;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_17_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(N47.do_relay & 0x01)? FULLDOT: ' ',
+			(N47.do_relay & 0x02)? FULLDOT: ' ',
+			(N47.do_relay & 0x04)? FULLDOT: ' ',
+			(N47.do_relay & 0x08)? FULLDOT: ' ',
+			(N47.do_relay & 0x10)? FULLDOT: ' ',
+			(N47.do_relay & 0x20)? FULLDOT: ' ',
+			(N47.do_relay & 0x40)? FULLDOT: ' ',
+			(N47.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 17;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_17_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 7;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_18_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"59   SETTING :     %c\0", ENTER);
+	sprintf(str[1],"59   MODE :  DEF    \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 18;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_18_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"VOLTAGE : %5.1f [V]%c\0",(float)(OVR.voltage_set*0.1),ENTER);
+	sprintf(str[1],"TIME    : %5.1f[SEC]\0",(float)(OVR.delay_time*0.1));
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 18;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_18_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OVR.do_relay & 0x01)? FULLDOT: ' ',
+			(OVR.do_relay & 0x02)? FULLDOT: ' ',
+			(OVR.do_relay & 0x04)? FULLDOT: ' ',
+			(OVR.do_relay & 0x08)? FULLDOT: ' ',
+			(OVR.do_relay & 0x10)? FULLDOT: ' ',
+			(OVR.do_relay & 0x20)? FULLDOT: ' ',
+			(OVR.do_relay & 0x40)? FULLDOT: ' ',
+			(OVR.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 18;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_18_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 7;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_19_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"59   SETTING :     %c\0", ENTER);
+	sprintf(str[1],"59   MODE :  INV    \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 19;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_19_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"VOLTAGE : %5.1f [V]%c\0",(float)(OVR.voltage_set*0.1),ENTER);
+	sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OVR.time_lever*0.01));
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 19;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_19_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OVR.do_relay & 0x01)? FULLDOT: ' ',
+			(OVR.do_relay & 0x02)? FULLDOT: ' ',
+			(OVR.do_relay & 0x04)? FULLDOT: ' ',
+			(OVR.do_relay & 0x08)? FULLDOT: ' ',
+			(OVR.do_relay & 0x10)? FULLDOT: ' ',
+			(OVR.do_relay & 0x20)? FULLDOT: ' ',
+			(OVR.do_relay & 0x40)? FULLDOT: ' ',
+			(OVR.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 19;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_19_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 7;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_20_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"64   SETTING :     %c\0", ENTER);
+	sprintf(str[1],"64   MODE :  INST   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 20;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_20_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"VOLTAGE : %5.1f [V]%c\0",(float)(OVGR.voltage_set*0.1),ENTER);
+	sprintf(str[1],"                    \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 20;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_20_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OVGR.do_relay & 0x01)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x02)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x04)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x08)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x10)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x20)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x40)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 20;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_20_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 8;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_21_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"64   SETTING :     %c\0", ENTER);
+	sprintf(str[1],"64   MODE :  INV    \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 21;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_21_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"VOLTAGE : %5.1f [V]%c\0",(float)(OVGR.voltage_set*0.1),ENTER);
+	sprintf(str[1],"OPLEVEL : %5.2f     \0",(float)(OVGR.time_lever*0.01));
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 21;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_21_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(OVGR.do_relay & 0x01)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x02)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x04)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x08)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x10)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x20)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x40)? FULLDOT: ' ',
+			(OVGR.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 21;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_21_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 8;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_22_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(CORE.rated_ct == CT_5A) {
+		sprintf(str[0],"67GD SETTING :     %c\0", ENTER);
+		sprintf(str[1],"CURRENT  : %5.1f [A]\0",(float)(DGR.current_set*0.1));
+	} else { //1A
+		sprintf(str[0],"67GD SETTING :     %c\0", ENTER);
+		sprintf(str[1],"CURRENT  : %5.2f [A]\0",(float)(DGR.current_set*0.01));
+	}
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 22;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_22_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"VOLTAGE  :%5.1f [V]%c\0",(float)(DGR.voltage_set*0.1),ENTER);
+	sprintf(str[1],"TIME     :%5.1f[SEC]\0",(float)(DGR.delay_time*0.1));
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 22;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_22_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"ANGLE    :%4d %c   %c\0",DGR.angle_set,DGREE,ENTER);
+	sprintf(str[1],"                    \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 22;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_22_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(DGR.do_relay & 0x01)? FULLDOT: ' ',
+			(DGR.do_relay & 0x02)? FULLDOT: ' ',
+			(DGR.do_relay & 0x04)? FULLDOT: ' ',
+			(DGR.do_relay & 0x08)? FULLDOT: ' ',
+			(DGR.do_relay & 0x10)? FULLDOT: ' ',
+			(DGR.do_relay & 0x20)? FULLDOT: ' ',
+			(DGR.do_relay & 0x40)? FULLDOT: ' ',
+			(DGR.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 22;
+			Screen_Position.x = 8;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_22_08(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 8;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_23_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"67GS SETTING :     %c\0", ENTER);
+	sprintf(str[1],"CURRENT : %5.1f [mA]\0",(float)(SGR.current_set*0.1));
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 23;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_23_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"VOLTAGE  :%5.1f [V]%c\0",(float)(SGR.voltage_set*0.1),ENTER);
+	sprintf(str[1],"TIME     :%5.1f[SEC]\0",(float)(SGR.delay_time*0.1));
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 23;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_23_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"ANGLE    :%4d %c   %c\0",SGR.angle_set,DGREE,ENTER);
+	sprintf(str[1],"                    \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 23;
+			Screen_Position.x = 7;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_23_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"AUX. 1 2 3 4 5 6 7 8\0");	
+	sprintf(str[1],"RLY. %c %c %c %c %c %c %c %c\0",
+			(SGR.do_relay & 0x01)? FULLDOT: ' ',
+			(SGR.do_relay & 0x02)? FULLDOT: ' ',
+			(SGR.do_relay & 0x04)? FULLDOT: ' ',
+			(SGR.do_relay & 0x08)? FULLDOT: ' ',
+			(SGR.do_relay & 0x10)? FULLDOT: ' ',
+			(SGR.do_relay & 0x20)? FULLDOT: ' ',
+			(SGR.do_relay & 0x40)? FULLDOT: ' ',
+			(SGR.do_relay & 0x80)? FULLDOT: ' '
+	);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 23;
+			Screen_Position.x = 8;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_23_08(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 8;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_24_03(unsigned int value, int display)
+{
+	const char *str[2] = {
+			"[DISPLAY RLYS] ?   \1\0",
+			"[CT,PT RATIO ] ?   \2\0"
+	};
+
+	if(display) {
+		screen_frame3(str);
+		if(Screen_Position.select == 0) {
+			cursor_move(0, 15);
+		} else if (Screen_Position.select == 1) {
+			cursor_move(1, 15);
+		}
+		return;
+	}
+
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 2;
+		Screen_Position.select %= 3;
+	} else if(value == RIGHT_KEY) {
+		if(Screen_Position.select++ >= 2) Screen_Position.select = 0;
+	} else if(value == UP_KEY) {
+		Screen_Position.y = 4;
+		Screen_Position.x = 2;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 25;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == ENTER_KEY) {
+		if(Screen_Position.select == 0) {
+			Screen_Position.y = 24;
+			Screen_Position.x = 4;
+			cursor_move(0, 0);//cursor off
+		} else if(Screen_Position.select == 1) {
+			Screen_Position.y = 25;
+			Screen_Position.x = 4;
+			cursor_move(0, 0);
+		}
+	}
+}
+
+void menu_24_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(display) {
+		sprintf(str[0],"[50   : %s]   \1\0", OCR50_1.use == ENABLE ? "ENABLE " : "DISABLE");  
+		sprintf(str[1],"[51   : %s]   \2\0", OCR51_1.use == ENABLE ? "ENABLE " : "DISABLE");  
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == UP_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 5;
+		cursor_move(0, 0);
+	}
+}
+
+void menu_24_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(display) {
+		sprintf(str[0],"[50G  : %s]   \1\0", OCGR50.use == ENABLE ? "ENABLE " : "DISABLE");  
+		sprintf(str[1],"[51G  : %s]   \2\0", OCGR51.use == ENABLE ? "ENABLE " : "DISABLE");  
+		screen_frame2(str);
+		return;
+	}
+	
+	if(value == UP_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 6;
+		cursor_move(0, 0);
+	}
+}
+
+void menu_24_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(display) {
+		sprintf(str[0],"[27R  : %s]   \1\0", UVR_1.use == ENABLE ? "ENABLE " : "DISABLE");  
+		sprintf(str[1],"[27M  : %s]   \2\0", UVR_2.use == ENABLE ? "ENABLE " : "DISABLE");  
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == UP_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 7;
+		cursor_move(0, 0);
+	}
+}
+
+void menu_24_07(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(display) {
+		sprintf(str[0],"[27S  : %s]   \1\0", UVR_3.use == ENABLE ? "ENABLE " : "DISABLE");  
+		sprintf(str[1],"[47P  : %s]   \2\0", P47.use == ENABLE ? "ENABLE " : "DISABLE");  
+		screen_frame2(str);
+		return;
+	}
+	
+	if(value == UP_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 8;
+		cursor_move(0, 0);
+	}
+}
+
+void menu_24_08(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(display) {
+		sprintf(str[0],"[47N  : %s]   \1\0", N47.use == ENABLE ? "ENABLE " : "DISABLE");  
+		sprintf(str[1],"[59   : %s]   \2\0", OVR.use == ENABLE ? "ENABLE " : "DISABLE");  
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == UP_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 9;
+		cursor_move(0, 0);
+	}
+}
+
+void menu_24_09(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(display) {
+		sprintf(str[0],"[64   : %s]   \1\0", OVGR.use == ENABLE ? "ENABLE " : "DISABLE");  
+		sprintf(str[1],"[67GD : %s]   \2\0", DGR.use == ENABLE ? "ENABLE " : "DISABLE");  
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == UP_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 10;
+		cursor_move(0, 0);
+	}
+}
+
+void menu_24_10(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(display) {
+		sprintf(str[0],"[67GS : %s]   \1\0", SGR.use == ENABLE ? "ENABLE " : "DISABLE");  
+		sprintf(str[1],"                   \2\0");  
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == UP_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 4;
+		cursor_move(0, 0);
+	}
+}
+
+void menu_25_03(unsigned int value, int display)
+{
+	const char *str[2] = {
+			"[DISPLAY TIME] ?   \1\0",
+			"[MODBUS COMM.] ?   \2\0"
+	};
+
+	if(display) {
+		screen_frame3(str);
+		if(Screen_Position.select == 0) {
+			cursor_move(0, 15);
+		} else if (Screen_Position.select == 1) {
+			cursor_move(1, 15);
+		}
+		return;
+	}
+
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 2;
+		Screen_Position.select %= 3;
+	} else if(value == RIGHT_KEY) {
+		if(Screen_Position.select++ >= 2) Screen_Position.select = 0;
+	} else if(value == UP_KEY) {
+		Screen_Position.y = 4;
+		Screen_Position.x = 2;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 24;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == ENTER_KEY) {
+		if(Screen_Position.select == 0) {
+			Screen_Position.y = 26;
+			Screen_Position.x = 4;
+			cursor_move(0, 0);
+		} else if(Screen_Position.select == 1) {
+			Screen_Position.y = 27;
+			Screen_Position.x = 4;
+			Screen_Position.select = 0;
+		}
+	}
+}
+
+void menu_25_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(CORE.gr_select == NCT_SELECT) {
+		if(CORE.rated_ct == CT_5A) {
+			sprintf(str[0],"CT_Ph  : %4d/5 [A]%c\0",CPT.ct_primary,ENTER);
+			sprintf(str[1],"CT_Io  : %4d/5 [A] \0",CPT.nct_primary);
+		} else {
+			sprintf(str[0],"CT_Ph  : %4d/1 [A]%c\0",CPT.ct_primary,ENTER);
+			sprintf(str[1],"CT_Io  : %4d/1 [A] \0",CPT.nct_primary);
+		}
+	} else {
+		if(CORE.rated_ct == CT_5A) {
+			sprintf(str[0],"CT_Ph  : %4d/5 [A]%c\0",CPT.ct_primary,ENTER);
+			sprintf(str[1],"PT_Ph :%6ld/%3d[V]\0",CPT.pt_primary,GPT.pt_secondary);
+		} else {
+			sprintf(str[0],"CT_Ph  : %4d/1 [A]%c\0",CPT.ct_primary,ENTER);
+			sprintf(str[1],"PT_Ph :%6ld/%3d[V]\0",CPT.pt_primary,GPT.pt_secondary);
+		}
+	}
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 25;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+	}
+}
+
+void menu_25_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(CORE.gr_select == NCT_SELECT) {
+		sprintf(str[0],"PT_Ph :%6ld/%3d[V]\0", CPT.pt_primary, GPT.pt_secondary);
+		if(CPT.rated_current >= 1000)	{sprintf(str[1],"RATED CURR : %4d[A]\0",CPT.rated_current/10);}
+		else													{sprintf(str[1],"RATED CURR : %4.1f[A]\0",((float)CPT.rated_current*0.1));}
+	} else {
+		if(CPT.rated_current >= 1000)	{sprintf(str[0],"RATED CURR : %4d[A]\0",CPT.rated_current/10);}
+		else													{sprintf(str[0],"RATED CURR : %4.1f[A]\0",((float)CPT.rated_current*0.1));}
+		sprintf(str[1],"                    \0");
+	}
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 24;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_26_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"  DATE:%2d.%2d.%2d    %c\0",TIME.year,TIME.month,TIME.day,ENTER);
+	sprintf(str[1],"  TIME:%2d:%2d:%2d     \0",TIME.hour,TIME.minute,TIME.second);
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 25;
+			Screen_Position.x = 3;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_27_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(display) {
+		sprintf(str[0],"[BAUD RATE   ] ?   \1\0");  
+		sprintf(str[1],"[RESPONSE DLY] ?    \0");  
+		screen_frame2(str);
+		if(Screen_Position.select == 0) {
+			cursor_move(0, 15);
+		} else if (Screen_Position.select == 1) {
+			cursor_move(1, 15);
+		}
+		return;
+	}
+
+	if(value == LEFT_KEY) {
+		if(Screen_Position.select-- <= 0) Screen_Position.select = 2;
+		Screen_Position.select %= 3;
+	} else if(value == RIGHT_KEY) {
+		if(Screen_Position.select++ >= 2) Screen_Position.select = 0;
+	} else if(value == UP_KEY) {
+		Screen_Position.y = 25;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	}	else if(value == ENTER_KEY) {
+		if(Screen_Position.select == 0) {
+			Screen_Position.y = 27;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);
+		} else if(Screen_Position.select == 1) {
+			Screen_Position.y = 28;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);
+		}
+	}
+}
+
+void menu_27_05(unsigned int value, int display)
+{
+	char *Baud_Rate[5] = {"  9600", " 19200", " 38400", " 57600", "115200"};
+	char str[2][22];
+
+	sprintf(str[0],"Baudrate : %s  %c\0",Baud_Rate[MODBUS.baudrate], ENTER);
+	sprintf(str[1],"                    \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 27;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);
+	}
+}
+
+void menu_27_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                   %c\0", ENTER);
+	sprintf(str[1],"    PRESS ENTER !   \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 27;
+			Screen_Position.x = 4;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_28_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"Resp Delay: %2d[ms] %c\0",MODBUS.delay ,ENTER);
+	sprintf(str[1],"                    \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 27;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);
+	}
+}
+
 
 void menu_29_02(unsigned int value, int display)
 {
@@ -7985,7 +10423,7 @@ void menu_60_15(unsigned int value, int display)
 }
 
 
-void menu_80_03(unsigned int value, int display)  //2015.02.17
+void menu_80_03(unsigned int value, int display)
 {
 	const char *str[2] = {
 			"[SELECT RLYS ] ?   \1\0",
@@ -14516,33 +16954,33 @@ void Event_Time_Display(void)		//khs, 2015-04-03 ¿ÀÈÄ 7:16:58
 const Screen_Function_Pointer menu_tables[200][18] = { //2015.02.17
 		{menu_00_00, menu_00_01, menu_00_02, menu_00_03, menu_00_04, menu_00_05, menu_00_06, menu_00_07, menu_00_08,},	// 00
 		{menu_dummy, menu_01_01, menu_dummy, menu_01_03, menu_01_04, menu_01_05, menu_01_06, menu_01_07, menu_01_08, menu_01_09, menu_01_10,  menu_01_11,  menu_01_12, menu_01_13,  menu_01_14,},    // 01
-		{menu_dummy, menu_02_01, menu_dummy, menu_02_03, menu_02_04, menu_02_05, menu_02_06, },	// 02
-		{menu_dummy, menu_dummy, menu_dummy, menu_03_03, },																			// 03
-		{menu_dummy, menu_dummy, menu_dummy, },    // 04
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 05
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 06
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 07
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 08
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 09
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 10
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 11
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 12
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 13
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 14
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 15
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 16
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 17
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 18
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 19
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 20
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 21
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 22
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 23
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 24
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 25
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 26
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 27
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 28
+		{menu_dummy, menu_02_01, menu_dummy, menu_02_03, menu_02_04, menu_02_05, menu_02_06,},																										 // 02
+		{menu_dummy, menu_dummy, menu_dummy, menu_03_03,},																																												 // 03
+		{menu_dummy, menu_dummy, menu_04_02, menu_04_03, menu_04_04, menu_04_05, menu_04_06, menu_04_07,},																				 // 04
+		{menu_dummy, menu_dummy, menu_dummy, menu_05_03, menu_05_04, menu_05_05, menu_05_06, menu_05_07,},																				 // 05
+		{menu_dummy, menu_dummy, menu_dummy, menu_06_03, menu_06_04, menu_06_05, menu_06_06, menu_06_07,},                                         // 06
+		{menu_dummy, menu_dummy, menu_dummy, menu_07_03, menu_07_04, menu_07_05, menu_07_06, menu_07_07,},                                         // 07
+		{menu_dummy, menu_dummy, menu_dummy, menu_08_03, menu_08_04, menu_08_05, menu_08_06, menu_08_07,},                                         // 08
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_09_04, menu_09_05, menu_09_06, menu_09_07,},                                         // 09
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_10_04, menu_10_05, menu_10_06, menu_10_07,},                                         // 10
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_11_04, menu_11_05, menu_11_06, menu_11_07,},                                         // 11
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_12_04, menu_12_05, menu_12_06, menu_12_07,},                                         // 12
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_13_04, menu_13_05, menu_13_06, menu_13_07,},                                         // 13
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_14_04, menu_14_05, menu_14_06, menu_14_07,},                                         // 14
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_15_04, menu_15_05, menu_15_06, menu_15_07,},                                         // 15
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_16_04, menu_16_05, menu_16_06, menu_16_07,},                                         // 16
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_17_04, menu_17_05, menu_17_06, menu_17_07,},                                         // 17
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_18_04, menu_18_05, menu_18_06, menu_18_07,},                                         // 18
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_19_04, menu_19_05, menu_19_06, menu_19_07,},                                         // 19
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_20_04, menu_20_05, menu_20_06, menu_20_07,},                                         // 20
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_21_04, menu_21_05, menu_21_06, menu_21_07,},                                         // 21
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_22_04, menu_22_05, menu_22_06, menu_22_07, menu_22_08,},                             // 22
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_23_04, menu_23_05, menu_23_06, menu_23_07, menu_23_08,},                             // 23
+		{menu_dummy, menu_dummy, menu_dummy, menu_24_03, menu_24_04, menu_24_05, menu_24_06, menu_24_07, menu_24_08, menu_24_09, menu_24_10,},     // 24
+		{menu_dummy, menu_dummy, menu_dummy, menu_25_03, menu_25_04, menu_25_05,},                                                                 // 25
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_26_04,},                                                                             // 26
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_27_04, menu_27_05, menu_27_06,},                                                     // 27
+		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_28_05,},                                                                 // 28
 		{menu_dummy, menu_dummy, menu_29_02, menu_29_03, },                                                                                        // 29
 		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 30
 		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 31

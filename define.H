@@ -217,7 +217,7 @@
 #define TOTAL_DELAY_59	       25 
 #define TOTAL_DELAY_64	       25
 #define TOTAL_DELAY_67GD       22
-#define TOTAL_DELAY_67GS       32 
+#define TOTAL_DELAY_67GS       25 
 
 #define Ia   0
 #define Ib   1
