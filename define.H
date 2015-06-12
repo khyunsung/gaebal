@@ -28,7 +28,7 @@
 #pragma CODE_SECTION(lcd_character_write, "ramfuncs");
 #pragma CODE_SECTION(power_update, "ramfuncs");
 #pragma CODE_SECTION(delay_us, "ramfuncs");
-#pragma CODE_SECTION(display_time, "ramfuncs");
+//#pragma CODE_SECTION(display_time, "ramfuncs");
 #pragma CODE_SECTION(rtc_handling, "ramfuncs");
 #pragma CODE_SECTION(PROTECTIVE_RELAY, "ramfuncs");
 #pragma CODE_SECTION(Inverse_GetDelayTime, "ramfuncs");
@@ -125,10 +125,8 @@
 #define RELAY_DETECT      1
 #define RELAY_PICKUP      2
 #define RELAY_TRIP   			3
-#define DROPOUT_NORMAL    0
-#define DROPOUT_DETECT    1
 
-#define AUX_RELAY_MAX      0x1ff
+#define AUX_RELAY_MAX      0x0ff
 
 #define INSTANT     0
 #define DEFINITE    1
@@ -850,10 +848,6 @@
 #define COMM_ADDRESS    (unsigned int *)0x18a000
 #define COMM_BAUDRATE   (unsigned int *)0x18a001
 //#define COMM_CRC        (unsigned int *)0x18a002 //이거 열면 에러가 엄청나게 발생
-//
-#define OCGR_DGR_SEL    (unsigned int *)0x18a800
-#define ZCT_TUNNING     (unsigned int *)0x18a801
-#define ZCT_CRC         (unsigned int *)0x18a802
 //-------- FLASH MEMORY ADDRESS(SETTING VALUE) END
 
 //-------- 이전 FLASH MEMORY ADDRESS(MRAM으로 수정 필요)

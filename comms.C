@@ -1930,17 +1930,16 @@ void serial_write(unsigned int ar_length, unsigned int *ar_data, unsigned int *a
 		}
 	}
 	
-	else if(ar_address == OCGR_DGR_SEL)
-	{
-		// sgr 사용 시 setting_save()에서 이벤트 구분하기 위해
-		if(CORE.gr_select == ZCT_SELECT)
-		EVENT.group_extra = 1;
-		
-		// ocgr/dgr 사용 시 setting_save()에서 이벤트 구분하기 위해
-		else
-		EVENT.group_extra = 0;
-	}
-	
+//	else if(ar_address == OCGR_DGR_SEL)
+//	{
+//		// sgr 사용 시 setting_save()에서 이벤트 구분하기 위해
+//		if(CORE.gr_select == ZCT_SELECT)
+//		EVENT.group_extra = 1;
+//		
+//		// ocgr/dgr 사용 시 setting_save()에서 이벤트 구분하기 위해
+//		else
+//		EVENT.group_extra = 0;
+//	}
 	
 	// ack
 	// 일단 설정값 저장 함수를 호출하고 결과가 양호하면 후처리 실행

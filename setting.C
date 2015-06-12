@@ -295,12 +295,20 @@ void setting_post_handling(unsigned int *ar_address)
 
 	else if(ar_address == OCR50_1_USE)
 	{
-		OCR50_1.Pickup_Threshold = (float)OCR50_1.current_set;
-		OCR50_1.Pickup_Threshold *= 0.1;
-		
-		OCR50_1.Dropout_Threshold = (float)OCR50_1.current_set;
-		OCR50_1.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
-		
+		if(CORE.rated_ct == CT_5A) {
+			OCR50_1.Pickup_Threshold = (float)OCR50_1.current_set;
+			OCR50_1.Pickup_Threshold *= 0.1;
+
+			OCR50_1.Dropout_Threshold = (float)OCR50_1.current_set;
+			OCR50_1.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
+		} else {
+//			OCR50_1.Pickup_Threshold = (float)OCR50_1.current_set;
+//			OCR50_1.Pickup_Threshold *= 0.1;
+//
+//			OCR50_1.Dropout_Threshold = (float)OCR50_1.current_set;
+//			OCR50_1.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
+		}
+
 		OCR50_1.op_status = RELAY_NORMAL;
 		OCR50_1.Op_Ratio = 0.0;
 		OCR50_1.Op_Phase = 0;
@@ -334,12 +342,20 @@ void setting_post_handling(unsigned int *ar_address)
 
 	else if(ar_address == OCR50_2_USE)
 	{
-		OCR50_2.Pickup_Threshold = (float)OCR50_2.current_set;
-		OCR50_2.Pickup_Threshold *= 0.1;
-		
-		OCR50_2.Dropout_Threshold = (float)OCR50_2.current_set;
-		OCR50_2.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
-		
+		if(CORE.rated_ct == CT_5A) {
+			OCR50_2.Pickup_Threshold = (float)OCR50_2.current_set;
+			OCR50_2.Pickup_Threshold *= 0.1;
+
+			OCR50_2.Dropout_Threshold = (float)OCR50_2.current_set;
+			OCR50_2.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
+		} else {
+//			OCR50_2.Pickup_Threshold = (float)OCR50_2.current_set;
+//			OCR50_2.Pickup_Threshold *= 0.1;
+//
+//			OCR50_2.Dropout_Threshold = (float)OCR50_2.current_set;
+//			OCR50_2.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
+		}
+
 		OCR50_2.op_status = RELAY_NORMAL;
 		OCR50_2.Op_Ratio = 0.0;
 		OCR50_2.Op_Phase = 0;
@@ -373,12 +389,20 @@ void setting_post_handling(unsigned int *ar_address)
 
 	else if(ar_address == OCR51_1_USE)
 	{
-		OCR51_1.Pickup_Threshold = (float)OCR51_1.current_set;
-		OCR51_1.Pickup_Threshold *= 0.1;
+		if(CORE.rated_ct == CT_5A) {
+			OCR51_1.Pickup_Threshold = (float)OCR51_1.current_set;
+			OCR51_1.Pickup_Threshold *= 0.1;
 	
-		OCR51_1.Dropout_Threshold = (float)OCR51_1.current_set;
-		OCR51_1.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
-		
+			OCR51_1.Dropout_Threshold = (float)OCR51_1.current_set;
+			OCR51_1.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
+		} else {
+//			OCR51_1.Pickup_Threshold = (float)OCR51_1.current_set;
+//			OCR51_1.Pickup_Threshold *= 0.1;
+//
+//			OCR51_1.Dropout_Threshold = (float)OCR51_1.current_set;
+//			OCR51_1.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
+		}
+
 		OCR51_1.op_status = RELAY_NORMAL;
 		OCR51_1.Op_Ratio = 0.0;
 		OCR51_1.Op_Phase = 0;
@@ -402,12 +426,20 @@ void setting_post_handling(unsigned int *ar_address)
 
 	else if(ar_address == OCR51_2_USE)
 	{
-		OCR51_2.Pickup_Threshold = (float)OCR51_2.current_set;
-		OCR51_2.Pickup_Threshold *= 0.1;
+		if(CORE.rated_ct == CT_5A) {
+			OCR51_2.Pickup_Threshold = (float)OCR51_2.current_set;
+			OCR51_2.Pickup_Threshold *= 0.1;
 	
-		OCR51_2.Dropout_Threshold = (float)OCR51_2.current_set;
-		OCR51_2.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
-		
+			OCR51_2.Dropout_Threshold = (float)OCR51_2.current_set;
+			OCR51_2.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
+		} else {
+//			OCR51_2.Pickup_Threshold = (float)OCR51_2.current_set;
+//			OCR51_2.Pickup_Threshold *= 0.1;
+//
+//			OCR51_2.Dropout_Threshold = (float)OCR51_2.current_set;
+//			OCR51_2.Dropout_Threshold *= 0.097; // 0.097 = 0.1 * 0.97
+		}
+
 		OCR51_2.op_status = RELAY_NORMAL;
 		OCR51_2.Op_Ratio = 0.0;
 		OCR51_2.Op_Phase = 0;
@@ -431,12 +463,20 @@ void setting_post_handling(unsigned int *ar_address)
 
 	else if(ar_address == OCGR50_USE)
 	{
-		OCGR50.Pickup_Threshold = (float)OCGR50.current_set;
-		OCGR50.Pickup_Threshold *= 0.1;
-		
-		OCGR50.Dropout_Threshold = (float)OCGR50.current_set;
-		OCGR50.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
-		
+		if(CORE.rated_ct == CT_5A) {
+			OCGR50.Pickup_Threshold = (float)OCGR50.current_set;
+			OCGR50.Pickup_Threshold *= 0.1;
+	
+			OCGR50.Dropout_Threshold = (float)OCGR50.current_set;
+			OCGR50.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
+		} else {
+//		OCGR50.Pickup_Threshold = (float)OCGR50.current_set;
+//		OCGR50.Pickup_Threshold *= 0.1;
+//
+//		OCGR50.Dropout_Threshold = (float)OCGR50.current_set;
+//		OCGR50.Dropout_Threshold *= 0.099; // 0.099 = 0.1 * 0.99
+		}
+
 		OCGR50.op_status = RELAY_NORMAL;
 		OCGR50.Op_Ratio = 0.0;
 		OCGR50.Op_Phase = 0;
@@ -471,12 +511,20 @@ void setting_post_handling(unsigned int *ar_address)
 
 	else if(ar_address == OCGR51_USE)
 	{
-		OCGR51.Pickup_Threshold = (float)OCGR51.current_set;
-		OCGR51.Pickup_Threshold *= 0.01;
-		
-		OCGR51.Dropout_Threshold = (float)OCGR51.current_set;
-		OCGR51.Dropout_Threshold *= 0.0097; // 0.0097 = 0.01 * 0.97
-		
+		if(CORE.rated_ct == CT_5A) {
+			OCGR51.Pickup_Threshold = (float)OCGR51.current_set;
+			OCGR51.Pickup_Threshold *= 0.01;
+	
+			OCGR51.Dropout_Threshold = (float)OCGR51.current_set;
+			OCGR51.Dropout_Threshold *= 0.0097; // 0.0097 = 0.01 * 0.97
+		} else {
+//		OCGR51.Pickup_Threshold = (float)OCGR51.current_set;
+//		OCGR51.Pickup_Threshold *= 0.01;
+//
+//		OCGR51.Dropout_Threshold = (float)OCGR51.current_set;
+//		OCGR51.Dropout_Threshold *= 0.0097; // 0.0097 = 0.01 * 0.97
+		}
+
 		OCGR51.op_status = RELAY_NORMAL;
 		OCGR51.Op_Ratio = 0.0;
 		OCGR51.Op_Phase = 0;
@@ -769,11 +817,19 @@ void setting_post_handling(unsigned int *ar_address)
 	{
 		if(CORE.gr_select == NCT_SELECT)
 		{
-			DGR.Pickup_Threshold_Io = (float)DGR.current_set;
-			DGR.Pickup_Threshold_Io *= 0.1;
-			
-			DGR.Dropout_Threshold_Io = (float)DGR.current_set;
-			DGR.Dropout_Threshold_Io *= 0.097; // 0.097 = 0.1 * 0.97
+			if(CORE.rated_ct == CT_5A) {
+				DGR.Pickup_Threshold_Io = (float)DGR.current_set;
+				DGR.Pickup_Threshold_Io *= 0.1;
+				
+				DGR.Dropout_Threshold_Io = (float)DGR.current_set;
+				DGR.Dropout_Threshold_Io *= 0.097; // 0.097 = 0.1 * 0.97
+			} else {
+//			DGR.Pickup_Threshold_Io = (float)DGR.current_set;
+//			DGR.Pickup_Threshold_Io *= 0.1;
+//
+//			DGR.Dropout_Threshold_Io = (float)DGR.current_set;
+//			DGR.Dropout_Threshold_Io *= 0.097; // 0.097 = 0.1 * 0.97
+			}
 			
 			DGR.Pickup_Threshold_Vo = (float)DGR.voltage_set;
 			DGR.Pickup_Threshold_Vo *= 0.1;
@@ -1241,6 +1297,22 @@ void LOCAL_CTRL_Default_Settings(void)
 	}
 }
 
+void DSGR_ANGLE_Default_Settings(void)
+{
+	//default
+	DSGR_ANGLE.dgr_angle = 0;
+	DSGR_ANGLE.sgr_angle = 0;
+
+	if(setting_save(&DSGR_ANGLE.dgr_angle, DGR_ANGLE_COMP, 2))
+	{
+		setting_load(&DSGR_ANGLE.dgr_angle, 2, DGR_ANGLE_COMP);
+	}
+	else
+	{
+		//FLASH WRITE ERROR pop up È­¸é
+	}
+}
+
 void UVR_MODE_Default_Settings(void)
 {
 	UVR_MODE.setting1 = MANUAL;
@@ -1657,6 +1729,7 @@ void ClearFLASH(void)
 	AUTO_DISPLAY_Default_Settings();
 	PASSWORD_Default_Settings();
 	LOCAL_CTRL_Default_Settings();
+	DSGR_ANGLE_Default_Settings();
 	UVR_MODE_Default_Settings();
 	DISPLAY_3PHASE_Default_Settings();
 	MODBUS_Default_Settings();

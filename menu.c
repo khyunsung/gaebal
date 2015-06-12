@@ -14465,12 +14465,12 @@ void menu_103_04(unsigned int value, int display)
 			OCR_MODE_SET.ocr_mode_temp = OCR_NORMAL;
 			Screen_Position.y = 103;
 			Screen_Position.x = 5;
-			Screen_Position.select = 0;
+			Screen_Position.select = 1;
 		} else if(Screen_Position.select == 1) {
 			OCR_MODE_SET.ocr_mode_temp = OCR_SELECT;
 			Screen_Position.y = 103;
 			Screen_Position.x = 5;
-			Screen_Position.select = 0;
+			Screen_Position.select = 1;
 		}
 	}
 }
@@ -14526,7 +14526,7 @@ void menu_103_06(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0], "  DI SET COMPLETE ! \0");
+	sprintf(str[0], " OCR SET COMPLETE ! \0");
 	sprintf(str[1], "   PRESS ANY KEY !  \0");
 
 	if(display) {
@@ -14545,7 +14545,7 @@ void menu_103_07(unsigned int value, int display)
 {
 	char str[2][22];
 
-	sprintf(str[0], "  DI SET CANCELED ! \0");
+	sprintf(str[0], " OCR SET CANCELED ! \0");
 	sprintf(str[1], "   PRESS ANY KEY !  \0");
 
 	if(display) {

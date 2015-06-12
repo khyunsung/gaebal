@@ -22,18 +22,14 @@ interrupt void SCIRXB_ISR(void);
 interrupt void SCITXINTB_ISR(void);
 interrupt void SCITXINTC_ISR(void);
 
-// manager 대응
 //void manager_handling(void);
 
-// rtc 대응
 void i2c_read(unsigned int, unsigned int, unsigned int);
 void i2c_write(unsigned int, unsigned int, unsigned int, unsigned int *);
 
-// lcd handling
 void lcd_character_write(char);
 void lcd_control_write(char);
 
-// mmi 대응
 void key_drive(void);
 void menu_drive(void);
 
@@ -51,15 +47,6 @@ float Degree_Check(unsigned int);
 // display 계측
 void power_update(void);
 
-void setting_view(float, unsigned int, unsigned int, unsigned int);
-void display_aux_relay(unsigned int);
-void point_setting_left_right_action(unsigned int, unsigned int);
-void point_setting_up_down_action(unsigned int *, unsigned int, unsigned int, unsigned int);
-void ocr50_ocgr50_mode_view(char* const *, unsigned int, unsigned int);
-void ocr50_ocgr50_I_T_view(char* const *, unsigned int, unsigned int, unsigned int);
-void ocr51_ocgr51_mode_view(char* const *, unsigned int, unsigned int);
-void ocr51_ocgr51_I_T_view(char* const *, unsigned int, unsigned int, unsigned int);
-void aux_relay_setting(unsigned int *);
 unsigned int setting_save(unsigned int *, unsigned int *, unsigned int);
 unsigned int setting_load(unsigned int *, unsigned int, unsigned int *);
 unsigned int Setting_CRC(unsigned int *, unsigned int);
@@ -70,12 +57,6 @@ unsigned int setting_min_max_check(unsigned int *, unsigned int, unsigned int);
 unsigned int pt_setting_min_max_check(unsigned long *, unsigned int, unsigned long);
 unsigned int setting_min_max_check_angle(int *, int, int);
 
-void voltage_set_view(char* const *, unsigned int, unsigned int);
-void relay_use_display(char* const *, unsigned int, unsigned int, unsigned int);
-void integer_view(float, unsigned int);
-void integer_setting_left_right_action(unsigned int, unsigned int);
-void integer_setting_up_down_action(void *, unsigned long, unsigned long, unsigned int);
-void display_time(unsigned int *);
 void rtc_handling(void);
 
 unsigned long Inverse_GetDelayTime(int ,float ,float);
@@ -114,30 +95,6 @@ void RELAY_SGR(void);
 void flash_sector_erase(unsigned int *);
 void flash_word_write(unsigned int *, unsigned int);
 
-void core_set_drive(void);
-
-void relay_use_mode_view(unsigned int, unsigned int, unsigned int);
-void relay_settings_view(char* const *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
-void relay_setting_view_handing(unsigned long, unsigned long, unsigned long);
-void relay_use_set_view(unsigned int, unsigned int *, unsigned int);
-void relay_mode_set_view(unsigned int, unsigned int);
-void relay_set_value_view(unsigned int, char* const *, unsigned int, unsigned int, unsigned int);
-
-void lcd_twinkle_display(char *, unsigned int);
-void integer_value_set_handling(unsigned int *, unsigned int, unsigned int, unsigned int, unsigned long);
-void integer_set_value_view(char* const *, float, unsigned int);
-void setting_confirm(unsigned long, unsigned int, unsigned int *, unsigned long, unsigned int *);
-
-void long_value_set_handling(unsigned long *, unsigned int, unsigned int, unsigned int, unsigned long, unsigned long);
-void pt_set_view(char* const *, unsigned int);
-void pt_set_handling(unsigned int *);
-
-void display_do_property(unsigned int);
-void do_property_setting(unsigned int *);
-void di_do_status(unsigned int);
-
-void load_set_value(unsigned int *, unsigned int);
-
 void measure_display(void);
 void measure2_display(void);
 
@@ -148,6 +105,7 @@ void ADDRESS_Default_Settings(void);
 void AUTO_DISPLAY_Default_Settings(void);
 void PASSWORD_Default_Settings(void);
 void LOCAL_CTRL_Default_Settings(void);
+void DSGR_ANGLE_Default_Settings(void);
 void UVR_MODE_Default_Settings(void);
 void DISPLAY_3PHASE_Default_Settings(void);
 void MODBUS_Default_Settings(void);
@@ -176,8 +134,6 @@ void DO_Default_Settings(void);
 void ClearFLASH(void);
 
 void event_direct_save(unsigned long *);
-
-void free_integer_display(char *, unsigned int, unsigned int);
 
 void wave_save_process(void);
 void wave_flash_word_write(unsigned int *, unsigned int);
@@ -209,7 +165,6 @@ void wave_dump_serial_sram(unsigned int *, unsigned int, unsigned int);
 void himix_drive(void);
 void himix_crc(unsigned int);
 
-void relay_value_set_handling(unsigned int *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 void Relay_On(unsigned int);
 void Relay_Off(unsigned int);
 

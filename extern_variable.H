@@ -150,7 +150,7 @@ extern struct
 	unsigned int index;
 	unsigned int sum_count;
 	unsigned int switching;
-	unsigned int switching_index;
+//unsigned int switching_index;
 	unsigned int Power_Up;
 	float power_s[3];
 	float power_p[3];
@@ -243,41 +243,18 @@ extern struct
 
 extern struct
 {
-	// lcd 전체
-	unsigned int refresh_status;
-	unsigned int refresh_count;
 	char *line_buffer1;
 	char *line_buffer2;	
 	
-	char *twinkle_adder;
-	unsigned int twinkle;
-	unsigned int twinkle_status;
-	unsigned int twinkle_addressing1;
-	unsigned int twinkle_count;
-	
-	char twinkle_data1[10];
-
 	// 붙여쓰기
 	char line_data1[20];
 	char line_data2[20];
-	char line_data3[20];
-	char line_data4[20];
 	char *line_1st_adder;
 	char *line_2nd_adder;
-	char *line_3rd_adder;
-	char *line_4th_adder;
-	unsigned int line_1st_count;
-	unsigned int line_2nd_count;
-	unsigned int line_3rd_count;
-	unsigned int line_4th_count;
 	unsigned int line_1st_addressing;
 	unsigned int line_2nd_addressing;
-	unsigned int line_3rd_addressing;
-	unsigned int line_4th_addressing;
 	unsigned int line_1st_status;
 	unsigned int line_2nd_status;
-	unsigned int line_3rd_status;
-	unsigned int line_4th_status;
 } LCD;
 
 extern struct

@@ -11,10 +11,6 @@ extern void real_main(void);
 extern void i2c_setup(void);
 extern void sci_setup(void);
 
-
-//extern void manager_handling(void);
-extern void make_checksum_send(unsigned int);
-
 extern interrupt void XINT3_ISR(void);
 extern interrupt void TINT1_ISR(void);
 //extern interrupt void TINT0_ISR(void);
@@ -22,6 +18,8 @@ extern interrupt void TINT1_ISR(void);
 extern interrupt void SCIRXB_ISR(void);
 extern interrupt void SCITXINTB_ISR(void);
 extern interrupt void SCITXINTC_ISR(void);
+
+//extern void manager_handling(void);
 
 extern void i2c_read(unsigned int, unsigned int, unsigned int);
 extern void i2c_write(unsigned int, unsigned int, unsigned int, unsigned int *);
@@ -44,15 +42,6 @@ extern float DFT_Check(unsigned int, float, float);
 extern void power_update(void);
 extern float Degree_Check(unsigned int);
 
-extern void setting_view(float, unsigned int, unsigned int, unsigned int);
-extern void display_aux_relay(unsigned int);
-extern void point_setting_left_right_action(unsigned int, unsigned int);
-extern void point_setting_up_down_action(unsigned int *, unsigned int, unsigned int, unsigned int);
-extern void ocr50_ocgr50_mode_view(char* const *, unsigned int, unsigned int);
-extern void ocr50_ocgr50_I_T_view(char* const *, unsigned int, unsigned int, unsigned int);
-extern void ocr51_ocgr51_mode_view(char* const *, unsigned int, unsigned int);
-extern void ocr51_ocgr51_I_T_view(char* const *, unsigned int, unsigned int, unsigned int);
-extern void aux_relay_setting(unsigned int *);
 extern unsigned int setting_save(unsigned int *, unsigned int *, unsigned int);
 extern unsigned int setting_load(unsigned int *, unsigned int, unsigned int *);
 extern unsigned int Setting_CRC(unsigned int *, unsigned int);
@@ -63,14 +52,6 @@ extern unsigned int setting_min_max_check(unsigned int *, unsigned int, unsigned
 extern unsigned int pt_setting_min_max_check(unsigned long *, unsigned int, unsigned long);
 extern unsigned int setting_min_max_check_angle(int *, int, int);
 
-extern void voltage_set_view(char* const *, unsigned int, unsigned int);
-
-extern void relay_use_display(char* const *, unsigned int, unsigned int, unsigned int);
-extern void integer_view(float, unsigned int);
-extern void integer_setting_left_right_action(unsigned int, unsigned int);
-extern void integer_setting_up_down_action(void *, unsigned long, unsigned long, unsigned int);
-
-extern void display_time(unsigned int *);
 extern void rtc_handling(void);
 
 extern unsigned long Inverse_GetDelayTime(int, float, float);
@@ -109,30 +90,6 @@ extern void RELAY_SGR(void);
 extern void flash_sector_erase(unsigned int *);
 extern void flash_word_write(unsigned int *, unsigned int);
 
-extern void core_set_drive(void);
-
-extern void relay_use_mode_view(unsigned int, unsigned int, unsigned int);
-extern void relay_settings_view(char* const *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
-extern void relay_setting_view_handing(unsigned long, unsigned long, unsigned long);
-extern void relay_use_set_view(unsigned int, unsigned int *, unsigned int);
-extern void relay_mode_set_view(unsigned int, unsigned int);
-extern void relay_set_value_view(unsigned int, char* const *, unsigned int, unsigned int, unsigned int);
-
-extern void lcd_twinkle_display(char *, unsigned int);
-extern void integer_value_set_handling(unsigned int *, unsigned int, unsigned int, unsigned int, unsigned long);
-extern void integer_set_value_view(char* const *, float, unsigned int);
-extern void setting_confirm(unsigned long, unsigned int, unsigned int *, unsigned long, unsigned int *);
-extern void long_value_set_handling(unsigned long *, unsigned int, unsigned int, unsigned int, unsigned long, unsigned long);
-
-extern void pt_set_view(char* const *, unsigned int);
-extern void pt_set_handling(unsigned int *);
-
-extern void display_do_property(unsigned int);
-extern void do_property_setting(unsigned int *);
-extern void di_do_status(unsigned int);
-
-extern void load_set_value(unsigned int *, unsigned int);
-
 extern void measure_display(void);
 extern void measure2_display(void);
 
@@ -143,6 +100,7 @@ extern void ADDRESS_Default_Settings(void);
 extern void AUTO_DISPLAY_Default_Settings(void);
 extern void PASSWORD_Default_Settings(void);
 extern void LOCAL_CTRL_Default_Settings(void);
+extern void DSGR_ANGLE_Default_Settings(void);
 extern void UVR_MODE_Default_Settings(void);
 extern void DISPLAY_3PHASE_Default_Settings(void);
 extern void MODBUS_Default_Settings(void);
@@ -171,8 +129,6 @@ extern void DO_Default_Settings(void);
 extern void ClearFLASH(void);
 
 extern void event_direct_save(unsigned long *);
-
-extern void free_integer_display(char *, unsigned int, unsigned int);
 
 extern void wave_save_process(void);
 extern void wave_flash_word_write(unsigned int *, unsigned int);
@@ -203,8 +159,6 @@ extern void float_to_integer(float, unsigned int *, float);
 extern void wave_dump_serial_sram(unsigned int *, unsigned int, unsigned int);
 extern void himix_drive(void);
 extern void himix_crc(unsigned int);
-
-extern void relay_value_set_handling(unsigned int *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 
 extern void Relay_On(unsigned int);
 extern void Relay_Off(unsigned int);
