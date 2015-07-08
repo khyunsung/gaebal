@@ -1044,6 +1044,10 @@ struct
 	unsigned int Hz;
 	unsigned int rated_ct;	
 	unsigned int gr_select;
+
+	unsigned int Hz_temp;
+	unsigned int rated_ct_temp;	
+	unsigned int gr_select_temp;
 } CORE;
 
 struct
