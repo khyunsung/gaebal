@@ -1217,6 +1217,17 @@ void float_to_integer(float ar_value, unsigned int *ar_address, float scale)
 	*(ar_address + 2) = (l_temp >> 8) & 0x00ff;   // 차하위 바이트
 	*(ar_address + 3) =  l_temp & 0x00ff;         // 최하위 바이트
 }
+
+void float_to_integer2(float ar_value, unsigned int *ar_address, float scale)
+{
+	unsigned long l_temp;
+	
+	// ar_value의 주소를 point_long 포인터 변수에 전달하여 포인팅 하게 한다.
+	l_temp = (unsigned long)(ar_value * scale);
+	
+	*ar_address = (l_temp >> 8) & 0x00ff;   // 최상위 바이트
+	*(ar_address + 1) =  l_temp & 0x00ff;   // 차상위 바이트
+}
 	
 // raw data로 정정하는 방법 생각해볼것
 // tcs/ccs 감시

@@ -160,6 +160,7 @@ void relay_dropout_to_normal(unsigned int);
 
 void float_to_8bit_fram(void *, unsigned int *, unsigned int);
 void float_to_integer(float, unsigned int *, float);
+void float_to_integer2(float, unsigned int *, float);
 
 void wave_dump_serial_sram(unsigned int *, unsigned int, unsigned int);
 void himix_drive(void);

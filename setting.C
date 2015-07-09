@@ -1044,6 +1044,9 @@ void event_direct_save(unsigned long *ar_event)
 	*(EVENT_INDEX2 + temp)   = (unsigned int)(*ar_event >> 16);
 	*(EVENT_CONTENT1 + temp) = (unsigned int)(*ar_event >> 8);
 	*(EVENT_CONTENT2 + temp) = (unsigned int)*ar_event;
+	*(EVENT_CONTENT2 + temp) |= SysParamFlag;
+	SysParamFlag = 0;
+	
 	
 	// 넘겨받은 이벤트가 계전동작이면 추가정보를 기록해준다
 	// 넘겨받은 것이 정말 계전동작 이벤트라면 넘겨주는 변수 주소는 EVENT.operation

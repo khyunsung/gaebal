@@ -155,6 +155,8 @@ extern void relay_dropout_to_normal(unsigned int);
 
 extern void float_to_8bit_fram(void *, unsigned int *, unsigned int);
 extern void float_to_integer(float, unsigned int *, float);
+extern void float_to_integer2(float, unsigned int *, float);
+
 
 extern void wave_dump_serial_sram(unsigned int *, unsigned int, unsigned int);
 extern void himix_drive(void);

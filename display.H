@@ -1124,36 +1124,40 @@ const char* resetq[2]={" WNARNING! Q CLEAR?",
 //const char* event3[2]={"   ] RELAY SETTING  ",
 //                       "                    "};
 
-const char* event31[2]={"   ] 50   SETTING   ",
-                       "                    "};
-const char* event32[2]={"   ] 50   SETTING   ",
-                       "                    "};
-const char* event33[2]={"   ] 51   SETTING   ",
-                       "                    "};
-const char* event34[2]={"   ] 51   SETTING   ",
-                       "                    "};
-const char* event35[2]={"   ] 50G  SETTING   ",
-                       "                    "};
-const char* event36[2]={"   ] 51G  SETTING   ",
-                       "                    "};
-const char* event37[2]={"   ] 27R  SETTING   ",
-                       "                    "};
-const char* event38[2]={"   ] 27M  SETTING   ",
-                       "                    "};
-const char* event39[2]={"   ] 27S  SETTING   ",
-                       "                    "};
-const char* event3a[2]={"   ] 47P  SETTING   ",
-                       "                    "};
-const char* event3b[2]={"   ] 47N  SETTING   ",
-                       "                    "};
-const char* event3c[2]={"   ] 59  SETTING    ",
-                       "                    "};
-const char* event3d[2]={"   ] 64  SETTING    ",
-                       "                    "};
-const char* event3e[2]={"   ] 67GD  SETTING  ",
-                       "                    "};
-const char* event3f[2]={"   ] 67GS  SETTING  ",
-                       "                    "};
+const char* event31[2]={"   ] 50 PARAMETER   ",
+                       "     RE-SETTING.    "};
+const char* event32[2]={"   ] 50 PARAMETER   ",
+                       "     RE-SETTING.    "};
+const char* event33[2]={"   ] 51 PARAMETER   ",
+                       "     RE-SETTING.    "};
+const char* event34[2]={"   ] 51 PARAMETER   ",
+                       "     RE-SETTING.    "};
+const char* event35[2]={"   ] 50G PARAMETER  ",
+                       "     RE-SETTING.    "};
+const char* event36[2]={"   ] 51G PARAMETER  ",
+                       "     RE-SETTING.    "};
+const char* event37[2]={"   ] 27R PARAMETER  ",
+                       "     RE-SETTING.    "};
+const char* event38[2]={"   ] 27M PARAMETER  ",
+                       "     RE-SETTING.    "};
+const char* event39[2]={"   ] 27S PARAMETER  ",
+                       "     RE-SETTING.    "};
+const char* event3a[2]={"   ] 47P PARAMETER  ",
+                       "     RE-SETTING.    "};
+const char* event3b[2]={"   ] 47N PARAMETER  ",
+                       "     RE-SETTING.    "};
+const char* event3c[2]={"   ] 59 PARAMETER   ",
+                       "     RE-SETTING.    "};
+const char* event3d[2]={"   ] 64 PARAMETER   ",
+                       "     RE-SETTING.    "};
+const char* event3e[2]={"   ] 67GD PARAMETER ",
+                       "     RE-SETTING.    "};
+const char* event3f[2]={"   ] 67GS PARAMETER ",
+                       "     RE-SETTING.    "};
+const char* event40[2]={"   ] RLY PARAMETER  ",
+                       "     RE-SETTING.    "};
+const char* event41[2]={"   ] SYS PARAMETER  ",
+                       "     RE-SETTING.    "};
 
                       //12345678901234567890
 const char* event4[2]={"   ] SYSTEM SETTING ",
@@ -1242,12 +1246,12 @@ const char* Event_Volt_Curr[16]= {"",
                                 "Vr",                           //] 27-1",
                                 "Vr",                           //] 27-2",
                                 "Vr",                           //] 27-3",
-                                "??",                           //] 47P", 
-                                "??",                           //] 47N", 
+                                "Vr",                           //] 47P", 
+                                "Vr",                           //] 47N", 
                                 "Vr",                           //] 59",  
                                 "Vr",                           //] 64",  
-                                "??",                           //] 67N", 
-                                "??",                           //] 67G"  
+                                "Ir",                           //] 67N", 
+                                "Ir",                           //] 67G"  
 																};
 																
 const char* event_set[13]={ "CT/PT",
@@ -1400,7 +1404,7 @@ const char* event_control[4]={  "LOCAL CB OPEN",
 //                      ""};
 
                           //12345678901234567890
-const char* Trip_Message[15][2]={
+const char * const Trip_Message[15][2]={
 													{" 50-1 SHORT CIRCUIT ",		//0
                            " [Fault Phase: Ia ] "},
 													{" 50-2 SHORT CIRCUIT ",    //1

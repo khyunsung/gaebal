@@ -69,7 +69,7 @@ void manager_handling(void)
 			MANAGER.tx_buffer[11] = VERSION;	//Version 2	소수
 
 			
-			i = COMM_CRC(MANAGER.tx_buffer, 11);
+			i = COMM_CRC(MANAGER.tx_buffer, 12);
 			
 			MANAGER.tx_buffer[12] = i >> 8;
 			MANAGER.tx_buffer[13] = i & 0x00ff;
@@ -236,28 +236,32 @@ void manager_handling(void)
 			float_to_integer(DISPLAY.rms_value[Vb], &MANAGER.tx_buffer[10], 1.0F);
 			//Vc
 			float_to_integer(DISPLAY.rms_value[Vc], &MANAGER.tx_buffer[14], 1.0F);
-			//Vn
+			//Vo
 			float_to_integer(DISPLAY.rms_value[Vn], &MANAGER.tx_buffer[18], 1.0F);
-			//Vp
-			float_to_integer(MEASUREMENT.V1_value, &MANAGER.tx_buffer[22], 1.0F);
-			//Vn
-			float_to_integer(MEASUREMENT.V2_value, &MANAGER.tx_buffer[26], 1.0F);
-			//Vb 위상
-			float_to_integer(DISPLAY.angle[1], &MANAGER.tx_buffer[30], 1.0F);
-			//Vc 위상
-			float_to_integer(DISPLAY.angle[2], &MANAGER.tx_buffer[34], 1.0F);
-			//Vo max
-			float_to_integer(ACCUMULATION.vo_max, &MANAGER.tx_buffer[38], 1.0F);
-			//주파수
-			float_to_integer(MEASUREMENT.frequency, &MANAGER.tx_buffer[42], 1.0F);
+			//Vom
+			float_to_integer(ACCUMULATION.vo_max, &MANAGER.tx_buffer[22], 1.0F);
+			//Vavg
+			float_to_integer(DISPLAY.rms_Vavg_value, &MANAGER.tx_buffer[26], 1.0F);
+			//Vps
+			float_to_integer(DISPLAY.V1_value, &MANAGER.tx_buffer[30], 1.0F);
+			//Vns
+			float_to_integer(DISPLAY.V2_value, &MANAGER.tx_buffer[34], 1.0F);
+			//∠Vab
+			float_to_integer(DISPLAY.angle[0], &MANAGER.tx_buffer[38], 10.0F);
+			//∠Vbc
+			float_to_integer(DISPLAY.angle[1], &MANAGER.tx_buffer[42], 10.0F);
+			//∠Vca
+			float_to_integer(DISPLAY.angle[2], &MANAGER.tx_buffer[46], 10.0F);
+			//∠Vo
+			float_to_integer(DISPLAY.angle[3], &MANAGER.tx_buffer[50], 10.0F);
 			
 			
-			i = COMM_CRC(MANAGER.tx_buffer, 46);
+			i = COMM_CRC(MANAGER.tx_buffer, 54);
 			
-			MANAGER.tx_buffer[46] = i >> 8;
-			MANAGER.tx_buffer[47] = i & 0x00ff;
+			MANAGER.tx_buffer[54] = i >> 8;
+			MANAGER.tx_buffer[55] = i & 0x00ff;
 			
-			MANAGER.tx_length = 48;
+			MANAGER.tx_length = 56;
 			
 			MANAGER.isr_tx = MANAGER.tx_buffer;
 			
@@ -274,7 +278,7 @@ void manager_handling(void)
 		{
 			// length
 			MANAGER.tx_buffer[4] = 0;
-			MANAGER.tx_buffer[5] = 40;
+			MANAGER.tx_buffer[5] = 0x4e;
 			
 			//Ia
 			float_to_integer(DISPLAY.rms_value[Ia], &MANAGER.tx_buffer[6], 10.0F);
@@ -283,31 +287,78 @@ void manager_handling(void)
 			//Ic
 			float_to_integer(DISPLAY.rms_value[Ic], &MANAGER.tx_buffer[14], 10.0F);
 			//Io
-			if(CORE.gr_select == ZCT_SELECT)
-			float_to_integer(DISPLAY.rms_value[Is], &MANAGER.tx_buffer[18], 10.0F);
+			if(CORE.gr_select == NCT_SELECT)
+			float_to_integer(DISPLAY.rms_value[In], &MANAGER.tx_buffer[18], 10.0F);
 			
 			else
-			float_to_integer(DISPLAY.rms_value[In], &MANAGER.tx_buffer[18], 10.0F);
-			//Ip
-			float_to_integer(MEASUREMENT.I1_value, &MANAGER.tx_buffer[22], 10.0F);
+			float_to_integer(DISPLAY.rms_value[Is], &MANAGER.tx_buffer[18], 10.0F);
+			//Iavg
+			float_to_integer(DISPLAY.rms_Iavg_value, &MANAGER.tx_buffer[22], 10.0F);
+			//Ips
+			float_to_integer(DISPLAY.I1_value, &MANAGER.tx_buffer[26], 10.0F);
 			//Ins
-			float_to_integer(MEASUREMENT.I2_value, &MANAGER.tx_buffer[26], 10.0F);
-			//IA 위상
-			float_to_integer(DISPLAY.angle[3], &MANAGER.tx_buffer[30], 1.0F);
-			//Ib 위상
-			float_to_integer(DISPLAY.angle[4], &MANAGER.tx_buffer[34], 1.0F);
-			//Ic 위상
-			float_to_integer(DISPLAY.angle[5], &MANAGER.tx_buffer[38], 1.0F);
-			//Io max
-			float_to_integer(ACCUMULATION.io_max, &MANAGER.tx_buffer[42], 1.0F);
+			float_to_integer(DISPLAY.I2_value, &MANAGER.tx_buffer[30], 10.0F);
 			
+			//Ia 3rd
+			float_to_integer2(1, &MANAGER.tx_buffer[34], 10.0F);
+			//Ia 5th           
+			float_to_integer2(2, &MANAGER.tx_buffer[36], 10.0F);
+			//Ia 7th           
+			float_to_integer2(3, &MANAGER.tx_buffer[38], 10.0F);
+			//Ia 9th           
+			float_to_integer2(4, &MANAGER.tx_buffer[40], 10.0F);
+			//Ia 11th          
+			float_to_integer2(5, &MANAGER.tx_buffer[42], 10.0F);
+			//Ia THDFacter     
+			float_to_integer2(6, &MANAGER.tx_buffer[44], 10.0F);
+			//Ia TDDFacter     
+			float_to_integer2(7, &MANAGER.tx_buffer[46], 10.0F);
+
+			//Ib 3rd
+			float_to_integer2(1, &MANAGER.tx_buffer[48], 10.0F);
+			//Ib 5th           
+			float_to_integer2(2, &MANAGER.tx_buffer[50], 10.0F);
+			//Ib 7th           
+			float_to_integer2(3, &MANAGER.tx_buffer[52], 10.0F);
+			//Ib 9th           
+			float_to_integer2(4, &MANAGER.tx_buffer[54], 10.0F);
+			//Ib 11th          
+			float_to_integer2(5, &MANAGER.tx_buffer[56], 10.0F);
+			//Ib THDFacter     
+			float_to_integer2(6, &MANAGER.tx_buffer[58], 10.0F);
+			//Ib TDDFacter     
+			float_to_integer2(7, &MANAGER.tx_buffer[60], 10.0F);
+
+			//Ic 3rd
+			float_to_integer2(1, &MANAGER.tx_buffer[62], 10.0F);
+			//Ic 5th
+			float_to_integer2(2, &MANAGER.tx_buffer[64], 10.0F);
+			//Ic 7th
+			float_to_integer2(3, &MANAGER.tx_buffer[66], 10.0F);
+			//Ic 9th
+			float_to_integer2(4, &MANAGER.tx_buffer[68], 10.0F);
+			//Ic 11th
+			float_to_integer2(5, &MANAGER.tx_buffer[70], 10.0F);
+			//Ic THDFacter
+			float_to_integer2(6, &MANAGER.tx_buffer[72], 10.0F);
+			//Ic TDDFacter
+			float_to_integer2(7, &MANAGER.tx_buffer[74], 10.0F);
 			
-			i = COMM_CRC(MANAGER.tx_buffer, 46);
+			//∠Ia
+			float_to_integer2(DISPLAY.angle[4], &MANAGER.tx_buffer[76], 10.0F);
+			//∠Ib
+			float_to_integer2(DISPLAY.angle[5], &MANAGER.tx_buffer[78], 10.0F);
+			//∠Ic
+			float_to_integer2(DISPLAY.angle[6], &MANAGER.tx_buffer[80], 10.0F);
+			//∠Io
+			float_to_integer2(DISPLAY.angle[7], &MANAGER.tx_buffer[82], 10.0F);
+		
+			i = COMM_CRC(MANAGER.tx_buffer, 84);
 			
-			MANAGER.tx_buffer[46] = i >> 8;
-			MANAGER.tx_buffer[47] = i & 0x00ff;
+			MANAGER.tx_buffer[84] = i >> 8;
+			MANAGER.tx_buffer[85] = i & 0x00ff;
 			
-			MANAGER.tx_length = 48;
+			MANAGER.tx_length = 86;
 			
 			MANAGER.isr_tx = MANAGER.tx_buffer;
 			
@@ -437,27 +488,31 @@ void manager_handling(void)
 			MANAGER.tx_buffer[4] = 0;
 			MANAGER.tx_buffer[5] = 28;
 			
-			//유효
+			//참고 - 전력값은 아직 값 구현이 안되어 있기 때문에 나중에 넣기로 함. 2015-06-18 오후 5:34:35
+			//밑에 있는 전송 값은 임의의 무관한 값임.
+			//유효전력
 			float_to_integer(DISPLAY.p3, &MANAGER.tx_buffer[6], 10.0F);
-			//무효
+			//무효전력	
 			float_to_integer(DISPLAY.q3, &MANAGER.tx_buffer[10], 10.0F);
-			//유효량
+			//power factor
 			float_to_integer(ACCUMULATION.energy_p, &MANAGER.tx_buffer[14], 1.0F);
-			//무효량
+			//frequency	
 			float_to_integer(ACCUMULATION.energy_q, &MANAGER.tx_buffer[18], 1.0F);			
-			//역유효량
+			//유효전력량	
 			float_to_integer(ACCUMULATION.energy_rp, &MANAGER.tx_buffer[22], 1.0F);
-			//역무효량
+			//무효전력량	
 			float_to_integer(ACCUMULATION.energy_rq, &MANAGER.tx_buffer[26], 1.0F);
-			//역률
+			//역유효전력량
 			float_to_integer(DISPLAY.pf3, &MANAGER.tx_buffer[30], 100.0F);
+			//역무효전력량	
+			float_to_integer(DISPLAY.pf3, &MANAGER.tx_buffer[34], 100.0F);
 			
 			i = COMM_CRC(MANAGER.tx_buffer, 34);
 			
-			MANAGER.tx_buffer[34] = i >> 8;
-			MANAGER.tx_buffer[35] = i & 0x00ff;
+			MANAGER.tx_buffer[38] = i >> 8;
+			MANAGER.tx_buffer[39] = i & 0x00ff;
 			
-			MANAGER.tx_length = 36;
+			MANAGER.tx_length = 40;
 			
 			MANAGER.isr_tx = MANAGER.tx_buffer;
 			

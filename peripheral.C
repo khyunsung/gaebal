@@ -242,7 +242,7 @@ void VFD_Single_Line_dump(char position, const char *string_high)
 	int i;
 
 	lcd_control_write(position);
-	delay_us(1000);
+	delay_us(1);
 
 	for(i = 0; i < 20; i++)
 	{
@@ -252,10 +252,10 @@ void VFD_Single_Line_dump(char position, const char *string_high)
 		else
 		lcd_character_write(string_high[i]);
 
-		delay_us(1000);
+		delay_us(1);
 	}
 
-	delay_us(1000);
+	delay_us(1);
 }
 
 void VFD_Word_dump(char position, char length, const char *string_high)

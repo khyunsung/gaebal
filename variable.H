@@ -1919,4 +1919,5 @@ unsigned int Calibration_Menu_Escape = 0;
 unsigned int Popup_OpPhase_Info = 0;
 unsigned int Phase_Info = 0;
 unsigned int Popup_Action = 0;
+unsigned int SysParamFlag = 0;
 #endif
