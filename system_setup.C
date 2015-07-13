@@ -346,8 +346,10 @@ void GPIO_setup(void)
 	// GPIO16 ~ GPIO31
 	// 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16
 	//  x  x  x  x  1  x  1  1  x  x  x  x  1  1  0  1
-	*GpioCtrlRegs_GPADIR_High = 0x0b0d;
-	*GpioCtrlRegs_GPAPUD_High = 0x0b0d;
+//	*GpioCtrlRegs_GPADIR_High = 0x0b0d;	2015-07-10 ¿ÀÈÄ 1:50:23
+//	*GpioCtrlRegs_GPAPUD_High = 0x0b0d;
+	*GpioCtrlRegs_GPADIR_High = 0x0f0d;
+	*GpioCtrlRegs_GPAPUD_High = 0x0f0d;
 	
 	// GPIO32 ~ GPIO47
 	// 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32

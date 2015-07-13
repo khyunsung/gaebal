@@ -2118,90 +2118,100 @@ void comm_drive(void)
 			if(COMM.index == 0)
 			{
 				//Ia
-				float_to_integer(DISPLAY.rms_value[Ia], COMM_2_Ia, 10.0F);
+				float_to_integer(DISPLAY.rms_value[Ia], COMM2_IA, 10.0F);
 				//Ib
-				float_to_integer(DISPLAY.rms_value[Ib], COMM_2_Ib, 10.0F);
+				float_to_integer(DISPLAY.rms_value[Ib], COMM2_IB, 10.0F);
 				//Ic
-				float_to_integer(DISPLAY.rms_value[Ic], COMM_2_Ic, 10.0F);
+				float_to_integer(DISPLAY.rms_value[Ic], COMM2_IC, 10.0F);
+
 				//Io
 				if(CORE.gr_select == ZCT_SELECT)
-				float_to_integer(DISPLAY.rms_value[Is], COMM_2_Io, 10.0F);
-				
+				float_to_integer(DISPLAY.rms_value[Is], COMM2_IN, 10.0F);
 				else
-				float_to_integer(DISPLAY.rms_value[In], COMM_2_Io, 10.0F);
+				float_to_integer(DISPLAY.rms_value[In], COMM2_IN, 10.0F);
 				
-				//Io max
-				float_to_integer(ACCUMULATION.io_max, COMM_2_Io_max, 10.0F);
+				//Iavg
+				float_to_integer(DISPLAY.rms_Iavg_value, COMM2_IAVG, 10.0F);
+				//Ips
+				float_to_integer(DISPLAY.I1_value, COMM2_IPS, 10.0F);
+				//Ins
+				float_to_integer(DISPLAY.I2_value, COMM2_INS, 10.0F);
 			}
 			
 			else if(COMM.index == 1)
-			{
-				//Ips
-				float_to_integer(MEASUREMENT.I1_value, COMM_2_Ips, 10.0F);
-				//Ins
-				float_to_integer(MEASUREMENT.I2_value, COMM_2_Ins, 10.0F);
+			{	//2015-07-09 오후 8:10:13 아직 전달 값이 없어 매핑 안됨.
 				//Ia 3rd
-				float_to_integer(HARMONICS.ia[0], COMM_2_Ia_3rd, 10.0F);
+				float_to_integer2(HARMONICS.ia[0], COMM2_IA_3RD, 10.0F);
 				//Ia 5th
-				float_to_integer(HARMONICS.ia[1], COMM_2_Ia_5th, 10.0F);
+				float_to_integer2(HARMONICS.ia[1], COMM2_IA_5TH, 10.0F);
 				//Ia 7th
-				float_to_integer(HARMONICS.ia[2], COMM_2_Ia_7th, 10.0F);
+				float_to_integer2(HARMONICS.ia[2], COMM2_IA_7TH, 10.0F);
 				//Ia 9th
-				float_to_integer(HARMONICS.ia[3], COMM_2_Ia_9th, 10.0F);
+				float_to_integer2(HARMONICS.ia[3], COMM2_IA_9TH, 10.0F);
+				//Ia 11th
+				float_to_integer2(HARMONICS.ia[3], COMM2_IA_11TH, 10.0F);
+				//Ia thd
+				float_to_integer2(HARMONICS.ia[4], COMM2_IA_THDFACTER, 1);
+				//Ia tdd
+				float_to_integer2(HARMONICS.ia[5], COMM2_IA_TDDFACTER, 1);
 			}
 			
 			else if(COMM.index == 2)
-			{
-				//Ia thd
-				float_to_integer(HARMONICS.ia[4], COMM_2_Ia_thd, 1);
-				//Ia tdd
-				float_to_integer(HARMONICS.ia[5], COMM_2_Ia_tdd, 1);
+			{ //2015-07-09 오후 8:10:13 아직 전달 값이 없어 매핑 안됨.
 				//Ib 3rd
-				float_to_integer(HARMONICS.ib[0], COMM_2_Ib_3rd, 1);
+				float_to_integer2(HARMONICS.ib[0], COMM2_IB_3RD, 10.0F);
 				//Ib 5th
-				float_to_integer(HARMONICS.ib[1], COMM_2_Ib_5th, 1);
+				float_to_integer2(HARMONICS.ib[1], COMM2_IB_5TH, 10.0F);
 				//Ib 7th
-				float_to_integer(HARMONICS.ib[2], COMM_2_Ib_7th, 1);
+				float_to_integer2(HARMONICS.ib[2], COMM2_IB_7TH, 10.0F);
 				//Ib 9th
-				float_to_integer(HARMONICS.ib[3], COMM_2_Ib_9th, 1);
+				float_to_integer2(HARMONICS.ib[3], COMM2_IB_9TH, 10.0F);
+				//Ib 11th
+				float_to_integer2(HARMONICS.ib[3], COMM2_IB_11TH, 10.0F);
+				//Ib thd
+				float_to_integer2(HARMONICS.ib[4], COMM2_IB_THDFACTER, 1);
+				//Ib tdd
+				float_to_integer2(HARMONICS.ib[5], COMM2_IB_TDDFACTER, 1);
 			}
 			
 			else if(COMM.index == 3)
-			{
-				//Ib thd
-				float_to_integer(HARMONICS.ib[4], COMM_2_Ib_thd, 1);
-				//Ib tdd
-				float_to_integer(HARMONICS.ib[5], COMM_2_Ib_tdd, 1);
+			{ //2015-07-09 오후 8:10:13 아직 전달 값이 없어 매핑 안됨.
 				//Ic 3rd
-				float_to_integer(HARMONICS.ic[0], COMM_2_Ic_3rd, 1);
+				float_to_integer2(HARMONICS.ic[0], COMM2_IC_3RD, 10.0F);
 				//Ic 5th
-				float_to_integer(HARMONICS.ic[1], COMM_2_Ic_5th, 1);
+				float_to_integer2(HARMONICS.ic[1], COMM2_IC_5TH, 10.0F);
 				//Ic 7th
-				float_to_integer(HARMONICS.ic[2], COMM_2_Ic_7th, 1);
+				float_to_integer2(HARMONICS.ic[2], COMM2_IC_7TH, 10.0F);
 				//Ic 9th
-				float_to_integer(HARMONICS.ic[3], COMM_2_Ic_9th, 1);
+				float_to_integer2(HARMONICS.ic[3], COMM2_IC_9TH, 10.0F);
+				//Ic 11th
+				float_to_integer2(HARMONICS.ic[3], COMM2_IC_11TH, 10.0F);
+				//Ic thd
+				float_to_integer2(HARMONICS.ic[4], COMM2_IC_THDFACTER, 1);
+				//Ic tdd
+				float_to_integer2(HARMONICS.ic[5], COMM2_IC_TDDFACTER, 1);
 			}
 			
 			else if(COMM.index == 4)
 			{
-				//Ic thd
-				float_to_integer(HARMONICS.ic[4], COMM_2_Ic_thd, 1);
-				//Ic tdd
-				float_to_integer(HARMONICS.ic[5], COMM_2_Ic_tdd, 1);
-				
-//			if(TRANSFORMER.pt_wiring == P3W3)
-				{
-					//선간
+					//선간, 2015-07-09 오후 8:16:17 확인
 					//Vab
-					float_to_integer(DISPLAY.rms_value[Va], COMM_2_Vab, 1);
+					float_to_integer(DISPLAY.rms_value[Va], COMM2_VA, 1);
 					//Vbc
-					float_to_integer(DISPLAY.rms_value[Vb], COMM_2_Vbc, 1);
+					float_to_integer(DISPLAY.rms_value[Vb], COMM2_VB, 1);
 					//Vca
-					float_to_integer(DISPLAY.rms_value[Vc], COMM_2_Vca, 1);
-					
-					//Va 허당
-					float_to_integer(float_temp, COMM_2_Va, 1);
-				}
+					float_to_integer(DISPLAY.rms_value[Vc], COMM2_VC, 1);
+					//Vo
+					float_to_integer(DISPLAY.rms_value[Vn], COMM2_VO, 1);
+					//Vo_max
+					float_to_integer(ACCUMULATION.vo_max, COMM2_VO_MAX, 1);
+					//Vavg
+					float_to_integer(DISPLAY.rms_Vavg_value, COMM2_VAVG, 1);
+					//Vps
+					float_to_integer(DISPLAY.V1_value, COMM2_VPS, 1);
+					//Vns
+					float_to_integer(DISPLAY.V2_value, COMM2_VNS, 1);
+
 //				else //3상4선
 //				{
 //					//선간
@@ -2220,67 +2230,52 @@ void comm_drive(void)
 			
 			else if(COMM.index == 5)
 			{
-//			if(TRANSFORMER.pt_wiring == P3W3)
-				{
-					//Vb 허당
-					float_to_integer(float_temp, COMM_2_Vb, 1);
-					//Vc 허당
-					float_to_integer(float_temp, COMM_2_Vc, 1);
-				}
-//				else //3상4선
-//				{
-//					//Vb
-//					float_to_integer(DISPLAY.rms_value[Vb], COMM_2_Vb, 1);
-//					//Vc
-//					float_to_integer(DISPLAY.rms_value[Vc], COMM_2_Vc, 1);
-//				}
+				*(COMM2_DI_AND_CB_STATUS + 1) = (RELAY_STATUS.operation_sum_holding)?1: 0;
+				*COMM2_DI_AND_CB_STATUS = DIGITAL_INPUT.di_status;
+
+				*(COMM2_REALY_STATUS + 1) = RELAY_STATUS.operation_sum_holding >> 2;
+				*(COMM2_REALY_STATUS + 1) &= ~0x0f;
+				*(COMM2_REALY_STATUS + 1) |= (RELAY_STATUS.operation_sum_holding & 0x03)? 0x01: 0;
+				*(COMM2_REALY_STATUS + 1) |= (RELAY_STATUS.operation_sum_holding & 0x0c)? 0x02: 0;
+				*COMM2_REALY_STATUS = RELAY_STATUS.operation_sum_holding >> 8;
+																						                                      
+				*(COMM2_FAULT_PHASE_INFO + 1) = 0;
+				*(COMM2_FAULT_PHASE_INFO + 1) = (Phase_Info <= 4)? Phase_Info: (Phase_Info - 6);
+				//  0     1    2    3    4     5    6     7     8     9   10
+				//{" ", "Ia","Ib","Ic","In","In2","Is","Vab","Vbc","Vca","Vn"};
 				
-				//Vn
-				float_to_integer(DISPLAY.rms_value[Vn], COMM_2_Vo, 1);
-				//Vn max
-				float_to_integer(ACCUMULATION.vo_max, COMM_2_Vo_max, 1);
-				//Vp
-				float_to_integer(MEASUREMENT.V1_value, COMM_2_Vps, 1);
-				//Vn
-				float_to_integer(MEASUREMENT.V2_value, COMM_2_Vns, 1);
+				//COMM2_FAULT_RATIO_INFO		<=== 서비스 없음
+				//COMM2_RELAY_OPERATION_TIME	<=== 서비스 없음
+				//COMM2_RUNNING_HOUR_METER		<=== 값이 구현되어 매핑되면 넣을 것.
 			}
 			
 			else if(COMM.index == 6)
 			{
-				//Vb 위상
-				float_to_integer(DISPLAY.angle[1], COMM_2_Vb_degree, 1);
-				//Vc 위상
-				float_to_integer(DISPLAY.angle[2], COMM_2_Vc_degree, 1);
-				//Ia 위상
-				float_to_integer(DISPLAY.angle[3], COMM_2_Ia_degree, 1);
-				//Ib 위상
-				float_to_integer(DISPLAY.angle[4], COMM_2_Ib_degree, 1);
-				//Ic 위상
-				float_to_integer(DISPLAY.angle[5], COMM_2_Ic_degree, 1);
-				//역률
-				float_to_integer(DISPLAY.pf3, COMM_2_pf, 1);
+
 			}
 			
 			else if(COMM.index == 7)
-			{
-				//주파수
-				float_to_integer(MEASUREMENT.frequency, COMM_2_frequency, 1);
+			{ //2015-07-09 오후 8:10:13 아직 전달 값이 없어 매핑 안됨.
 				//유효전력
-				float_to_integer(DISPLAY.p3, COMM_2_P, 1);
+				float_to_integer(DISPLAY.p3, COMM2_ACTIVE_PWR, 1);
 				//무효전력
-				float_to_integer(DISPLAY.q3, COMM_2_Q, 1);
+				float_to_integer(DISPLAY.q3, COMM2_REACTIVE_PWR, 1);
+				//역률
+				float_to_integer(DISPLAY.pf3, COMM2_POWER_FACTOR, 1);
+				//주파수
+				float_to_integer(MEASUREMENT.frequency, COMM2_FREQUENCY, 1);
 				//유효전력량
-				float_to_integer(ACCUMULATION.energy_p, COMM_2_PE, 1);
+				float_to_integer(ACCUMULATION.energy_p, COMM2_ACTIVE_ENERGY, 1);
 				//무효전력량
-				float_to_integer(ACCUMULATION.energy_q, COMM_2_QE, 1);
+				float_to_integer(ACCUMULATION.energy_q, COMM2_REACTIVE_ENERGY, 1);
 				//역유효전력량
-				float_to_integer(ACCUMULATION.energy_rp, COMM_2_PEr, 1);
+				float_to_integer(ACCUMULATION.energy_rp, COMM2_REVERSE_ENGERY, 1);
+				//역무효전력량
+				float_to_integer(ACCUMULATION.energy_rq, COMM2_REVERSE_REACTIVE_ENGERY, 1);
 			}
 			
 			else if(COMM.index == 8)
-			{
-				//역무효전력량
-				float_to_integer(ACCUMULATION.energy_rq, COMM_2_QEr, 1);
+			{/*
 				
 				//syncro 계측
 //				if(SYNCRO.use == 0xaaaa)
@@ -2317,10 +2312,10 @@ void comm_drive(void)
 				//do status
 				*COMM_2_DO1 = DIDO.do_status >> 8;
 				*COMM_2_DO2 = DIDO.do_status;
-			}
+			*/}
 			
 			else if(COMM.index == 9)
-			{
+			{/*
 				//cb status
 				*COMM_2_CB = DIDO.do_status;
 				
@@ -2339,7 +2334,7 @@ void comm_drive(void)
 				float_to_integer(SUPERVISION.cb_close_time, COMM_2_runhour, 1);
 				//이벤트 sp
 				*COMM_2_SP = EVENT.sp;
-			}
+			*/}
 			
 			++COMM.index;
 			

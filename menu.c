@@ -10813,6 +10813,7 @@ void menu_80_10(unsigned int value, int display)
 void menu_80_11(unsigned int value, int display)
 {
 	char str[2][22];
+	unsigned long l_tmp;
 
 	sprintf(str[0],"                    \0");
 	sprintf(str[1],"WANT TO SET ?  [Y/N]\0");
@@ -10835,6 +10836,8 @@ void menu_80_11(unsigned int value, int display)
 		Screen_Position.select %= 2;
 	} else if(value == ENTER_KEY) {
 		if(Screen_Position.select == 0) {
+			
+			SysParamFlag = 0;
 		 //설정값 저장
 			if(OCR50_1.use != OCR50_1.use_temp) 
 			{
@@ -11035,6 +11038,12 @@ void menu_80_11(unsigned int value, int display)
 			Screen_Position.y = 80;
 			Screen_Position.x = 12;
 			cursor_move(0, 0);//cursor off
+			
+			if( SysParamFlag == 1 ) {
+				SysParamFlag = 0;
+				l_tmp = 0x02000000L + RELAY_ONOFF_EVENT + 1;
+				event_direct_save(&l_tmp);
+			}
 		} else if(Screen_Position.select == 1) {
 			Screen_Position.y = 80;
 			Screen_Position.x = 13;
@@ -16678,7 +16687,7 @@ void menu_popup(unsigned int value, int display)
 	if(i == 15) i = 0;
 	
 	sprintf(str[0], "%s\0", Trip_Message[i][0]);
-	if(Phase_Info == 9 || Phase_Info == 10) {
+	if(i == 9 || i == 10) {
 		sprintf(str[1], "                    \0");
 	} else {
 		sprintf(str[1], " [Fault Phase: %s ] \0", phase_character[Phase_Info % 11]);
@@ -16858,11 +16867,6 @@ void Event_Item_Display(void)		//khs, 2015-03-31 오후 7:36:32
 	// di off/on
 	else if((EVENT.temp == 0x05) || (EVENT.temp == 0x06))
 	{
-		//khs, 2015-04-03 오후 6:59:32
-		// open
-		//if(EVENT.temp == 0x05)	{screen_frame3(event6);}
-		// close
-		//else										{screen_frame3(event7);}
 		screen_frame3(event6);
 		
 		temp16 = *(EVENT_CONTENT1 + (EVENT.view_point * 18));
@@ -16870,22 +16874,13 @@ void Event_Item_Display(void)		//khs, 2015-03-31 오후 7:36:32
 		temp16 <<= 8;
 		temp16 |= (*(EVENT_CONTENT2 + (EVENT.view_point * 18)) & 0x00ff);
 
-		sprintf(str, "%d CHANNEL %s\0", temp16, (EVENT.temp == 0x05)? "ON": "OFF");
-		VFD_Single_Line_dump(LCD_L2_05, str);
-
-		
 		for(temp_char = 0; temp_char < 8; temp_char++)
 		{
-			if(temp16 & (0x0001 << temp_char))	{LCD.line_data2[temp_char << 1] = (temp_char + 1) + 0x30;}
-			else																{LCD.line_data2[temp_char << 1] = ' ';}
-			LCD.line_data2[(temp_char << 1) + 1] = ' ';
+			if(temp16 & (1 << temp_char)) break;
 		}
-		
-		LCD.line_data2[16] = 0;
-		
-		LCD.line_2nd_adder = LCD.line_data2;
-		LCD.line_2nd_addressing = LCD_L2_00;
-		LCD.line_2nd_status = 1;
+
+		sprintf(str, "%d CHANNEL %s\0", temp_char+1, (EVENT.temp == 0x05)? "OFF": "ON");
+		VFD_Single_Line_dump(LCD_L2_05, str);
 	}
 	
 	// do off/on

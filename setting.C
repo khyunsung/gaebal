@@ -22,6 +22,8 @@ unsigned int setting_save(unsigned int *ar_temp, unsigned int *ar_address, unsig
 		return(0);
 	}
 	
+	if( SysParamFlag == 1 ) return(1);
+
 // 설정 값에 따른 이벤트 저장
 //---------계전요소 설정 이벤트 저장
 	if(ar_address == OCR50_1_USE) {
@@ -1044,8 +1046,8 @@ void event_direct_save(unsigned long *ar_event)
 	*(EVENT_INDEX2 + temp)   = (unsigned int)(*ar_event >> 16);
 	*(EVENT_CONTENT1 + temp) = (unsigned int)(*ar_event >> 8);
 	*(EVENT_CONTENT2 + temp) = (unsigned int)*ar_event;
-	*(EVENT_CONTENT2 + temp) |= SysParamFlag;
-	SysParamFlag = 0;
+//	*(EVENT_CONTENT2 + temp) |= SysParamFlag;
+//	SysParamFlag = 0;
 	
 	
 	// 넘겨받은 이벤트가 계전동작이면 추가정보를 기록해준다

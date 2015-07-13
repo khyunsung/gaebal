@@ -1472,9 +1472,13 @@ void booting_setting_check(void)
 	COMM.use = 0;
 
 	*COMM_2_ADDRESS = ADDRESS.address;
-	*COMM_2_BAUDRATE = COMM.baudrate;
+	*COMM_2_BAUDRATE = 5;//COMM.baudrate; //0:1200, 1:2400, 2:4800, 3:9600, 4:19200, 5:38400, 6:57600, 7:115200
 	*COMM_BOOT = 0x55;
-	
+	NIC_RESET_OFF;//통신카드 리셋 (Active Low 펄스신호 발생)
+	delay_us(200000);	
+	NIC_RESET_ON;
+	delay_us(200000);
+	NIC_RESET_OFF;
 	
 //-------- display용 factor
 	DISPLAY.multipllier[0] = CPT.ct_ratio;
