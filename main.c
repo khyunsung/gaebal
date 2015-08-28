@@ -172,7 +172,10 @@ void real_main(void)
 //-------- event 저장 END
 
 //-------- LED로 표시할 data 1초마다 체크
-		if(TIMER.led > 700)	{led_handling();}
+		if(TIMER.led > 700)	{
+			led_handling();
+			modbus_comm_card_check();
+		}
 		*LED_CS = SYSTEM.led_on; // 주기적으로 led값을 써주지 않으면 led가 꺼지는것 처럼 보임 (latch 회로가 없음), 1ms도 허용치 않음
 //-------- LED로 표시할 data 1초마다 체크 END
 
@@ -2529,3 +2532,31 @@ void interrupt_control(void)
 	ERTM;
 }
 
+void modbus_comm_card_check(void)
+{
+	static unsigned char a = 0;
+	static unsigned char cnt = 0;
+	static unsigned int nic_reset_start = 0;
+	unsigned char tmp;
+
+	if(nic_reset_start == 1) {
+		nic_reset_start = 2;
+		NIC_RESET_ON;
+	} else if(nic_reset_start >= 2) {
+		nic_reset_start = 0;
+		NIC_RESET_OFF;
+	}
+
+	if(cnt++ > 5) {
+		cnt = 0;
+
+		tmp = *COMM_2_MODBUS_RECV_CNT & 0xff;
+
+		if(a == tmp) {
+			nic_reset_start = 1;
+			NIC_RESET_OFF;//통신카드 리셋 (Active Low 펄스신호 발생)
+		}
+
+		a = tmp;
+	}
+}

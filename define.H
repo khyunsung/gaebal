@@ -520,6 +520,7 @@
 
 #define COMM_2_ADDRESS		(unsigned int *)0x4806
 #define COMM_2_BAUDRATE		(unsigned int *)0x4807
+#define COMM_2_MODBUS_RECV_CNT		(unsigned int *)0x4808
 
 
 #define COMM_2_DATA1			(unsigned int *)0x4ABC

@@ -3512,7 +3512,7 @@ void menu_27_05(unsigned int value, int display)
 	char *Baud_Rate[5] = {"  9600", " 19200", " 38400", " 57600", "115200"};
 	char str[2][22];
 
-	sprintf(str[0],"Baudrate : %s  %c\0",Baud_Rate[MODBUS.baudrate], ENTER);
+	sprintf(str[0],"Baudrate : %s  %c\0",Baud_Rate[MODBUS.baudrate - 3], ENTER);
 	sprintf(str[1],"                    \0");
 
 	if(display) {
@@ -12804,6 +12804,14 @@ void menu_88_06(unsigned int value, int display)
 				//FLASH WRITE ERROR pop up 화면
 			}
 
+			*COMM_2_ADDRESS = ADDRESS.address;
+			*COMM_BOOT = 0x55;
+			NIC_RESET_OFF;//통신카드 리셋 (Active Low 펄스신호 발생)
+			delay_us(200000);	
+			NIC_RESET_ON;
+			delay_us(200000);
+			NIC_RESET_OFF;
+	
 			Screen_Position.y = 88;
 			Screen_Position.x = 7;
 			cursor_move(0, 0);//cursor off
@@ -14397,6 +14405,14 @@ void menu_101_07(unsigned int value, int display)
 				//FLASH WRITE ERROR pop up 화면
 			}
 
+			*COMM_2_BAUDRATE = MODBUS.baudrate;//COMM.baudrate; //0:1200, 1:2400, 2:4800, 3:9600, 4:19200, 5:38400, 6:57600, 7:115200
+			*COMM_BOOT = 0x55;
+			NIC_RESET_OFF;//통신카드 리셋 (Active Low 펄스신호 발생)
+			delay_us(200000);	
+			NIC_RESET_ON;
+			delay_us(200000);
+			NIC_RESET_OFF;
+			
 			Screen_Position.y = 101;
 			Screen_Position.x = 8;
 			cursor_move(0, 0);//cursor off

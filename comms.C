@@ -47,6 +47,7 @@ void manager_handling(void)
 {
 	unsigned int i, j;
 	float float_temp;
+	unsigned int buff[5];
 	
 	//core 정보
 	if(MANAGER.rx_buffer[2] == 0x00)
@@ -106,33 +107,140 @@ void manager_handling(void)
 13	- 67GD
 14	- 67GS		*/
 		// ocr50-1
-		if(MANAGER.rx_buffer[3] == 0x00)			{make_crc_send(MANAGER.tx_buffer, &OCR50_1.use, 10);}
+		if(MANAGER.rx_buffer[3] == 0x00) {
+			buff[0] = OCR50_1.use;
+			buff[1] = OCR50_1.mode;
+			buff[2] = OCR50_1.current_set;
+			buff[3] = OCR50_1.delay_time;
+			buff[4] = OCR50_1.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 10);
+		}
 		// ocr50-2
-		else if(MANAGER.rx_buffer[3] == 0x01)	{make_crc_send(MANAGER.tx_buffer, &OCR50_2.use, 10);}
+		else if(MANAGER.rx_buffer[3] == 0x01)	{
+			buff[0] = OCR50_2.use;
+			buff[1] = OCR50_2.mode;
+			buff[2] = OCR50_2.current_set;
+			buff[3] = OCR50_2.delay_time;
+			buff[4] = OCR50_2.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 10);
+		}
 		// ocgr50
-		else if(MANAGER.rx_buffer[3] == 0x02)	{make_crc_send(MANAGER.tx_buffer, &OCGR50.use, 10);}
+		else if(MANAGER.rx_buffer[3] == 0x02)	{
+			buff[0] = OCGR50.use;
+			buff[1] = OCGR50.mode;
+			buff[2] = OCGR50.current_set;
+			buff[3] = OCGR50.delay_time;
+			buff[4] = OCGR50.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 10);
+		}
 		// ocr51-1
-		else if(MANAGER.rx_buffer[3] == 0x03)	{make_crc_send(MANAGER.tx_buffer, &OCR51_1.use, 10);}
+		else if(MANAGER.rx_buffer[3] == 0x03)	{
+			buff[0] = OCR51_1.use;
+			buff[1] = OCR51_1.mode;
+			buff[2] = OCR51_1.current_set;
+			buff[3] = OCR51_1.time_lever;
+			buff[4] = OCR51_1.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 10);			
+		}
 		// ocr51-2
-		else if(MANAGER.rx_buffer[3] == 0x04)	{make_crc_send(MANAGER.tx_buffer, &OCR51_2.use, 10);}
+		else if(MANAGER.rx_buffer[3] == 0x04)	{
+			buff[0] = OCR51_2.use;
+			buff[1] = OCR51_2.mode;
+			buff[2] = OCR51_2.current_set;
+			buff[3] = OCR51_2.time_lever;
+			buff[4] = OCR51_2.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 10);			
+		}
 		// ocgr51
-		else if(MANAGER.rx_buffer[3] == 0x05)	{make_crc_send(MANAGER.tx_buffer, &OCGR51.use, 10);}
+		else if(MANAGER.rx_buffer[3] == 0x05)	{
+			buff[0] = OCGR51.use;
+			buff[1] = OCGR51.mode;
+			buff[2] = OCGR51.current_set;
+			buff[3] = OCGR51.time_lever;
+			buff[4] = OCGR51.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 10);			
+		}
 		// 47P
-		else if(MANAGER.rx_buffer[3] == 0x06)	{make_crc_send(MANAGER.tx_buffer, &P47.use, 8);}
+		else if(MANAGER.rx_buffer[3] == 0x06)	{
+			buff[0] = P47.use;
+			buff[1] = P47.voltage_set;
+			buff[2] = P47.delay_time;
+			buff[3] = P47.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 8);			
+		}
 		// 47N
-		else if(MANAGER.rx_buffer[3] == 0x07)	{make_crc_send(MANAGER.tx_buffer, &N47.use, 8);}
+		else if(MANAGER.rx_buffer[3] == 0x07)	{
+			buff[0] = N47.use;
+			buff[1] = N47.voltage_set;
+			buff[2] = N47.delay_time;
+			buff[3] = N47.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 8);			
+		}
 		// 27-1
-		else if(MANAGER.rx_buffer[3] == 0x08)	{make_crc_send(MANAGER.tx_buffer, &UVR_1.use, 10);}
+		else if(MANAGER.rx_buffer[3] == 0x08)	{
+			buff[0] = UVR_1.use;
+			buff[1] = UVR_1.voltage_set;
+			buff[2] = UVR_1.delay_time;
+			buff[3] = UVR_1.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 8);			
+		}
 		// 27-2
-		else if(MANAGER.rx_buffer[3] == 0x09)	{make_crc_send(MANAGER.tx_buffer, &UVR_2.use, 10);}
+		else if(MANAGER.rx_buffer[3] == 0x09)	{
+			buff[0] = UVR_2.use;
+			buff[1] = UVR_2.voltage_set;
+			buff[2] = UVR_2.delay_time;
+			buff[3] = UVR_2.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 8);			
+		}
 		// 27-3
-		else if(MANAGER.rx_buffer[3] == 0x0a)	{make_crc_send(MANAGER.tx_buffer, &UVR_3.use, 10);}
+		else if(MANAGER.rx_buffer[3] == 0x0a)	{
+			buff[0] = UVR_3.use;
+			buff[1] = UVR_3.voltage_set;
+			buff[2] = UVR_3.delay_time;
+			buff[3] = UVR_3.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 8);			
+		}
 		//DGR/SGR
 //khs, 2015-04-08 오전 11:21:40		else if(MANAGER.rx_buffer[3] == 0x06)	{make_crc_send(MANAGER.tx_buffer, &DSGR.use, 12);}
 		// 59
-		else if(MANAGER.rx_buffer[3] == 0x0b)	{make_crc_send(MANAGER.tx_buffer, &OVR.use, 10);}
+		else if(MANAGER.rx_buffer[3] == 0x0b)	{
+			buff[0] = OVR.use;
+			buff[1] = OVR.mode;
+			buff[2] = OVR.voltage_set;
+			buff[3] = OVR.delay_time;
+			buff[4] = OVR.time_lever;
+			buff[5] = OVR.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 12);
+		}			
 		// 64
-		else if(MANAGER.rx_buffer[3] == 0x0c)	{make_crc_send(MANAGER.tx_buffer, &OVGR.use, 10);}
+		else if(MANAGER.rx_buffer[3] == 0x0c)	{
+			buff[0] = OVGR.use;
+			buff[1] = OVGR.mode;
+			buff[2] = OVGR.voltage_set;
+			buff[3] = OVGR.time_lever;
+			buff[4] = OVGR.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 10);
+		}
+		//DGR
+		else if(MANAGER.rx_buffer[3] == 0x0d)	{
+			buff[0] = DGR.use;
+			buff[1] = DGR.current_set;
+			buff[2] = DGR.voltage_set;
+			buff[3] = DGR.angle_set;
+			buff[4] = DGR.delay_time;
+			buff[5] = DGR.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 12);
+		}
+		//SGR
+		else if(MANAGER.rx_buffer[3] == 0x0e)	{
+			buff[0] = SGR.use;
+			buff[1] = SGR.current_set;
+			buff[2] = SGR.voltage_set;
+			buff[3] = SGR.angle_set;
+			buff[4] = SGR.delay_time;
+			buff[5] = SGR.do_relay;
+			make_crc_send(MANAGER.tx_buffer, buff, 12);
+		}
 		//25
 		////khs, 2015-04-08 오전 11:21:40 else if(MANAGER.rx_buffer[3] == 0x0e)	{make_crc_send(MANAGER.tx_buffer, &SYNCRO.use, 14);}
 
@@ -176,12 +284,12 @@ void manager_handling(void)
 		}
 		// c/pt
 		else if(MANAGER.rx_buffer[3] == 0x02) {
-//			CPT.ct_primary;
-//			CPT.nct_primary;
-//			CPT.pt_primary_high;
-//			CPT.pt_primary_low;
-//			CPT.rated_current;
-			make_crc_send(MANAGER.tx_buffer, &CPT.ct_primary, 10);
+			buff[0] = CPT.ct_primary;
+			buff[1] = CPT.nct_primary;
+			buff[2] = CPT.pt_primary_high;
+			buff[3] = CPT.pt_primary_low;
+			buff[4] = CPT.rated_current;
+			make_crc_send(MANAGER.tx_buffer, buff, 10);
 		}
 		// Supservison & System Alarm
 		else if(MANAGER.rx_buffer[3] == 0x03) {
@@ -524,10 +632,59 @@ void manager_handling(void)
 			*ScibRegs_SCITXBUF = *MANAGER.isr_tx;
 		}
 		
-		//di/do status
-		else if(MANAGER.rx_buffer[3] == 0x06)
-		make_crc_send(MANAGER.tx_buffer, &DIDO.di_status, 4);
-		
+		//상태값 요청 쿼리
+		else if(MANAGER.rx_buffer[3] == 0x06) {
+			buff[0] = DIGITAL_INPUT.di_status;
+			buff[1] = OCR50_1.mode;//REALY상태
+			buff[2] = OCR50_1.current_set;//사고 상 정보
+			buff[3] = OCR50_1.delay_time;//사고 Ratio 정보
+			buff[4] = OCR50_1.do_relay;//계전기 동작 시간
+																//Running hour meter
+			
+			*(MANAGER.tx_buffer) = '#';
+			*(MANAGER.tx_buffer + 1) = ADDRESS.address;
+			*(MANAGER.tx_buffer + 2) = MANAGER.rx_buffer[2]; // F/C1 수신된 function code를 그대로 되돌려 줌. 왜. 정상 프레임이니까
+			*(MANAGER.tx_buffer + 3) = MANAGER.rx_buffer[3]; // F/C2 수신된 function code를 그대로 되돌려 줌. 왜. 정상 프레임이니까
+			// 넘겨받은 ar_bytelength 개수 저장 
+			*(MANAGER.tx_buffer + 4) = 0;
+			*(MANAGER.tx_buffer + 5) = 16;
+			
+			//데이타
+			*(MANAGER.tx_buffer +  6) = 0;
+			*(MANAGER.tx_buffer +  7) = DIGITAL_INPUT.di_status;
+			*(MANAGER.tx_buffer +  8) = 0;//REALY상태
+			*(MANAGER.tx_buffer +  9) = 0;//REALY상태
+			*(MANAGER.tx_buffer + 10) = 0;//사고 상 정보
+			*(MANAGER.tx_buffer + 11) = 0;//사고 상 정보
+			*(MANAGER.tx_buffer + 12) = 0;//사고 Ratio 정보
+			*(MANAGER.tx_buffer + 13) = 0;//사고 Ratio 정보
+			*(MANAGER.tx_buffer + 14) = 0;//계전기 동작 시간
+			*(MANAGER.tx_buffer + 15) = 0;//계전기 동작 시간
+			*(MANAGER.tx_buffer + 16) = 0;//계전기 동작 시간
+			*(MANAGER.tx_buffer + 17) = 0;//계전기 동작 시간
+			*(MANAGER.tx_buffer + 18) = 0;//Running hour meter
+			*(MANAGER.tx_buffer + 19) = 0;//Running hour meter
+			*(MANAGER.tx_buffer + 20) = 0;//Running hour meter
+			*(MANAGER.tx_buffer + 21) = 0;//Running hour meter
+			
+			// 헤더와 설정값들이 모두 나열된 후 프레임의 crc를 계산함
+			i = COMM_CRC(MANAGER.tx_buffer, 6 + 16);
+			
+			// 데이터 개수를 알고 있기 때문에 전체 송신데이터가 몇개인지 알수 있음
+			// 마지막 두바이트에 crc값을 저장함
+			*(MANAGER.tx_buffer + 6 + 16) = i >> 8;     // crc상위바이트
+			*(MANAGER.tx_buffer + 7 + 16) = i & 0x00ff; // crc하위바이트
+			
+			// 시리얼 송신 인터럽트에서 보낼 바이트 개수 지정
+			MANAGER.tx_length = 16 + 8; // 데이터 바이트개수 + 헤더(6) + crc(2)
+			// 시리얼 송신 인터럽트에서 보낼 송신버퍼 주소 지정
+			MANAGER.isr_tx = MANAGER.tx_buffer;
+			// tx interrupt 활성
+			*ScibRegs_SCICTL2 |= 0x0001;
+			// tx intrrupt 활성화 후 최초 한번 써야함
+			MANAGER.tx_count = 1;
+			*ScibRegs_SCITXBUF = *MANAGER.isr_tx;
+		}
 		//열량
 		else if(MANAGER.rx_buffer[3] == 0x07)
 		{
@@ -1575,107 +1732,145 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		//word count
 		// ocr50-1
 		if(MANAGER.rx_buffer[3] == 0x00) {
+			OCR50_1.use = 				(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			OCR50_1.mode = 				(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			OCR50_1.current_set = (MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			OCR50_1.delay_time = 	(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			OCR50_1.do_relay = 		(MANAGER.rx_buffer[14] << 8) + MANAGER.rx_buffer[15];
 			serial_write(5, &OCR50_1.use, OCR50_1_USE);
-			event_direct_save(&EVENT.relay_set);
 		// ocr50-2
-		} else if(MANAGER.rx_buffer[3] == 0x01)
-		serial_write(5, &OCR50_2.use, OCR50_2_USE);
-		
-		// ocr51-1
-		else if(MANAGER.rx_buffer[3] == 0x02)
-		serial_write(5, &OCR51_1.use, OCR51_1_USE);
-		
-		// ocr51-2
-		else if(MANAGER.rx_buffer[3] == 0x03)
-		serial_write(5, &OCR51_2.use, OCR51_2_USE);
-				
+		} else if(MANAGER.rx_buffer[3] == 0x01) {
+			OCR50_2.use = 				(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			OCR50_2.mode = 				(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			OCR50_2.current_set = (MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			OCR50_2.delay_time = 	(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			OCR50_2.do_relay = 		(MANAGER.rx_buffer[14] << 8) + MANAGER.rx_buffer[15];
+			serial_write(5, &OCR50_2.use, OCR50_2_USE);
 		// ocgr50
-		else if(MANAGER.rx_buffer[3] == 0x04)
-		serial_write(5, &OCGR50.use, OCGR50_USE);
-		
+		} else if(MANAGER.rx_buffer[3] == 0x02) {
+			OCGR50.use = 					(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			OCGR50.mode = 				(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			OCGR50.current_set = 	(MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			OCGR50.delay_time = 	(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			OCGR50.do_relay = 		(MANAGER.rx_buffer[14] << 8) + MANAGER.rx_buffer[15];
+			serial_write(5, &OCGR50.use, OCGR50_USE);
+		// ocr51-1
+		} else if(MANAGER.rx_buffer[3] == 0x03) {
+			OCR51_1.use = 				(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			OCR51_1.mode = 				(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			OCR51_1.current_set = (MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			OCR51_1.time_lever = 	(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			OCR51_1.do_relay = 		(MANAGER.rx_buffer[14] << 8) + MANAGER.rx_buffer[15];
+			serial_write(5, &OCR51_1.use, OCR51_1_USE);
+		// ocr51-2
+		} else if(MANAGER.rx_buffer[3] == 0x04) {
+			OCR51_2.use = 				(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			OCR51_2.mode = 				(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			OCR51_2.current_set = (MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			OCR51_2.time_lever = 	(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			OCR51_2.do_relay = 		(MANAGER.rx_buffer[14] << 8) + MANAGER.rx_buffer[15];
+			serial_write(5, &OCR51_2.use, OCR51_2_USE);
 		// ocgr51
-		else if(MANAGER.rx_buffer[3] == 0x05)
-		serial_write(5, &OCGR51.use, OCGR51_USE);
-
-//2015.02.24
-// DGR, SGR 나누어서 보내는 것 필요
-		// DGR/SGR
-//		else if(MANAGER.rx_buffer[3] == 0x06)
-//		serial_write(6, &DSGR.use, DSGR_USE);
-//2015.02.24 END
-		
+		} else if(MANAGER.rx_buffer[3] == 0x05) {
+			OCGR51.use = 					(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			OCGR51.mode = 				(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			OCGR51.current_set = 	(MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			OCGR51.time_lever = 	(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			OCGR51.do_relay = 		(MANAGER.rx_buffer[14] << 8) + MANAGER.rx_buffer[15];
+			serial_write(5, &OCGR51.use, OCGR51_USE);
+		// p47		
+		} else if(MANAGER.rx_buffer[3] == 0x06) {
+			P47.use = 						(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			P47.voltage_set = 		(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			P47.delay_time = 			(MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			P47.do_relay = 				(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			serial_write(4, &P47.use, P47_USE);			
+		// n47
+		} else if(MANAGER.rx_buffer[3] == 0x07) {
+			N47.use = 						(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			N47.voltage_set = 		(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			N47.delay_time = 			(MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			N47.do_relay = 				(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			serial_write(4, &N47.use, N47_USE);			
+		// 27r
+		} else if(MANAGER.rx_buffer[3] == 0x08) {
+			UVR_1.use = 						(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			UVR_1.voltage_set = 		(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			UVR_1.delay_time = 			(MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			UVR_1.do_relay = 				(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			serial_write(4, &UVR_1.use, UVR_1_USE);			
+		// 27m
+		} else if(MANAGER.rx_buffer[3] == 0x09) {
+			UVR_2.use = 						(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			UVR_2.voltage_set = 		(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			UVR_2.delay_time = 			(MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			UVR_2.do_relay = 				(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			serial_write(4, &UVR_2.use, UVR_2_USE);			
+		// 27s
+		} else if(MANAGER.rx_buffer[3] == 0x0a) {
+			UVR_3.use = 						(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			UVR_3.voltage_set = 		(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			UVR_3.delay_time = 			(MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			UVR_3.do_relay = 				(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			serial_write(4, &UVR_3.use, UVR_3_USE);			
 		// 59
-		else if(MANAGER.rx_buffer[3] == 0x07)
-		serial_write(5, &OVR.use, OVR_USE);
-		
-		// 64
-		else if(MANAGER.rx_buffer[3] == 0x08)
-		serial_write(5, &OVGR.use, OVGR_USE);
-		
-		// 27-1
-		else if(MANAGER.rx_buffer[3] == 0x09)
-		serial_write(4, &UVR_1.use, UVR_1_USE);
-		
-		// 27-2
-		else if(MANAGER.rx_buffer[3] == 0x0a)
-		serial_write(4, &UVR_2.use, UVR_2_USE);
-		
-		// 27-3
-		else if(MANAGER.rx_buffer[3] == 0x0b)
-		serial_write(4, &UVR_3.use, UVR_3_USE);
-		
-		// 47P
-		else if(MANAGER.rx_buffer[3] == 0x0c)
-		;//serial_write(4, &P47.use, P47_USE); //2015.02.24
-		
-		// 47N
-		else if(MANAGER.rx_buffer[3] == 0x0d)
-		;//serial_write(4, &N47.use, N47_USE); //2015.02.24
-
-//2015.02.24
-		// 25
-//		else if(MANAGER.rx_buffer[3] == 0x0e)
-//		serial_write(6, &SYNCRO.use, SYNCRO_USE);
-//		
-//		
-//		// 37
-//		else if(MANAGER.rx_buffer[3] == 0x0f)
-//		serial_write(5, &UCR.use, UCR_USE);
-//		
-//		// 46
-//		else if(MANAGER.rx_buffer[3] == 0x10)
-//		serial_write(4, &NSOCR.use, NSOCR_USE);
-//		
-//		// 49
-//		else if(MANAGER.rx_buffer[3] == 0x11)
-//		serial_write(6, &THR.use, THR_USE);
-//		
-//		// 50H
-//		else if(MANAGER.rx_buffer[3] == 0x12)
-//		serial_write(4, &H50.use, H50_USE);
-//		
-//		// 51LR
-//		else if(MANAGER.rx_buffer[3] == 0x13)
-//		serial_write(6, &SL.use, S_L_USE);
-//		
-//		// 66
-//		else if(MANAGER.rx_buffer[3] == 0x14)
-//		serial_write(6, &NCH.use, NCH_USE);
-//2015.02.24 END
-	}
-	
+		} else if(MANAGER.rx_buffer[3] == 0x0b) {
+			OVR.use = 				(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			OVR.mode = 				(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			OVR.voltage_set = (MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			OVR.delay_time = 	(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			OVR.time_lever = 	(MANAGER.rx_buffer[14] << 8) + MANAGER.rx_buffer[15];
+			OVR.do_relay = 		(MANAGER.rx_buffer[16] << 8) + MANAGER.rx_buffer[17];
+			serial_write(6, &OVR.use, OVR_USE);
+		//
+		} else if(MANAGER.rx_buffer[3] == 0x0c) {
+			OVGR.use = 					(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			OVGR.mode = 				(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			OVGR.voltage_set = 	(MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			OVGR.time_lever = 	(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			OVGR.do_relay = 		(MANAGER.rx_buffer[14] << 8) + MANAGER.rx_buffer[15];
+			serial_write(5, &OVGR.use, OVGR_USE);
+		//DGR
+		} else if(MANAGER.rx_buffer[3] == 0x0d) {
+			DGR.use = 				(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			DGR.current_set =	(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			DGR.voltage_set =	(MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			DGR.angle_set = 	(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			DGR.delay_time =	(MANAGER.rx_buffer[14] << 8) + MANAGER.rx_buffer[15];
+			DGR.do_relay = 		(MANAGER.rx_buffer[16] << 8) + MANAGER.rx_buffer[17];
+			serial_write(6, &DGR.use, DGR_USE);
+		//SGR
+		} else if(MANAGER.rx_buffer[3] == 0x0e) {
+			SGR.use = 				(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			SGR.current_set =	(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			SGR.voltage_set =	(MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			SGR.angle_set = 	(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			SGR.delay_time =	(MANAGER.rx_buffer[14] << 8) + MANAGER.rx_buffer[15];
+			SGR.do_relay = 		(MANAGER.rx_buffer[16] << 8) + MANAGER.rx_buffer[17];
+			serial_write(6, &SGR.use, SGR_USE);
+		}
+	}	
 	// system write
 	else if(MANAGER.rx_buffer[2] == 0x90)
 	{
 		
-//MANAGER_SYSTEM_SET
-//		if(MANAGER.rx_buffer[3] == 0x01) {
-//			
-//		}
-		
-//		// c/pt
-//		if(MANAGER.rx_buffer[3] == 0x00)
-//		;//khs, 2015-04-08 오전 11:30:47 serial_write(6, &TRANSFORMER.ct_primary, CT_PRIMARY);
+		//MANAGER_SYSTEM_SET
+		if(MANAGER.rx_buffer[3] == 0x01) {
+			
+		}	
+		// c/pt
+		else if(MANAGER.rx_buffer[3] == 0x02) {
+			CPT.ct_primary =			(MANAGER.rx_buffer[ 6] << 8) + MANAGER.rx_buffer[ 7];
+			CPT.nct_primary =			(MANAGER.rx_buffer[ 8] << 8) + MANAGER.rx_buffer[ 9];
+			CPT.pt_primary_high = (MANAGER.rx_buffer[10] << 8) + MANAGER.rx_buffer[11];
+			CPT.pt_primary_low = 	(MANAGER.rx_buffer[12] << 8) + MANAGER.rx_buffer[13];
+			CPT.rated_current =		(MANAGER.rx_buffer[14] << 8) + MANAGER.rx_buffer[15];
+			serial_write(5, &CPT.ct_primary, CT_PRIMARY);
+		}
+		//Supervision & System Alarm				
+		else if(MANAGER.rx_buffer[3] == 0x03) {
+			
+		}
 //		
 //		// di debounce / do property
 //		else if(MANAGER.rx_buffer[3] == 0x01)
