@@ -181,3 +181,4 @@ void Event_Time_Display(void);		//khs, 2015-04-01 ¿ÀÈÄ 3:31:35
 void Save_Screen_Info(unsigned int);
 void Restore_Screen_Info(void);
 void modbus_comm_card_check(void);
+void SCI_Port_Err_Check(void);

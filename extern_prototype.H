@@ -179,3 +179,4 @@ extern void Event_Time_Display(void);
 extern void Save_Screen_Info(unsigned int);
 extern void Restore_Screen_Info(void);
 extern void modbus_comm_card_check(void);
+extern void SCI_Port_Err_Check(void);

@@ -652,16 +652,16 @@ void manager_handling(void)
 			//데이타
 			*(MANAGER.tx_buffer +  6) = 0;
 			*(MANAGER.tx_buffer +  7) = DIGITAL_INPUT.di_status;
-			*(MANAGER.tx_buffer +  8) = 0;//REALY상태
-			*(MANAGER.tx_buffer +  9) = 0;//REALY상태
-			*(MANAGER.tx_buffer + 10) = 0;//사고 상 정보
-			*(MANAGER.tx_buffer + 11) = 0;//사고 상 정보
-			*(MANAGER.tx_buffer + 12) = 0;//사고 Ratio 정보
-			*(MANAGER.tx_buffer + 13) = 0;//사고 Ratio 정보
-			*(MANAGER.tx_buffer + 14) = 0;//계전기 동작 시간
-			*(MANAGER.tx_buffer + 15) = 0;//계전기 동작 시간
-			*(MANAGER.tx_buffer + 16) = 0;//계전기 동작 시간
-			*(MANAGER.tx_buffer + 17) = 0;//계전기 동작 시간
+			*(MANAGER.tx_buffer +  8) = RELAY_STATUS.operation_sum_holding >> 8;//REALY상태
+			*(MANAGER.tx_buffer +  9) = RELAY_STATUS.operation_sum_holding;			//REALY상태
+			*(MANAGER.tx_buffer + 10) = EVENT.operation >> 8;	//사고 상 정보
+			*(MANAGER.tx_buffer + 11) = EVENT.operation;			//사고 상 정보
+			*(MANAGER.tx_buffer + 12) = EVENT.ratio >> 8;	//사고 Ratio 정보
+			*(MANAGER.tx_buffer + 13) = EVENT.ratio;			//사고 Ratio 정보
+			*(MANAGER.tx_buffer + 14) = EVENT.optime >> 24;	//계전기 동작 시간
+			*(MANAGER.tx_buffer + 15) = EVENT.optime >> 16;	//계전기 동작 시간
+			*(MANAGER.tx_buffer + 16) = EVENT.optime >> 8;	//계전기 동작 시간
+			*(MANAGER.tx_buffer + 17) = EVENT.optime;				//계전기 동작 시간
 			*(MANAGER.tx_buffer + 18) = 0;//Running hour meter
 			*(MANAGER.tx_buffer + 19) = 0;//Running hour meter
 			*(MANAGER.tx_buffer + 20) = 0;//Running hour meter

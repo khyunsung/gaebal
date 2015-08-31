@@ -175,6 +175,7 @@ void real_main(void)
 		if(TIMER.led > 700)	{
 			led_handling();
 			modbus_comm_card_check();
+			SCI_Port_Err_Check();
 		}
 		*LED_CS = SYSTEM.led_on; // 주기적으로 led값을 써주지 않으면 led가 꺼지는것 처럼 보임 (latch 회로가 없음), 1ms도 허용치 않음
 //-------- LED로 표시할 data 1초마다 체크 END
@@ -2558,5 +2559,12 @@ void modbus_comm_card_check(void)
 		}
 
 		a = tmp;
+	}
+}
+
+void SCI_Port_Err_Check(void)
+{
+	if((*ScibRegs_SCIRXST & 0x80)||(*ScicRegs_SCIRXST & 0x80)) {
+		sci_setup();
 	}
 }
