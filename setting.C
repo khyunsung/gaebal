@@ -1393,7 +1393,7 @@ void SYSTEM_ALARM_Default_Settings(void)
 
 void OCR50_1_Default_Settings(void)
 {
-	OCR50_1.use = 0;
+	OCR50_1.use = DISABLE;
 	OCR50_1.mode = DEFINITE;
 	if(CORE.rated_ct == CT_5A)	{OCR50_1.current_set = OCR50_I_MAX[0];}
 	else												{OCR50_1.current_set = OCR50_I_MAX[1];}
@@ -1412,7 +1412,7 @@ void OCR50_1_Default_Settings(void)
 
 void OCR50_2_Default_Settings(void)
 {
-	OCR50_2.use = 0;
+	OCR50_2.use = DISABLE;
 	OCR50_2.mode = DEFINITE;
 	if(CORE.rated_ct == CT_5A)	{OCR50_2.current_set = OCR50_I_MAX[0];}
 	else												{OCR50_2.current_set = OCR50_I_MAX[1];}
@@ -1431,7 +1431,7 @@ void OCR50_2_Default_Settings(void)
 
 void OCR51_1_Default_Settings(void)
 {
-	OCR51_1.use = 0;
+	OCR51_1.use = DISABLE;
 	OCR51_1.mode = INVERSE;
 	if(CORE.rated_ct == CT_5A)	{OCR51_1.current_set = OCR51_I_MAX[0];}
 	else												{OCR51_1.current_set = OCR51_I_MAX[1];}
@@ -1450,7 +1450,7 @@ void OCR51_1_Default_Settings(void)
 
 void OCR51_2_Default_Settings(void)
 {
-	OCR51_2.use = 0;
+	OCR51_2.use = DISABLE;
 	OCR51_2.mode = INVERSE;
 	if(CORE.rated_ct == CT_5A)	{OCR51_2.current_set = OCR51_I_MAX[0];}
 	else												{OCR51_2.current_set = OCR51_I_MAX[1];}
@@ -1469,7 +1469,7 @@ void OCR51_2_Default_Settings(void)
 
 void OCGR50_Default_Settings(void)
 {
-	OCGR50.use = 0;
+	OCGR50.use = DISABLE;
 	OCGR50.mode = DEFINITE;
 	if(CORE.rated_ct == CT_5A)	{OCGR50.current_set = OCGR50_I_MAX[0];}
 	else												{OCGR50.current_set = OCGR50_I_MAX[1];}
@@ -1488,7 +1488,7 @@ void OCGR50_Default_Settings(void)
 
 void OCGR51_Default_Settings(void)
 {
-	OCGR51.use = 0;
+	OCGR51.use = DISABLE;
 	OCGR51.mode = INVERSE;
 	if(CORE.rated_ct == CT_5A)	{OCGR51.current_set = OCGR51_I_MAX[0];}
 	else												{OCGR51.current_set = OCGR51_I_MAX[1];}
@@ -1507,7 +1507,7 @@ void OCGR51_Default_Settings(void)
 
 void UVR_1_Default_Settings(void)
 {
-	UVR_1.use = 0;
+	UVR_1.use = DISABLE;
 	if(GPT.pt_secondary == 100)			 {UVR_1.voltage_set = UVR_1_V_MAX[0];}
 	else if(GPT.pt_secondary == 110) {UVR_1.voltage_set = UVR_1_V_MAX[1];}
 	else if(GPT.pt_secondary == 120) {UVR_1.voltage_set = UVR_1_V_MAX[2];}
@@ -1527,7 +1527,7 @@ void UVR_1_Default_Settings(void)
 
 void UVR_2_Default_Settings(void)
 {
-	UVR_2.use = 0;
+	UVR_2.use = DISABLE;
 	if(GPT.pt_secondary == 100)			 {UVR_2.voltage_set = UVR_2_V_MAX[0];}
 	else if(GPT.pt_secondary == 110) {UVR_2.voltage_set = UVR_2_V_MAX[1];}
 	else if(GPT.pt_secondary == 120) {UVR_2.voltage_set = UVR_2_V_MAX[2];}
@@ -1547,7 +1547,7 @@ void UVR_2_Default_Settings(void)
 
 void UVR_3_Default_Settings(void)
 {
-	UVR_3.use = 0;
+	UVR_3.use = DISABLE;
 	if(GPT.pt_secondary == 100)			 {UVR_3.voltage_set = UVR_3_V_MAX[0];}
 	else if(GPT.pt_secondary == 110) {UVR_3.voltage_set = UVR_3_V_MAX[1];}
 	else if(GPT.pt_secondary == 120) {UVR_3.voltage_set = UVR_3_V_MAX[2];}
@@ -1567,7 +1567,7 @@ void UVR_3_Default_Settings(void)
 
 void P47_Default_Settings(void)
 {
-	P47.use = 0;
+	P47.use = DISABLE;
 	if(GPT.pt_secondary == 100)			 {P47.voltage_set = P47_V_MAX[0];}
 	else if(GPT.pt_secondary == 110) {P47.voltage_set = P47_V_MAX[1];}
 	else if(GPT.pt_secondary == 120) {P47.voltage_set = P47_V_MAX[2];}
@@ -1587,7 +1587,7 @@ void P47_Default_Settings(void)
 
 void N47_Default_Settings(void)
 {
-	N47.use = 0;
+	N47.use = DISABLE;
 	if(GPT.pt_secondary == 100)			 {N47.voltage_set = N47_V_MAX[0];}
 	else if(GPT.pt_secondary == 110) {N47.voltage_set = N47_V_MAX[1];}
 	else if(GPT.pt_secondary == 120) {N47.voltage_set = N47_V_MAX[2];}
@@ -1607,7 +1607,7 @@ void N47_Default_Settings(void)
 
 void OVR_Default_Settings(void)
 {
-	OVR.use = 0;
+	OVR.use = DISABLE;
 	OVR.mode = DEFINITE;
 	if(GPT.pt_secondary == 100)			 {OVR.voltage_set = OVR_V_MAX[0];}
 	else if(GPT.pt_secondary == 110) {OVR.voltage_set = OVR_V_MAX[1];}
@@ -1629,7 +1629,7 @@ void OVR_Default_Settings(void)
 
 void OVGR_Default_Settings(void)
 {
-	OVGR.use = 0;
+	OVGR.use = DISABLE;
 	OVGR.mode = INVERSE;
 	if(GPT.pt_tertiary == 110)			{OVGR.voltage_set = OVGR_V_MAX[0];}
 	else if(GPT.pt_tertiary == 120) {OVGR.voltage_set = OVGR_V_MAX[1];}
@@ -1649,7 +1649,7 @@ void OVGR_Default_Settings(void)
 
 void DGR_Default_Settings(void)
 {
-	DGR.use = 0;
+	DGR.use = DISABLE;
 	if(CORE.rated_ct == CT_5A)			{DGR.current_set = DGR_I_MAX[0];}
 	else														{DGR.current_set = DGR_I_MAX[1];}
 	if(GPT.pt_tertiary == 110)			{DGR.voltage_set = DGR_V_MAX[0];}
@@ -1671,7 +1671,7 @@ void DGR_Default_Settings(void)
 
 void SGR_Default_Settings(void)
 {
-	SGR.use = 0;
+	SGR.use = DISABLE;
 	SGR.current_set = SGR_I_MAX;
 	if(GPT.pt_tertiary == 110)			{SGR.voltage_set = SGR_V_MAX[0];}
 	else if(GPT.pt_tertiary == 120) {SGR.voltage_set = SGR_V_MAX[1];}

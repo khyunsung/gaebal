@@ -32,7 +32,7 @@ void Check_47P_10V(void)
 
 void RELAY_OCR50_1(void)
 {
-	if(OCR50_1.use == 0xaaaa)
+	if(OCR50_1.use == ENABLE)
 	{
 		if((OCR_MODE_SET.ocr_mode == OCR_NORMAL) || ((OCR_MODE_SET.ocr_mode == OCR_SELECT) && (OCR_MODE_SET.ocr_di_mask == 0x0008))) //DI접점이 4인 경우
 		{
@@ -118,7 +118,7 @@ void RELAY_OCR50_1(void)
 
 void RELAY_OCR50_2(void)
 {
-	if(OCR50_2.use == 0xaaaa)
+	if(OCR50_2.use == ENABLE)
 	{
 		if((OCR_MODE_SET.ocr_mode == OCR_NORMAL) || ((OCR_MODE_SET.ocr_mode == OCR_SELECT) && (OCR_MODE_SET.ocr_di_mask == 0x0010))) //DI접점이 5인 경우
 		{
@@ -204,7 +204,7 @@ void RELAY_OCR50_2(void)
 
 void RELAY_OCR51_1(void)
 {
-	if(OCR51_1.use == 0xaaaa)
+	if(OCR51_1.use == ENABLE)
 	{
 		if((OCR_MODE_SET.ocr_mode == OCR_NORMAL) || ((OCR_MODE_SET.ocr_mode == OCR_SELECT) && (OCR_MODE_SET.ocr_di_mask == 0x0008))) //DI접점이 4인 경우
 		{
@@ -291,7 +291,7 @@ void RELAY_OCR51_1(void)
 
 void RELAY_OCR51_2(void)
 {
-	if(OCR51_2.use == 0xaaaa)
+	if(OCR51_2.use == ENABLE)
 	{
 		if((OCR_MODE_SET.ocr_mode == OCR_NORMAL) || ((OCR_MODE_SET.ocr_mode == OCR_SELECT) && (OCR_MODE_SET.ocr_di_mask == 0x0010))) //DI접점이 5인 경우
 		{
@@ -378,7 +378,7 @@ void RELAY_OCR51_2(void)
 
 void RELAY_OCGR50(void)
 {
-	if(OCGR50.use == 0xaaaa)
+	if(OCGR50.use == ENABLE)
 	{
 		if(PROTECT.Max_In_RMS >= OCGR50.Pickup_Threshold)
 		{
@@ -444,7 +444,7 @@ void RELAY_OCGR50(void)
 
 void RELAY_OCGR51(void)
 {
-	if(OCGR51.use == 0xaaaa)
+	if(OCGR51.use == ENABLE)
 	{
 		if(PROTECT.Max_In_RMS >= OCGR51.Pickup_Threshold)
 		{
@@ -515,7 +515,7 @@ void RELAY_OCGR51(void)
 
 void RELAY_UVR_1(void)
 {
-	if(UVR_1.use == 0xaaaa)
+	if(UVR_1.use == ENABLE)
 	{
 		if(UVR_MODE.setting1 == MANUAL)
 		{
@@ -649,7 +649,7 @@ void RELAY_UVR_1(void)
 
 void RELAY_UVR_2(void)
 {
-	if(UVR_2.use == 0xaaaa)
+	if(UVR_2.use == ENABLE)
 	{
 		if(UVR_MODE.setting2 == MANUAL)
 		{
@@ -781,7 +781,7 @@ void RELAY_UVR_2(void)
 
 void RELAY_UVR_3(void)
 {
-	if(UVR_3.use == 0xaaaa)
+	if(UVR_3.use == ENABLE)
 	{
 		if(UVR_MODE.setting3 == MANUAL)
 		{
@@ -912,7 +912,7 @@ void RELAY_UVR_3(void)
 
 void RELAY_P47(void)
 {
-	if(P47.use == 0xaaaa)
+	if(P47.use == ENABLE)
 	{
 		if(PROTECT.V1_RMS > P47.Pickup_Threshold)	{P47.over_volt_flag = ON;}
 
@@ -995,7 +995,7 @@ void RELAY_P47(void)
 
 void RELAY_N47(void)
 {
-	if(N47.use == 0xaaaa)
+	if(N47.use == ENABLE)
 	{
 		if(PROTECT.V2_RMS >= N47.Pickup_Threshold)
 		{
@@ -1061,7 +1061,7 @@ void RELAY_N47(void)
 
 void RELAY_OVR(void)
 {
-	if(OVR.use == 0xaaaa)
+	if(OVR.use == ENABLE)
 	{
 		if(OVR.mode==DEFINITE)
 		{
@@ -1192,7 +1192,7 @@ void RELAY_OVR(void)
 
 void RELAY_OVGR(void)
 {
-	if(OVGR.use == 0xaaaa)
+	if(OVGR.use == ENABLE)
 	{
 		if(OVGR.mode==INSTANT)
 		{
@@ -1325,7 +1325,7 @@ void RELAY_DGR(void)
 {
 	void *void_temp;
 	
-	if(DGR.use == 0xaaaa)
+	if(DGR.use == ENABLE)
 	{
 		// 위상차
 		DGR.diff_angle_rad = MEASUREMENT.angle[In] - MEASUREMENT.angle[Vn];
@@ -1401,7 +1401,7 @@ void RELAY_SGR(void)
 {
 	void *void_temp;
 	
-	if(SGR.use == 0xaaaa)
+	if(SGR.use == ENABLE)
 	{
 		// 위상차
 		SGR.diff_angle_rad = MEASUREMENT.angle[Is] - MEASUREMENT.angle[Vn];
