@@ -47,44 +47,60 @@ void manager_handling(void)
 {
 	unsigned int i, j;
 	float float_temp;
-	unsigned int buff[5];
+	unsigned int buff[10];
 	
 	//core 정보
 	if(MANAGER.rx_buffer[2] == 0x00)
 	{
-			MANAGER.tx_buffer[0] = 0x23;
-			MANAGER.tx_buffer[1] = ADDRESS.address;
-			MANAGER.tx_buffer[2] = 0;		//타입정보 프레임: 0
-			MANAGER.tx_buffer[3] = 0;		//타입정보 프레임: 0
-
-			// length
-			MANAGER.tx_buffer[4] = 0;
-			MANAGER.tx_buffer[5] = 6;
-			
-			MANAGER.tx_buffer[ 6] = HIMAP_TYPE;	//HiMAP Type (FI, MS, ML, T = 1, 2, 3, 4)
-			MANAGER.tx_buffer[ 7] = ((GPT.pt_secondary % 190) == 0)?4:((GPT.pt_secondary % 120) == 0)?3:
+			buff[0] = HIMAP_TYPE;
+			buff[0] <<= 8;
+			buff[0] |= ((GPT.pt_secondary % 190) == 0)?4:((GPT.pt_secondary % 120) == 0)?3:
 									((GPT.pt_secondary % 110) == 0)?2:1;	//PT Type (100, 110, 120, 190 = 1, 2, 3, 4)
-			MANAGER.tx_buffer[ 8] = ((GPT.pt_tertiary % 190) == 0)?3:((GPT.pt_tertiary % 120) == 2)?2:1;//GPT Type (110, 120, 190 = 1, 2, 3)
-			MANAGER.tx_buffer[ 9] = (CORE.rated_ct == 0x5678)?1:2;	//CT Type (5A, 1A = 1, 2)
-			MANAGER.tx_buffer[10] = VERSION >> 8;	//Version 1	정수
-			MANAGER.tx_buffer[11] = VERSION;	//Version 2	소수
 
+			buff[1] = ((GPT.pt_tertiary % 190) == 0)?3:((GPT.pt_tertiary % 120) == 2)?2:1;//GPT Type (110, 120, 190 = 1, 2, 3)
+			buff[1] <<= 8;
+			buff[1] |= (CORE.rated_ct == 0x5678)?1:2;	//CT Type (5A, 1A = 1, 2)
+				
+			buff[2] = VERSION >> 8;	//Version 1	정수
+			buff[2] <<= 8;
+			buff[2] |= VERSION;	//Version 2	소수
 			
-			i = COMM_CRC(MANAGER.tx_buffer, 12);
-			
-			MANAGER.tx_buffer[12] = i >> 8;
-			MANAGER.tx_buffer[13] = i & 0x00ff;
-			
-			MANAGER.tx_length = 14;
-			
-			MANAGER.isr_tx = MANAGER.tx_buffer;
-			
-			// tx interrupt 활성
-			*ScibRegs_SCICTL2 |= 0x0001;
-			
-			// tx intrrupt 활성화 후 최초 한번 써야함
-			MANAGER.tx_count = 1;
-			*ScibRegs_SCITXBUF = *MANAGER.isr_tx;
+			make_crc_send(MANAGER.tx_buffer, buff, 6);
+					
+//			MANAGER.tx_buffer[0] = 0x23;
+//			MANAGER.tx_buffer[1] = ADDRESS.address;
+//			MANAGER.tx_buffer[2] = 0;		//타입정보 프레임: 0
+//			MANAGER.tx_buffer[3] = 0;		//타입정보 프레임: 0
+//
+//			// length
+//			MANAGER.tx_buffer[4] = 0;
+//			MANAGER.tx_buffer[5] = 6;
+//			
+//			MANAGER.tx_buffer[6] = HIMAP_TYPE;	//HiMAP Type (FI, MS, ML, T = 1, 2, 3, 4)
+//			MANAGER.tx_buffer[7] = ((GPT.pt_secondary % 190) == 0)?4:((GPT.pt_secondary % 120) == 0)?3:
+//									((GPT.pt_secondary % 110) == 0)?2:1;	//PT Type (100, 110, 120, 190 = 1, 2, 3, 4)
+//			MANAGER.tx_buffer[8] = ((GPT.pt_tertiary % 190) == 0)?3:((GPT.pt_tertiary % 120) == 2)?2:1;//GPT Type (110, 120, 190 = 1, 2, 3)
+//			MANAGER.tx_buffer[9] = (CORE.rated_ct == 0x5678)?1:2;	//CT Type (5A, 1A = 1, 2)
+//			MANAGER.tx_buffer[10] = VERSION >> 8;	//Version 1	정수
+//			MANAGER.tx_buffer[11] = VERSION;	//Version 2	소수
+//
+//			
+//			i = COMM_CRC(&MANAGER.tx_buffer[0], 12);
+//			//i = COMM_CRC(&MANAGER.tx_buffer[0], 10);
+//			
+//			MANAGER.tx_buffer[12] = i >> 8;
+//			MANAGER.tx_buffer[13] = i & 0x00ff;
+//			
+//			MANAGER.tx_length = 14;
+//			
+//			MANAGER.isr_tx = MANAGER.tx_buffer;
+//			
+//			// tx interrupt 활성
+//			*ScibRegs_SCICTL2 |= 0x0001;
+//			
+//			// tx intrrupt 활성화 후 최초 한번 써야함
+//			MANAGER.tx_count = 1;
+//			*ScibRegs_SCITXBUF = *MANAGER.isr_tx;
 	}
 
 	// 계전요소 read
