@@ -74,6 +74,8 @@ void serial_ok_nak_send(unsigned int);
 
 void PROTECTIVE_RELAY(void);
 void Check_47P_10V(void);
+void Cal_RHour(void);
+
 void RELAY_OCR50_1(void);
 void RELAY_OCR50_2(void);
 void RELAY_OCR51_1(void);

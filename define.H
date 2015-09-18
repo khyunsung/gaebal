@@ -34,6 +34,7 @@
 #pragma CODE_SECTION(Inverse_GetDelayTime, "ramfuncs");
 #pragma CODE_SECTION(Check_47P_10V, "ramfuncs");
 #pragma CODE_SECTION(event_direct_save, "ramfuncs");
+#pragma CODE_SECTION(Cal_RHour, "ramfuncs");
 
 #pragma CODE_SECTION(RELAY_OCR50_1, "ramfuncs");
 #pragma CODE_SECTION(RELAY_OCR50_2, "ramfuncs");
@@ -163,8 +164,9 @@
 #define COMM_BAUD_MIN   3
 #define COMM_BAUD_MAX   7
 
-#define DISPLAY_CUT_I_1A        0.021 // (0.04 / 2) * 1.05 //0.03[A] = 30[mA]
-#define DISPLAY_CUT_I_5A        0.105 // (0.2 / 2) * 1.05  //0.03[A] = 30[mA]
+#define DISPLAY_CURRENT_MIN 0.03	//30[mA]
+#define DISPLAY_VOLTAGE_MIN 1.9 	//1.9[V]
+#define DISPLAY_Io_MIN 			0.2		//0.2[mA]
 
 #define ADDRESS_MIN        1
 #define ADDRESS_MAX        254
@@ -673,7 +675,8 @@
 // EVENT 저장 8bit임
 #define FRAM2_START				(unsigned int *)0x140000	//khs, 요것이 MRAM
 
-
+#define MRAM_RUNNING_HOUR1	(unsigned int *)0x15d0f0	//RUNNING HOUR METER MRAM 주소
+#define MRAM_RUNNING_HOUR2	(unsigned int *)0x15d0f1	//RUNNING HOUR METER MRAM 주소
 
 //누적값
 //유효전력

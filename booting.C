@@ -101,15 +101,6 @@ void booting_setting_check(void)
 
 	//-------- 시스템 속성을 결정하는 초기 시스템 검사 끝	
 		
-	if(CORE.rated_ct == CT_1A) // ct 정격 1A
-	{
-		MIN_MAX.current_display = DISPLAY_CUT_I_1A;
-	}
-	else // ct 정격 5A
-	{
-		MIN_MAX.current_display = DISPLAY_CUT_I_5A;
-	}
-	
 	if(CORE.Hz == Hz50) // 정격 50Hz
 	{
 		SET_50Hz; // 외부 cpld 설정
@@ -1601,6 +1592,11 @@ void booting_setting_check(void)
 //-------- display용 factor END
 
 //-------- 누적값 읽어들이기
+	//RUNNING HOUR METER 값
+	RUNNING.RunningHourCNT = (*(MRAM_RUNNING_HOUR1) & 0xffff);
+	RUNNING.RunningHourCNT <<= 16;
+	RUNNING.RunningHourCNT |= (*(MRAM_RUNNING_HOUR2) & 0xffff);
+
 //	float_to_8bit_fram(&ACCUMULATION.energy_p, EP1, 0);
 //	float_to_8bit_fram(&ACCUMULATION.energy_q, EQ1, 0);
 //	float_to_8bit_fram(&ACCUMULATION.energy_rp, REP1, 0);

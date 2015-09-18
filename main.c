@@ -222,16 +222,8 @@ void real_main(void)
 			}
 		}
 
-//-------- RUNNING HOUR METER (수정 필요)
-		// current_on 1시간
-		if(TIMER.current_on > 3599999)
-		{
-			TIMER.current_on = 0; // 타이머 리셋
-			++SUPERVISION.cb_close_time; // R-Hour 하나 증가
-
-			*CB_CLOSE_TIME1 = SUPERVISION.cb_close_time >> 8; // FRAM에 저장
-			*CB_CLOSE_TIME2 = SUPERVISION.cb_close_time;
-		}
+//-------- RUNNING HOUR METER
+		Cal_RHour();
 //-------- RUNNING HOUR METER END
 
 //-------- HIMIX RS-485 송신
@@ -1306,7 +1298,7 @@ void harmonics(void)
 	if(HARMONICS.index == 0)
 	{
 		// display 최저전류 미만
-		if(DISPLAY.True_RMS[Ia] < MIN_MAX.current_display)
+		if(DISPLAY.rms_value[Ia] < DISPLAY_CURRENT_MIN)
 		{
 			HARMONICS.ia[0] = 0;
 			HARMONICS.ia[1] = 0;
@@ -1474,7 +1466,7 @@ void harmonics(void)
 	{
 		//2.5us
 		// display 최저전류 미만
-		if(DISPLAY.True_RMS[Ib] < MIN_MAX.current_display)
+		if(DISPLAY.rms_value[Ib] < DISPLAY_CURRENT_MIN)
 		{
 			HARMONICS.ib[0] = 0;
 			HARMONICS.ib[1] = 0;
@@ -1636,7 +1628,7 @@ void harmonics(void)
 	else if(HARMONICS.index == 34)
 	{
 		//2.5us
-		if(DISPLAY.True_RMS[Ic] < MIN_MAX.current_display)
+		if(DISPLAY.rms_value[Ic] < DISPLAY_CURRENT_MIN)
 		{
 			HARMONICS.ic[0] = 0;
 			HARMONICS.ic[1] = 0;
@@ -1916,15 +1908,15 @@ void measure_display(void) //전압, 전류 값
 		DISPLAY.rms_value_temp[DISPLAY.index] = DISPLAY.rms_value_sum[DISPLAY.index] / 50.;	// 50번 평균값 계산
 		if((DISPLAY.index > 5) && (DISPLAY.index < 10)) //전압 채널(6,7,8,9)
 		{
-			if(DISPLAY.rms_value_temp[DISPLAY.index] < 1.9)	{DISPLAY.rms_value_temp[DISPLAY.index] = 0;} //전압 채널 계측 문턱값 (1.9V)
+			if(DISPLAY.rms_value_temp[DISPLAY.index] < DISPLAY_VOLTAGE_MIN)	{DISPLAY.rms_value_temp[DISPLAY.index] = 0;} //전압 채널 계측 문턱값 (1.9V)
 		}
 		else if(DISPLAY.index < 4) //전류 채널(0,1,2,3)
 		{
-			if(DISPLAY.rms_value_temp[DISPLAY.index] < 0.03)	{DISPLAY.rms_value_temp[DISPLAY.index] = 0;} //전류 채널 계측 문턱값 (0.03A)
+			if(DISPLAY.rms_value_temp[DISPLAY.index] < DISPLAY_CURRENT_MIN)	{DISPLAY.rms_value_temp[DISPLAY.index] = 0;} //전류 채널 계측 문턱값 (0.03A)
 		}
 		else if(DISPLAY.index == 5)
 		{
-			if(DISPLAY.rms_value_temp[DISPLAY.index] < 0.2)	{DISPLAY.rms_value_temp[DISPLAY.index] = 0;} //영상 전류 채널 계측 문턱값 (0.2mA)
+			if(DISPLAY.rms_value_temp[DISPLAY.index] < DISPLAY_Io_MIN)	{DISPLAY.rms_value_temp[DISPLAY.index] = 0;} //영상 전류 채널 계측 문턱값 (0.2mA)
 		}
 
 		DISPLAY.rms_value[DISPLAY.index] = DISPLAY.rms_value_temp[DISPLAY.index] * DISPLAY.multipllier[DISPLAY.index]; // CT(PT) ratio 곱해줌 //최종 전압,전류 display 값
@@ -2460,6 +2452,19 @@ void power_update(void)
 	DISPLAY.Power_Up = 0;
 }
 
+void Cal_RHour(void)
+{
+	if(RUNNING.op_count < 1000)	return;
+	RUNNING.op_count = 0; //1초 마다 리셋
+        
+	RUNNING.RunningHourCNT++; //1초 카운터 저장
+
+	if(RUNNING.RunningHourCNT >= 0x15752A00)	{RUNNING.RunningHourCNT = 0;}	//100000시간 마다 RESET! (3,600*100,000=360,000,000)
+
+	//MRAM 저장
+	*(MRAM_RUNNING_HOUR1) = (RUNNING.RunningHourCNT >> 16) & 0xffff;
+	*(MRAM_RUNNING_HOUR2) = RUNNING.RunningHourCNT & 0xffff;
+}
 
 // 사용하는 인터럽트 설정
 // 이 함수는 H/W 변동이 없는 한 수정 없음
