@@ -868,9 +868,10 @@ void menu_02_01(unsigned int value, int display)
 		Screen_Position.y = 0;
 		Screen_Position.x = 1;
 	}	else if(value == ENTER_KEY) {
-//			Screen_Position.y = 30;
-//			Screen_Position.x = 2;
-//			cursor_move(0, 0);//cursor off
+		Screen_Position.y = 30;
+		Screen_Position.x = 2;
+		Screen_Position.data_change = REALTIME_MENU;
+		cursor_move(0, 0);//cursor off
 	}
 }
 
@@ -3627,6 +3628,38 @@ void menu_29_03(unsigned int value, int display)
 	if(value) {
 		Screen_Position.y = 29;
 		Screen_Position.x = 2;
+	}
+}
+
+void menu_30_02(unsigned int value, int display)
+{
+	char string[22];
+	int temp;
+
+	const char *str[2] = {
+			"  [ RUNNING HOUR ] \1\0",
+			"            Hours   " };
+
+	if(display == 1) {
+		screen_frame3(str);
+		return;
+	} else if(display == 2) {
+		RUNNING.RunningMeterHour = RUNNING.RunningHourCNT / 3600;
+		temp = RUNNING.RunningHourCNT % 3600;
+
+		RUNNING.RunningMeterHour_F = temp / 60;
+		RUNNING.RunningMeterHour_F = RUNNING.RunningMeterHour_F / 6;  //6ºÐ == 0.1½Ã°£
+
+		sprintf(string, "%5ld.%1d\0", RUNNING.RunningMeterHour, RUNNING.RunningMeterHour_F);
+		VFD_Single_Line_dump(LCD_L2_04, string);
+		return;
+	}
+
+	if(value == UP_KEY) {
+		Screen_Position.y = 2;
+		Screen_Position.x = 1;
+		Screen_Position.data_change = NORMAL_MENU;
+		Screen_Position.select = 0;
 	}
 }
 
@@ -14099,6 +14132,12 @@ void menu_99_04(unsigned int value, int display)
 		Screen_Position.select %= 2;
 	} else if(value == ENTER_KEY) {
 		if(Screen_Position.select == 0) {
+
+			//MRAM CLEAR
+			*(MRAM_RUNNING_HOUR1) = 0;
+			*(MRAM_RUNNING_HOUR2) = 0;
+			RUNNING.RunningHourCNT = 0;
+
 			Screen_Position.y = 99;
 			Screen_Position.x = 5;
 			cursor_move(0, 0);//cursor off
@@ -17054,7 +17093,7 @@ const Screen_Function_Pointer menu_tables[200][18] = { //2015.02.17
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_27_04, menu_27_05, menu_27_06,},                                                     // 27
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_28_05,},                                                                 // 28
 		{menu_dummy, menu_dummy, menu_29_02, menu_29_03, },                                                                                        // 29
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 30
+		{menu_dummy, menu_dummy, menu_30_02, },                                                                                                    // 30
 		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 31
 		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 32
 		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 33

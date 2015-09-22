@@ -163,6 +163,9 @@ void setting_post_handling(unsigned int *ar_address)
 		DISPLAY.multipllier[8] = CPT.pt_ratio;
 		DISPLAY.multipllier[9] = CPT.gpt_ratio;
 
+//-------- Running Hour Meter Cut Current 용
+		RUNNING.Cut_Current = (float)CPT.ct_primary * 0.02; //정격의 2%이상인 경우 카운트하기 위해.
+
 		//누적값들 삭제
 //		ACCUMULATION.energy_p = 0;
 //		ACCUMULATION.energy_q = 0;
@@ -1762,6 +1765,10 @@ void ClearFLASH(void)
  	//Fault clear
  	//이벤트 clear
  	//누적값 clear (running hour, vo_max 등)
+	*(MRAM_RUNNING_HOUR1) = 0;
+	*(MRAM_RUNNING_HOUR2) = 0;
+	RUNNING.RunningHourCNT = 0;
+
  	//do 출력 설정 초기화
 }
 

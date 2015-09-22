@@ -202,7 +202,6 @@ struct
 	unsigned int cb_open;
 	unsigned int cb_close;
 	unsigned int measurement;
-	unsigned long current_on;
 } TIMER;
 
 struct
@@ -1065,6 +1064,16 @@ struct
 
 	unsigned int property_temp;
 } DIGITAL_OUTPUT;
+
+struct
+{
+	unsigned long op_count;
+	unsigned long RunningHourCNT;
+
+	float Cut_Current;
+	unsigned long RunningMeterHour;
+	unsigned int RunningMeterHour_F;
+} RUNNING;
 //--------- SYSTEM VARIABLE END
 
 struct
@@ -1182,11 +1191,6 @@ struct
 	unsigned int temp16_1;
 	unsigned int temp16_2;
 } TIMER1;
-
-struct
-{
-	float current_display;
-} MIN_MAX;
 
 struct
 {
