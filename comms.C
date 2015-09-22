@@ -59,7 +59,7 @@ void manager_handling(void)
 
 			buff[1] = ((GPT.pt_tertiary % 190) == 0)?3:((GPT.pt_tertiary % 120) == 2)?2:1;//GPT Type (110, 120, 190 = 1, 2, 3)
 			buff[1] <<= 8;
-			buff[1] |= (CORE.rated_ct == 0x5678)?1:2;	//CT Type (5A, 1A = 1, 2)
+			buff[1] |= (CORE.rated_ct == 0x5678)?2:1;	//CT Type (5A, 1A = 2, 1)
 				
 			buff[2] = VERSION >> 8;	//Version 1	Á¤¼ö
 			buff[2] <<= 8;

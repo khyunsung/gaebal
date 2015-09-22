@@ -182,3 +182,12 @@ extern void Save_Screen_Info(unsigned int);
 extern void Restore_Screen_Info(void);
 extern void modbus_comm_card_check(void);
 extern void SCI_Port_Err_Check(void);
+
+extern void DMAInitialize(void);
+extern void DMACH1AddrConfig(volatile Uint16 *,volatile Uint16 *);
+extern void DMACH1BurstConfig(Uint16, int16, int16);
+extern void DMACH1TransferConfig(Uint16, int16, int16);
+extern void DMACH1WrapConfig(Uint16, int16, Uint16, int16);
+extern void DMACH1ModeConfig(Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16);
+extern void StartDMACH1(void);
+extern void self_diagnostic(void);

@@ -16786,6 +16786,34 @@ void menu_99_00(unsigned int value, int display)
 
 }
 
+void menu_error(unsigned int value, int display)
+{
+	char str[2][22];
+//	const char str_parts[5][20] = {
+//	 12345678901234567890
+//		"                    ",
+//		" PROBLEM - SRAM     ",
+//		" PROBLEM - MRAM     ",
+//		" PROBLEM - ADC      ",
+//		" PROBLEM - FLASH    "
+//	};
+								 //12345678901234567890
+	sprintf(str[0], "  !! SYSTEM FAIL !! \0");
+	if(value == 0x02)
+		sprintf(str[1], "   PROBLEM - SRAM   \0");
+	else if(value == 0x04)
+		sprintf(str[1], "   PROBLEM - MRAM   \0");
+	else if(value == 0x08)
+		sprintf(str[1], "   PROBLEM - ADC    \0");
+	else if(value == 0x20)
+		sprintf(str[1], "   PROBLEM - FLASH  \0");
+			
+	if(display) {
+		screen_frame2(str);
+	}
+
+}
+
 void Event_Item_Display(void)		//khs, 2015-03-31 오후 7:36:32
 {
 	char temp_char;
@@ -17163,7 +17191,7 @@ const Screen_Function_Pointer menu_tables[200][18] = { //2015.02.17
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_97_04, menu_97_05, menu_97_06, menu_97_07, menu_97_08, menu_97_09,},                 // 97
 		{menu_popup, menu_reset, menu_dummy, menu_dummy, menu_98_04, menu_98_05, menu_98_06, menu_98_07, menu_98_08, menu_98_09, menu_98_10, menu_98_11,}, // 98
 		{menu_99_00, menu_dummy, menu_dummy, menu_dummy, menu_99_04, menu_99_05, menu_99_06,},                                                     // 99
-		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_100_04, menu_100_05, menu_100_06, menu_100_07, menu_100_08,},                        // 100
+		{menu_error, menu_dummy, menu_dummy, menu_dummy, menu_100_04, menu_100_05, menu_100_06, menu_100_07, menu_100_08,},                        // 100
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_101_04, menu_101_05, menu_101_06, menu_101_07, menu_101_08, menu_101_09,},           // 101
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_102_05, menu_102_06,},																									 // 102
 		{menu_dummy, menu_dummy, menu_dummy, menu_dummy, menu_103_04, menu_103_05, menu_103_06, menu_103_07,},           													 // 103
@@ -17333,7 +17361,18 @@ void menu_drive(void)
 //	Screen_Position.data_change = POPUP_MENU;
 //	Test_Popup = 0;
 //}	
-	if(Screen_Position.data_change == REALTIME_MENU)
+	if(SYSTEM.diagnostic)
+	{
+		Screen_Position.y = 100;
+		Screen_Position.x = 0;
+		Screen_Position.data_change = NORMAL_MENU;
+
+		menu_tables[Screen_Position.y][Screen_Position.x](SYSTEM.diagnostic, 0);
+		menu_tables[Screen_Position.y][Screen_Position.x](SYSTEM.diagnostic, 1);
+		
+		for(;;);//시스템에 문제가 있으니 더 이상 운전을 시키면 안되므로 정지 시킴.
+	}
+	else if(Screen_Position.data_change == REALTIME_MENU)
 	{
 		if(Data_Change_Count++ > 3)
 		{
