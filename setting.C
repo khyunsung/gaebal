@@ -175,10 +175,6 @@ void setting_post_handling(unsigned int *ar_address)
 //		float_to_8bit_fram(&ACCUMULATION.energy_q, EQ1, 1);
 //		float_to_8bit_fram(&ACCUMULATION.energy_rp, REP1, 1);
 //		float_to_8bit_fram(&ACCUMULATION.energy_rq, REQ1, 1);
-//		ACCUMULATION.vo_max = 0;						
-//		float_to_8bit_fram(&ACCUMULATION.vo_max, VoMAX1, 1);
-//		ACCUMULATION.io_max = 0;
-//		float_to_8bit_fram(&ACCUMULATION.io_max, IoMAX1, 1);
 	}
 
 	else if(ar_address == MOD_ADDR)
@@ -1768,6 +1764,10 @@ void ClearFLASH(void)
 	*(MRAM_RUNNING_HOUR1) = 0;
 	*(MRAM_RUNNING_HOUR2) = 0;
 	RUNNING.RunningHourCNT = 0;
+
+	*(MRAM_Vo_MAX1) = 0;
+	*(MRAM_Vo_MAX2) = 0;
+	DISPLAY.vo_max = 0;
 
  	//do 출력 설정 초기화
 }

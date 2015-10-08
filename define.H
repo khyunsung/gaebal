@@ -677,6 +677,8 @@
 
 #define MRAM_RUNNING_HOUR1	(unsigned int *)0x15d0f0	//RUNNING HOUR METER MRAM 주소
 #define MRAM_RUNNING_HOUR2	(unsigned int *)0x15d0f1	//RUNNING HOUR METER MRAM 주소
+#define MRAM_Vo_MAX1				(unsigned int *)0x15d0f2	//Vo MAX MRAM 주소
+#define MRAM_Vo_MAX2				(unsigned int *)0x15d0f3	//Vo MAX MRAM 주소
 
 //누적값
 //유효전력
@@ -708,12 +710,6 @@
 #define VoMAX2          (unsigned int *)0x120f11
 #define VoMAX3          (unsigned int *)0x120f12
 #define VoMAX4          (unsigned int *)0x120f13
-
-//최대영상전류
-#define IoMAX1          (unsigned int *)0x120f14
-#define IoMAX2          (unsigned int *)0x120f15
-#define IoMAX3          (unsigned int *)0x120f16
-#define IoMAX4          (unsigned int *)0x120f17
 
 #define CB_CLOSE_TIME1	(unsigned int *)0x120f18
 #define CB_CLOSE_TIME2	(unsigned int *)0x120f19
