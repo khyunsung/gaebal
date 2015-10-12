@@ -6,6 +6,7 @@ void booting_setting_check(void)
 {
 	unsigned int i, j;
 	unsigned int temp[100];
+	unsigned long temp32;
 	
 	void *void_p;
 	unsigned int *temp16_p;
@@ -26,10 +27,10 @@ void booting_setting_check(void)
 	delay_us(1000);
 	lcd_control_write(LCD_CLEAR);
 	delay_us(2000);
-	
+										//01234567890123456789
 	LCD.line_buffer1 = "      HYUNDAI";
 	LCD.line_buffer2 = "  HEAVY INDUSTRIES";
-	
+	/*
 	for(i = 0; i < 20; i++)
 	{
 		if(LCD.line_buffer1[i] == 0)
@@ -48,23 +49,31 @@ void booting_setting_check(void)
 		else
 		lcd_character_write(LCD.line_buffer2[i]);
 		delay_us(1000);
-	}
+	}*/
 	//-------- 초기화면 표시 끝
 	
 	//-------- LED 초기화 시작
 	*LED_CS = FAULT_LED;
-	delay_us(50000);
-	*LED_CS = FAULT_LED | OP_LED;
-	delay_us(50000);
-	*LED_CS = FAULT_LED | OP_LED | SYS_FAIL_LED;
-	delay_us(50000);
-	*LED_CS = FAULT_LED | OP_LED | SYS_FAIL_LED | CB_CLOSE_LED;
-	delay_us(50000);
-	*LED_CS = FAULT_LED | OP_LED | SYS_FAIL_LED | CB_CLOSE_LED | CB_OPEN_LED;
-	delay_us(50000);
-	*LED_CS = FAULT_LED | OP_LED | SYS_FAIL_LED | CB_CLOSE_LED | CB_OPEN_LED | REMOTE_LED;
-	delay_us(50000);
-	*LED_CS = FAULT_LED | OP_LED | SYS_FAIL_LED | CB_CLOSE_LED | CB_OPEN_LED | REMOTE_LED | LOCAL_LED;
+	delay_us(500000);
+
+	*LED_CS = FAULT_LED | SYS_FAIL_LED;				
+	lcd_control_write(LCD_L1_06); delay_us(1000);
+	for(i = 6; i < 13; i++)			{ lcd_character_write(LCD.line_buffer1[i]); delay_us(100000);}
+
+	*LED_CS = FAULT_LED | SYS_FAIL_LED | OP_LED;
+	lcd_control_write(LCD_L2_02); delay_us(1000);
+	for(i = 2; i < 8; i++)			{ lcd_character_write(LCD.line_buffer2[i]); delay_us(100000);}
+	
+	*LED_CS = FAULT_LED | SYS_FAIL_LED | OP_LED | CB_OPEN_LED;
+	for(i = 8; i < 18; i++)			{ lcd_character_write(LCD.line_buffer2[i]); delay_us(70000);}
+	
+	*LED_CS = FAULT_LED | SYS_FAIL_LED | OP_LED | CB_OPEN_LED | CB_CLOSE_LED;
+	delay_us(500000);
+	
+	*LED_CS = FAULT_LED | SYS_FAIL_LED | OP_LED | CB_OPEN_LED | CB_CLOSE_LED | REMOTE_LED	;
+	delay_us(500000);
+	
+	*LED_CS = FAULT_LED | SYS_FAIL_LED | OP_LED | CB_OPEN_LED | CB_CLOSE_LED | REMOTE_LED | LOCAL_LED;
 	//-------- LED 초기화 끝
 
 	//-------- 시스템 속성을 결정하는 초기 시스템 검사
@@ -163,6 +172,36 @@ void booting_setting_check(void)
 	delay_us(100000); // rtc 시간을 읽어와서 내부 TIME.xxx 변수에 쟁기기 완료
 	
 // CALIBRATION FACTOR, SRAM CHECK
+	lcd_control_write(0x0c);
+	delay_us(1000);
+	lcd_control_write(LCD_CLEAR);
+	delay_us(2000);
+
+					          //12345678901234567890
+	LCD.line_buffer1 = "CAL. FACTOR -       ";
+	LCD.line_buffer2 = "SRAM CHECK  -       ";
+
+	for(i = 0; i < 20; i++)
+	{
+		if(LCD.line_buffer1[i] == 0)
+		break;
+		else
+		lcd_character_write(LCD.line_buffer1[i]);
+		delay_us(1000);
+	}
+	lcd_control_write(0xc0);
+	delay_us(1000);
+	
+	for(i = 0; i < 20; i++)
+	{
+		if(LCD.line_buffer2[i] == 0)
+		break;
+		else
+		lcd_character_write(LCD.line_buffer2[i]);
+		delay_us(1000);
+	}
+
+	
 	//-------- calibration factor 읽어서 확인
 	for(i = 0; i < 10; i++)	// offset
 	{
@@ -249,119 +288,146 @@ void booting_setting_check(void)
 		CALIBRATION.angle[9] = -0.0323419;
 
 		CALIBRATION.frequency_offset = 0.001021814;
+		LCD.line_buffer1 = "FAIL";
 	}
+	else 
+	LCD.line_buffer1 = "GOOD";
 	CALIBRATION.frequency_offset = 60 - CALIBRATION.frequency_offset;
+	
+	//-------- 결과 화면 표시
+	lcd_control_write(LCD_L1_14);//0xc0
+	delay_us(1000);
+	for(i = 0; i < (20 - (LCD_L1_14 - 0x80)); i++)
+	{
+		if(LCD.line_buffer1[i] == 0)	{break;}
+		else	{lcd_character_write(LCD.line_buffer1[i]);}
+		delay_us(1000);
+	}
+	delay_us(500000);
+	lcd_control_write(LCD_L2_14);//0xc0
+//	delay_us(1000);
+//	lcd_control_write(LCD_CLEAR);
+	delay_us(2000);
+	delay_us(500000);
+	
 	//-------- calibration factor 읽어서 확인 END
 
 	//-------- SRAM에 지우고 쓰고 다시 읽어서 확인
-//	for(temp32 = 0; temp32 < 0x40000; temp32++)
-//	{
-//		*(Pre_Ia_wave_buffer + temp32) = 0x1234;
-//		i = *(Pre_Ia_wave_buffer + temp32);
-//		*(Pre_Ia_wave_buffer + temp32) = 0;
-//		if(i != 0x1234)
-//		{
-//			LCD.line_buffer1 = "FAIL";
-//			SYSTEM.diagnostic |= SRAM_FAIL;
-//			break;
-//		}
-//	}
-//	if(temp32 == 0x40000)	{LCD.line_buffer1 = "GOOD";}
+	for(temp32 = 0; temp32 < 0x40000; temp32++)
+	{
+		*(Pre_Ia_wave_buffer + temp32) = 0x1234;
+		i = *(Pre_Ia_wave_buffer + temp32);
+		*(Pre_Ia_wave_buffer + temp32) = 0;
+		if(i != 0x1234)
+		{
+			LCD.line_buffer1 = "FAIL";
+			SYSTEM.diagnostic |= SRAM_FAIL;
+			break;
+		}
+	}	
+	if(temp32 == 0x40000)	{LCD.line_buffer1 = "GOOD";}
 	//-------- SRAM에 지우고 쓰고 다시 읽어서 확인 END
 
 	//-------- 결과 화면 표시
-//	for(i = 0; i < 20; i++)
-//	{
-//		if(LCD.line_buffer1[i] == 0)	{break;}
-//		else	{lcd_character_write(LCD.line_buffer1[i]);}
-//		delay_us(1000);
-//	}
+	lcd_control_write(LCD_L2_14);//0xc0
+	delay_us(1000);
+	for(i = 0; i < (20 - (LCD_L2_14 - 0x80)); i++)
+	{
+		if(LCD.line_buffer1[i] == 0)	{break;}
+		else	{lcd_character_write(LCD.line_buffer1[i]);}
+		delay_us(1000);
+	}
 //	delay_us(500000);
-//	lcd_control_write(0x0c);
+//	lcd_control_write(LCD_L2_14);//0xc0
 //	delay_us(1000);
-//	lcd_control_write(LCD_CLEAR);
-//	delay_us(2000);
+	lcd_control_write(LCD_L1_00);
+	delay_us(1000);
+	delay_us(500000);
 	//-------- 결과 화면 표시 END
 
 // FLASH, FRAM CHECK
 	//-------- 시작 화면 표시
-//	LCD.line_buffer1 = "FLASH CHECK -";
-//	LCD.line_buffer2 = "FRAM  CHECK -";
-//	for(i = 0; i < 20; i++)
-//	{
-//		if(LCD.line_buffer1[i] == 0) {break;}
-//		else	{lcd_character_write(LCD.line_buffer1[i]);}
-//		delay_us(1000);
-//	}
-//	lcd_control_write(0xc0);
-//	delay_us(1000);
-//	for(i = 0; i < 20; i++)
-//	{
-//		if(LCD.line_buffer2[i] == 0)	{break;}
-//		else	{lcd_character_write(LCD.line_buffer2[i]);}
-//		delay_us(1000);
-//	}
-//	lcd_control_write(LCD_L1_14);
-//	delay_us(1000);
+										//12345678901234567890
+	LCD.line_buffer1 = "FLASH CHECK -       ";
+	LCD.line_buffer2 = "MRAM  CHECK -       ";
+	for(i = 0; i < 20; i++)
+	{
+		if(LCD.line_buffer1[i] == 0) {break;}
+		else	{lcd_character_write(LCD.line_buffer1[i]);}
+		delay_us(1000);
+	}
+	lcd_control_write(0xc0);
+	delay_us(1000);
+	for(i = 0; i < 20; i++)
+	{
+		if(LCD.line_buffer2[i] == 0)	{break;}
+		else	{lcd_character_write(LCD.line_buffer2[i]);}
+		delay_us(1000);
+	}
+	lcd_control_write(LCD_L1_14);
+	delay_us(2000);
+	delay_us(500000);
 	//-------- 시작 화면 표시 END
 
 	//-------- FLASH에 지우고 쓰고 다시 읽어서 확인
-//	flash_sector_erase(FLASH_CHECK_SECTOR);
-//	for(i = 0; i < 0x800; i++)	{flash_word_write((FLASH_CHECK_SECTOR + i), 0x1234);}
-//	for(i = 0; i < 0x800; i++)
-//	{
-//		j = *(FLASH_CHECK_SECTOR + i);
-//		if(j != 0x1234)
-//		{
-//			LCD.line_buffer1 = "FAIL";
-//			SYSTEM.diagnostic |= FLASH_FAIL;
-//			break;
-//		}
-//	}
-//	if(i == 0x800)	{LCD.line_buffer1 = "GOOD";}
+	flash_sector_erase(FLASH_CHECK_SECTOR);
+	for(i = 0; i < 0x800; i++)	{flash_word_write((FLASH_CHECK_SECTOR + i), 0x1234);}
+	for(i = 0; i < 0x800; i++)
+	{
+		j = *(FLASH_CHECK_SECTOR + i);
+		if(j != 0x1234)
+		{
+			LCD.line_buffer1 = "FAIL";
+			SYSTEM.diagnostic |= FLASH_FAIL;
+			break;
+		}
+	}
+	if(i == 0x800)	{LCD.line_buffer1 = "GOOD";}
 	//-------- FLASH에 지우고 쓰고 다시 읽어서 확인 END
 
 	//-------- 결과 화면 표시
-//	for(i = 0; i < 20; i++)
-//	{
-//		if(LCD.line_buffer1[i] == 0)	{break;}
-//		else	{lcd_character_write(LCD.line_buffer1[i]);}
-//		delay_us(1000);
-//	}
-//	flash_sector_erase(FLASH_CHECK_SECTOR);
-//	lcd_control_write(LCD_L2_14);
-//	delay_us(1000);
+	for(i = 0; i < (20 - (LCD_L1_14 - 0x80)); i++)
+	{
+		if(LCD.line_buffer1[i] == 0)	{break;}
+		else	{lcd_character_write(LCD.line_buffer1[i]);}
+		delay_us(1000);
+	}
+	flash_sector_erase(FLASH_CHECK_SECTOR);
+	lcd_control_write(LCD_L2_14);
+	delay_us(2000);
+	delay_us(500000);
+
 	//-------- 결과 화면 표시 END
 
-	//-------- FRAM에 지우고 쓰고 다시 읽어서 확인
-//	for(temp32 = 0; temp32 < 0x20000; temp32++)
-//	{
-//		j = *(FRAM_START + temp32);	//save
-//		*(FRAM_START + temp32) = 0x12;	//write
-//		i = *(FRAM_START + temp32) & 0x00ff;	// read
-//		*(FRAM_START + temp32) = j;	//rewrite
-//		if(i != 0x12)
-//		{
-//			LCD.line_buffer1 = "FAIL";
-//			SYSTEM.diagnostic |= FRAM_FAIL;
-//			break;
-//		}
-//	}
-//	if(temp32 == 0x20000)	{LCD.line_buffer1 = "GOOD";}
+	//-------- MRAM에 지우고 쓰고 다시 읽어서 확인
+	for(temp32 = 0; temp32 < 0x20000; temp32++)
+	{
+		j = *(MRAM_START + temp32);	//save
+		*(MRAM_START + temp32) = 0x1234;	//write
+		i = *(MRAM_START + temp32);	// read
+		*(MRAM_START + temp32) = j;	//rewrite
+		if(i != 0x1234)
+		{
+			LCD.line_buffer1 = "FAIL";
+			SYSTEM.diagnostic |= MRAM_FAIL;
+			break;
+		}
+	}
+	if(temp32 == 0x20000)	{LCD.line_buffer1 = "GOOD";}
 	//-------- FRAM에 지우고 쓰고 다시 읽어서 확인
 
 	//-------- 결과 화면 표시
-//	for(i = 0; i < 20; i++)
-//	{
-//		if(LCD.line_buffer1[i] == 0)	{break;}
-//		else	{lcd_character_write(LCD.line_buffer1[i]);}
-//		delay_us(1000);
-//	}
-//	delay_us(500000);
-//	lcd_control_write(0x0c);
-//	delay_us(1000);
-//	lcd_control_write(LCD_CLEAR);
-//	delay_us(2000);
+	for(i = 0; i < (20 - (LCD_L2_14 - 0x80)); i++)
+	{
+		if(LCD.line_buffer1[i] == 0)	{break;}
+		else	{lcd_character_write(LCD.line_buffer1[i]);}
+		delay_us(1000);
+	}
+	delay_us(500000);
+	lcd_control_write(0x0c);
+	delay_us(1000);
+	lcd_control_write(LCD_CLEAR);
+	delay_us(100000);
 	//-------- 결과 화면 표시 END
 
 	//통신 인터페이스 있으면 실시

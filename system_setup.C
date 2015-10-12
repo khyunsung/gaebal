@@ -27,6 +27,8 @@ void cpu_setup(void)
 	sci_setup();
 	
 	i2c_setup();
+	
+	DMAInitialize();
 }
 
 // 이 함수는 H/W 변동이 없는 한 수정 없음
