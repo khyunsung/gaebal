@@ -16799,7 +16799,9 @@ void menu_error(unsigned int value, int display)
 //	};
 								 //12345678901234567890
 	sprintf(str[0], "  !! SYSTEM FAIL !! \0");
-	if(value == 0x02)
+	if(value == 0x01)
+		sprintf(str[1], "   PROBLEM - CALIBR.\0");
+	else if(value == 0x02)
 		sprintf(str[1], "   PROBLEM - SRAM   \0");
 	else if(value == 0x04)
 		sprintf(str[1], "   PROBLEM - MRAM   \0");
