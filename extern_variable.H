@@ -170,8 +170,6 @@ extern struct
 	float I1_value;
 	float I2_value;
 	float angle[8];
-
-	unsigned long vo_max;	
 } DISPLAY;
 
 extern struct
@@ -1235,6 +1233,9 @@ extern struct
 	float energy_q;
 	float energy_rp;
 	float energy_rq;
+	
+	float vo_max;
+	float io_max;
 } ACCUMULATION;
 
 typedef struct screen_move_info {

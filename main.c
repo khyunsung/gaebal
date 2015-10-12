@@ -1960,17 +1960,52 @@ void measure_display(void) //전압, 전류 값
 			DISPLAY.I2_value = MEASUREMENT.I2_value * CPT.ct_ratio; // CT ratio 곱해줌 //최종 역상 전류 display 값
 		}
 		
-		if(DISPLAY.index == 9)	// 저장된 영상전압보다 클때마다 MRAM에 저장(저장 위치 수정 필요)
-		{
-			if(DISPLAY.rms_value[9] > DISPLAY.vo_max)
-			{
-				DISPLAY.vo_max = (unsigned long)DISPLAY.rms_value[9];
 
-				//MRAM 저장
-				*(MRAM_Vo_MAX1) = (DISPLAY.vo_max >> 16) & 0xffff;
-				*(MRAM_Vo_MAX2) = DISPLAY.vo_max & 0xffff;
+		if(DISPLAY.index == 9)	// 저장된 영상전압보다 클때마다 FRAM에 저장(저장 위치 수정 필요)
+		{
+			if(DISPLAY.rms_value[9] > ACCUMULATION.vo_max)
+			{
+				ACCUMULATION.vo_max = DISPLAY.rms_value[9];
+				//float_to_8bit_fram(&ACCUMULATION.vo_max, VoMAX1, 1);
 			}
 		}
+
+//	if((DISPLAY.index > 5) && (DISPLAY.index < 10))	//전압(6,7,8,9)
+//	{
+//		if(DISPLAY.index == 9)	// 저장된 영상전압보다 클때마다 FRAM에 저장(저장 위치 수정 필요)
+//		{
+//			if(DISPLAY.rms_value[9] > ACCUMULATION.vo_max)
+//			{
+//				ACCUMULATION.vo_max = DISPLAY.rms_value[9];
+//				//float_to_8bit_fram(&ACCUMULATION.vo_max, VoMAX1, 1);
+//			}
+//		}
+//	}
+//	else	// 전류(0,1,2,3,4,5) //현재 Io_max 기능은 없음
+//	{
+//		if(DISPLAY.index == 3)	// 저장된 영상전류보다 클때마다 FRAM에 저장 (저장 위치 수정 필요)
+//		{
+//			if(CORE.gr_select != DGR_SELECT) //(??)
+//			{
+//				if(DISPLAY.rms_value[3] > ACCUMULATION.io_max)
+//				{
+//					ACCUMULATION.io_max = DISPLAY.rms_value[3];
+//					//float_to_8bit_fram(&ACCUMULATION.io_max, IoMAX1, 1);
+//				}
+//			}
+//		}
+//		else if(DISPLAY.index == 5) // ZCT의 경우 저장된 영상전류보다 클때마다 FRAM에 저장 (저장 위치 수정 필요)
+//		{
+//			if(CORE.gr_select == DGR_SELECT)
+//			{
+//				if(DISPLAY.rms_value[5] > ACCUMULATION.io_max)
+//				{
+//					ACCUMULATION.io_max = DISPLAY.rms_value[5];
+//					//float_to_8bit_fram(&ACCUMULATION.io_max, IoMAX1, 1);
+//				}
+//			}
+//		}
+//	}
 
 		DISPLAY.rms_value_sum[DISPLAY.index] = 0;
 	}

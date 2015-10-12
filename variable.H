@@ -164,8 +164,6 @@ struct
 	float I1_value;
 	float I2_value;
 	float angle[8];
-
-	unsigned long vo_max;	
 } DISPLAY;
 
 struct
@@ -1227,6 +1225,9 @@ struct
 	float energy_q;
 	float energy_rp;
 	float energy_rq;
+	
+	float vo_max;
+	float io_max;
 } ACCUMULATION;
 
 	// 비트위치가 반대로 들어가네

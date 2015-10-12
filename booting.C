@@ -1663,15 +1663,12 @@ void booting_setting_check(void)
 	RUNNING.RunningHourCNT <<= 16;
 	RUNNING.RunningHourCNT |= (*(MRAM_RUNNING_HOUR2) & 0xffff);
 
-	//Vo_MAX 값
-	DISPLAY.vo_max = (*(MRAM_Vo_MAX1) & 0xffff);
-	DISPLAY.vo_max <<= 16;
-	DISPLAY.vo_max |= (*(MRAM_Vo_MAX2) & 0xffff);
-
 //	float_to_8bit_fram(&ACCUMULATION.energy_p, EP1, 0);
 //	float_to_8bit_fram(&ACCUMULATION.energy_q, EQ1, 0);
 //	float_to_8bit_fram(&ACCUMULATION.energy_rp, REP1, 0);
 //	float_to_8bit_fram(&ACCUMULATION.energy_rq, REQ1, 0);
+//	float_to_8bit_fram(&ACCUMULATION.vo_max, VoMAX1, 0);
+//	float_to_8bit_fram(&ACCUMULATION.io_max, IoMAX1, 0);
 //-------- 누적값 읽어들이기 END
 
 //	//cb 투입 누적시간
