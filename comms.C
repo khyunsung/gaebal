@@ -363,7 +363,7 @@ void manager_handling(void)
 			//Vo
 			float_to_integer(DISPLAY.rms_value[Vn], &MANAGER.tx_buffer[18], 1.0F);
 			//Vom
-			float_to_integer(ACCUMULATION.vo_max, &MANAGER.tx_buffer[22], 1.0F);
+//		float_to_integer(ACCUMULATION.vo_max, &MANAGER.tx_buffer[22], 1.0F);
 			//Vavg
 			float_to_integer(DISPLAY.rms_Vavg_value, &MANAGER.tx_buffer[26], 1.0F);
 			//Vps
@@ -1974,33 +1974,18 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		}
 		
 		//vo max  clear
-		else if(MANAGER.rx_buffer[3] == 0x02)
-		{			
-			ACCUMULATION.vo_max = 0;
-						
-			float_to_integer(ACCUMULATION.vo_max, VoMAX1, 1.0F);
-			
-			EVENT.data_reset |= Vo_RESET_EVENT;
-			
-			event_direct_save(&EVENT.data_reset);
-			
-			serial_ok_nak_send(0);
-		}
-		
-		//Io max  clear
-		else if(MANAGER.rx_buffer[3] == 0x03)
-		{			
-			ACCUMULATION.io_max = 0;
-						
-			float_to_integer(ACCUMULATION.io_max, IoMAX1, 1.0F);
-			
-			
-			EVENT.data_reset |= Io_RESET_EVENT;
-			
-			event_direct_save(&EVENT.data_reset);
-			
-			serial_ok_nak_send(0);
-		}
+//		else if(MANAGER.rx_buffer[3] == 0x02)
+//		{			
+//			ACCUMULATION.vo_max = 0;
+//						
+//			float_to_integer(ACCUMULATION.vo_max, VoMAX1, 1.0F);
+//			
+//			EVENT.data_reset |= Vo_RESET_EVENT;
+//			
+//			event_direct_save(&EVENT.data_reset);
+//			
+//			serial_ok_nak_send(0);
+//		}
 		
 		//CB Close Time  clear
 		else if(MANAGER.rx_buffer[3] == 0x03)
@@ -2016,13 +2001,9 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 			
 			serial_ok_nak_send(0);
 		}
-		
-		
 		//serial_write(1, &LOCAL_CONTROL.mode, LOCAL_CTRL_USE); //2015.02.24
 	}
 		
-	
-	
 	// debug
 	else if(MANAGER.rx_buffer[2] == 0x18)
 	{
@@ -2415,7 +2396,7 @@ void comm_drive(void)
 					//Vo
 					float_to_integer(DISPLAY.rms_value[Vn], COMM2_VO, 1);
 					//Vo_max
-					float_to_integer(ACCUMULATION.vo_max, COMM2_VO_MAX, 1);
+//					float_to_integer(ACCUMULATION.vo_max, COMM2_VO_MAX, 1);
 					//Vavg
 					float_to_integer(DISPLAY.rms_Vavg_value, COMM2_VAVG, 1);
 					//Vps

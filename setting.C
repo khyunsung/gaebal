@@ -1769,6 +1769,10 @@ void ClearFLASH(void)
 	*(MRAM_RUNNING_HOUR2) = 0;
 	RUNNING.RunningHourCNT = 0;
 
+	*(MRAM_Vo_MAX1) = 0;
+	*(MRAM_Vo_MAX2) = 0;
+	DISPLAY.vo_max = 0;
+
  	//do 출력 설정 초기화
 }
 

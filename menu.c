@@ -270,7 +270,7 @@ void menu_00_05(unsigned int value, int display)
 		screen_frame3(str);
 		return;
 	} else if(display == 2) {
-		sprintf(string, "%7ld\0", (unsigned long)(ACCUMULATION.vo_max));
+		sprintf(string, "%7ld\0", DISPLAY.vo_max);
 		VFD_Single_Line_dump(LCD_L1_06, string);
 		sprintf(string, "%7ld\0", (unsigned long)(DISPLAY.rms_Vavg_value));
 		VFD_Single_Line_dump(LCD_L2_06, string);
@@ -12650,6 +12650,12 @@ void menu_87_04(unsigned int value, int display)
 		Screen_Position.select %= 2;
 	} else if(value == ENTER_KEY) {
 		if(Screen_Position.select == 0) {
+
+			//MRAM CLEAR
+			*(MRAM_Vo_MAX1) = 0;
+			*(MRAM_Vo_MAX2) = 0;
+			DISPLAY.vo_max = 0;
+
 			Screen_Position.y = 87;
 			Screen_Position.x = 5;
 			cursor_move(0, 0);//cursor off

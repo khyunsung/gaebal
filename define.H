@@ -678,6 +678,8 @@
 
 #define MRAM_RUNNING_HOUR1	(unsigned int *)0x15d0f0	//RUNNING HOUR METER MRAM 林家
 #define MRAM_RUNNING_HOUR2	(unsigned int *)0x15d0f1	//RUNNING HOUR METER MRAM 林家
+#define MRAM_Vo_MAX1				(unsigned int *)0x15d0f2	//Vo MAX MRAM 林家
+#define MRAM_Vo_MAX2				(unsigned int *)0x15d0f3	//Vo MAX MRAM 林家
 
 //穿利蔼
 //蜡瓤傈仿

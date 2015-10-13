@@ -1,1 +1,0 @@
-"../DSP2833x_CodeStartBranch.asm" "../DSP2833x_GlobalVariableDefs.c" "../DSP2833x_MemCopy.c" "../DSP2833x_usDelay.asm" "../booting.C" "../calibration.C" "../comms.C" "../main.c" "../menu.c" "../peripheral.C" "../relaying.C" "../setting.C" "../system_isr.C" "../system_setup.C" 
