@@ -89,6 +89,80 @@ unsigned int setting_save(unsigned int *ar_temp, unsigned int *ar_address, unsig
 	return(1);
 }
 
+void flash_crc_check(void)
+{
+	static unsigned int sel = 0;
+	unsigned int crc;
+	unsigned int crc_sram;
+	
+	if(sel == 0) {
+			crc = Setting_CRC(OCR50_1_USE, 5); crc_sram = Setting_CRC(&OCR50_1.use, 5);
+			if(crc != *OCR50_1_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel == 1) {
+			crc = Setting_CRC(OCR50_2_USE, 5); crc_sram = Setting_CRC(&OCR50_2.use, 5);
+			if(crc != *OCR50_2_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel ==  2) {
+			crc = Setting_CRC(OCR51_1_USE, 5); crc_sram = Setting_CRC(&OCR51_1.use, 5);
+			if(crc != *OCR51_1_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel ==  3) {
+			crc = Setting_CRC(OCR51_2_USE, 5); crc_sram = Setting_CRC(&OCR51_2.use, 5);
+			if(crc != *OCR51_2_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel ==  4) {
+			crc = Setting_CRC(OCGR50_USE , 5); crc_sram = Setting_CRC(&OCGR50.use, 5);
+			if(crc != *OCGR50_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel ==  5) {
+			crc = Setting_CRC(OCGR51_USE , 5); crc_sram = Setting_CRC(&OCGR51.use, 5);
+			if(crc != *OCGR51_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel ==  6) {
+			crc = Setting_CRC(UVR_1_USE  , 4); crc_sram = Setting_CRC(&UVR_1.use, 4);
+			if(crc != *UVR_1_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel ==  7) {
+			crc = Setting_CRC(UVR_2_USE  , 4); crc_sram = Setting_CRC(&UVR_2.use, 4);
+			if(crc != *UVR_2_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel ==  8) {
+			crc = Setting_CRC(UVR_3_USE  , 4); crc_sram = Setting_CRC(&UVR_3.use, 4);
+			if(crc != *UVR_3_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel ==  9) {
+			crc = Setting_CRC(P47_USE    , 4); crc_sram = Setting_CRC(&P47.use, 4);
+			if(crc != *P47_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel == 10) {
+			crc = Setting_CRC(N47_USE    , 4); crc_sram = Setting_CRC(&N47.use, 4);
+			if(crc != *N47_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel == 11) {
+			crc = Setting_CRC(OVR_USE    , 6); crc_sram = Setting_CRC(&OVR.use, 6);
+			if(crc != *OVR_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel == 12) {
+			crc = Setting_CRC(OVGR_USE   , 5); crc_sram = Setting_CRC(&OVGR.use, 5);
+			if(crc != *OVGR_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel == 13) {
+			crc = Setting_CRC(DGR_USE    , 6); crc_sram = Setting_CRC(&DGR.use, 6);
+			if(crc != *DGR_CRC || crc != crc_sram)
+				SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel == 14) {
+			crc = Setting_CRC(SGR_USE    , 6); crc_sram = Setting_CRC(&SGR.use, 6);
+      if(crc != *SGR_CRC || crc != crc_sram)
+      	SYSTEM.diagnostic |= FLASH_FAIL;
+	} else if(sel == 15) {
+//			crc = Setting_CRC(SYNCRO_USE , 6);  crc_sram = Setting_CRC(&SYNCRO.use, 5);
+//      if(crc != *SYNCRO_CRC || crc != crc_sram)
+//      	SYSTEM.diagnostic |= FLASH_FAIL;
+	}
+	if(sel++ > 15) sel = 0;
+}
+
 // crc가 정상일 경우 사후처리
 // *ar_address - flash 시작 주소
 // 상기 주소를 가지고 설정 값이 어떤 것인지 판단

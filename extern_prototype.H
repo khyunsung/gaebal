@@ -191,3 +191,8 @@ extern void DMACH1WrapConfig(Uint16, int16, Uint16, int16);
 extern void DMACH1ModeConfig(Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16);
 extern void StartDMACH1(void);
 extern void self_diagnostic(void);
+extern void flash_crc_check(void);
+extern void Watchdog_Enable_FM31L27x(void);
+extern void Watchdog_Disable_FM31L27x(void);
+extern void Watchdog_Kick_FM31L27x(void);
+extern unsigned int Watchdog_Read_FM31L27x(unsigned);

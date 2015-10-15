@@ -192,3 +192,8 @@ void DMACH1WrapConfig(Uint16, int16, Uint16, int16);
 void DMACH1ModeConfig(Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16);
 void StartDMACH1(void);
 void self_diagnostic(void);
+void flash_crc_check(void);
+void Watchdog_Enable_FM31L27x(void);
+void Watchdog_Disable_FM31L27x(void);
+void Watchdog_Kick_FM31L27x(void);
+unsigned int Watchdog_Read_FM31L27x(unsigned int);

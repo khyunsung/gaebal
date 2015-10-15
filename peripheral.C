@@ -1715,6 +1715,7 @@ void self_diagnostic(void)
 		static int cnt = 0;
 		static int sram_pos = 1;
 		static int sram_err = 0;
+		static int mram_chk = 1;
 		unsigned int i;
 		unsigned int j;
 		
@@ -1738,9 +1739,18 @@ void self_diagnostic(void)
 			
 			if(sram_pos++ > 256) sram_pos = 1;
 
-		} else if(cnt == 3) {
-			;
+		} else if(cnt == 3) {	//MRAM 체크
+				*MRAM_CHECK = mram_chk? 0x1234: 0xabcd;
+				if(*MRAM_CHECK == 0x1234 && mram_chk == 1) {
+					//do nthg.
+				} else if(*MRAM_CHECK == 0xabcd && mram_chk == 0) {
+					//do nthg.
+				} else {
+					SYSTEM.diagnostic |= MRAM_FAIL;		//저장된 값이 다르면 MRAM FAIL 발생
+				}
+				mram_chk ^= 1;
 		} else if(cnt == 4) {
+		
 			;
 		} else if(cnt == 5) {
 			;
@@ -1769,4 +1779,64 @@ void self_diagnostic(void)
 		SYSTEM.diagnostic = 3;
 		SYSTEM.diagnostic = 4;
 */		
+}
+
+/*
+	The FM31L27x is a family of integrated devices that includes the most commonly needed functions for
+	processor-based systems. Major features include nonvolatile memory available in various sizes, realtime
+	clock, low-VDD reset, watchdog timer, nonvolatile event counter, lockable 64-bit serial
+	number area, and general purpose comparator that can be used for an early power-fail (NMI) interrupt or
+	other purpose. The family operates from 2.7 to 3.6V.
+	
+	Address 		D7	 	D6	 	D5	 	D4	 	D3 		D2 		D1 		D0 		Function 
+	10h 				Counter 2 MSB Event Counter 2 MSB FFh
+	0Fh 				Counter 2 LSB Event Counter 2 LSB FFh
+	0Eh 				Counter 1 MSB Event Counter 1 MSB FFh
+	0Dh 				Counter 1 LSB Event Counter 1 LSB FFh
+	0Ch                                 RC 		CC 		C2P 	C1P 	Event Count Control
+	0Bh 				SNL 	- 		FC 		WP1 	WP0 	VBC 	- 		VTP 	Companion Control
+	0Ah 				WDE 	- 		- 		WDT4 	WDT3 	WDT2 	WDT1 	WDT0 	Watchdog Control
+	09h 				WTR 	POR 	LB 		- 		WR3 	WR2 	WR1 	WR0 	Watchdog Restart/Flags
+	08h 				--------10 years----		---------years------- 	Years 00-99
+	07h 				0 		0 		0 		10 mo ---------months------		Month 1-12
+	06h 				0 		0 	  -10 date- 	--------date---------		Date 1-31
+	05h 				0 		0 		0 		0 		0 		-----day------- 	Day 1-7
+	04h 				0 		0 		10 hours hours Hours 0-23
+	03h 				0 		----10 minutes-		----minutes--------- 		Minutes 0-59
+	02h 				0 		----10 seconds- 	----seconds--------- 		Seconds 0-59
+	01h 				/OSCEN resv. CALS CAL4 	CAL3 	CAL2 	CAL1 	CAL0 	CAL/Control
+	00h 				resv. CF 		resv. resv. resv. CAL 	W 		R 		RTC Control
+*/
+void Watchdog_Enable_FM31L27x(void)
+{
+	unsigned int temp;
+	
+	temp = 0x9e;	//Enable Watchdog
+	i2c_write(0x68, 0x0a, 1, &temp);//0Ah Watchdog Control Register Address
+}
+
+void Watchdog_Disable_FM31L27x(void)
+{
+	unsigned int temp;
+	
+	temp = 0x1f;	//Disable Watchdog
+	i2c_write(0x68, 0x0a, 1, &temp);//0Ah Watchdog Control Register Address
+}
+
+void Watchdog_Kick_FM31L27x(void)
+{
+	unsigned int temp;
+	
+	temp = 0x0a;
+	i2c_write(0x68, 0x09, 1, &temp);//0Ah Watchdog Control Register Address
+}
+
+unsigned int Watchdog_Read_FM31L27x(unsigned int addr)
+{
+	unsigned int temp;
+	
+	i2c_read(0x68, addr, 1);	//레지스터 addr 주소에서 1개 주소 값을 읽어온다.
+	temp = *I2caRegs_I2CDRR;	// i2c_read()에서 읽음완료 후 DSP 수신 FIFO(*I2caRegs_I2CDRR)에서 불러오면 읽기가 최종적으로 완료
+	
+	return temp;
 }

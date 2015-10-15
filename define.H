@@ -680,6 +680,7 @@
 #define MRAM_RUNNING_HOUR2	(unsigned int *)0x15d0f1	//RUNNING HOUR METER MRAM 林家
 #define MRAM_Vo_MAX1				(unsigned int *)0x15d0f2	//Vo MAX MRAM 林家
 #define MRAM_Vo_MAX2				(unsigned int *)0x15d0f3	//Vo MAX MRAM 林家
+#define MRAM_CHECK				(unsigned int *)0x17FFF0	//MRAM 惑矫眉农 林家
 
 //穿利蔼
 //蜡瓤傈仿
@@ -774,21 +775,21 @@
 #define UVR_1_DELAY     (unsigned int *)0x183002
 #define UVR_1_MODE			(unsigned int *)0x183003
 #define UVR_1_DO        (unsigned int *)0x183004
-#define UVR_1_CRC       (unsigned int *)0x183005
+#define UVR_1_CRC       (unsigned int *)0x183004
 
 #define UVR_2_USE       (unsigned int *)0x183800  //27M
 #define UVR_2_V         (unsigned int *)0x183801
 #define UVR_2_DELAY     (unsigned int *)0x183802
 #define UVR_2_MODE			(unsigned int *)0x183803
 #define UVR_2_DO        (unsigned int *)0x183804
-#define UVR_2_CRC       (unsigned int *)0x183805
+#define UVR_2_CRC       (unsigned int *)0x183804
 
 #define UVR_3_USE       (unsigned int *)0x184000  //27S
 #define UVR_3_V         (unsigned int *)0x184001
 #define UVR_3_DELAY     (unsigned int *)0x184002
 #define UVR_3_MODE			(unsigned int *)0x184003
 #define UVR_3_DO        (unsigned int *)0x184004
-#define UVR_3_CRC       (unsigned int *)0x184005
+#define UVR_3_CRC       (unsigned int *)0x184004
 
 #define P47_USE					(unsigned int *)0x184800  //47P
 #define P47_V						(unsigned int *)0x184801

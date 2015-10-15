@@ -217,28 +217,28 @@ void booting_setting_check(void)
 		temp[10 + (i << 1)] = *temp16_p;
 		temp[11 + (i << 1)] = *(temp16_p + 1);
 	}
-	for(i = 0; i < 10; i++)	//intercept
+//	for(i = 0; i < 10; i++)	//intercept
+//	{
+//		void_p = &CALIBRATION.intercept[i];
+//		temp16_p = (unsigned int*)void_p;
+//		eerom_read(0x30 + (i << 1), temp16_p);
+//		eerom_read(0x31 + (i << 1), temp16_p + 1);
+//		temp[30 + (i << 1)] = *temp16_p;
+//		temp[31 + (i << 1)] = *(temp16_p + 1);
+//	}
+	for(i = 0; i < 10; i++)	//angle
 	{
-		void_p = &CALIBRATION.intercept[i];
+		void_p = &CALIBRATION.angle[i];
 		temp16_p = (unsigned int*)void_p;
 		eerom_read(0x30 + (i << 1), temp16_p);
 		eerom_read(0x31 + (i << 1), temp16_p + 1);
 		temp[30 + (i << 1)] = *temp16_p;
 		temp[31 + (i << 1)] = *(temp16_p + 1);
 	}
-	for(i = 0; i < 10; i++)	//angle
-	{
-		void_p = &CALIBRATION.angle[i];
-		temp16_p = (unsigned int*)void_p;
-		eerom_read(0x50 + (i << 1), temp16_p);
-		eerom_read(0x51 + (i << 1), temp16_p + 1);
-		temp[50 + (i << 1)] = *temp16_p;
-		temp[51 + (i << 1)] = *(temp16_p + 1);
-	}
 	eerom_read(0xa0, &i);
 
 //j = Setting_CRC(temp, 90);
-	j = Setting_CRC(temp, 70);
+	j = Setting_CRC(temp, 50);
 	if(i != j)	// calibration factor 틀어짐
 	{
 		SYSTEM.diagnostic |= CALIBRATION_NOT;
@@ -289,6 +289,38 @@ void booting_setting_check(void)
 
 		CALIBRATION.frequency_offset = 0.001021814;
 		LCD.line_buffer1 = "FAIL";
+		
+		//-------- EEROM 저장, Calibratioin 값이 깨져있으면 Default 값으로 저장을 한다, 리부팅시켜야 적용된다.
+		eerom_control(4, 0x80);
+		eerom_control(4, 0xc0);
+		
+		for(i = 0; i < 10; i++)  //offset 저장
+		{
+			eerom_write(i, &CALIBRATION.offset[i]);
+			temp[i] = CALIBRATION.offset[i]; //[0]~[9]
+		}
+		for(i = 0; i < 10; i++) //slope 저장
+		{
+			void_p = &CALIBRATION.slope[i];
+			temp16_p = (unsigned int *)void_p;
+			eerom_write(0x10 + (i << 1), temp16_p);
+			eerom_write(0x11 + (i << 1), temp16_p + 1);
+			temp[10 + (i << 1)] = *temp16_p;  //[10]~[29]
+			temp[11 + (i << 1)] = *(temp16_p + 1);
+		}
+		for(i = 0; i < 10; i++) //angle 저장
+		{
+			void_p = &CALIBRATION.angle[i];
+			temp16_p = (unsigned int *)void_p;
+			eerom_write(0x30 + (i << 1), temp16_p);
+			eerom_write(0x31 + (i << 1), temp16_p + 1);
+			temp[30 + (i << 1)] = *temp16_p; //[30]~[49]
+			temp[31 + (i << 1)] = *(temp16_p + 1);
+		}
+		
+		i = Setting_CRC(temp, 50);
+		eerom_write(0xa0, &i);
+		//-------- EEROM 저장 END
 	}
 	else 
 	LCD.line_buffer1 = "GOOD";
@@ -1672,6 +1704,8 @@ void booting_setting_check(void)
 //	float_to_8bit_fram(&ACCUMULATION.energy_q, EQ1, 0);
 //	float_to_8bit_fram(&ACCUMULATION.energy_rp, REP1, 0);
 //	float_to_8bit_fram(&ACCUMULATION.energy_rq, REQ1, 0);
+//	float_to_8bit_fram(&ACCUMULATION.vo_max, VoMAX1, 0);
+//	float_to_8bit_fram(&ACCUMULATION.io_max, IoMAX1, 0);
 //-------- 누적값 읽어들이기 END
 
 //	//cb 투입 누적시간

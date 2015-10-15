@@ -13,6 +13,7 @@ void main(void)
 	// 아래 세개 함수는 H/W 변동이 없는 한 수정 없음
 
 	cpu_setup();         // DSP setup에 관한 것은 TI guide에 따름
+	Watchdog_Disable_FM31L27x();
 	lcd_setup();	     // LCD 컨트롤러에 따름
 	interrupt_control(); // 인터럽트 등록
 
@@ -22,6 +23,7 @@ void main(void)
 	// Enable Global interrupt INTM
 	EINT;	// 여기서부터 인터럽트 활성 화
 
+	//Watchdog_Enable_FM31L27x();
 	// 진짜 main 함수
 	real_main();
 }
@@ -177,6 +179,9 @@ void real_main(void)
 			modbus_comm_card_check();
 			SCI_Port_Err_Check();
 			self_diagnostic();
+			flash_crc_check();
+			//Watchdog_Kick_FM31L27x();
+			//Watchdog_Read_FM31L27x(0x0a);
 		}
 		*LED_CS = SYSTEM.led_on; // 주기적으로 led값을 써주지 않으면 led가 꺼지는것 처럼 보임 (latch 회로가 없음), 1ms도 허용치 않음
 //-------- LED로 표시할 data 1초마다 체크 END
