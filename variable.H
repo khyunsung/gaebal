@@ -1160,6 +1160,40 @@ struct
 
 struct
 {
+	unsigned int year;
+	unsigned int month;
+	unsigned int day;
+	unsigned int hour;
+	unsigned int minute;
+	unsigned int second;
+	unsigned int milisecond;
+	unsigned int fault_type;
+
+	float offset_Ia;
+	float scale_factor_Ia;
+	float offset_Ib;
+	float scale_factor_Ib;
+	float offset_Ic;
+	float scale_factor_Ic;
+	float offset_In;
+	float scale_factor_In;
+	float offset_Va;
+	float scale_factor_Va;
+	float offset_Vb;
+	float scale_factor_Vb;
+	float offset_Vc;
+	float scale_factor_Vc;
+	float offset_Vn;
+	float scale_factor_Vn;
+	
+	unsigned int modbus_address;
+	unsigned int rated_current;
+	unsigned int ct_ratio;
+	unsigned int pt_ratio;
+} FAULT_INFO;
+
+struct
+{
 	unsigned int tx_buffer[61];
 	unsigned int tx_count;
 	

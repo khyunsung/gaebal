@@ -1175,7 +1175,8 @@ void wave_save_process(void)
 		else
 		{
 			if(CORE.gr_select == ZCT_SELECT)
-			wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_Is_wave_buffer + FLASH.source_count));	
+				wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_In_wave_buffer + FLASH.source_count));
+				//wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_Is_wave_buffer + FLASH.source_count));
 			
 			else
 			{
@@ -1197,7 +1198,8 @@ void wave_save_process(void)
 		else
 		{
 			if(CORE.gr_select == ZCT_SELECT)
-			wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_Is_wave_buffer + FLASH.source_count));	
+				wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_In_wave_buffer + FLASH.source_count));
+				//wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_Is_wave_buffer + FLASH.source_count));
 			
 			else
 			{
@@ -1219,7 +1221,8 @@ void wave_save_process(void)
 		else
 		{
 			if(CORE.gr_select == ZCT_SELECT)
-			wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Post_Is_wave_buffer + FLASH.source_count));
+				wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Pre_In_wave_buffer + FLASH.source_count));
+				//wave_flash_word_write(FLASH_WAVE_In + FLASH.destination_count, *(Post_Is_wave_buffer + FLASH.source_count));
 			
 			else
 			{
@@ -1465,6 +1468,8 @@ void wave_save_process(void)
 		WAVE.post_start = 0;
 		FLASH.end_flag = 0;
 		WAVE.hold = 0xaaaa;
+
+		Save_Fault_Wave_Info(1);	// Save Wave Info to MRAM
 	}
 }
 

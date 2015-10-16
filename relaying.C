@@ -13,9 +13,68 @@ void Save_Relay_Event(float ar_ratio)
 	event_direct_save(&EVENT.operation);
 }
 
-void relay_dropout_to_normal(unsigned int ar_relay_bit)
+void Save_Fault_Wave_Info(unsigned int selection)
 {
-	WAVE.relay &= ~ar_relay_bit;
+	struct tm ftime;
+	time_t tmp_time;
+	void *void_p;
+	unsigned long *tmp32_p;
+
+	if(selection == 0) {
+			FAULT_INFO.year 			= TIME.year;  // 연
+			FAULT_INFO.month 			= TIME.month; // 월
+			FAULT_INFO.day 				= TIME.day;   // 일
+			FAULT_INFO.hour 			= TIME.hour;  // 시
+			FAULT_INFO.minute 		= TIME.minute; // 분
+			FAULT_INFO.second 		= TIME.second; // 초
+			FAULT_INFO.milisecond = TIME.milisecond; //msec
+			FAULT_INFO.fault_type = EVENT.fault_type;
+		} else {
+			ftime.tm_year = FAULT_INFO.year + 30;
+			ftime.tm_mon  = FAULT_INFO.month;
+			ftime.tm_mday = FAULT_INFO.day;
+			ftime.tm_hour = FAULT_INFO.hour;
+			ftime.tm_min  = FAULT_INFO.minute;
+			ftime.tm_sec  = FAULT_INFO.second;
+
+			tmp_time = mktime( &ftime);
+			
+			*RATED_FREQ_IN_WAVE 	= 0; // fill up
+			*CT_RATIO_IN_WAVE		 	= 0; // fill up
+			*PT_RATIO_IN_WAVE 		= 0; // fill up
+			
+			*MODBUS_ADDR_IN_WAVE 			= ADDRESS.address;
+			*DATE_TIME_IN_WAVE  			= tmp_time >> 16;
+			*(DATE_TIME_IN_WAVE + 1) 	= tmp_time;
+			*MSEC_IN_WAVE 						= FAULT_INFO.milisecond;
+			*TYPE_IN_WAVE 						= 0;	// fill up
+			*TRIP_TITLE_IN_WAVE 			= FAULT_INFO.fault_type;
+			
+			//offset -   0,  1,  2,  3,   4,    5,   6,  7,  8,  9
+			//          Ia, Ib, Ic, In, In2,  ZCT,  Va, Vb, Vc, Vn			
+			*OFFSET_IA  = CALIBRATION.offset[0];		
+			
+			void_p = &CALIBRATION.slope[0];
+			tmp32_p = (unsigned long *)void_p;
+			*SCALE_FACTOR_IA 				= (*tmp32_p)>>16;
+			*(SCALE_FACTOR_IA + 1)	= *tmp32_p;
+			
+			*OFFSET_IB   		 = CALIBRATION.offset[1];
+			*SCALE_FACTOR_IB = CALIBRATION.slope[1];                     
+			*OFFSET_IC   		 = CALIBRATION.offset[2];
+			*SCALE_FACTOR_IC = CALIBRATION.slope[2];
+			*OFFSET_IN   		 = CALIBRATION.offset[3];
+			*SCALE_FACTOR_IN = CALIBRATION.slope[3];
+			*OFFSET_VA   		 = CALIBRATION.offset[6];
+			*SCALE_FACTOR_VA = CALIBRATION.slope[6];
+			*OFFSET_VB   		 = CALIBRATION.offset[7];
+			*SCALE_FACTOR_VB = CALIBRATION.slope[7];
+			*OFFSET_VC   		 = CALIBRATION.offset[8];
+			*SCALE_FACTOR_VC = CALIBRATION.slope[8];
+			*OFFSET_VN   		 = CALIBRATION.offset[9];
+			*SCALE_FACTOR_VN = CALIBRATION.slope[9];
+			
+		}
 }
 
 void Check_47P_10V(void)
@@ -86,6 +145,8 @@ void RELAY_OCR50_1(void)
 						Phase_Info = (Phase_Info == 0)? EVENT.operation: OCR50_1.Op_Phase;
 						Save_Relay_Event(OCR50_1.Op_Ratio * 100.0F);
 						Save_Screen_Info(OCR50_1.Op_Phase);
+						Save_Fault_Wave_Info(0);
+						WAVE.post_start = 0x1234;						
 					}
 				}
 			}
@@ -172,6 +233,8 @@ void RELAY_OCR50_2(void)
 						EVENT.fault_type = F_OCR50_2;
 						Save_Relay_Event(OCR50_2.Op_Ratio * 100.0F);
 						Save_Screen_Info(OCR50_2.Op_Phase);
+						Save_Fault_Wave_Info(0);
+						WAVE.post_start = 0x1234;						
 					}
 				}
 			}
@@ -259,6 +322,8 @@ void RELAY_OCR51_1(void)
 						EVENT.fault_type = F_OCR51_1;
 						Save_Relay_Event(OCR51_1.Op_Ratio * 100.0F);
 						Save_Screen_Info(OCR51_1.Op_Phase);
+						Save_Fault_Wave_Info(0);
+						WAVE.post_start = 0x1234;						
 					}
 				}
 			}
@@ -346,6 +411,8 @@ void RELAY_OCR51_2(void)
 						EVENT.fault_type = F_OCR51_2;
 						Save_Relay_Event(OCR51_2.Op_Ratio * 100.0F);
 						Save_Screen_Info(OCR51_2.Op_Phase);
+						Save_Fault_Wave_Info(0);
+						WAVE.post_start = 0x1234;						
 					}
 				}
 			}
@@ -419,6 +486,8 @@ void RELAY_OCGR50(void)
 					EVENT.fault_type = F_OCGR50;
 					Save_Relay_Event(OCGR50.Op_Ratio * 100.0F);
 					Save_Screen_Info(OCGR50.Op_Phase);
+					Save_Fault_Wave_Info(0);
+					WAVE.post_start = 0x1234;						
 				}
 			}
 		}
@@ -491,6 +560,8 @@ void RELAY_OCGR51(void)
 					EVENT.fault_type = F_OCGR51;
 					Save_Relay_Event(OCGR51.Op_Ratio * 100.0F);
 					Save_Screen_Info(OCGR51.Op_Phase);				}
+					Save_Fault_Wave_Info(0);
+					WAVE.post_start = 0x1234;						
 			}
 		}
 		else
@@ -562,6 +633,8 @@ void RELAY_UVR_1(void)
 						Phase_Info = (Phase_Info == 0)? EVENT.operation: UVR_1.Op_Phase;
 						Save_Relay_Event(UVR_1.Op_Ratio * 100.0F);
 						Save_Screen_Info(UVR_1.Op_Phase);						
+						Save_Fault_Wave_Info(0);
+						WAVE.post_start = 0x1234;						
 					}
 				}
 			}
@@ -694,6 +767,8 @@ void RELAY_UVR_2(void)
 						Phase_Info = (Phase_Info == 0)? EVENT.operation: UVR_2.Op_Phase;
 						Save_Relay_Event(UVR_2.Op_Ratio * 100.0F);
 						Save_Screen_Info(UVR_2.Op_Phase);		
+						Save_Fault_Wave_Info(0);
+						WAVE.post_start = 0x1234;						
 					}
 				}
 			}
@@ -826,6 +901,8 @@ void RELAY_UVR_3(void)
 						Phase_Info = (Phase_Info == 0)? EVENT.operation: UVR_3.Op_Phase;
 						Save_Relay_Event(UVR_3.Op_Ratio * 100.0F);
 						Save_Screen_Info(UVR_3.Op_Phase);							}
+						Save_Fault_Wave_Info(0);
+						WAVE.post_start = 0x1234;						
 				}
 			}
 			else
@@ -975,6 +1052,8 @@ void RELAY_P47(void)
 				Phase_Info = (Phase_Info == 0)? EVENT.operation: P47.Op_Phase;
 				Save_Relay_Event(P47.Op_Ratio * 100.0F);
 				Save_Screen_Info(P47.Op_Phase);		
+				Save_Fault_Wave_Info(0);
+				WAVE.post_start = 0x1234;						
 			}
 		}
 
@@ -1036,6 +1115,8 @@ void RELAY_N47(void)
 					Phase_Info = (Phase_Info == 0)? EVENT.operation: N47.Op_Phase;
 					Save_Relay_Event(N47.Op_Ratio * 100.0F);
 					Save_Screen_Info(N47.Op_Phase);		
+					Save_Fault_Wave_Info(0);
+					WAVE.post_start = 0x1234;						
 				}
 			}
 		}
@@ -1104,6 +1185,8 @@ void RELAY_OVR(void)
 						Phase_Info = (Phase_Info == 0)? EVENT.operation: OVR.Op_Phase;
 						Save_Relay_Event(OVR.Op_Ratio * 100.0F);
 						Save_Screen_Info(OVR.Op_Phase);		
+						Save_Fault_Wave_Info(0);
+						WAVE.post_start = 0x1234;						
 					}
 				}
 			}
@@ -1235,6 +1318,8 @@ void RELAY_OVGR(void)
 						Phase_Info = (Phase_Info == 0)? EVENT.operation: OVGR.Op_Phase;
 						Save_Relay_Event(OVGR.Op_Ratio * 100.0F);
 						Save_Screen_Info(OVGR.Op_Phase);		
+						Save_Fault_Wave_Info(0);
+						WAVE.post_start = 0x1234;						
 					}
 				}
 			}
@@ -1374,6 +1459,8 @@ void RELAY_DGR(void)
 					Phase_Info = DGR.Op_Phase;
 					Save_Relay_Event(DGR.Op_Ratio * 100.0F);
 					Save_Screen_Info(DGR.Op_Phase);
+					Save_Fault_Wave_Info(0);
+					WAVE.post_start = 0x1234;						
 				}
 			}
 		}
@@ -1450,6 +1537,8 @@ void RELAY_SGR(void)
 					Phase_Info = SGR.Op_Phase;
 					Save_Relay_Event(SGR.Op_Ratio * 100.0F);
 					Save_Screen_Info(SGR.Op_Phase);
+					Save_Fault_Wave_Info(0);
+					WAVE.post_start = 0x1234;						
 				}
 			}
 		}

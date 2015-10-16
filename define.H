@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 // ram으로 올라가는 code 선언
 #pragma CODE_SECTION(InitFlash, "ramfuncs");
@@ -64,6 +65,8 @@
 
 #pragma CODE_SECTION(Relay_On, "ramfuncs");
 #pragma CODE_SECTION(Relay_Off, "ramfuncs");
+
+#pragma CODE_SECTION(COMM_CRC, "ramfuncs");
 
 //#define FS	0x1234 //FI
 //#define MS	0x5678 //MS //2015.02.25
@@ -650,31 +653,31 @@
 // EVENT 저장 8bit임
 #define FRAM_START				(unsigned int *)0x120000
 
-#define EVENT_ROLLOVER		(unsigned int *)0x140000
-#define EVENT_SP					(unsigned int *)0x140001
+#define WAVE_SAVE_OFFSET	0x1d020
+#define EVENT_ROLLOVER		(unsigned int *)(0x140000 + WAVE_SAVE_OFFSET)		//0x21D010 (in FLASH Memory)
+#define EVENT_SP					(unsigned int *)(0x140001 + WAVE_SAVE_OFFSET)
 
-#define EVENT_YEAR        (unsigned int *)0x140002
-#define EVENT_MONTH       (unsigned int *)0x140003
-#define EVENT_DAY         (unsigned int *)0x140004
-#define EVENT_HOUR        (unsigned int *)0x140005
-#define EVENT_MINUTE      (unsigned int *)0x140006
-#define EVENT_SECOND      (unsigned int *)0x140007
-#define EVENT_MS1         (unsigned int *)0x140008
-#define EVENT_MS2         (unsigned int *)0x140009
-#define EVENT_INDEX1      (unsigned int *)0x14000a
-#define EVENT_INDEX2      (unsigned int *)0x14000b
-#define EVENT_CONTENT1    (unsigned int *)0x14000c
-#define EVENT_CONTENT2    (unsigned int *)0x14000d
-#define EVENT_RATIO1      (unsigned int *)0x14000e
-#define EVENT_RATIO2      (unsigned int *)0x14000f
-#define EVENT_OPTIME1     (unsigned int *)0x140010
-#define EVENT_OPTIME2     (unsigned int *)0x140011
-#define EVENT_OPTIME3     (unsigned int *)0x140012
-#define EVENT_OPTIME4     (unsigned int *)0x140013
+#define EVENT_YEAR        (unsigned int *)(0x140002 + WAVE_SAVE_OFFSET)
+#define EVENT_MONTH       (unsigned int *)(0x140003 + WAVE_SAVE_OFFSET)
+#define EVENT_DAY         (unsigned int *)(0x140004 + WAVE_SAVE_OFFSET)
+#define EVENT_HOUR        (unsigned int *)(0x140005 + WAVE_SAVE_OFFSET)
+#define EVENT_MINUTE      (unsigned int *)(0x140006 + WAVE_SAVE_OFFSET)
+#define EVENT_SECOND      (unsigned int *)(0x140007 + WAVE_SAVE_OFFSET)
+#define EVENT_MS1         (unsigned int *)(0x140008 + WAVE_SAVE_OFFSET)
+#define EVENT_MS2         (unsigned int *)(0x140009 + WAVE_SAVE_OFFSET)
+#define EVENT_INDEX1      (unsigned int *)(0x14000a + WAVE_SAVE_OFFSET)
+#define EVENT_INDEX2      (unsigned int *)(0x14000b + WAVE_SAVE_OFFSET)
+#define EVENT_CONTENT1    (unsigned int *)(0x14000c + WAVE_SAVE_OFFSET)
+#define EVENT_CONTENT2    (unsigned int *)(0x14000d + WAVE_SAVE_OFFSET)
+#define EVENT_RATIO1      (unsigned int *)(0x14000e + WAVE_SAVE_OFFSET)
+#define EVENT_RATIO2      (unsigned int *)(0x14000f + WAVE_SAVE_OFFSET)
+#define EVENT_OPTIME1     (unsigned int *)(0x140010 + WAVE_SAVE_OFFSET)
+#define EVENT_OPTIME2     (unsigned int *)(0x140011 + WAVE_SAVE_OFFSET)
+#define EVENT_OPTIME3     (unsigned int *)(0x140012 + WAVE_SAVE_OFFSET)
+#define EVENT_OPTIME4     (unsigned int *)(0x140013 + WAVE_SAVE_OFFSET)
 
-// EVENT 저장 8bit임
-//#define FRAM2_START				(unsigned int *)0x140000	//khs, 요것이 MRAM
 #define MRAM_START				(unsigned int *)0x140000	//khs, 요것이 MRAM
+
 
 #define MRAM_RUNNING_HOUR1	(unsigned int *)0x15d0f0	//RUNNING HOUR METER MRAM 주소
 #define MRAM_RUNNING_HOUR2	(unsigned int *)0x15d0f1	//RUNNING HOUR METER MRAM 주소
@@ -932,19 +935,49 @@
 
 //-------- 이전 FLASH MEMORY ADDRESS(MRAM으로 수정 필요)
 // Flash
-#define FLASH_SECTOR000 (unsigned int *)0x180000
-#define FLASH_WAVE_Ia   (unsigned int *)0x180000
-#define FLASH_WAVE_Ib   (unsigned int *)0x183000
-#define FLASH_WAVE_Ic   (unsigned int *)0x186000
-#define FLASH_WAVE_In   (unsigned int *)0x189000
-#define FLASH_WAVE_Va		(unsigned int *)0x18c000
-#define FLASH_WAVE_Vb   (unsigned int *)0x18f000
-#define FLASH_WAVE_Vc   (unsigned int *)0x192000
-#define FLASH_WAVE_Vn   (unsigned int *)0x195000
-#define FLASH_WAVE_RELAY (unsigned int *)0x198000
-#define FLASH_WAVE_DI   (unsigned int *)0x199000
-#define FLASH_WAVE_DO   (unsigned int *)0x19a000
-#define WAVE_WRITE_CHECK (unsigned int *)0x19AFFF
+//#define FLASH_SECTOR000 (unsigned int *)0x180000
+#define FLASH_WAVE_Ia   (unsigned int *)0x140000
+#define FLASH_WAVE_Ib   (unsigned int *)0x142a30
+#define FLASH_WAVE_Ic   (unsigned int *)0x145460
+#define FLASH_WAVE_In   (unsigned int *)0x147e90
+#define FLASH_WAVE_Va		(unsigned int *)0x14fd20
+#define FLASH_WAVE_Vb   (unsigned int *)0x152750
+#define FLASH_WAVE_Vc   (unsigned int *)0x155180
+#define FLASH_WAVE_Vn   (unsigned int *)0x157bb0
+#define FLASH_WAVE_RELAY (unsigned int *)0x15a5e0
+#define FLASH_WAVE_DI   (unsigned int *)0x15B3F0
+#define FLASH_WAVE_DO   (unsigned int *)0x15C200
+
+#define OFFSET_IA   		(unsigned int *)0x15d010
+#define SCALE_FACTOR_IA (unsigned int *)0x15d011
+#define OFFSET_IB   		(unsigned int *)0x15d013
+#define SCALE_FACTOR_IB (unsigned int *)0x15d014
+#define OFFSET_IC   		(unsigned int *)0x15d016
+#define SCALE_FACTOR_IC (unsigned int *)0x15d017
+#define OFFSET_IN   		(unsigned int *)0x15d019
+#define SCALE_FACTOR_IN (unsigned int *)0x15d01A
+#define OFFSET_VA   		(unsigned int *)0x15d01C
+#define SCALE_FACTOR_VA (unsigned int *)0x15d01D
+#define OFFSET_VB   		(unsigned int *)0x15d01F
+#define SCALE_FACTOR_VB (unsigned int *)0x15d020
+#define OFFSET_VC   		(unsigned int *)0x15d022
+#define SCALE_FACTOR_VC (unsigned int *)0x15d023
+#define OFFSET_VN   		(unsigned int *)0x15d025
+#define SCALE_FACTOR_VN (unsigned int *)0x15d026
+
+#define MODBUS_ADDR_IN_WAVE	(unsigned int *)0x15d028
+#define RATED_FREQ_IN_WAVE	(unsigned int *)0x15d029
+
+#define CT_RATIO_IN_WAVE		(unsigned int *)0x15d02A
+#define PT_RATIO_IN_WAVE		(unsigned int *)0x15d02F
+
+#define DATE_TIME_IN_WAVE		(unsigned int *)0x15d035
+#define MSEC_IN_WAVE				(unsigned int *)0x15d037
+#define TYPE_IN_WAVE				(unsigned int *)0x15d038
+#define TRIP_TITLE_IN_WAVE	(unsigned int *)0x15d039
+#define WAVE_WRITE_CHECK 		(unsigned int *)0x15d03A	//0x19AFFF //0x1d020 //0x15d011
+
+
 #define FLASH_CHECK_SECTOR (unsigned int *)0x19e000
 //-------- 이전 FLASH MEMORY ADDRESS END
 
@@ -957,28 +990,28 @@
 #define Post_Ic_wave_buffer     (unsigned int *)0x206978 // 150주기
 #define Pre_In_wave_buffer      (unsigned int *)0x207e90 // 150주기
 #define Post_In_wave_buffer     (unsigned int *)0x2093a8 // 150주기
-#define Pre_In2_wave_buffer     (unsigned int *)0x20a8c0 // 150주기
-#define Post_In2_wave_buffer    (unsigned int *)0x20bdd8 // 150주기
-#define Pre_Is_wave_buffer      (unsigned int *)0x20d2f0 // 150주기
-#define Post_Is_wave_buffer     (unsigned int *)0x20e808 // 150주기
-#define Pre_Va_wave_buffer      (unsigned int *)0x20fd20 // 150주기
-#define Post_Va_wave_buffer     (unsigned int *)0x211238 // 150주기
-#define Pre_Vb_wave_buffer      (unsigned int *)0x212750 // 150주기
-#define Post_Vb_wave_buffer     (unsigned int *)0x213c68 // 150주기
-#define Pre_Vc_wave_buffer      (unsigned int *)0x215180 // 150주기
-#define Post_Vc_wave_buffer     (unsigned int *)0x216698 // 150주기
-#define Pre_Vn_wave_buffer      (unsigned int *)0x217bb0 // 150주기
-#define Post_Vn_wave_buffer     (unsigned int *)0x2190c8 // 150주기
-#define Pre_relay_wave_buffer   (unsigned int *)0x21a5e0 // 150주기 -> 1800개 digital은 12개만
-#define Post_relay_wave_buffer  (unsigned int *)0x21ACE8 // 150주기 0x708
-#define Pre_DI_wave_buffer      (unsigned int *)0x21B3F0 // 150주기
-#define Post_DI_wave_buffer     (unsigned int *)0x21BAF8 // 150주기
-#define Pre_DO_wave_buffer      (unsigned int *)0x21C200 // 150주기
-#define Post_DO_wave_buffer     (unsigned int *)0x21C908 // 150주기
+#define Pre_Va_wave_buffer      (unsigned int *)0x20a8c0 // 150주기
+#define Post_Va_wave_buffer     (unsigned int *)0x20bdd8 // 150주기
+#define Pre_Vb_wave_buffer      (unsigned int *)0x20d2f0 // 150주기
+#define Post_Vb_wave_buffer     (unsigned int *)0x20e808 // 150주기
+#define Pre_Vc_wave_buffer      (unsigned int *)0x20fd20 // 150주기
+#define Post_Vc_wave_buffer     (unsigned int *)0x211238 // 150주기
+#define Pre_Vn_wave_buffer      (unsigned int *)0x212750 // 150주기
+#define Post_Vn_wave_buffer     (unsigned int *)0x213c68 // 150주기
+#define Pre_relay_wave_buffer   (unsigned int *)0x215180 // 150주기 -> 1800개 digital은 12개만
+#define Post_relay_wave_buffer  (unsigned int *)0x216698 // 150주기 0x708
+#define Pre_DI_wave_buffer      (unsigned int *)0x217bb0 // 150주기
+#define Post_DI_wave_buffer     (unsigned int *)0x2190c8 // 150주기
+#define Pre_DO_wave_buffer      (unsigned int *)0x21a5e0 // 150주기
+#define Post_DO_wave_buffer     (unsigned int *)0x21baf8 // 150주기
+#define Wave_Information				(unsigned int *)0x21d010 //
+
 #define SRAM_HEALTH_CHECK     	(unsigned int *)0x220000
 #define Manager_tx_long         (unsigned int *)0x230000 // 0x2200
 #define Manager_tx_long_six     (unsigned int *)0x230006 // 0x2200
 #define Manager_tx_long_seven   (unsigned int *)0x230007 // 0x2200
+#define Manager_tx_long_eleven	(unsigned int *)0x23000b // 0x2200
+#define Manager_tx_long_twelve  (unsigned int *)0x23000c // 0x2200
 //-------- SRAM1 MEMORY ADDRESS END
 
 #define IO_Control							(unsigned int *)0x117001
