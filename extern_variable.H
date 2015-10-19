@@ -966,7 +966,7 @@ extern struct
 	unsigned int ccs_level;
 	unsigned int ccs_time;
 	unsigned int ccs_do_relay;
-	
+
 	//0이 tcs, 1이 ccs
 	unsigned int do_output[2];
 	long monitoring[2];
@@ -974,7 +974,7 @@ extern struct
 	unsigned int pickup[2];
 	unsigned int status[2];
 	unsigned int time[2];
-	
+
 	unsigned int monitor_count;
 	unsigned int monitor_update;
 	long tcs_monitoring;
@@ -1063,7 +1063,7 @@ extern struct
 {
 	unsigned int debounce[8];
 	unsigned int di_status; //DI 상태
-	
+
 	unsigned int debounce_temp[8];
 } DIGITAL_INPUT;
 
@@ -1074,6 +1074,15 @@ extern struct
 
 	unsigned int property_temp;
 } DIGITAL_OUTPUT;
+
+//2015.10.19
+extern struct
+{
+	unsigned int use;
+
+	unsigned int use_temp;
+} WATCHDOG;
+//2015.10.19 END
 
 extern struct
 {

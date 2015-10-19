@@ -179,7 +179,7 @@ void real_main(void)
 			modbus_comm_card_check();
 			SCI_Port_Err_Check();
 			self_diagnostic();
-			fault_wave_send_check();
+//			fault_wave_send_check();
 			flash_crc_check();
 			//Watchdog_Kick_FM31L27x();
 			//Watchdog_Read_FM31L27x(0x0a);

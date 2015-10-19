@@ -15463,7 +15463,7 @@ void menu_153_01(unsigned int value, int display)
 		Screen_Position.x = 3;
 		Screen_Position.select = 0;
 	} else if(value == DOWN_KEY) {
-		Screen_Position.y = 150;
+		Screen_Position.y = 154; //2015.10.19
 		Screen_Position.x = 1;
 		Screen_Position.select = 0;
 	} else if(value == ENTER_KEY) {
@@ -16014,6 +16014,38 @@ void menu_153_12(unsigned int value, int display)
 			Screen_Position.select = 0;
 	}
 }
+
+//2015.10.19
+void menu_154_01(unsigned int value, int display)
+{
+	const char *str[2] = {
+			"[WATCHDOG    ] ?   \1\0",
+			"                   \2\0"
+	};
+
+	if(display) {
+		screen_frame3(str);
+		cursor_move(0, 15);
+		return;
+	}
+
+	if(value == UP_KEY) {
+		Screen_Position.y = 80;
+		Screen_Position.x = 3;
+		Screen_Position.select = 0;
+	} else if(value == DOWN_KEY) {
+		Screen_Position.y = 150;
+		Screen_Position.x = 1;
+		Screen_Position.select = 0;
+	} else if(value == ENTER_KEY) {
+		WATCHDOG.use_temp = WATCHDOG.use;
+		
+		Screen_Position.y = 158;
+		Screen_Position.x = 2;
+		(WATCHDOG.use == ENABLE) ? (Screen_Position.select = 0) : (Screen_Position.select = 1);
+	}
+}
+//2015.10.19 end
 
 void menu_154_02(unsigned int value, int display)
 {
@@ -16703,6 +16735,151 @@ void menu_157_05(unsigned int value, int display)
 	}
 }
 
+//2015.10.19
+void menu_158_02(unsigned int value, int display)
+{
+	char str[2][22];
+
+	if(display) {
+		sprintf(str[0],"PRE MODE  : %s \0", WATCHDOG.use_temp == ENABLE? "ENABLE " : "DISABLE");  
+		sprintf(str[1]," ENABLE?   DISABLE? \0");
+		screen_frame2(str);
+
+		if(Screen_Position.select == 0) {
+			cursor_move(1, 7);
+		} else if(Screen_Position.select == 1) {
+			cursor_move(1, 18);
+		}
+		return;
+	}
+
+	if(value == LEFT_KEY) {
+		Screen_Position.select -= 1;
+		Screen_Position.select %= 2;
+	} else if(value == RIGHT_KEY) {
+		Screen_Position.select += 1;
+		Screen_Position.select %= 2;
+	} else if(value == ENTER_KEY) {
+		if(Screen_Position.select == 0) {
+			WATCHDOG.use_temp = ENABLE;
+			Screen_Position.y = 158;
+			Screen_Position.x = 3;
+			cursor_move(0, 0);
+		} else if(Screen_Position.select == 1) {
+			WATCHDOG.use_temp = DISABLE;
+			Screen_Position.y = 158;
+			Screen_Position.x = 3;
+			cursor_move(0, 0);
+		}
+	}
+}
+
+void menu_158_03(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"NEW SETTING :      %c\0", ENTER);
+	sprintf(str[1],"NEW MODE : %s  \0", WATCHDOG.use_temp == ENABLE? "ENABLE " : "DISABLE");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value == ENTER_KEY) {
+			Screen_Position.y = 158;
+			Screen_Position.x = 4;
+			Screen_Position.select = 1;
+	}
+}
+
+void menu_158_04(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0],"                    \0");
+	sprintf(str[1],"WANT TO SET ?  [Y/N]\0");
+
+	if(display) {
+		screen_frame2(str);
+		if(Screen_Position.select == 0) {
+			cursor_move(1, 16);
+		} else if(Screen_Position.select == 1) {
+			cursor_move(1, 18);
+		}
+		return;
+	}
+
+	if(value == LEFT_KEY) {
+		Screen_Position.select -= 1;
+		Screen_Position.select %= 2;
+	} else if(value == RIGHT_KEY) {
+		Screen_Position.select += 1;
+		Screen_Position.select %= 2;
+	} else if(value == ENTER_KEY) {
+		if(Screen_Position.select == 0) {
+			WATCHDOG.use = WATCHDOG.use_temp;
+
+// FLASH 저장 안함
+//			if(setting_save(&WATCHDOG.use, DISP_3PHASE_USE, 1))
+//			{
+//				setting_load(&WATCHDOG.use, 1, DISP_3PHASE_USE);
+//			}
+//			else
+//			{
+//				//FLASH WRITE ERROR pop up 화면
+//			}
+
+			Screen_Position.y = 158;
+			Screen_Position.x = 5;
+			cursor_move(0, 0);//cursor off
+		} else if(Screen_Position.select == 1) {
+			Screen_Position.y = 158;
+			Screen_Position.x = 6;
+			cursor_move(0, 0);//cursor off
+		}
+	}
+}
+
+void menu_158_05(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0], "   SET COMPLETE !   \0");
+	sprintf(str[1], "   PRESS ANY KEY !  \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value) {
+			Screen_Position.y = 154;
+			Screen_Position.x = 1;
+			Screen_Position.select = 0;
+	}
+}
+
+void menu_158_06(unsigned int value, int display)
+{
+	char str[2][22];
+
+	sprintf(str[0], "   SET CANCELED !   \0");
+	sprintf(str[1], "   PRESS ANY KEY !  \0");
+
+	if(display) {
+		screen_frame2(str);
+		return;
+	}
+
+	if(value) {
+			Screen_Position.y = 154;
+			Screen_Position.x = 1;
+			Screen_Position.select = 0;
+	}
+}
+//2015.10.19 end
+
 void menu_dummy(unsigned int value, int display)
 {
 	char str[2][22];
@@ -17253,11 +17430,11 @@ const Screen_Function_Pointer menu_tables[200][18] = { //2015.02.17
 		{menu_dummy, menu_151_01, menu_151_02, menu_151_03, menu_151_04, menu_151_05, menu_151_06, menu_151_07, },																 // 151
 		{menu_dummy, menu_152_01, menu_152_02, menu_152_03, menu_152_04, menu_152_05, },                                                           // 152
 		{menu_dummy, menu_153_01, menu_153_02, menu_153_03, menu_153_04, menu_153_05, menu_153_06, menu_153_07, menu_153_08, menu_153_09, menu_153_10, menu_153_11, menu_153_12,},	// 153
-		{menu_dummy, menu_dummy, menu_154_02, menu_154_03, menu_154_04,},                                                                         // 154
+		{menu_dummy, menu_154_01, menu_154_02, menu_154_03, menu_154_04,},                                                                          // 154
 		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 155
 		{menu_dummy, menu_dummy, menu_156_02, menu_156_03, menu_156_04, menu_156_05, menu_156_06, menu_156_07, menu_156_08, menu_156_09, menu_156_10, menu_156_11, menu_156_12, menu_156_13, menu_156_14, menu_156_15, menu_156_16,}, // 156
 		{menu_dummy, menu_dummy, menu_157_02, menu_157_03, menu_157_04, menu_157_05,},                                                             // 157
-		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 158
+		{menu_dummy, menu_dummy, menu_158_02, menu_158_03, menu_158_04, menu_158_05, menu_158_06,},                                                // 158
 		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 159
 		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 160
 		{menu_dummy, menu_dummy, menu_dummy, },                                                                                                    // 161
