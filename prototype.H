@@ -193,6 +193,7 @@ void DMACH1ModeConfig(Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Ui
 void StartDMACH1(void);
 void self_diagnostic(void);
 void Save_Fault_Wave_Info(unsigned int);
+void fault_wave_send_check(void);
 void flash_crc_check(void);
 void Watchdog_Enable_FM31L27x(void);
 void Watchdog_Disable_FM31L27x(void);

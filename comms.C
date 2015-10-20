@@ -1263,8 +1263,8 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		// wave 존재여부
 		if(MANAGER.rx_buffer[3] == 0x00)
 		{
-			//khs, 2015-04-08 오전 11:21:40
-			//make_crc_send(MANAGER.tx_buffer, WAVE_WRITE_CHECK, 2);
+			i = ((*WAVE_WRITE_CHECK & 0xffff) == 0x1234)? 1: 0;
+			make_crc_send(MANAGER.tx_buffer, &i, 2);
 		}
 		
 		// calibration factor
@@ -1281,19 +1281,19 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 			MANAGER.tx_buffer[5] = 32;
 			
 			//internal ct ratio
-			float_temp = INTERNAL_CT_RATIO;
+			float_temp = CPT.ct_ratio;
 			float_to_integer(float_temp, &MANAGER.tx_buffer[6], 1.0F);
 			
 			//internal nct ratio
-			float_temp = INTERNAL_NCT_RATIO;
+			float_temp = CPT.nct_ratio;
 			float_to_integer(float_temp, &MANAGER.tx_buffer[10], 1.0F);
 			
 			//internal pt ratio
-			float_temp = INTERNAL_PT_RATIO;
+			float_temp = CPT.pt_ratio;
 			float_to_integer(float_temp, &MANAGER.tx_buffer[14], 1.0F);
 			
 			//internal gpt ratio
-			float_temp = INTERNAL_GPT_RATIO;
+			float_temp = CPT.gpt_ratio;
 			float_to_integer(float_temp, &MANAGER.tx_buffer[18], 1.0F);
 
 //khs, 2015-04-08 오전 11:21:40
@@ -1332,7 +1332,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 	// Ia wave
 	else if(MANAGER.rx_buffer[2] == 0x61)
 	{
-		if(MANAGER.rx_buffer[3] > 0x15)
+		if(MANAGER.rx_buffer[3] != 0)
 		{
 			//nak
 			serial_ok_nak_send(0x05);
@@ -1340,20 +1340,44 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 			return;
 		}
 		
+		//ad 인터럽트에 의해서 통신이 원활한 대용량 전송이 어렵기 때문에
+		//ad 외부인터럽트를 중지시키고, 만약 2초 동안 안들어 오면 다시 가동시킨다.
+		if(IER & M_INT12)	IER &= ~M_INT12;	//Enable 일 경우에만 한 번 Disable 시킨다.
+
+		//외부 인터럽트 중지 시간 타이머 적용 카운터
+		Manager_Fault_Wave_Sending_Count++;
+
 		// header
 		*(Manager_tx_long    ) = '#';
 		*(Manager_tx_long + 1) = ADDRESS.address;
 		*(Manager_tx_long + 2) = MANAGER.rx_buffer[2];
 		*(Manager_tx_long + 3) = MANAGER.rx_buffer[3];
 		
+		*(Manager_tx_long + 4) = MANAGER.rx_buffer[4] & 0xff;//Byte Length - H
+		*(Manager_tx_long + 5) = MANAGER.rx_buffer[5] & 0xff;//Byte Length - L
+		
+		*(Manager_tx_long + 6) = MANAGER.rx_buffer[6] & 0xff;//요청 주소 #1
+		*(Manager_tx_long + 7) = MANAGER.rx_buffer[7] & 0xff;//요청 주소 #2
+		*(Manager_tx_long + 8) = MANAGER.rx_buffer[8] & 0xff;//요청 주소 #3
+
+		*(Manager_tx_long + 9) = MANAGER.rx_buffer[9]; //요청 개수 #1
+		*(Manager_tx_long + 10)= MANAGER.rx_buffer[10];//요청 개수 #2
+		
 		// 마지막
-		if(MANAGER.rx_buffer[3] == 0x15)
+		if(MANAGER.rx_buffer[3] == 0x00)
 		{
-			*(Manager_tx_long + 4) = 0x00;
-			*(Manager_tx_long + 5) = 0x60;
+			j = i = (MANAGER.rx_buffer[9] << 8) + MANAGER.rx_buffer[10];
+			i <<= 1;
+			i += 5;
+			
+			*(Manager_tx_long + 4) = MANAGER.rx_buffer[4] = i >> 8;	//Byte Length - H
+			*(Manager_tx_long + 5) = MANAGER.rx_buffer[5] = i;			//Byte Length - L
 			 
 			//맨마지막 wordcount
-			wave_dump_serial_sram(FLASH_WAVE_Ia, MANAGER.rx_buffer[3] * 512, 48);
+			wave_dump_serial_sram(FLASH_WAVE_Ia,
+													 (MANAGER.rx_buffer[6] << 16) + (MANAGER.rx_buffer[7] << 8) + MANAGER.rx_buffer[8],
+														j);
+
 		}
 		
 		else
@@ -2291,16 +2315,20 @@ void wave_dump_serial_sram(unsigned int *ar_flash, unsigned int ar_offset, unsig
 	{
 		j = i << 1;
 		
-		*(Manager_tx_long_six + j) = *(flash_point + i) >> 8;
-		*(Manager_tx_long_seven + j) = *(flash_point + i) & 0x00ff;
+		*(Manager_tx_long_eleven + j) = *(flash_point + i) >> 8;
+		*(Manager_tx_long_twelve + j) = *(flash_point + i) & 0x00ff;
 	}
 	
-	i = COMM_CRC(Manager_tx_long, 6 + (ar_wordcount << 1));
+	j = 11 + (ar_wordcount << 1);
 	
-	*(Manager_tx_long_six + (ar_wordcount << 1)) = i >> 8;
-	*(Manager_tx_long_seven + (ar_wordcount << 1)) = i & 0x00ff;
+//	*(Manager_tx_long + 4) &= 0xff;
+	i = COMM_CRC(Manager_tx_long, j);
+	//i = COMM_CRC(Manager_tx_long, 5);
 	
-	MANAGER.tx_length = 8 + (ar_wordcount << 1);
+	*(Manager_tx_long_eleven + (ar_wordcount << 1)) = i >> 8;
+	*(Manager_tx_long_twelve + (ar_wordcount << 1)) = i & 0x00ff;
+	
+	MANAGER.tx_length = 13 + (ar_wordcount << 1);
 	
 	MANAGER.isr_tx = Manager_tx_long;
 	
@@ -2564,3 +2592,19 @@ void comm_drive(void)
 	COMM.index = 0;
 }
 
+void fault_wave_send_check(void)
+{
+	static unsigned int old_val = 1;
+	
+	if(Manager_Fault_Wave_Sending_Count != old_val) {
+		old_val = Manager_Fault_Wave_Sending_Count;
+		return;
+	}
+
+	//AD 인터럽트 Enable 명령은 Disable 일 경우에만 한 번 실행하도록 하였음.
+	if(IER & M_INT12) {
+		return;
+	} else {
+		IER |= M_INT12;
+	}
+}

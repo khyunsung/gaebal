@@ -16038,6 +16038,10 @@ void menu_154_01(unsigned int value, int display)
 		Screen_Position.x = 1;
 		Screen_Position.select = 0;
 	} else if(value == ENTER_KEY) {
+		if(Watchdog_Read_FM31L27x(0x0a) & 0x80)
+			WATCHDOG.use = ENABLE;
+		else
+			WATCHDOG.use = DISABLE;
 		WATCHDOG.use_temp = WATCHDOG.use;
 		
 		Screen_Position.y = 158;
@@ -16820,15 +16824,8 @@ void menu_158_04(unsigned int value, int display)
 		if(Screen_Position.select == 0) {
 			WATCHDOG.use = WATCHDOG.use_temp;
 
-// FLASH 저장 안함
-//			if(setting_save(&WATCHDOG.use, DISP_3PHASE_USE, 1))
-//			{
-//				setting_load(&WATCHDOG.use, 1, DISP_3PHASE_USE);
-//			}
-//			else
-//			{
-//				//FLASH WRITE ERROR pop up 화면
-//			}
+			if(WATCHDOG.use == 0xaaaa)			Watchdog_Enable_FM31L27x();
+			else if(WATCHDOG.use == 0xbbbb)	Watchdog_Disable_FM31L27x();
 
 			Screen_Position.y = 158;
 			Screen_Position.x = 5;

@@ -19,6 +19,13 @@ void booting_setting_check(void)
 	*(ebss_start + i) = 0;
 	//-------- 모든 내부변수 clear 끝
 	
+	//와치독 기능 추가 2015-10-20
+	if(Watchdog_Read_FM31L27x(0x0a) & 0x80)
+		WATCHDOG.use = ENABLE;
+	else
+		WATCHDOG.use = DISABLE;	
+	Watchdog_Disable_FM31L27x();
+		
 	//-------- 초기화면 표시시작
 	// lcd 화면 켜기
 	LCD_BACKLIGHT_ON;

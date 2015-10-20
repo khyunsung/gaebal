@@ -1966,4 +1966,5 @@ unsigned int Popup_OpPhase_Info = 0;
 unsigned int Phase_Info = 0;
 unsigned int Popup_Action = 0;
 unsigned int SysParamFlag = 0;
+unsigned int Manager_Fault_Wave_Sending_Count = 0;
 #endif

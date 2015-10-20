@@ -1415,3 +1415,4 @@ extern unsigned int Popup_OpPhase_Info;
 extern unsigned int Phase_Info;
 extern unsigned int Popup_Action;
 extern unsigned int SysParamFlag;
+extern unsigned int Manager_Fault_Wave_Sending_Count;
