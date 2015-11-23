@@ -613,7 +613,7 @@ daum:		;
 	// digital  normal
 	if(WAVE.post_start != 0x1234)
 	{
-		*(Pre_relay_wave_buffer + WAVE.pre_count_di) = WAVE.relay;
+		*(Pre_relay_wave_buffer + WAVE.pre_count_di) = RELAY_STATUS.operation_realtime;
 		*(Pre_DI_wave_buffer + WAVE.pre_count_di)    = DIGITAL_INPUT.di_status;
 		*(Pre_DO_wave_buffer + WAVE.pre_count_di)    = DIGITAL_OUTPUT.do_status;
 	}
@@ -623,7 +623,7 @@ daum:		;
 	{
 		if(WAVE.post_count != 5400)
 		{
-			*(Post_relay_wave_buffer + WAVE.post_count_di) = WAVE.relay;
+			*(Post_relay_wave_buffer + WAVE.post_count_di) = RELAY_STATUS.operation_realtime;
 			*(Post_DI_wave_buffer + WAVE.post_count_di)    = DIGITAL_INPUT.di_status;
 			*(Post_DO_wave_buffer + WAVE.post_count_di)    = DIGITAL_OUTPUT.do_status;
 		}
@@ -923,7 +923,7 @@ interrupt void SCITXINTC_ISR(void)				// PIE9.4 @ 0x000DC6  SCITXINTc (SCI-c)
 	*ScicRegs_SCITXBUF = HIMIX.tx_buffer[HIMIX.tx_count++];
 	
 	// 다보냈으면
-	if(HIMIX.tx_count == 61)
+	if(HIMIX.tx_count == 63)	// 쫌 이상하네? 61바이트를 보내는데 61로 하면 두 개가 빠져서 63으로 했음
 	{
 		*ScicRegs_SCICTL2 &= 0xfffe;
 		

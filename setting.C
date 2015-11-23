@@ -12,10 +12,13 @@ unsigned int setting_save(unsigned int *ar_temp, unsigned int *ar_address, unsig
 	unsigned int crc;
 	unsigned int i;
 	
+	Flash_CRC_Check_Routine = 1;
+	DINT;	// Disable global interrupts	
 	crc = Setting_CRC(ar_temp, ar_wordcount); //crc 계산
 	flash_sector_erase(ar_address); // 해당 섹터 지움
 	for(i = 0; i < ar_wordcount; i++){flash_word_write((ar_address + i), *(ar_temp + i));} 	// 지정된 개수만 큼 flash에 저장
 	flash_word_write((ar_address + i), crc); // crc 추가로 저장
+	EINT;	// Enable global interrupts
 	for(i = 0; i < ar_wordcount; i++) // 저장된 값 비교
 	{
 		if(*(ar_temp + i) != *(ar_address + i)) // 하나라도 틀리면 fail
@@ -94,73 +97,79 @@ void flash_crc_check(void)
 	static unsigned int sel = 0;
 	unsigned int crc;
 	unsigned int crc_sram;
-	
+
+	if(Flash_CRC_Check_Routine == 1) {
+		sel = 141;
+		Flash_CRC_Check_Routine = 0;
+	}
+		
 	if(sel == 0) {
 			crc = Setting_CRC(OCR50_1_USE, 5); crc_sram = Setting_CRC(&OCR50_1.use, 5);
 			if(crc != *OCR50_1_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel == 1) {
+	} else if(sel == 10) {
 			crc = Setting_CRC(OCR50_2_USE, 5); crc_sram = Setting_CRC(&OCR50_2.use, 5);
 			if(crc != *OCR50_2_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel ==  2) {
+	} else if(sel ==  20) {
 			crc = Setting_CRC(OCR51_1_USE, 5); crc_sram = Setting_CRC(&OCR51_1.use, 5);
 			if(crc != *OCR51_1_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel ==  3) {
+	} else if(sel ==  30) {
 			crc = Setting_CRC(OCR51_2_USE, 5); crc_sram = Setting_CRC(&OCR51_2.use, 5);
 			if(crc != *OCR51_2_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel ==  4) {
+	} else if(sel ==  40) {
 			crc = Setting_CRC(OCGR50_USE , 5); crc_sram = Setting_CRC(&OCGR50.use, 5);
 			if(crc != *OCGR50_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel ==  5) {
+	} else if(sel ==  50) {
 			crc = Setting_CRC(OCGR51_USE , 5); crc_sram = Setting_CRC(&OCGR51.use, 5);
 			if(crc != *OCGR51_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel ==  6) {
+	} else if(sel ==  60) {
 			crc = Setting_CRC(UVR_1_USE  , 4); crc_sram = Setting_CRC(&UVR_1.use, 4);
 			if(crc != *UVR_1_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel ==  7) {
+	} else if(sel ==  70) {
 			crc = Setting_CRC(UVR_2_USE  , 4); crc_sram = Setting_CRC(&UVR_2.use, 4);
 			if(crc != *UVR_2_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel ==  8) {
+	} else if(sel ==  80) {
 			crc = Setting_CRC(UVR_3_USE  , 4); crc_sram = Setting_CRC(&UVR_3.use, 4);
 			if(crc != *UVR_3_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel ==  9) {
+	} else if(sel ==  90) {
 			crc = Setting_CRC(P47_USE    , 4); crc_sram = Setting_CRC(&P47.use, 4);
 			if(crc != *P47_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel == 10) {
+	} else if(sel == 100) {
 			crc = Setting_CRC(N47_USE    , 4); crc_sram = Setting_CRC(&N47.use, 4);
 			if(crc != *N47_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel == 11) {
+	} else if(sel == 110) {
 			crc = Setting_CRC(OVR_USE    , 6); crc_sram = Setting_CRC(&OVR.use, 6);
 			if(crc != *OVR_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel == 12) {
+	} else if(sel == 120) {
 			crc = Setting_CRC(OVGR_USE   , 5); crc_sram = Setting_CRC(&OVGR.use, 5);
 			if(crc != *OVGR_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel == 13) {
+	} else if(sel == 130) {
 			crc = Setting_CRC(DGR_USE    , 6); crc_sram = Setting_CRC(&DGR.use, 6);
 			if(crc != *DGR_CRC || crc != crc_sram)
 				SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel == 14) {
+	} else if(sel == 140) {
 			crc = Setting_CRC(SGR_USE    , 6); crc_sram = Setting_CRC(&SGR.use, 6);
       if(crc != *SGR_CRC || crc != crc_sram)
       	SYSTEM.diagnostic |= FLASH_FAIL;
-	} else if(sel == 15) {
+	} /*else if(sel == 150) {
 //			crc = Setting_CRC(SYNCRO_USE , 6);  crc_sram = Setting_CRC(&SYNCRO.use, 5);
 //      if(crc != *SYNCRO_CRC || crc != crc_sram)
 //      	SYSTEM.diagnostic |= FLASH_FAIL;
-	}
-	if(sel++ > 15) sel = 0;
+	}*/
+	
+	if(sel++ > 300) sel = 0;
 }
 
 // crc가 정상일 경우 사후처리
@@ -1079,7 +1088,8 @@ void event_info_update(void)
 	if(EVENT.rollover == 0)
 	{
 		//시작점 지정
-		EVENT.view_start = (int)(EVENT.sp - 1);
+//		EVENT.view_start = (int)(EVENT.sp - 1);
+		EVENT.view_start = (int)(EVENT.sp);
 		// 현재 보는 부분 지정
 		EVENT.view_point = EVENT.view_start;
 	}
@@ -1088,13 +1098,14 @@ void event_info_update(void)
 	{						
 		if(EVENT.sp == 0)
 		{
-			EVENT.view_start = 99;
-			EVENT.view_point = 99;
+			EVENT.view_start = EVENT_TOTAL_COUNT;
+			EVENT.view_point = EVENT_TOTAL_COUNT;
 		}
 		
 		else
 		{
-			EVENT.view_start = (int)(EVENT.sp - 1);
+//			EVENT.view_start = (int)(EVENT.sp - 1);
+			EVENT.view_start = (int)(EVENT.sp);
 			EVENT.view_point = EVENT.view_start;
 		}
 	}	
@@ -1144,7 +1155,7 @@ void event_direct_save(unsigned long *ar_event)
 	++EVENT.sp;
 	
 	// 200개 다차면 rollover 플래그 셋하고 sp는 0으로 초기화
-	if(EVENT.sp == 200)
+	if(EVENT.sp == (EVENT_TOTAL_COUNT + 1))
 	{
 		EVENT.sp = 0;
 		

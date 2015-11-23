@@ -67,9 +67,10 @@ void eerom_read(unsigned int, void *);
 
 unsigned int aux_do_check(unsigned int *);
 
-//unsigned int COMM_CRC(unsigned int *, unsigned int);
+unsigned int COMM_CRC(unsigned int *, unsigned int);
 void make_crc_send(unsigned int *, unsigned int *, unsigned int);
 void serial_write(unsigned int, unsigned int *, unsigned int *);
+void serial_write_2nd(unsigned int, unsigned int *, unsigned int *);
 void serial_ok_nak_send(unsigned int);
 
 void PROTECTIVE_RELAY(void);
@@ -164,6 +165,7 @@ void float_to_integer(float, unsigned int *, float);
 void float_to_integer2(float, unsigned int *, float);
 
 void wave_dump_serial_sram(unsigned int *, unsigned int, unsigned int);
+void wave_dump_serial_sram_long(unsigned int *, unsigned long, unsigned int);
 void himix_drive(void);
 void himix_crc(unsigned int);
 
@@ -190,7 +192,9 @@ void DMACH1BurstConfig(Uint16, int16, int16);
 void DMACH1TransferConfig(Uint16, int16, int16);
 void DMACH1WrapConfig(Uint16, int16, Uint16, int16);
 void DMACH1ModeConfig(Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16);
+
 void StartDMACH1(void);
+
 void self_diagnostic(void);
 void Save_Fault_Wave_Info(unsigned int);
 void fault_wave_send_check(void);

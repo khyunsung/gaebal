@@ -1342,7 +1342,10 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 		
 		//ad 인터럽트에 의해서 통신이 원활한 대용량 전송이 어렵기 때문에
 		//ad 외부인터럽트를 중지시키고, 만약 2초 동안 안들어 오면 다시 가동시킨다.
-		if(IER & M_INT12)	IER &= ~M_INT12;	//Enable 일 경우에만 한 번 Disable 시킨다.
+		//M_INT12는 외부 인터럽트, M_INT8은 SCI-C 인터럽트
+		if(IER & M_INT12)	{
+			IER &= ~(M_INT12 | M_INT8);	//Enable 일 경우에만 한 번 Disable 시킨다.
+		}
 
 		//외부 인터럽트 중지 시간 타이머 적용 카운터
 		Manager_Fault_Wave_Sending_Count++;
@@ -1374,8 +1377,8 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 			*(Manager_tx_long + 5) = MANAGER.rx_buffer[5] = i;			//Byte Length - L
 			 
 			//맨마지막 wordcount
-			wave_dump_serial_sram(FLASH_WAVE_Ia,
-													 (MANAGER.rx_buffer[6] << 16) + (MANAGER.rx_buffer[7] << 8) + MANAGER.rx_buffer[8],
+			wave_dump_serial_sram_long(FLASH_WAVE_Ia,
+													 ((long)MANAGER.rx_buffer[6] << 16) + ((long)MANAGER.rx_buffer[7] << 8) + (long)MANAGER.rx_buffer[8],
 														j);
 
 		}
@@ -1386,7 +1389,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 			*(Manager_tx_long + 5) = 0x00;
 			
 			//맨마지막 wordcount
-			wave_dump_serial_sram(FLASH_WAVE_Ia, MANAGER.rx_buffer[3] * 512, 512);
+			wave_dump_serial_sram(FLASH_WAVE_Ia, (long)MANAGER.rx_buffer[3] * 512L, 512);
 		}
 	}
 	
@@ -2249,6 +2252,30 @@ void serial_write(unsigned int ar_length, unsigned int *ar_data, unsigned int *a
 	serial_ok_nak_send(0x04);
 }
 
+void serial_write_2nd(unsigned int ar_length, unsigned int *ar_data, unsigned int *ar_address)
+{
+	unsigned int i;
+	
+	// 지정된 word 단위 개수만틈 수신버퍼에서 word로 변환하여 임시변수에 저장
+	for(i = 0; i < ar_length; i++)
+	{
+		// 상위 바이트
+		MANAGER.temp[i] = MANAGER.rx_buffer[6 + (i << 1)];
+		
+		// 상위바이트 MSB쪽으로 shift
+		MANAGER.temp[i] <<= 8;
+		
+		// 하위 바이트 or
+		MANAGER.temp[i] |= MANAGER.rx_buffer[7 + (i << 1)];
+	}
+
+	// ack
+	// 일단 설정값 저장 함수를 호출하고 결과가 양호하면 후처리 실행
+	if(setting_save(MANAGER.temp, ar_address, ar_length))
+	{
+	}
+}
+
 // 전면 시리얼 통신 수신된 프레임에 대해 ack, nak를 pc로 송신 위한 함수
 // ar_nak_code - ack, nak 코드
 // ack는 0, 나머지는 nak
@@ -2305,6 +2332,42 @@ void serial_ok_nak_send(unsigned int ar_nak_code)
 	
 //300us 소요
 void wave_dump_serial_sram(unsigned int *ar_flash, unsigned int ar_offset, unsigned int ar_wordcount)
+{
+	unsigned int *flash_point;
+	unsigned int i, j;
+			
+	flash_point = ar_flash + ar_offset;
+	
+	for(i = 0; i < ar_wordcount; i++)
+	{
+		j = i << 1;
+		
+		*(Manager_tx_long_eleven + j) = *(flash_point + i) >> 8;
+		*(Manager_tx_long_twelve + j) = *(flash_point + i) & 0x00ff;
+	}
+	
+	j = 11 + (ar_wordcount << 1);
+	
+//	*(Manager_tx_long + 4) &= 0xff;
+	i = COMM_CRC(Manager_tx_long, j);
+	//i = COMM_CRC(Manager_tx_long, 5);
+	
+	*(Manager_tx_long_eleven + (ar_wordcount << 1)) = i >> 8;
+	*(Manager_tx_long_twelve + (ar_wordcount << 1)) = i & 0x00ff;
+	
+	MANAGER.tx_length = 13 + (ar_wordcount << 1);
+	
+	MANAGER.isr_tx = Manager_tx_long;
+	
+	// tx interrupt 활성
+	*ScibRegs_SCICTL2 |= 0x0001;
+			
+	// tx intrrupt 활성화 후 최초 한번 써야함
+	MANAGER.tx_count = 1;
+	*ScibRegs_SCITXBUF = *MANAGER.isr_tx;
+}
+
+void wave_dump_serial_sram_long(unsigned int *ar_flash, unsigned long ar_offset, unsigned int ar_wordcount)
 {
 	unsigned int *flash_point;
 	unsigned int i, j;
@@ -2605,6 +2668,6 @@ void fault_wave_send_check(void)
 	if(IER & M_INT12) {
 		return;
 	} else {
-		IER |= M_INT12;
+		IER |= (M_INT12 | M_INT8);
 	}
 }

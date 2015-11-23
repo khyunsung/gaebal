@@ -11,7 +11,6 @@ void main(void)
 {
 	// H/W 초기화 및 관리....
 	// 아래 세개 함수는 H/W 변동이 없는 한 수정 없음
-
 	cpu_setup();         // DSP setup에 관한 것은 TI guide에 따름
 	lcd_setup();	     // LCD 컨트롤러에 따름
 	interrupt_control(); // 인터럽트 등록
@@ -179,7 +178,7 @@ void real_main(void)
 			SCI_Port_Err_Check();
 			self_diagnostic();
 			fault_wave_send_check();
-			flash_crc_check();
+			//flash_crc_check();
 			Watchdog_Kick_FM31L27x();
 		}
 		*LED_CS = SYSTEM.led_on; // 주기적으로 led값을 써주지 않으면 led가 꺼지는것 처럼 보임 (latch 회로가 없음), 1ms도 허용치 않음
@@ -232,7 +231,7 @@ void real_main(void)
 //-------- RUNNING HOUR METER END
 
 //-------- HIMIX RS-485 송신
-		if(HIMIX.timer > 4)	{himix_drive();}
+		if(HIMIX.timer > 3000)	{himix_drive();} //4 --> 1000
 //-------- HIMIX RS-485 송신 END
 
 //-------- remote 통신 사용하는 경우에만 호출
@@ -1986,7 +1985,7 @@ void measure_display(void) //전압, 전류 값
 		if(DISPLAY.sum_count == 50)	{DISPLAY.sum_count = 0;}
 		DISPLAY.switching = 0x0001;	//measure_display(), measure_display2() 번갈아가며 계산하라고 지시하는  flag
 	}
-}
+}		
 
 // 위상
 void measure2_display(void)

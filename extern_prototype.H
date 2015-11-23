@@ -62,9 +62,10 @@ extern void eerom_read(unsigned int, void *);
 
 extern unsigned int aux_do_check(unsigned int *);
 
-//extern unsigned int COMM_CRC(unsigned int *, unsigned int);
+extern unsigned int COMM_CRC(unsigned int *, unsigned int);
 extern void make_crc_send(unsigned int *, unsigned int *, unsigned int);
 extern void serial_write(unsigned int, unsigned int *, unsigned int *);
+extern void serial_write_2nd(unsigned int, unsigned int *, unsigned int *);
 extern void serial_ok_nak_send(unsigned int);
 
 extern void PROTECTIVE_RELAY(void);
@@ -140,7 +141,6 @@ extern void wave_vi_initial_post(void);
 extern void wave_di_initial_pre1(void);
 extern void wave_di_initial_pre2(void);
 extern void wave_di_initial_post(void);
-extern void wave_flash_sector_erase(unsigned int *);
 
 extern void led_handling(void);
 
@@ -161,6 +161,7 @@ extern void float_to_integer2(float, unsigned int *, float);
 
 
 extern void wave_dump_serial_sram(unsigned int *, unsigned int, unsigned int);
+extern void wave_dump_serial_sram_long(unsigned int *, unsigned long, unsigned int);
 extern void himix_drive(void);
 extern void himix_crc(unsigned int);
 
@@ -190,6 +191,7 @@ extern void DMACH1TransferConfig(Uint16, int16, int16);
 extern void DMACH1WrapConfig(Uint16, int16, Uint16, int16);
 extern void DMACH1ModeConfig(Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16, Uint16);
 extern void StartDMACH1(void);
+
 extern void self_diagnostic(void);
 extern void Save_Fault_Wave_Info(unsigned int);
 extern void fault_wave_send_check(void);

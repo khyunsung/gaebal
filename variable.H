@@ -1967,4 +1967,5 @@ unsigned int Phase_Info = 0;
 unsigned int Popup_Action = 0;
 unsigned int SysParamFlag = 0;
 unsigned int Manager_Fault_Wave_Sending_Count = 0;
+unsigned int Flash_CRC_Check_Routine = 1;
 #endif
