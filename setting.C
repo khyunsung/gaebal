@@ -1813,6 +1813,29 @@ void DO_Default_Settings(void)
 	}
 }
 
+void Event_Clear(void)
+{
+	unsigned int i;
+	
+	for(i = 0; i < (200*18); i++)
+		*(EVENT_ROLLOVER + i) = 0;
+		
+	EVENT.view_start = 0;
+	EVENT.view_point = 0;
+	EVENT.rollover = 0;
+	EVENT.sp = 0;
+	EVENT.temp = 0;
+	
+	*(EVENT_YEAR   + 18*199) = TIME.year;   // 연
+	*(EVENT_MONTH  + 18*199) = TIME.month;  // 월
+	*(EVENT_DAY    + 18*199) = TIME.day;    // 일
+	*(EVENT_HOUR   + 18*199) = TIME.hour;   // 시
+	*(EVENT_MINUTE + 18*199) = TIME.minute; // 분
+	*(EVENT_SECOND + 18*199) = TIME.second; // 초
+	*(EVENT_MS1    + 18*199) = TIME.milisecond >> 8; //msec 상위바이트
+	*(EVENT_MS2    + 18*199) = TIME.milisecond;      // msec 하위바이트
+}
+
 void ClearFLASH(void)
 {
 	GPT_Default_Settings(); //설정 순서를 CORE. -> GPT. -> CPT. -> 계전요소 순서를 지켜야 함. (순서대로 계속 참조 해야 하므로)
@@ -1849,6 +1872,8 @@ void ClearFLASH(void)
 
  	//Fault clear
  	//이벤트 clear
+ 	Event_Clear();
+ 	
  	//누적값 clear (running hour, vo_max 등)
 	*(MRAM_RUNNING_HOUR1) = 0;
 	*(MRAM_RUNNING_HOUR2) = 0;

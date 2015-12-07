@@ -200,3 +200,4 @@ extern void Watchdog_Enable_FM31L27x(void);
 extern void Watchdog_Disable_FM31L27x(void);
 extern void Watchdog_Kick_FM31L27x(void);
 extern unsigned int Watchdog_Read_FM31L27x(unsigned);
+extern void Event_Clear(void);

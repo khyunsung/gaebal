@@ -1248,7 +1248,14 @@ void RELAY_OVR(void)
 						RELAY_STATUS.operation_realtime			|= F_OVR;  //현재 동작 상태 변수 설정
 						RELAY_STATUS.operation_sum_holding	|= F_OVR;  //누적 동작 상태 변수 설정
 	
+						EVENT.optime = (unsigned long)OVR.Op_Time;
+						EVENT.operation |= (INT_F_OVR << 16) + OVR.Op_Phase;
+						EVENT.fault_type = F_OVR;
+						Phase_Info = (Phase_Info == 0)? EVENT.operation: OVR.Op_Phase;
+						Save_Relay_Event(OVR.Op_Ratio * 100.0F);
 						Save_Screen_Info(OVR.Op_Phase);
+						Save_Fault_Wave_Info(0);
+						WAVE.post_start = 0x1234;						
 					}
 				}
 			}
@@ -1381,7 +1388,14 @@ void RELAY_OVGR(void)
 						RELAY_STATUS.operation_realtime			|= F_OVGR;  //현재 동작 상태 변수 설정
 						RELAY_STATUS.operation_sum_holding	|= F_OVGR;  //누적 동작 상태 변수 설정
 	
+						EVENT.optime = (unsigned long)OVGR.Op_Time;
+						EVENT.operation |= (INT_F_OVGR << 16) + OVGR.Op_Phase;
+						EVENT.fault_type = F_OVGR;
+						Phase_Info = (Phase_Info == 0)? EVENT.operation: OVGR.Op_Phase;
+						Save_Relay_Event(OVGR.Op_Ratio * 100.0F);
 						Save_Screen_Info(OVGR.Op_Phase);
+						Save_Fault_Wave_Info(0);
+						WAVE.post_start = 0x1234;						
 					}
 				}
 			}

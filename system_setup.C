@@ -28,7 +28,7 @@ void cpu_setup(void)
 	
 	i2c_setup();
 	
-	DMAInitialize();
+	//DMAInitialize();
 
 }
 

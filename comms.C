@@ -45,9 +45,11 @@ unsigned int COMM_CRC(unsigned int *ar_address, unsigned int ar_length)
 // 해당 function code에 대한 작업
 void manager_handling(void)
 {
-	unsigned int i, j;
+	unsigned int i, j, k;
 	float float_temp;
 	unsigned int buff[10];
+	unsigned int req_event_cnt;
+	
 	
 	//core 정보
 	if(MANAGER.rx_buffer[2] == 0x00)
@@ -799,443 +801,124 @@ void manager_handling(void)
 		// 시간순서 배열은 매니저가 한다.
 		else
 		{
-			if(MANAGER.event_send_block > 20)
-			; //nak 날림
+//			if(MANAGER.event_send_block > 20)
+//			; //nak 날림
+//			
+//			else if(MANAGER.rx_buffer[3] > MANAGER.event_send_block)
+//			; //nak 날림
+//			
+//			else
 			
-			else if(MANAGER.rx_buffer[3] > MANAGER.event_send_block)
-			; //nak 날림
-			
-			else
-			{
 				// header
 				MANAGER.tx_buffer[0] = '#';
 				MANAGER.tx_buffer[1] = ADDRESS.address;
 				MANAGER.tx_buffer[2] = MANAGER.rx_buffer[2];
 				MANAGER.tx_buffer[3] = MANAGER.rx_buffer[3];
 			
-			
-				// pc가 보낸 블럭 수
-				i = MANAGER.rx_buffer[3];
+			// 이벤트 요청 시작 위치는 Func. Code 2(1~200), 이벤트 요청 개수 Byte Length 2(1~200)
+			i = EVENT.sp;	// EVENT.sp 현 위치
+			req_event_cnt = MANAGER.rx_buffer[7];	// 요청받은 이벤트 개수(요청개수)
+			j = 6;
+
+			if(EVENT.rollover == 0xaa) {	// 이벤트가 200개 채워지면 0xaa가 된다.
 				
-				// 포인터 스타트 포인트
-				--i;
-				
-				// 10개 단위, 하나의 이벤트 18바이트로 구성
-				i *= 180;
-				
-				// 첫번째는 반다시 있으니 걍 보냄
-				// 1st
-				MANAGER.tx_buffer[  6] = *(EVENT_YEAR     + i) & 0x00ff;
-				MANAGER.tx_buffer[  7] = *(EVENT_MONTH    + i) & 0x00ff;
-				MANAGER.tx_buffer[  8] = *(EVENT_DAY      + i) & 0x00ff;
-				MANAGER.tx_buffer[  9] = *(EVENT_HOUR     + i) & 0x00ff;
-				MANAGER.tx_buffer[ 10] = *(EVENT_MINUTE   + i) & 0x00ff;
-				MANAGER.tx_buffer[ 11] = *(EVENT_SECOND   + i) & 0x00ff;
-				MANAGER.tx_buffer[ 12] = *(EVENT_MS1      + i) & 0x00ff;
-				MANAGER.tx_buffer[ 13] = *(EVENT_MS2      + i) & 0x00ff;
-				MANAGER.tx_buffer[ 14] = *(EVENT_INDEX1   + i) & 0x00ff;
-				MANAGER.tx_buffer[ 15] = *(EVENT_INDEX2   + i) & 0x00ff;
-				MANAGER.tx_buffer[ 16] = *(EVENT_CONTENT1 + i) & 0x00ff;
-				MANAGER.tx_buffer[ 17] = *(EVENT_CONTENT2 + i) & 0x00ff;
-				MANAGER.tx_buffer[ 18] = *(EVENT_RATIO1   + i) & 0x00ff;
-				MANAGER.tx_buffer[ 19] = *(EVENT_RATIO2   + i) & 0x00ff;
-				MANAGER.tx_buffer[ 20] = *(EVENT_OPTIME1  + i) & 0x00ff;
-				MANAGER.tx_buffer[ 21] = *(EVENT_OPTIME2  + i) & 0x00ff;
-				MANAGER.tx_buffer[ 22] = *(EVENT_OPTIME3  + i) & 0x00ff;
-				MANAGER.tx_buffer[ 23] = *(EVENT_OPTIME4  + i) & 0x00ff;
+				if(req_event_cnt > i) {		// 현 위치 수 보다 요청개수가 큰 경우
 					
-				// rollover가 아니면
-				if(MANAGER.event_rollover_backup != 0xaa)
-				{
-					// 요청 블럭에서 1뺌
-					j = MANAGER.rx_buffer[3] - 1;
+					for( ;i--; ) {
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_YEAR     + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_MONTH    + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_DAY      + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_HOUR     + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_MINUTE   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_SECOND   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_MS1      + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_MS2      + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_INDEX1   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_INDEX2   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_CONTENT1 + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_CONTENT2 + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_RATIO1   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_RATIO2   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_OPTIME1  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_OPTIME2  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_OPTIME3  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 1;// *(EVENT_OPTIME4  + i * 18) & 0x00ff;
+					}
 					
-					// 곱하기 10
-					j *= 10;
+					i = 200 - (req_event_cnt - EVENT.sp);
+					for( k = 200;k <= i ; k-- ) {
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_YEAR     + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_MONTH    + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_DAY      + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_HOUR     + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_MINUTE   + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_SECOND   + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_MS1      + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_MS2      + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_INDEX1   + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_INDEX2   + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_CONTENT1 + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_CONTENT2 + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_RATIO1   + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_RATIO2   + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_OPTIME1  + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_OPTIME2  + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_OPTIME3  + (200 - k) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 2;// *(EVENT_OPTIME4  + (200 - k) * 18) & 0x00ff;								
+					}
 					
-					// 두번째
-					j += 1;
-					
-					// sp가 같으면 다 보냈다는 의미
-					if(j == MANAGER.event_sp_backup)
-					{
-						j = 18;
-						
-						goto event_send;
+				}	else {	// 현 위치 수 보다 요청개수가 작은 경우
+					for( ;req_event_cnt-- ; i-- ) {		// 요청개수로 판단한다.
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_YEAR     + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_MONTH    + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_DAY      + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_HOUR     + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_MINUTE   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_SECOND   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_MS1      + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_MS2      + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_INDEX1   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_INDEX2   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_CONTENT1 + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_CONTENT2 + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_RATIO1   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_RATIO2   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_OPTIME1  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_OPTIME2  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_OPTIME3  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = 3;// *(EVENT_OPTIME4  + i * 18) & 0x00ff;
 					}
 				}
+			} else {	// 200개 이하인 경우 이벤트 수
+				if((req_event_cnt-2) >= i) {	// Request Counter Error : 현재 이벤수 보다 많은 요청을 함.
+					serial_ok_nak_send(0xee);
+				} else {
 				
-				// 2nd
-				j = i + 18;
-				
-				MANAGER.tx_buffer[ 24] = *(EVENT_YEAR     + j) & 0x00ff;
-				MANAGER.tx_buffer[ 25] = *(EVENT_MONTH    + j) & 0x00ff;
-				MANAGER.tx_buffer[ 26] = *(EVENT_DAY      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 27] = *(EVENT_HOUR     + j) & 0x00ff;
-				MANAGER.tx_buffer[ 28] = *(EVENT_MINUTE   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 29] = *(EVENT_SECOND   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 30] = *(EVENT_MS1      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 31] = *(EVENT_MS2      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 32] = *(EVENT_INDEX1   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 33] = *(EVENT_INDEX2   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 34] = *(EVENT_CONTENT1 + j) & 0x00ff;
-				MANAGER.tx_buffer[ 35] = *(EVENT_CONTENT2 + j) & 0x00ff;
-				MANAGER.tx_buffer[ 36] = *(EVENT_RATIO1   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 37] = *(EVENT_RATIO2   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 38] = *(EVENT_OPTIME1  + j) & 0x00ff;
-				MANAGER.tx_buffer[ 39] = *(EVENT_OPTIME2  + j) & 0x00ff;
-				MANAGER.tx_buffer[ 40] = *(EVENT_OPTIME3  + j) & 0x00ff;
-				MANAGER.tx_buffer[ 41] = *(EVENT_OPTIME4  + j) & 0x00ff;
-				
-				// rollover가 아니면
-				if(MANAGER.event_rollover_backup != 0xaa)
-				{
-					// 요청 블럭에서 1뺌
-					j = MANAGER.rx_buffer[3] - 1;
-					
-					// 곱하기 10
-					j *= 10;
-					
-					// 세번째
-					j += 2;
-					
-					// sp가 같으면 다 보냈다는 의미
-					if(j == MANAGER.event_sp_backup)
-					{
-						j = 36;
-						
-						goto event_send;
-					}
+					for( ;req_event_cnt-- ; i-- ) {		// 요청개수로 판단한다.
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_YEAR     + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_MONTH    + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_DAY      + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_HOUR     + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_MINUTE   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_SECOND   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_MS1      + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_MS2      + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_INDEX1   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_INDEX2   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_CONTENT1 + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_CONTENT2 + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_RATIO1   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_RATIO2   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_OPTIME1  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_OPTIME2  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_OPTIME3  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_OPTIME4  + i * 18) & 0x00ff;
 				}
 				
-				// 3rd
-				j = i + 36;
-				
-				MANAGER.tx_buffer[ 42] = *(EVENT_YEAR     + j) & 0x00ff;
-				MANAGER.tx_buffer[ 43] = *(EVENT_MONTH    + j) & 0x00ff;
-				MANAGER.tx_buffer[ 44] = *(EVENT_DAY      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 45] = *(EVENT_HOUR     + j) & 0x00ff;
-				MANAGER.tx_buffer[ 46] = *(EVENT_MINUTE   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 47] = *(EVENT_SECOND   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 48] = *(EVENT_MS1      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 49] = *(EVENT_MS2      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 50] = *(EVENT_INDEX1   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 51] = *(EVENT_INDEX2   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 52] = *(EVENT_CONTENT1 + j) & 0x00ff;
-				MANAGER.tx_buffer[ 53] = *(EVENT_CONTENT2 + j) & 0x00ff;
-				MANAGER.tx_buffer[ 54] = *(EVENT_RATIO1   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 55] = *(EVENT_RATIO2   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 56] = *(EVENT_OPTIME1  + j) & 0x00ff;
-				MANAGER.tx_buffer[ 57] = *(EVENT_OPTIME2  + j) & 0x00ff;
-				MANAGER.tx_buffer[ 58] = *(EVENT_OPTIME3  + j) & 0x00ff;
-				MANAGER.tx_buffer[ 59] = *(EVENT_OPTIME4  + j) & 0x00ff;
-				
-				// rollover가 아니면
-				if(MANAGER.event_rollover_backup != 0xaa)
-				{
-					// 요청 블럭에서 1뺌
-					j = MANAGER.rx_buffer[3] - 1;
-					
-					// 곱하기 10
-					j *= 10;
-					
-					// 네번째
-					j += 3;
-					
-					// sp가 같으면 다 보냈다는 의미
-					if(j == MANAGER.event_sp_backup)
-					{
-						j = 54;
-						
-						goto event_send;
-					}
-				}
-				
-				// 4th
-				j = i + 54;
-				
-				MANAGER.tx_buffer[ 60] = *(EVENT_YEAR     + j) & 0x00ff;
-				MANAGER.tx_buffer[ 61] = *(EVENT_MONTH    + j) & 0x00ff;
-				MANAGER.tx_buffer[ 62] = *(EVENT_DAY      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 63] = *(EVENT_HOUR     + j) & 0x00ff;
-				MANAGER.tx_buffer[ 64] = *(EVENT_MINUTE   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 65] = *(EVENT_SECOND   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 66] = *(EVENT_MS1      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 67] = *(EVENT_MS2      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 68] = *(EVENT_INDEX1   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 69] = *(EVENT_INDEX2   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 70] = *(EVENT_CONTENT1 + j) & 0x00ff;
-				MANAGER.tx_buffer[ 71] = *(EVENT_CONTENT2 + j) & 0x00ff;
-				MANAGER.tx_buffer[ 72] = *(EVENT_RATIO1   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 73] = *(EVENT_RATIO2   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 74] = *(EVENT_OPTIME1  + j) & 0x00ff;
-				MANAGER.tx_buffer[ 75] = *(EVENT_OPTIME2  + j) & 0x00ff;
-				MANAGER.tx_buffer[ 76] = *(EVENT_OPTIME3  + j) & 0x00ff;
-				MANAGER.tx_buffer[ 77] = *(EVENT_OPTIME4  + j) & 0x00ff;
-				
-				// rollover가 아니면
-				if(MANAGER.event_rollover_backup != 0xaa)
-				{
-					// 요청 블럭에서 1뺌
-					j = MANAGER.rx_buffer[3] - 1;
-					
-					// 곱하기 10
-					j *= 10;
-					
-					// 다섯번째
-					j += 4;
-					
-					// sp가 같으면 다 보냈다는 의미
-					if(j == MANAGER.event_sp_backup)
-					{
-						j = 72;
-						
-						goto event_send;
-					}
-				}
-				
-				// 5th
-				j = i + 72;
-				
-				MANAGER.tx_buffer[ 78] = *(EVENT_YEAR     + j) & 0x00ff;
-				MANAGER.tx_buffer[ 79] = *(EVENT_MONTH    + j) & 0x00ff;
-				MANAGER.tx_buffer[ 80] = *(EVENT_DAY      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 81] = *(EVENT_HOUR     + j) & 0x00ff;
-				MANAGER.tx_buffer[ 82] = *(EVENT_MINUTE   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 83] = *(EVENT_SECOND   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 84] = *(EVENT_MS1      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 85] = *(EVENT_MS2      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 86] = *(EVENT_INDEX1   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 87] = *(EVENT_INDEX2   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 88] = *(EVENT_CONTENT1 + j) & 0x00ff;
-				MANAGER.tx_buffer[ 89] = *(EVENT_CONTENT2 + j) & 0x00ff;
-				MANAGER.tx_buffer[ 90] = *(EVENT_RATIO1   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 91] = *(EVENT_RATIO2   + j) & 0x00ff;
-				MANAGER.tx_buffer[ 92] = *(EVENT_OPTIME1  + j) & 0x00ff;
-				MANAGER.tx_buffer[ 93] = *(EVENT_OPTIME2  + j) & 0x00ff;
-				MANAGER.tx_buffer[ 94] = *(EVENT_OPTIME3  + j) & 0x00ff;
-				MANAGER.tx_buffer[ 95] = *(EVENT_OPTIME4  + j) & 0x00ff;
-				
-				// rollover가 아니면
-				if(MANAGER.event_rollover_backup != 0xaa)
-				{
-					// 요청 블럭에서 1뺌
-					j = MANAGER.rx_buffer[3] - 1;
-					
-					// 곱하기 10
-					j *= 10;
-					
-					// 여섯번째
-					j += 5;
-					
-					// sp가 같으면 다 보냈다는 의미
-					if(j == MANAGER.event_sp_backup)
-					{
-						j = 90;
-						
-						goto event_send;
-					}
-				}
-				
-				// 6th
-				j = i + 90;
-				
-				MANAGER.tx_buffer[ 96] = *(EVENT_YEAR     + j) & 0x00ff;
-				MANAGER.tx_buffer[ 97] = *(EVENT_MONTH    + j) & 0x00ff;
-				MANAGER.tx_buffer[ 98] = *(EVENT_DAY      + j) & 0x00ff;
-				MANAGER.tx_buffer[ 99] = *(EVENT_HOUR     + j) & 0x00ff;
-				MANAGER.tx_buffer[100] = *(EVENT_MINUTE   + j) & 0x00ff;
-				MANAGER.tx_buffer[101] = *(EVENT_SECOND   + j) & 0x00ff;
-				MANAGER.tx_buffer[102] = *(EVENT_MS1      + j) & 0x00ff;
-				MANAGER.tx_buffer[103] = *(EVENT_MS2      + j) & 0x00ff;
-				MANAGER.tx_buffer[104] = *(EVENT_INDEX1   + j) & 0x00ff;
-				MANAGER.tx_buffer[105] = *(EVENT_INDEX2   + j) & 0x00ff;
-				MANAGER.tx_buffer[106] = *(EVENT_CONTENT1 + j) & 0x00ff;
-				MANAGER.tx_buffer[107] = *(EVENT_CONTENT2 + j) & 0x00ff;
-				MANAGER.tx_buffer[108] = *(EVENT_RATIO1   + j) & 0x00ff;
-				MANAGER.tx_buffer[109] = *(EVENT_RATIO2   + j) & 0x00ff;
-				MANAGER.tx_buffer[110] = *(EVENT_OPTIME1  + j) & 0x00ff;
-				MANAGER.tx_buffer[111] = *(EVENT_OPTIME2  + j) & 0x00ff;
-				MANAGER.tx_buffer[112] = *(EVENT_OPTIME3  + j) & 0x00ff;
-				MANAGER.tx_buffer[113] = *(EVENT_OPTIME4  + j) & 0x00ff;
-				
-				// rollover가 아니면
-				if(MANAGER.event_rollover_backup != 0xaa)
-				{
-					// 요청 블럭에서 1뺌
-					j = MANAGER.rx_buffer[3] - 1;
-					
-					// 곱하기 10
-					j *= 10;
-					
-					// 일곱번째
-					j += 6;
-					
-					// sp가 같으면 다 보냈다는 의미
-					if(j == MANAGER.event_sp_backup)
-					{
-						j = 108;
-						
-						goto event_send;
-					}
-				}
-				
-				// 7th
-				j = i + 108;
-				
-				MANAGER.tx_buffer[114] = *(EVENT_YEAR     + j) & 0x00ff;
-				MANAGER.tx_buffer[115] = *(EVENT_MONTH    + j) & 0x00ff;
-				MANAGER.tx_buffer[116] = *(EVENT_DAY      + j) & 0x00ff;
-				MANAGER.tx_buffer[117] = *(EVENT_HOUR     + j) & 0x00ff;
-				MANAGER.tx_buffer[118] = *(EVENT_MINUTE   + j) & 0x00ff;
-				MANAGER.tx_buffer[119] = *(EVENT_SECOND   + j) & 0x00ff;
-				MANAGER.tx_buffer[120] = *(EVENT_MS1      + j) & 0x00ff;
-				MANAGER.tx_buffer[121] = *(EVENT_MS2      + j) & 0x00ff;
-				MANAGER.tx_buffer[122] = *(EVENT_INDEX1   + j) & 0x00ff;
-				MANAGER.tx_buffer[123] = *(EVENT_INDEX2   + j) & 0x00ff;
-				MANAGER.tx_buffer[124] = *(EVENT_CONTENT1 + j) & 0x00ff;
-				MANAGER.tx_buffer[125] = *(EVENT_CONTENT2 + j) & 0x00ff;
-				MANAGER.tx_buffer[126] = *(EVENT_RATIO1   + j) & 0x00ff;
-				MANAGER.tx_buffer[127] = *(EVENT_RATIO2   + j) & 0x00ff;
-				MANAGER.tx_buffer[128] = *(EVENT_OPTIME1  + j) & 0x00ff;
-				MANAGER.tx_buffer[129] = *(EVENT_OPTIME2  + j) & 0x00ff;
-				MANAGER.tx_buffer[130] = *(EVENT_OPTIME3  + j) & 0x00ff;
-				MANAGER.tx_buffer[131] = *(EVENT_OPTIME4  + j) & 0x00ff;
-				
-				
-				// rollover가 아니면
-				if(MANAGER.event_rollover_backup != 0xaa)
-				{
-					// 요청 블럭에서 1뺌
-					j = MANAGER.rx_buffer[3] - 1;
-					
-					// 곱하기 10
-					j *= 10;
-					
-					// 여덟번째
-					j += 7;
-					
-					// sp가 같으면 다 보냈다는 의미
-					if(j == MANAGER.event_sp_backup)
-					{
-						j = 126;
-						
-						goto event_send;
-					}
-				}
-				
-				// 8th
-				j = i + 126;
-				
-				MANAGER.tx_buffer[132] = *(EVENT_YEAR     + j) & 0x00ff;
-				MANAGER.tx_buffer[133] = *(EVENT_MONTH    + j) & 0x00ff;
-				MANAGER.tx_buffer[134] = *(EVENT_DAY      + j) & 0x00ff;
-				MANAGER.tx_buffer[135] = *(EVENT_HOUR     + j) & 0x00ff;
-				MANAGER.tx_buffer[136] = *(EVENT_MINUTE   + j) & 0x00ff;
-				MANAGER.tx_buffer[137] = *(EVENT_SECOND   + j) & 0x00ff;
-				MANAGER.tx_buffer[138] = *(EVENT_MS1      + j) & 0x00ff;
-				MANAGER.tx_buffer[139] = *(EVENT_MS2      + j) & 0x00ff;
-				MANAGER.tx_buffer[140] = *(EVENT_INDEX1   + j) & 0x00ff;
-				MANAGER.tx_buffer[141] = *(EVENT_INDEX2   + j) & 0x00ff;
-				MANAGER.tx_buffer[142] = *(EVENT_CONTENT1 + j) & 0x00ff;
-				MANAGER.tx_buffer[143] = *(EVENT_CONTENT2 + j) & 0x00ff;
-				MANAGER.tx_buffer[144] = *(EVENT_RATIO1   + j) & 0x00ff;
-				MANAGER.tx_buffer[145] = *(EVENT_RATIO2   + j) & 0x00ff;
-				MANAGER.tx_buffer[146] = *(EVENT_OPTIME1  + j) & 0x00ff;
-				MANAGER.tx_buffer[147] = *(EVENT_OPTIME2  + j) & 0x00ff;
-				MANAGER.tx_buffer[148] = *(EVENT_OPTIME3  + j) & 0x00ff;
-				MANAGER.tx_buffer[149] = *(EVENT_OPTIME4  + j) & 0x00ff;
-				
-				// rollover가 아니면
-				if(MANAGER.event_rollover_backup != 0xaa)
-				{
-					// 요청 블럭에서 1뺌
-					j = MANAGER.rx_buffer[3] - 1;
-					
-					// 곱하기 10
-					j *= 10;
-					
-					// 아홉번째
-					j += 8;
-					
-					// sp가 같으면 다 보냈다는 의미
-					if(j == MANAGER.event_sp_backup)
-					{
-						j = 144;
-						
-						goto event_send;
-					}
-				}
-				
-				// 9th
-				j = i + 144;
-				
-				MANAGER.tx_buffer[150] = *(EVENT_YEAR     + j) & 0x00ff;
-				MANAGER.tx_buffer[151] = *(EVENT_MONTH    + j) & 0x00ff;
-				MANAGER.tx_buffer[152] = *(EVENT_DAY      + j) & 0x00ff;
-				MANAGER.tx_buffer[153] = *(EVENT_HOUR     + j) & 0x00ff;
-				MANAGER.tx_buffer[154] = *(EVENT_MINUTE   + j) & 0x00ff;
-				MANAGER.tx_buffer[155] = *(EVENT_SECOND   + j) & 0x00ff;
-				MANAGER.tx_buffer[156] = *(EVENT_MS1      + j) & 0x00ff;
-				MANAGER.tx_buffer[157] = *(EVENT_MS2      + j) & 0x00ff;
-				MANAGER.tx_buffer[158] = *(EVENT_INDEX1   + j) & 0x00ff;
-				MANAGER.tx_buffer[159] = *(EVENT_INDEX2   + j) & 0x00ff;
-				MANAGER.tx_buffer[160] = *(EVENT_CONTENT1 + j) & 0x00ff;
-				MANAGER.tx_buffer[161] = *(EVENT_CONTENT2 + j) & 0x00ff;
-				MANAGER.tx_buffer[162] = *(EVENT_RATIO1   + j) & 0x00ff;
-				MANAGER.tx_buffer[163] = *(EVENT_RATIO2   + j) & 0x00ff;
-				MANAGER.tx_buffer[164] = *(EVENT_OPTIME1  + j) & 0x00ff;
-				MANAGER.tx_buffer[165] = *(EVENT_OPTIME2  + j) & 0x00ff;
-				MANAGER.tx_buffer[166] = *(EVENT_OPTIME3  + j) & 0x00ff;
-				MANAGER.tx_buffer[167] = *(EVENT_OPTIME4  + j) & 0x00ff;
-				
-				// rollover가 아니면
-				if(MANAGER.event_rollover_backup != 0xaa)
-				{
-					// 요청 블럭에서 1뺌
-					j = MANAGER.rx_buffer[3] - 1;
-					
-					// 곱하기 10
-					j *= 10;
-					
-					// 열번째
-					j += 9;
-					
-					// sp가 같으면 다 보냈다는 의미
-					if(j == MANAGER.event_sp_backup)
-					{
-						j = 162;
-						
-						goto event_send;
-					}
-				}
-				
-				// 10th
-				j = i + 162;
-				
-				MANAGER.tx_buffer[168] = *(EVENT_YEAR     + j) & 0x00ff;
-				MANAGER.tx_buffer[169] = *(EVENT_MONTH    + j) & 0x00ff;
-				MANAGER.tx_buffer[170] = *(EVENT_DAY      + j) & 0x00ff;
-				MANAGER.tx_buffer[171] = *(EVENT_HOUR     + j) & 0x00ff;
-				MANAGER.tx_buffer[172] = *(EVENT_MINUTE   + j) & 0x00ff;
-				MANAGER.tx_buffer[173] = *(EVENT_SECOND   + j) & 0x00ff;
-				MANAGER.tx_buffer[174] = *(EVENT_MS1      + j) & 0x00ff;
-				MANAGER.tx_buffer[175] = *(EVENT_MS2      + j) & 0x00ff;
-				MANAGER.tx_buffer[176] = *(EVENT_INDEX1   + j) & 0x00ff;
-				MANAGER.tx_buffer[177] = *(EVENT_INDEX2   + j) & 0x00ff;
-				MANAGER.tx_buffer[178] = *(EVENT_CONTENT1 + j) & 0x00ff;
-				MANAGER.tx_buffer[179] = *(EVENT_CONTENT2 + j) & 0x00ff;
-				MANAGER.tx_buffer[180] = *(EVENT_RATIO1   + j) & 0x00ff;
-				MANAGER.tx_buffer[181] = *(EVENT_RATIO2   + j) & 0x00ff;
-				MANAGER.tx_buffer[182] = *(EVENT_OPTIME1  + j) & 0x00ff;
-				MANAGER.tx_buffer[183] = *(EVENT_OPTIME2  + j) & 0x00ff;
-				MANAGER.tx_buffer[184] = *(EVENT_OPTIME3  + j) & 0x00ff;
-				MANAGER.tx_buffer[185] = *(EVENT_OPTIME4  + j) & 0x00ff;
-				
-				j = 180;
+					j -= 6;
 				
 				// length
-event_send:		MANAGER.tx_buffer[4] = j >> 8;
+				MANAGER.tx_buffer[4] = j >> 8;
 				MANAGER.tx_buffer[5] = j & 0x00ff;
 	
 				i = COMM_CRC(MANAGER.tx_buffer, 6 + j);
@@ -1253,6 +936,7 @@ event_send:		MANAGER.tx_buffer[4] = j >> 8;
 				// tx intrrupt 활성화 후 최초 한번 써야함
 				MANAGER.tx_count = 1;
 				*ScibRegs_SCITXBUF = *MANAGER.isr_tx;
+				}
 			}
 		}
 	}

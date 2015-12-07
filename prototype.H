@@ -203,3 +203,4 @@ void Watchdog_Enable_FM31L27x(void);
 void Watchdog_Disable_FM31L27x(void);
 void Watchdog_Kick_FM31L27x(void);
 unsigned int Watchdog_Read_FM31L27x(unsigned);
+void Event_Clear(void);

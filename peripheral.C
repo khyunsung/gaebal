@@ -73,6 +73,10 @@ void delay_us(unsigned long ar_delay)
 	DELAY_US(ar_delay);
 }
 
+void loop_delay(unsigned long ar_delay)
+{
+	while(ar_delay--);
+}
 //2006.4.6
 /******************** LCD ***************************/
 //2006.4.6
@@ -82,174 +86,174 @@ void LCD_DATA(unsigned char LCD_CH)
 	*LCD_RS = 0xff;
 //	*LCD_RW = 0x00;
 //delay(1000);	//2007.6.20
-	delay(100);		//2007.6.20
+	loop_delay(500);		//2007.6.20
 	*LCD_CS = LCD_CH;
 }
 
-void LCD_COMMAND(unsigned char LCD_COM)
-{
-	*LCD_RS = 0x00;
-	*LCD_RS = 0x00;
-//	*LCD_RW = 0x00;
-//delay(1000);	//2007.6.20
-	delay(100);		//2007.6.20
-	*LCD_CS = LCD_COM;
-}
-
-void LCD_INIT(void)
-{
-	*LCD_LIGHT = 0xff;
-	delay(10000);
-	LCD_COMMAND(INIT_LCD);
-	delay(10000);
-	LCD_COMMAND(CLEAR_LCD);
-	delay(10000);
-	LCD_COMMAND(0x0f);
-	delay(10000);
-	LCD_COMMAND(HOME_CUR);
-	delay(10000);
-}
-
-void LCD_light_ON(void)
-{
-	*LCD_LIGHT = 0xff;
-}
-
-void LCD_light_OFF(void)
-{
-	*LCD_LIGHT = 0x00;
-}
+//void LCD_COMMAND(unsigned char LCD_COM)
+//{
+//	*LCD_RS = 0x00;
+//	*LCD_RS = 0x00;
+////	*LCD_RW = 0x00;
+////delay(1000);	//2007.6.20
+//	delay(100);		//2007.6.20
+//	*LCD_CS = LCD_COM;
+//}
+//
+//void LCD_INIT(void)
+//{
+//	*LCD_LIGHT = 0xff;
+//	delay(10000);
+//	LCD_COMMAND(INIT_LCD);
+//	delay(10000);
+//	LCD_COMMAND(CLEAR_LCD);
+//	delay(10000);
+//	LCD_COMMAND(0x0f);
+//	delay(10000);
+//	LCD_COMMAND(HOME_CUR);
+//	delay(10000);
+//}
+//
+//void LCD_light_ON(void)
+//{
+//	*LCD_LIGHT = 0xff;
+//}
+//
+//void LCD_light_OFF(void)
+//{
+//	*LCD_LIGHT = 0x00;
+//}
 
 /*******************************************/
-void VFD_gotopo(int posi)
-{
-	unsigned char posic;
-	posic = (posi/20)*0x40 +(posi%20);
-	posic |= 0x80;
-	LCD_COMMAND(posic);
-}
-
-void VFD_Init(void)
-{
-	NorScr.Cur[0]=&VFDNBuffer;
-	NorScr.Cur[1]=&VFDNBuffer;
-	FauScr.Cur[0]=&VFDFBuffer;
-	FauScr.Cur[1]=&VFDFBuffer;
-	AckScr.Cur[0]=&VFDABuffer;
-	AckScr.Cur[1]=&VFDABuffer;
-	scrP=AckScr;
-//	scrP=NorScr;
-	dumpP=scrP.Cur[0];
-
-	*LCD_LIGHT = 0xff;
-	delay(10000);
-	LCD_COMMAND(INIT_LCD);
-	delay(10000);
-	LCD_COMMAND(CLEAR_LCD);
-	delay(10000);
-	LCD_COMMAND(0x0f);
-	delay(10000);
-	LCD_COMMAND(HOME_CUR);
-	delay(10000);
-
-//	VFD_cnt=OSTimeGet();
-}
-
-void VFD_gotoxy(int low,int col)
-{
-	int position;
-	if((low<2)&&(col<20))
-	{
-		position = (low*0x40 +col)|0x80;
-		LCD_COMMAND(position);
-	}
-}
-
-void VFD_mem_cpy_test(void)
-{
-	memcpy(&dumpP, &VFDABuffer, sizeof(VFDABuffer));
-}
-
-void VFD_dump()
-{
-	int i;
-
-	for(i = 0; i < 20; i++)
-	{
-		if(dumpP->up[i] == 0)
-		break;
-		
-		else
-		lcd_character_write(KHS_LCD_Buffer.up[i]);
-		
-		delay_us(1000);
-	}
-	
-	lcd_control_write(0xc0);
-	delay_us(1000);
-	
-	for(i = 0; i < 20; i++)
-	{
-		if(dumpP->lo[i] == 0)
-		break;
-		
-		else
-		lcd_character_write(KHS_LCD_Buffer.lo[i]);
-		
-		delay_us(1000);
-	}
-
-//  Old Himap Ver.
-//	VFD_gotoxy(0,0);
+//void VFD_gotopo(int posi)
+//{
+//	unsigned char posic;
+//	posic = (posi/20)*0x40 +(posi%20);
+//	posic |= 0x80;
+//	LCD_COMMAND(posic);
+//}
+//
+//void VFD_Init(void)
+//{
+//	NorScr.Cur[0]=&VFDNBuffer;
+//	NorScr.Cur[1]=&VFDNBuffer;
+//	FauScr.Cur[0]=&VFDFBuffer;
+//	FauScr.Cur[1]=&VFDFBuffer;
+//	AckScr.Cur[0]=&VFDABuffer;
+//	AckScr.Cur[1]=&VFDABuffer;
+//	scrP=AckScr;
+////	scrP=NorScr;
+//	dumpP=scrP.Cur[0];
+//
+//	*LCD_LIGHT = 0xff;
+//	delay(10000);
+//	LCD_COMMAND(INIT_LCD);
+//	delay(10000);
+//	LCD_COMMAND(CLEAR_LCD);
+//	delay(10000);
+//	LCD_COMMAND(0x0f);
+//	delay(10000);
+//	LCD_COMMAND(HOME_CUR);
+//	delay(10000);
+//
+////	VFD_cnt=OSTimeGet();
+//}
+//
+//void VFD_gotoxy(int low,int col)
+//{
+//	int position;
+//	if((low<2)&&(col<20))
+//	{
+//		position = (low*0x40 +col)|0x80;
+//		LCD_COMMAND(position);
+//	}
+//}
+//
+//void VFD_mem_cpy_test(void)
+//{
+//	memcpy(&dumpP, &VFDABuffer, sizeof(VFDABuffer));
+//}
+//
+//void VFD_dump()
+//{
+//	int i;
+//
 //	for(i=0;i<20;i++)
 //	{
-//		VFD_Putch(dumpP->up[i]);
-//		delay(1000);
+//		if(dumpP->up[i] == 0)
+//		break;
+//		
+//		else
+//		lcd_character_write(KHS_LCD_Buffer.up[i]);
+//		
+//		delay_us(1000);
 //	}
-//	VFD_gotoxy(1,0);
+//	
+//	lcd_control_write(0xc0);
+//	delay_us(1000);
+//	
 //	for(i=0;i<20;i++)
 //	{
-//		VFD_Putch(dumpP->lo[i]);
-//		delay(1000);
+//		if(dumpP->lo[i] == 0)
+//		break;
+//		
+//		else
+//		lcd_character_write(KHS_LCD_Buffer.lo[i]);
+//		
+//		delay_us(1000);
 //	}
-}
-
-void VFD_dump2(const char *string_high, const char *string_low)
-{
-	int i;
-
-	for(i = 0; i < 20; i++)
-	{
-		if(string_high[i] == 0)
-		break;
-		
-		else
-		lcd_character_write(string_high[i]);
-		
-		delay_us(1000);
-	}
-	
-	lcd_control_write(0xc0);
-	delay_us(1000);
-	
-	for(i = 0; i < 20; i++)
-	{
-		if(string_low[i] == 0)
-		break;
-		
-		else
-		lcd_character_write(string_low[i]);
-		
-		delay_us(1000);
-	}
-}
+//
+////  Old Himap Ver.
+////	VFD_gotoxy(0,0);
+////	for(i=0;i<20;i++)
+////	{
+////		VFD_Putch(dumpP->up[i]);
+////		delay(1000);
+////	}
+////	VFD_gotoxy(1,0);
+////	for(i=0;i<20;i++)
+////	{
+////		VFD_Putch(dumpP->lo[i]);
+////		delay(1000);
+////	}
+//}
+//
+//void VFD_dump2(const char *string_high, const char *string_low)
+//{
+//	int i;
+//
+//	for(i = 0; i < 20; i++)
+//	{
+//		if(string_high[i] == 0)
+//		break;
+//		
+//		else
+//		lcd_character_write(string_high[i]);
+//		
+//		delay_us(1000);
+//	}
+//	
+//	lcd_control_write(0xc0);
+//	delay_us(1000);
+//	
+//	for(i = 0; i < 20; i++)
+//	{
+//		if(string_low[i] == 0)
+//		break;
+//		
+//		else
+//		lcd_character_write(string_low[i]);
+//		
+//		delay_us(1000);
+//	}
+//	}
 
 void VFD_Single_Line_dump(char position, const char *string_high)
 {
 	int i;
 
 	lcd_control_write(position);
-	delay_us(1);
+	loop_delay(500);//delay_us(1);
 
 	for(i = 0; i < 20; i++)
 	{
@@ -259,32 +263,32 @@ void VFD_Single_Line_dump(char position, const char *string_high)
 		else
 		lcd_character_write(string_high[i]);
 
-		delay_us(1);
+		loop_delay(500);//delay_us(1);
 	}
 
-	delay_us(1);
+	loop_delay(500);//delay_us(1);
 }
 
-void VFD_Word_dump(char position, char length, const char *string_high)
-{
-	int i;
-
-	lcd_control_write(position);
-	delay_us(1000);
-
-	for(i = 0; i < length; i++)
-	{
-		if(string_high[i] == 0)
-		break;
-
-		else
-		lcd_character_write(string_high[i]);
-
-		delay_us(1000);
-	}
-
-	delay_us(1000);
-}
+//void VFD_Word_dump(char position, char length, const char *string_high)
+//{
+//	int i;
+//
+//	lcd_control_write(position);
+//	delay_us(1000);
+//
+//	for(i = 0; i < length; i++)
+//	{
+//		if(string_high[i] == 0)
+//		break;
+//
+//		else
+//		lcd_character_write(string_high[i]);
+//
+//		delay_us(1000);
+//	}
+//
+//	delay_us(1000);
+//}
 
 const char LCD_Position_Value[2][20] = {
 		{0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93},
@@ -298,19 +302,19 @@ void VFD_cursor(char y, char x)
 	} else {
 		lcd_control_write(0x0f);	//cursor on
 	}
-	delay_us(1000);
+	loop_delay(500);//delay_us(1000);
 	lcd_control_write(LCD_Position_Value[y%2][x%20]);
-	delay_us(1000);
+	loop_delay(500);//delay_us(1000);
 }
 
-void VFD_printf(char *string)
-{
-	while(*string != NULL)
-	{
-		LCD_DATA(*string);
-		string++;
-	}
-}
+//void VFD_printf(char *string)
+//{
+//	while(*string != NULL)
+//	{
+//		LCD_DATA(*string);
+//		string++;
+//	}
+//}
 
 void VFD_FONT(void)
 {
@@ -506,13 +510,13 @@ void key_drive(void)
 	
 	if(SYSTEM.pushed_key != 0)	// 키가 하나도 안누리면 0임
 	{
-		if(SYSTEM.pushed_key_count < 2)	// 키 디바운스용
-		{			
-			++SYSTEM.pushed_key_count;
-			SYSTEM.pushed_key = 0;	// 2번 이하로 눌리면 무시함
-		}
-		else
-		{
+//		if(SYSTEM.pushed_key_count < 2)	// 키 디바운스용
+//		{			
+//			++SYSTEM.pushed_key_count;
+//			SYSTEM.pushed_key = 0;	// 2번 이하로 눌리면 무시함
+//		}
+//	} else
+//		{
 			LCD_BACKLIGHT_ON;	// lcd 백라이트 온
 			// 키가 안눌리고 10분이 지나면 백라이트 꺼지게 할 용도의 타이머
 			// 키가 계속 눌리면 타이머는 계속 초기화
@@ -624,7 +628,7 @@ void key_drive(void)
 			}
 			// 눌린 키에대한 동작이 완료되었으므로 카운터 리셋
 			SYSTEM.pushed_key_count = 0;
-		}
+//		}
 	}
 	else // 키가 눌리지 않았을 경우
 	{
@@ -659,13 +663,13 @@ void lcd_control_write(char ar_char)
 	*LCD_CS = temp_high | 0x04; // 일단 cpld에 lcd controller에 명령을 준다고 선언
 	*LCD_CS = temp_high;	// 상위 nibble write
 	
-	DELAY_US(1);	// lcd controller가 이것보다 빠르게 값이 들어오면 인식하지 못하므로 delay 삽입
+	loop_delay(500);//DELAY_US(1);	// lcd controller가 이것보다 빠르게 값이 들어오면 인식하지 못하므로 delay 삽입
 	
 	// 하위 nibble
 	*LCD_CS = temp_low | 0x04; // 일단 cpld에 lcd controller에 명령을 준다고 선언
 	*LCD_CS = temp_low;	// 하위위 nibble write
 	
-	DELAY_US(1);	// lcd controller가 이것보다 빠르게 값이 들어오면 인식하지 못하므로 delay 삽입
+	loop_delay(500);//DELAY_US(1);	// lcd controller가 이것보다 빠르게 값이 들어오면 인식하지 못하므로 delay 삽입
 }
 
 // lcd controller에 실제 데이타를 주는 함수
@@ -685,12 +689,12 @@ void lcd_character_write(char ar_char)
 	*LCD_CS = temp_high | 0x05;	
 	*LCD_CS = temp_high;
 	
-	DELAY_US(1);
+	loop_delay(500);//DELAY_US(1);
 	
 	// 하위 nibble
 	*LCD_CS = temp_low | 0x05;
 	*LCD_CS = temp_low;	
-	DELAY_US(1);
+	loop_delay(500);//DELAY_US(1);
 }
 
 // op : 4, address : 0xc0 - write enable
@@ -1487,7 +1491,7 @@ void wave_save_process(void)
 	else if(WAVE.save_index == 87)
 	{
 		//wave 썼음
-		flash_word_write(WAVE_WRITE_CHECK, 0x1234);
+		*WAVE_WRITE_CHECK = 0x1234;
 		
 		WAVE.save_index = 0;
 		WAVE.post_count = 0;

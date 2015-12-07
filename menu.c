@@ -12528,22 +12528,7 @@ void menu_86_04(unsigned int value, int display)
 			Screen_Position.y = 86;
 			Screen_Position.x = 5;
 			cursor_move(0, 0);//cursor off
-			for(str[0][0] = 0; str[0][0] < (200*18); str[0][0]++)
-				*(EVENT_ROLLOVER + str[0][0]) = 0;
-			EVENT.view_start = 0;
-			EVENT.view_point = 0;
-			EVENT.rollover = 0;
-			EVENT.sp = 0;
-			EVENT.temp = 0;
-			
-			*(EVENT_YEAR   + 18*199) = TIME.year;   // 연
-			*(EVENT_MONTH  + 18*199) = TIME.month;  // 월
-			*(EVENT_DAY    + 18*199) = TIME.day;    // 일
-			*(EVENT_HOUR   + 18*199) = TIME.hour;   // 시
-			*(EVENT_MINUTE + 18*199) = TIME.minute; // 분
-			*(EVENT_SECOND + 18*199) = TIME.second; // 초
-			*(EVENT_MS1    + 18*199) = TIME.milisecond >> 8; //msec 상위바이트
-			*(EVENT_MS2    + 18*199) = TIME.milisecond;      // msec 하위바이트
+			Event_Clear();	//이벤트 리셋
 			
 		} else if(Screen_Position.select == 1) {
 			Screen_Position.y = 86;
@@ -17101,7 +17086,7 @@ void Event_Item_Display(void)		//khs, 2015-03-31 오후 7:36:32
 			screen_frame3(event41);//{"   ] SYS PARAMETER  ",
 		} else {
 
-			temp16 = *(EVENT_INDEX2 + (EVENT.view_point * 18));
+			temp16 = *(EVENT_INDEX2 + (view_point_tmp * 18));
 			temp16 &= 0x00ff;
 	
 			if(temp16 == (OCR50_1_SET_EVENT >> 16))        {			screen_frame3(event31);
