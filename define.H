@@ -36,6 +36,10 @@
 #pragma CODE_SECTION(Check_47P_10V, "ramfuncs");
 #pragma CODE_SECTION(event_direct_save, "ramfuncs");
 #pragma CODE_SECTION(Cal_RHour, "ramfuncs");
+#pragma CODE_SECTION(LocalHandleWait, "ramfuncs"); //2015.11.6
+#pragma CODE_SECTION(LocalHandleContrl, "ramfuncs"); //2015.11.6
+#pragma CODE_SECTION(LocalContrlObserver, "ramfuncs"); //2015.11.6
+#pragma CODE_SECTION(CB_RLY_off, "ramfuncs"); //2015.11.6
 
 #pragma CODE_SECTION(RELAY_OCR50_1, "ramfuncs");
 #pragma CODE_SECTION(RELAY_OCR50_2, "ramfuncs");
@@ -418,6 +422,8 @@
 #define REMOTE_KEY    0x400
 #define LOCAL_KEY     0x800
 #define FACTORY_KEY		0x007	//2015.02.17
+#define	Enter_close_key 0x180	//2015.11.16
+#define	Enter_open_key	0x280	//2015.11.16
 
 #define FAULT_LED     0x001
 #define OP_LED        0x002
@@ -675,10 +681,11 @@
 #define MRAM_START				(unsigned int *)0x140000	//khs, 夸巴捞 MRAM
 
 
-#define MRAM_RUNNING_HOUR1	(unsigned int *)0x158000	//RUNNING HOUR METER MRAM 林家
-#define MRAM_RUNNING_HOUR2	(unsigned int *)0x158001	//RUNNING HOUR METER MRAM 林家
-#define MRAM_Vo_MAX1				(unsigned int *)0x158002	//Vo MAX MRAM 林家
-#define MRAM_Vo_MAX2				(unsigned int *)0x158003	//Vo MAX MRAM 林家
+#define MRAM_RUNNING_HOUR1	(unsigned int *)0x15d0f0	//RUNNING HOUR METER MRAM 林家
+#define MRAM_RUNNING_HOUR2	(unsigned int *)0x15d0f1	//RUNNING HOUR METER MRAM 林家
+#define MRAM_Vo_MAX1				(unsigned int *)0x15d0f2	//Vo MAX MRAM 林家
+#define MRAM_Vo_MAX2				(unsigned int *)0x15d0f3	//Vo MAX MRAM 林家
+#define REMOTE_LOCAL_STAUTS	(unsigned int *)0x15d0f4	//REMOTE LOCAL STATUS MRAM 林家 //2015.11.6
 #define MRAM_CHECK				(unsigned int *)0x17FFF0	//MRAM 惑矫眉农 林家
 
 //穿利蔼
