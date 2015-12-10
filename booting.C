@@ -749,7 +749,7 @@ void booting_setting_check(void)
 		}
 		else
 		{
-			//FLASH WRITE ERROR pop up 화면
+			SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 		}
 	}
 
@@ -1060,7 +1060,7 @@ void booting_setting_check(void)
 		}
 		else
 		{
-			//FLASH WRITE ERROR pop up 화면
+			SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 		}
 	}
 		
@@ -1104,7 +1104,7 @@ void booting_setting_check(void)
 		}
 		else
 		{
-			//FLASH WRITE ERROR pop up 화면
+			SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 		}
 	}
 
@@ -1148,7 +1148,7 @@ void booting_setting_check(void)
 		}
 		else
 		{
-			//FLASH WRITE ERROR pop up 화면
+			SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 		}
 	}
 

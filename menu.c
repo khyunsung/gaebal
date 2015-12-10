@@ -4312,7 +4312,7 @@ void menu_41_10(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 41;
@@ -4746,7 +4746,7 @@ void menu_42_11(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 42;
@@ -5156,7 +5156,7 @@ void menu_43_10(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 43;
@@ -5537,7 +5537,7 @@ void menu_44_11(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 44;
@@ -5943,7 +5943,7 @@ void menu_45_11(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 45;
@@ -6295,7 +6295,7 @@ void menu_46_11(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 46;
@@ -6612,7 +6612,7 @@ void menu_47_10(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 47;
@@ -6925,7 +6925,7 @@ void menu_48_11(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 48;
@@ -7278,7 +7278,7 @@ void menu_49_11(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 49;
@@ -7575,7 +7575,7 @@ void menu_50_10(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 50;
@@ -7872,7 +7872,7 @@ void menu_51_10(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 51;
@@ -8169,7 +8169,7 @@ void menu_52_10(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 52;
@@ -8466,7 +8466,7 @@ void menu_53_10(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 53;
@@ -8745,7 +8745,7 @@ void menu_54_10(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 54;
@@ -9075,7 +9075,7 @@ void menu_55_11(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 55;
@@ -9359,7 +9359,7 @@ void menu_56_11(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 56;
@@ -9643,7 +9643,7 @@ void menu_57_10(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 57;
@@ -9923,7 +9923,7 @@ void menu_58_11(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 58;
@@ -10344,7 +10344,7 @@ void menu_59_13(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 59;
@@ -10721,7 +10721,7 @@ void menu_60_13(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 60;
@@ -11177,7 +11177,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(OCR50_2.use != OCR50_2.use_temp)	
@@ -11190,7 +11190,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(OCR51_1.use != OCR51_1.use_temp)	
@@ -11203,7 +11203,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(OCR51_2.use != OCR51_2.use_temp)	
@@ -11216,7 +11216,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(OCGR50.use != OCGR50.use_temp)
@@ -11229,7 +11229,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(OCGR51.use != OCGR51.use_temp)
@@ -11242,7 +11242,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(UVR_1.use != UVR_1.use_temp)
@@ -11255,7 +11255,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(UVR_2.use != UVR_2.use_temp)
@@ -11268,7 +11268,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(UVR_3.use != UVR_3.use_temp)
@@ -11281,7 +11281,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(P47.use != P47.use_temp)
@@ -11294,7 +11294,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(N47.use != N47.use_temp)
@@ -11307,7 +11307,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(OVR.use != OVR.use_temp)
@@ -11320,7 +11320,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(OVGR.use != OVGR.use_temp)
@@ -11333,7 +11333,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(DGR.use != DGR.use_temp)
@@ -11346,7 +11346,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 			if(SGR.use != SGR.use_temp)
@@ -11359,7 +11359,7 @@ void menu_80_11(unsigned int value, int display)
 				}
 				else
 				{
-					//FLASH WRITE ERROR pop up 화면
+					SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 				}
 			}
 
@@ -11807,7 +11807,7 @@ void menu_81_10(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 81;
@@ -13131,7 +13131,7 @@ void menu_88_06(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			*COMM_2_ADDRESS = ADDRESS.address;
@@ -13297,7 +13297,7 @@ void menu_89_05(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 89;
@@ -13546,7 +13546,7 @@ void menu_91_06(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 91;
@@ -13739,7 +13739,7 @@ void menu_92_07(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 92;
@@ -13921,7 +13921,7 @@ void menu_95_07(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 95;
@@ -14121,7 +14121,7 @@ void menu_97_07(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 97;
@@ -14352,7 +14352,7 @@ void menu_98_09(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 98;
@@ -14573,7 +14573,7 @@ void menu_100_06(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 100;
@@ -14738,7 +14738,7 @@ void menu_101_07(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			*COMM_2_BAUDRATE = MODBUS.baudrate;//COMM.baudrate; //0:1200, 1:2400, 2:4800, 3:9600, 4:19200, 5:38400, 6:57600, 7:115200
@@ -14912,7 +14912,7 @@ void menu_103_05(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 103;
@@ -15142,7 +15142,7 @@ void menu_104_09(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 104;
@@ -16864,7 +16864,7 @@ void menu_156_14(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 156;
@@ -16987,7 +16987,7 @@ void menu_157_03(unsigned int value, int display)
 			}
 			else
 			{
-				//FLASH WRITE ERROR pop up 화면
+				SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면 화면
 			}
 
 			Screen_Position.y = 157;
