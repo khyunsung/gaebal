@@ -1304,7 +1304,7 @@ void GPT_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1327,7 +1327,7 @@ void CPT_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1341,7 +1341,7 @@ void ADDRESS_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1355,7 +1355,7 @@ void AUTO_DISPLAY_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1369,7 +1369,7 @@ void PASSWORD_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1385,7 +1385,7 @@ void LOCAL_CTRL_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1401,7 +1401,7 @@ void DSGR_ANGLE_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1417,7 +1417,7 @@ void UVR_MODE_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1431,7 +1431,7 @@ void DISPLAY_3PHASE_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1446,7 +1446,7 @@ void MODBUS_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1460,7 +1460,7 @@ void OCR_MODE_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1475,7 +1475,7 @@ void SYSTEM_ALARM_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1494,7 +1494,7 @@ void OCR50_1_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1513,7 +1513,7 @@ void OCR50_2_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1532,7 +1532,7 @@ void OCR51_1_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1551,7 +1551,7 @@ void OCR51_2_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1570,7 +1570,7 @@ void OCGR50_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1589,7 +1589,7 @@ void OCGR51_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1609,7 +1609,7 @@ void UVR_1_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1629,7 +1629,7 @@ void UVR_2_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1649,7 +1649,7 @@ void UVR_3_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1669,7 +1669,7 @@ void P47_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1689,7 +1689,7 @@ void N47_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1711,7 +1711,7 @@ void OVR_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1731,7 +1731,7 @@ void OVGR_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1753,7 +1753,7 @@ void DGR_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1774,7 +1774,7 @@ void SGR_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1795,7 +1795,7 @@ void DI_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
@@ -1809,7 +1809,7 @@ void DO_Default_Settings(void)
 	}
 	else
 	{
-		//FLASH WRITE ERROR pop up 화면
+		SYSTEM.diagnostic |= FLASH_FAIL;//FLASH WRITE ERROR pop up 화면
 	}
 }
 
