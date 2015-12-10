@@ -15473,6 +15473,10 @@ void menu_151_05(unsigned int value, int display)
 			ClearFLASH();	//Flash Reset 함수 실행
 			//주파수 변경시 CALIBRATION 다시 추가(??)
 			
+			// 주파수 변경 후 CPLD로 가는 GPIO 명령 수행
+			if(CORE.Hz == Hz50)	SET_50Hz;
+			else								SET_60Hz;
+			
 			Screen_Position.y = 151;
 			Screen_Position.x = 6;
 		} else {

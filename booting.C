@@ -94,6 +94,10 @@ void booting_setting_check(void)
 	CORE.rated_ct = temp[1];
 	CORE.gr_select = temp[2];
 
+	// 주파수 변경 후 CPLD로 가는 GPIO 명령 수행 (GPIO #12 핀)
+	if(CORE.Hz == Hz50)	SET_50Hz;
+	else								SET_60Hz;
+
 	i = Setting_CRC(temp, 3);	// 일단 crc 계산
 	if(i != temp[9])	// crc가 틀리면 강제로 rated value set로 진입
 	{
