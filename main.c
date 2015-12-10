@@ -201,36 +201,49 @@ void real_main(void)
 		}
 //-------- 내부 rtc 시간 읽어오기 END
 
-		// cb open 또는 cb close 후 500ms 넘어있으면 동작해제
-		// cb trip 들어가 있으면
-		if(SYSTEM.do_control & 0x0008)
-		{
-			if((RELAY_STATUS.pickup == 0) && (RELAY_STATUS.operation_realtime == 0))
-			{
-				// cb trip 해제
-				//cb open이 명백하거나 타이머 넘었을경우
-				if((DIGITAL_INPUT.di_status & 0x0002) || (TIMER.cb_open > 500))
+//-------- Local control 기능  //2015.11.6
+//		// cb open 또는 cb close 후 500ms 넘어있으면 동작해제
+//		// cb trip 들어가 있으면
+//		if(SYSTEM.do_control & 0x0008)
+//		{
+//			if((RELAY_STATUS.pickup == 0) && (RELAY_STATUS.operation_realtime == 0))
+//			{
+//				// cb trip 해제
+//				//cb open이 명백하거나 타이머 넘었을경우
+//				if((DIGITAL_INPUT.di_status & 0x0002) || (TIMER.cb_open > 500))
+//				{
+//					// cb trip 해제
+//					SYSTEM.do_control &= ~0x0008;
+//				}
+//			}
+//		}
+//		//제어모드 시 cb close는 latch 검사하지 않음
+//		//cb close pulse
+//		if(LOCAL_CONTROL.mode == 0xaaaa)
+//		{
+//			//cb close 들어간 경우
+//			if(SYSTEM.do_control & 0x0020)
+//			{
+//				// cb close 해제
+//				if(TIMER.cb_close > 500)
+//				{
+//					// cb close 해제
+//					SYSTEM.do_control &= ~0x0020;
+//				}
+//			}
+//		}
+	LocalContrlObserver();
+	if(LOCAL_CONTROL.LocalHandleClose||LOCAL_CONTROL.LocalHandleOpen)	
 				{
-					// cb trip 해제
-					SYSTEM.do_control &= ~0x0008;
-				}
+		LOCAL_CONTROL.Local_cnt_flag = 1;
+		LocalHandleWait();
 			}
-		}
-		//제어모드 시 cb close는 latch 검사하지 않음
-		//cb close pulse
-		if(LOCAL_CONTROL.mode == 0xaaaa)
-		{
-			//cb close 들어간 경우
-			if(SYSTEM.do_control & 0x0020)
-			{
-				// cb close 해제
-				if(TIMER.cb_close > 500)
+	else
 				{
-					// cb close 해제
-					SYSTEM.do_control &= ~0x0020;
-				}
-			}
+		LOCAL_CONTROL.Local_cnt_flag = 0;
 		}
+	CB_RLY_off();
+//-------- Local control 기능 END   //2015.11.6
 
 //-------- RUNNING HOUR METER
 		Cal_RHour();
@@ -2440,6 +2453,205 @@ void Cal_RHour(void)
 	*(MRAM_RUNNING_HOUR1) = (RUNNING.RunningHourCNT >> 16) & 0xffff;
 	*(MRAM_RUNNING_HOUR2) = RUNNING.RunningHourCNT & 0xffff;
 }
+
+//2015.11.6
+void LocalHandleWait(void)  //KEY 동작에 따라 실제 CB 동작 계산 후 차단기 동작 FLAG ON
+{
+	int Temp_key;
+	unsigned int Temp_close_time=0, Temp_open_time=0;
+
+//++LOCAL_CONTROL.LocalHandle_cnt;
+	if(LOCAL_CONTROL.LocalHandle_cnt < 500)	return; //500msec 이전이면 리턴
+	LOCAL_CONTROL.LocalHandle_cnt = 0;
+
+	Temp_close_time = LOCAL_CTRL.close_time;
+	Temp_open_time  = LOCAL_CTRL.open_time;
+//Temp_close_time = Temp_close_time*2;
+//Temp_open_time  = Temp_open_time*2;
+	Temp_close_time = Temp_close_time*1000;
+	Temp_open_time  = Temp_open_time*1000;
+
+	if(LOCAL_CONTROL.LocalHandleStatus == 1)
+	{
+		Temp_key = *KEY_CS & 0x0fff;
+
+		if(Temp_key==Enter_close_key)
+		{
+			LOCAL_CONTROL.Enter_Close_Key_Flag = 1; 
+			//LOCAL_CONTROL.LocalHandleCloseCnt = 0;
+			//LOCAL_CONTROL.LocalHandleCloseCnt++;
+		}
+		else if(Temp_key==Enter_open_key)
+		{
+			LOCAL_CONTROL.Enter_Open_Key_Flag = 1;
+			//LOCAL_CONTROL.LocalHandleOpenCnt = 0;
+			//LOCAL_CONTROL.LocalHandleOpenCnt++;
+		}
+		else
+		{
+			LOCAL_CONTROL.LocalHandleCloseCnt=0; 
+			LOCAL_CONTROL.LocalHandleOpenCnt=0;
+		}
+		if(LOCAL_CONTROL.LocalHandleCloseCnt > Temp_close_time)
+		{
+			LOCAL_CONTROL.Enter_Close_Key_Flag = 0;
+			DO_Output(DO_ON_BIT[6]); //7번 릴레이 ON
+			delay_us(400000);
+			//auxevent_save(LC_CB_ON,0,100,0);//LOCAL CB ON 이벤트 저장 필요
+			LOCAL_CONTROL.CB_RLY_OFF_Flag=1; //나중에 써야 함
+			LOCAL_CONTROL.LocalHandleClose=0;
+			LOCAL_CONTROL.LocalHandleOpen=0;
+			LOCAL_CONTROL.LocalHandleCloseCnt=0;
+		}
+		else if(LOCAL_CONTROL.LocalHandleOpenCnt > Temp_open_time)
+		{
+			LOCAL_CONTROL.Enter_Open_Key_Flag = 0;
+			DO_Output(DO_ON_BIT[7]); //8번 릴레이 ON
+			delay_us(400000);
+			//auxevent_save(LC_CB_OFF,0,100,0);//LOCAL CB OFF 이벤트 저장 필요
+			LOCAL_CONTROL.CB_RLY_OFF_Flag=1; //나중에 써야 함
+			LOCAL_CONTROL.LocalHandleOpen=0;
+			LOCAL_CONTROL.LocalHandleClose=0;
+			LOCAL_CONTROL.LocalHandleOpenCnt=0;
+		}
+	}
+}
+
+void LocalHandleContrl(unsigned int LocalHandleKey) //KEY 동작에 따라 변수 바꿔 줌
+{
+	if(LocalHandleKey & 0xc00)
+	{
+		if(LocalHandleKey == REMOTE_KEY)
+		{
+			LOCAL_CONTROL.LocalHandleStatus = 0;
+			LOCAL_CONTROL.LocalHandleCloseCnt = 0;
+			LOCAL_CONTROL.LocalHandleOpenCnt = 0;
+			LOCAL_CONTROL.LocalHandleClose = 0;
+			LOCAL_CONTROL.LocalHandleOpen = 0;
+
+			SYSTEM.led_on &= ~LOCAL_LED;	//LOCAL LED OFF
+			SYSTEM.led_on |= REMOTE_LED;	//REMOTE LED ON
+			
+			if(LocalHandleKey == LOCAL_CONTROL.LocalHandleOldKey) return;
+			LOCAL_CONTROL.LocalHandleOldKey = LocalHandleKey;
+
+			LOCAL_CONTROL.LocalHandleMode = 0;
+			*(REMOTE_LOCAL_STAUTS) = LOCAL_CONTROL.LocalHandleMode; //MRAM 저장
+		}
+		else if(LocalHandleKey == LOCAL_KEY)
+		{
+			LOCAL_CONTROL.LocalHandleStatus = 1;
+
+			SYSTEM.led_on |= LOCAL_LED;		//LOCAL LED ON
+			SYSTEM.led_on &= ~REMOTE_LED;	//REMOTE LED OFF
+			
+			if(LocalHandleKey == LOCAL_CONTROL.LocalHandleOldKey) return;
+			LOCAL_CONTROL.LocalHandleOldKey = LocalHandleKey;
+
+			LOCAL_CONTROL.LocalHandleMode = 1;
+			*(REMOTE_LOCAL_STAUTS) = LOCAL_CONTROL.LocalHandleMode; //MRAM 저장
+		}
+		else return;
+	}
+	else if(LOCAL_CONTROL.LocalHandleStatus == 1)
+	{
+		if(LocalHandleKey == Enter_close_key)
+		{
+			LOCAL_CONTROL.LocalHandleClose = 1;	//로컬로 CLOSE, ENTER 키 누름
+			LOCAL_CONTROL.LocalHandleOpen  = 0;
+		}
+		else if(LocalHandleKey == Enter_open_key)
+		{
+			LOCAL_CONTROL.LocalHandleOpen = 1;	//로컬로 OPEN, ENTER 키 누름
+			LOCAL_CONTROL.LocalHandleClose  = 0;
+		}
+		else return;
+	}
+}
+
+void LocalContrlObserver(void) //KEY 동작에 따라 LED 켜는 함수
+{
+	int status1;
+	int R_L_st;
+
+//++LocalContrl_cnt;
+	if(LOCAL_CONTROL.LocalContrl_cnt < 1000)	return;	//1000msec 이전이면 리턴
+	LOCAL_CONTROL.LocalContrl_cnt = 0;
+
+	if(LOCAL_CTRL.use==ENABLE)
+	{
+		R_L_st = LOCAL_CONTROL.LocalHandleMode & 0x01;
+		LOCAL_CONTROL.LocalHandleStatus = R_L_st;
+
+		if(R_L_st)
+		{
+			SYSTEM.led_on |= LOCAL_LED;		//LOCAL LED ON
+			SYSTEM.led_on &= ~REMOTE_LED;	//REMOTE LED OFF
+		}
+		else
+		{
+			SYSTEM.led_on &= ~LOCAL_LED;	//LOCAL LED OFF
+			SYSTEM.led_on |= REMOTE_LED;	//REMOTE LED ON
+		}
+	}
+	else
+	{
+		SYSTEM.led_on &= ~LOCAL_LED;	//LOCAL LED OFF
+		SYSTEM.led_on &= ~REMOTE_LED;	//REMOTE LED OFF
+	}
+
+	if(LOCAL_CTRL.use==ENABLE)
+	{
+//	status1 = *di_cs & 0x03;
+		status1 =	*DI_CS & 0x03;
+
+		switch(status1)
+		{
+			case 0x00:			//CB's information is empty!!
+				SYSTEM.led_on &= ~CB_CLOSE_LED;	//CLOSE LED OFF
+				SYSTEM.led_on &= ~CB_OPEN_LED;	//OPEN LED OFF
+				break;
+			case 0x01:			//CB's information is closed!!
+				SYSTEM.led_on |= CB_CLOSE_LED;	//CLOSE LED ON
+				SYSTEM.led_on &= ~CB_OPEN_LED;	//OPEN LED OFF
+				break;
+			case 0x02:			//CB's information is opened!!
+				SYSTEM.led_on &= ~CB_CLOSE_LED;	//CLOSE LED OFF
+				SYSTEM.led_on |= CB_OPEN_LED;		//OPEN LED ON
+				break;
+			case 0x03:			//CB's information is full!!
+				SYSTEM.led_on |= CB_CLOSE_LED;	//CLOSE LED ON
+				SYSTEM.led_on |= CB_OPEN_LED;		//OPEN LED ON
+				break;
+			default:
+				break;
+		}
+	}
+	else
+	{
+		SYSTEM.led_on &= ~CB_CLOSE_LED;	//CLOSE LED OFF
+		SYSTEM.led_on &= ~CB_OPEN_LED;	//OPEN LED OFF
+	}
+}
+
+void CB_RLY_off(void)
+{
+	if(LOCAL_CONTROL.CB_RLY_OFF_Flag==1)
+	{
+		LOCAL_CONTROL.CB_RLY_Cnt++;
+		if(LOCAL_CONTROL.CB_RLY_Cnt > 360)
+		{
+			DO_Output(DO_OFF_BIT[6]);
+			DO_Output(DO_OFF_BIT[7]);
+
+			LOCAL_CONTROL.CB_RLY_OFF_Flag = 0;
+			LOCAL_CONTROL.CB_RLY_Cnt = 0;
+			LOCAL_CONTROL.LocalHandleCloseCnt = 0;
+			LOCAL_CONTROL.LocalHandleOpenCnt = 0;
+		}
+	}
+}
+//2015.11.6 END
 
 // 사용하는 인터럽트 설정
 // 이 함수는 H/W 변동이 없는 한 수정 없음

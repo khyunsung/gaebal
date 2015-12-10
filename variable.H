@@ -1011,6 +1011,16 @@ struct
 {
 	unsigned int use;
 
+	float Va_float;
+	float Vb_float;
+	float Vc_float;
+	float Vn_float;
+
+	unsigned int Va_point;
+	unsigned int Vb_point;
+	unsigned int Vc_point;
+	unsigned int Vn_point;
+
 	unsigned int use_temp;
 } DISPLAY_3PHASE;
 
@@ -1095,10 +1105,28 @@ struct
 	unsigned int index;
 } COMM;
 
+//2015.11.6
 struct
 {
 	unsigned int mode;
+
+	unsigned int Local_cnt_flag;
+	unsigned int LocalHandleMode;	//MRAM에 직접 연결되는 Local/Remote 상태 변수
+	unsigned int CB_RLY_OFF_Flag;
+	unsigned int CB_RLY_Cnt;
+	unsigned int Enter_Open_Key_Flag;
+	unsigned int Enter_Close_Key_Flag;
+
+	unsigned int LocalHandleStatus;	//변수에서 사용되는 Local/Remote 상태 변수
+	unsigned int LocalHandleOldKey;
+	unsigned int LocalHandleCloseCnt;
+	unsigned int LocalHandleOpenCnt;
+	unsigned int LocalHandleClose;
+	unsigned int LocalHandleOpen;
+	unsigned int LocalHandle_cnt;
+	unsigned int LocalContrl_cnt;
 } LOCAL_CONTROL;
+//2015.11.6 END
 
 struct
 {

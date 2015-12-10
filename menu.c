@@ -180,11 +180,31 @@ void menu_00_02(unsigned int value, int display)
 		cursor_move(0, 0);
 	} else if(value == ENTER_KEY) {
 		if(Screen_Position.select == 0) {
+//2015.11.23
+ 			if(DISPLAY_3PHASE.use == ENABLE)
+ 			{
+				Screen_Position.y = 0;
+				Screen_Position.x = 9;
+			}
+			else
+			{
 			Screen_Position.y = 0;
 			Screen_Position.x = 3;
+			}
+//2015.11.23 END
 		} else if(Screen_Position.select == 1) {
+//2015.11.23
+ 			if(DISPLAY_3PHASE.use == ENABLE)
+ 			{
+				Screen_Position.y = 1;
+				Screen_Position.x = 15;
+			}
+			else
+			{
 			Screen_Position.y = 1;
 			Screen_Position.x = 3;
+			}
+//2015.11.23 END
 		} else if(Screen_Position.select == 2) {
 			Screen_Position.y = 2;
 			Screen_Position.x = 3;
@@ -313,27 +333,273 @@ void menu_00_06(unsigned int value, int display)
 		Screen_Position.data_change = NORMAL_MENU;
 		cursor_move(0, 7);
 	} else if(value == DOWN_KEY) {
+//2015.11.23
+ 			if(DISPLAY_3PHASE.use == ENABLE)
+ 			{
 		Screen_Position.y = 0;
-		Screen_Position.x = 7;
+				Screen_Position.x = 9;
+}
+			else
+{
+		Screen_Position.y = 0;
+				Screen_Position.x = 3;
+			}
+//2015.11.23 END
 	}
 }
 
-void menu_00_07(unsigned int value, int display)
+//2015.11.23
+//void menu_00_07(unsigned int value, int display)
+//{
+//	char string[22];
+//
+//	const char *str[2] = {
+//			"\5Vab]              \1\0",
+//			"\5Vbc]              \2\0" };
+//
+//	if(display == 1) {
+//		screen_frame3(str);
+//		return;
+//	} else if(display == 2) {
+//		sprintf(string, "%7.1f %c\0", DISPLAY.angle[0], DGREE);
+//		VFD_Single_Line_dump(LCD_L1_06, string);
+//		sprintf(string, "%7.1f %c\0", DISPLAY.angle[1], DGREE);
+//		VFD_Single_Line_dump(LCD_L2_06, string);
+//		return;
+//	}
+//
+//	if(value == UP_KEY) {
+//		Screen_Position.y = 0;
+//		Screen_Position.x = 2;
+//		Screen_Position.data_change = NORMAL_MENU;
+//		cursor_move(0, 7);
+//	} else if(value == DOWN_KEY) {
+//		Screen_Position.y = 0;
+//		Screen_Position.x = 8;
+//	}
+//}
+
+//void menu_00_08(unsigned int value, int display)
+//{
+//	char string[22];
+//
+//	const char *str[2] = {
+//			"\5Vca]              \1\0",
+//			"\5Vo ]              \2\0" };
+//
+//	if(display == 1) {
+//		screen_frame3(str);
+//		return;
+//	} else if(display == 2) {
+//		sprintf(string, "%7.1f %c\0", DISPLAY.angle[2], DGREE);
+//		VFD_Single_Line_dump(LCD_L1_06, string);
+//		sprintf(string, "%7.1f %c\0", DISPLAY.angle[3], DGREE);
+//		VFD_Single_Line_dump(LCD_L2_06, string);
+//		return;
+//	}
+//
+//	if(value == UP_KEY) {
+//		Screen_Position.y = 0;
+//		Screen_Position.x = 2;
+//		Screen_Position.data_change = NORMAL_MENU;
+//		cursor_move(0, 7);
+//	} else if(value == DOWN_KEY) {
+//		Screen_Position.y = 0;
+//		Screen_Position.x = 3;
+//	}
+//}
+
+void menu_00_09(unsigned int value, int display)
 {
 	char string[22];
+	char Va_buf[5]={'0','0','0','0','0'};
+	char Vb_buf[5]={'0','0','0','0','0'};
+	char Vc_buf[5]={'0','0','0','0','0'};
+	char Vn_buf[5]={'0','0','0','0','0'};
+
+	int  v_Va_int=0,v_Vb_int=0,v_Vc_int=0,v_Vn_int=0;
 
 	const char *str[2] = {
-			"\5Vab]              \1\0",
-			"\5Vbc]              \2\0" };
+			"Vab]0.000 Vbc]0.000\1\0",
+			"Vca]0.000 Vo ]0.000\2\0" };
+
+	DISPLAY_3PHASE.Va_float = DISPLAY.rms_value[Va]/1000.;
+	if(DISPLAY_3PHASE.Va_float>=100.)																				{DISPLAY_3PHASE.Va_point=1;}
+	else if((DISPLAY_3PHASE.Va_float<100.)&&(DISPLAY_3PHASE.Va_float>=10.))	{DISPLAY_3PHASE.Va_point=2;}
+	else if(DISPLAY_3PHASE.Va_float<10.)																		{DISPLAY_3PHASE.Va_point=3;}
+
+	DISPLAY_3PHASE.Vb_float = DISPLAY.rms_value[Vb]/1000.;
+	if(DISPLAY_3PHASE.Vb_float>=100.)																				{DISPLAY_3PHASE.Vb_point=1;}
+	else if((DISPLAY_3PHASE.Vb_float<100.)&&(DISPLAY_3PHASE.Vb_float>=10.))	{DISPLAY_3PHASE.Vb_point=2;}
+	else if(DISPLAY_3PHASE.Vb_float<10.)																		{DISPLAY_3PHASE.Vb_point=3;}
+
+	DISPLAY_3PHASE.Vc_float = DISPLAY.rms_value[Vc]/1000.;
+	if(DISPLAY_3PHASE.Vc_float>=100.)																				{DISPLAY_3PHASE.Vc_point=1;}
+	else if((DISPLAY_3PHASE.Vc_float<100.)&&(DISPLAY_3PHASE.Vc_float>=10.))	{DISPLAY_3PHASE.Vc_point=2;}
+	else if(DISPLAY_3PHASE.Vc_float<10.)																		{DISPLAY_3PHASE.Vc_point=3;}
+
+	DISPLAY_3PHASE.Vn_float = DISPLAY.rms_value[Vn]/1000.;
+	if(DISPLAY_3PHASE.Vn_float>=100.)																				{DISPLAY_3PHASE.Vn_point=1;}
+	else if((DISPLAY_3PHASE.Vn_float<100.)&&(DISPLAY_3PHASE.Vn_float>=10.))	{DISPLAY_3PHASE.Vn_point=2;}
+	else if(DISPLAY_3PHASE.Vn_float<10.)																		{DISPLAY_3PHASE.Vn_point=3;}
+
+// A상 전압
+	if(DISPLAY_3PHASE.Va_point==1)
+	{
+		v_Va_int = (int)(DISPLAY_3PHASE.Va_float * 10);
+		Va_buf[0] = (char)((v_Va_int/1000)+0x30);
+		v_Va_int = v_Va_int - ((v_Va_int/1000)*1000);
+		Va_buf[1] = (char)((v_Va_int/100)+0x30);
+		v_Va_int = v_Va_int - ((v_Va_int/100)*100);
+		Va_buf[2] = (char)((v_Va_int/10)+0x30);
+		v_Va_int = v_Va_int - ((v_Va_int/10)*10);
+		Va_buf[3] = '.';
+		Va_buf[4] = (char)((v_Va_int)+0x30);
+	}
+	else if(DISPLAY_3PHASE.Va_point==2)
+	{
+		v_Va_int = (int)(DISPLAY_3PHASE.Va_float * 100);
+		Va_buf[0] = (char)((v_Va_int/1000)+0x30);
+		v_Va_int = v_Va_int - ((v_Va_int/1000)*1000);
+		Va_buf[1] = (char)((v_Va_int/100)+0x30);
+		v_Va_int = v_Va_int - ((v_Va_int/100)*100);
+		Va_buf[2] = '.';
+		Va_buf[3] = (char)((v_Va_int/10)+0x30);
+		v_Va_int = v_Va_int - ((v_Va_int/10)*10);
+		Va_buf[4] = (char)((v_Va_int)+0x30);
+	}
+	else if(DISPLAY_3PHASE.Va_point==3)
+	{
+		v_Va_int = (int)(DISPLAY_3PHASE.Va_float * 1000);
+		Va_buf[0] = (char)((v_Va_int/1000)+0x30);
+		v_Va_int = v_Va_int - ((v_Va_int/1000)*1000);
+		Va_buf[1] = '.';
+		Va_buf[2] = (char)((v_Va_int/100)+0x30);
+		v_Va_int = v_Va_int - ((v_Va_int/100)*100);
+		Va_buf[3] = (char)((v_Va_int/10)+0x30);
+		v_Va_int = v_Va_int - ((v_Va_int/10)*10);
+		Va_buf[4] = (char)((v_Va_int)+0x30);
+	}
+// B상 전압
+	if(DISPLAY_3PHASE.Vb_point==1)
+	{
+		v_Vb_int = (int)(DISPLAY_3PHASE.Vb_float * 10);
+		Vb_buf[0] = (char)((v_Vb_int/1000)+0x30);
+		v_Vb_int = v_Vb_int - ((v_Vb_int/1000)*1000);
+		Vb_buf[1] = (char)((v_Vb_int/100)+0x30);
+		v_Vb_int = v_Vb_int - ((v_Vb_int/100)*100);
+		Vb_buf[2] = (char)((v_Vb_int/10)+0x30);
+		v_Vb_int = v_Vb_int - ((v_Vb_int/10)*10);
+		Vb_buf[3] = '.';
+		Vb_buf[4] = (char)((v_Vb_int)+0x30);
+	}
+	else if(DISPLAY_3PHASE.Vb_point==2)
+	{
+		v_Vb_int = (int)(DISPLAY_3PHASE.Vb_float * 100);
+		Vb_buf[0] = (char)((v_Vb_int/1000)+0x30);
+		v_Vb_int = v_Vb_int - ((v_Vb_int/1000)*1000);
+		Vb_buf[1] = (char)((v_Vb_int/100)+0x30);
+		v_Vb_int = v_Vb_int - ((v_Vb_int/100)*100);
+		Vb_buf[2] = '.';
+		Vb_buf[3] = (char)((v_Vb_int/10)+0x30);
+		v_Vb_int = v_Vb_int - ((v_Vb_int/10)*10);
+		Vb_buf[4] = (char)((v_Vb_int)+0x30);
+	}
+	else if(DISPLAY_3PHASE.Vb_point==3)
+	{
+		v_Vb_int = (int)(DISPLAY_3PHASE.Vb_float * 1000);
+		Vb_buf[0] = (char)((v_Vb_int/1000)+0x30);
+		v_Vb_int = v_Vb_int - ((v_Vb_int/1000)*1000);
+		Vb_buf[1] = '.';
+		Vb_buf[2] = (char)((v_Vb_int/100)+0x30);
+		v_Vb_int = v_Vb_int - ((v_Vb_int/100)*100);
+		Vb_buf[3] = (char)((v_Vb_int/10)+0x30);
+		v_Vb_int = v_Vb_int - ((v_Vb_int/10)*10);
+		Vb_buf[4] = (char)((v_Vb_int)+0x30);	
+	}
+// C상 전압
+	if(DISPLAY_3PHASE.Vc_point==1)
+	{
+		v_Vc_int = (int)(DISPLAY_3PHASE.Vc_float * 10);
+		Vc_buf[0] = (char)((v_Vc_int/1000)+0x30);
+		v_Vc_int = v_Vc_int - ((v_Vc_int/1000)*1000);
+		Vc_buf[1] = (char)((v_Vc_int/100)+0x30);
+		v_Vc_int = v_Vc_int - ((v_Vc_int/100)*100);
+		Vc_buf[2] = (char)((v_Vc_int/10)+0x30);
+		v_Vc_int = v_Vc_int - ((v_Vc_int/10)*10);
+		Vc_buf[3] = '.';
+		Vc_buf[4] = (char)((v_Vc_int)+0x30);
+	}
+	else if(DISPLAY_3PHASE.Vc_point==2)
+	{
+		v_Vc_int = (int)(DISPLAY_3PHASE.Vc_float * 100);
+		Vc_buf[0] = (char)((v_Vc_int/1000)+0x30);
+		v_Vc_int = v_Vc_int - ((v_Vc_int/1000)*1000);
+		Vc_buf[1] = (char)((v_Vc_int/100)+0x30);
+		v_Vc_int = v_Vc_int - ((v_Vc_int/100)*100);
+		Vc_buf[2] = '.';
+		Vc_buf[3] = (char)((v_Vc_int/10)+0x30);
+		v_Vc_int = v_Vc_int - ((v_Vc_int/10)*10);
+		Vc_buf[4] = (char)((v_Vc_int)+0x30);
+	}
+	else if(DISPLAY_3PHASE.Vc_point==3)
+	{
+		v_Vc_int = (int)(DISPLAY_3PHASE.Vc_float * 1000);
+		Vc_buf[0] = (char)((v_Vc_int/1000)+0x30);
+		v_Vc_int = v_Vc_int - ((v_Vc_int/1000)*1000);
+		Vc_buf[1] = '.';
+		Vc_buf[2] = (char)((v_Vc_int/100)+0x30);
+		v_Vc_int = v_Vc_int - ((v_Vc_int/100)*100);
+		Vc_buf[3] = (char)((v_Vc_int/10)+0x30);
+		v_Vc_int = v_Vc_int - ((v_Vc_int/10)*10);
+		Vc_buf[4] = (char)((v_Vc_int)+0x30);	
+	}
+// n상 전압
+	if(DISPLAY_3PHASE.Vn_point==1)
+	{
+		v_Vn_int = (int)(DISPLAY_3PHASE.Vn_float * 10);
+		Vn_buf[0] = (char)((v_Vn_int/1000)+0x30);
+		v_Vn_int = v_Vn_int - ((v_Vn_int/1000)*1000);
+		Vn_buf[1] = (char)((v_Vn_int/100)+0x30);
+		v_Vn_int = v_Vn_int - ((v_Vn_int/100)*100);
+		Vn_buf[2] = (char)((v_Vn_int/10)+0x30);
+		v_Vn_int = v_Vn_int - ((v_Vn_int/10)*10);
+		Vn_buf[3] = '.';
+		Vn_buf[4] = (char)((v_Vn_int)+0x30);
+	}
+	else if(DISPLAY_3PHASE.Vn_point==2)
+	{
+		v_Vn_int = (int)(DISPLAY_3PHASE.Vn_float * 100);
+		Vn_buf[0] = (char)((v_Vn_int/1000)+0x30);
+		v_Vn_int = v_Vn_int - ((v_Vn_int/1000)*1000);
+		Vn_buf[1] = (char)((v_Vn_int/100)+0x30);
+		v_Vn_int = v_Vn_int - ((v_Vn_int/100)*100);
+		Vn_buf[2] = '.';
+		Vn_buf[3] = (char)((v_Vn_int/10)+0x30);
+		v_Vn_int = v_Vn_int - ((v_Vn_int/10)*10);
+		Vn_buf[4] = (char)((v_Vn_int)+0x30);
+	}
+	else if(DISPLAY_3PHASE.Vn_point==3)
+	{
+		v_Vn_int = (int)(DISPLAY_3PHASE.Vn_float * 1000);
+		Vn_buf[0] = (char)((v_Vn_int/1000)+0x30);
+		v_Vn_int = v_Vn_int - ((v_Vn_int/1000)*1000);
+		Vn_buf[1] = '.';
+		Vn_buf[2] = (char)((v_Vn_int/100)+0x30);
+		v_Vn_int = v_Vn_int - ((v_Vn_int/100)*100);
+		Vn_buf[3] = (char)((v_Vn_int/10)+0x30);
+		v_Vn_int = v_Vn_int - ((v_Vn_int/10)*10);
+		Vn_buf[4] = (char)((v_Vn_int)+0x30);	
+	}
 
 	if(display == 1) {
 		screen_frame3(str);
 		return;
 	} else if(display == 2) {
-		sprintf(string, "%7.1f %c\0", DISPLAY.angle[0], DGREE);
-		VFD_Single_Line_dump(LCD_L1_06, string);
-		sprintf(string, "%7.1f %c\0", DISPLAY.angle[1], DGREE);
-		VFD_Single_Line_dump(LCD_L2_06, string);
+		sprintf(string, "Vab]%c%c%c%c%c Vbc]%c%c%c%c%c\1\0", Va_buf[0],Va_buf[1],Va_buf[2],Va_buf[3],Va_buf[4],Vb_buf[0],Vb_buf[1],Vb_buf[2],Vb_buf[3],Vb_buf[4]);
+		VFD_Single_Line_dump(LCD_L1_00, string);
+		sprintf(string, "Vca]%c%c%c%c%c Vo ]%c%c%c%c%c\2\0", Vc_buf[0],Vc_buf[1],Vc_buf[2],Vc_buf[3],Vc_buf[4],Vn_buf[0],Vn_buf[1],Vn_buf[2],Vn_buf[3],Vn_buf[4]);
+		VFD_Single_Line_dump(LCD_L2_00, string);
 		return;
 	}
 
@@ -344,39 +610,10 @@ void menu_00_07(unsigned int value, int display)
 		cursor_move(0, 7);
 	} else if(value == DOWN_KEY) {
 		Screen_Position.y = 0;
-		Screen_Position.x = 8;
+		Screen_Position.x = 5;
 	}
 }
-
-void menu_00_08(unsigned int value, int display)
-{
-	char string[22];
-
-	const char *str[2] = {
-			"\5Vca]              \1\0",
-			"\5Vo ]              \2\0" };
-
-	if(display == 1) {
-		screen_frame3(str);
-		return;
-	} else if(display == 2) {
-		sprintf(string, "%7.1f %c\0", DISPLAY.angle[2], DGREE);
-		VFD_Single_Line_dump(LCD_L1_06, string);
-		sprintf(string, "%7.1f %c\0", DISPLAY.angle[3], DGREE);
-		VFD_Single_Line_dump(LCD_L2_06, string);
-		return;
-	}
-
-	if(value == UP_KEY) {
-		Screen_Position.y = 0;
-		Screen_Position.x = 2;
-		Screen_Position.data_change = NORMAL_MENU;
-		cursor_move(0, 7);
-	} else if(value == DOWN_KEY) {
-		Screen_Position.y = 0;
-		Screen_Position.x = 3;
-	}
-}
+//2015.11.23 END
 
 void menu_01_01(unsigned int value, int display)
 {
@@ -740,8 +977,18 @@ void menu_01_11(unsigned int value, int display)
 		Screen_Position.data_change = NORMAL_MENU;
 		cursor_move(0, 7);
 	} else if(value == DOWN_KEY) {
+//2015.11.23
+ 			if(DISPLAY_3PHASE.use == ENABLE)
+ 			{
 		Screen_Position.y = 1;
-		Screen_Position.x = 13;
+				Screen_Position.x = 15;
+			}
+			else
+			{
+				Screen_Position.y = 1;
+				Screen_Position.x = 3;
+			}
+//2015.11.23 END
 	} else if(value == RIGHT_KEY) {
 		Screen_Position.y = 1;
 		Screen_Position.x = 12;
@@ -781,30 +1028,102 @@ void menu_01_12(unsigned int value, int display)
 		Screen_Position.data_change = NORMAL_MENU;
 		cursor_move(0, 7);
 	} else if(value == DOWN_KEY) {
-		Screen_Position.y = 1;
-		Screen_Position.x = 13;
+//2015.11.23
+ 			if(DISPLAY_3PHASE.use == ENABLE)
+ 			{
+				Screen_Position.y = 1;
+				Screen_Position.x = 15;
+			}
+			else
+			{
+				Screen_Position.y = 1;
+				Screen_Position.x = 3;
+			}
+//2015.11.23 END
 	} else if(value == LEFT_KEY) {
 		Screen_Position.y = 1;
 		Screen_Position.x = 11;
 	}	
 }
 
-void menu_01_13(unsigned int value, int display)
+//2015.11.23
+//void menu_01_13(unsigned int value, int display)
+//{
+//	char string[22];
+//
+//	const char *str[2] = {
+//			"\5Ia]               \1\0",
+//			"\5Ib]               \2\0" };
+//
+//	if(display == 1) {
+//		screen_frame3(str);
+//		return;
+//	} else if(display == 2) {
+//		sprintf(string, "%7.1f %c\0", DISPLAY.angle[4], DGREE);
+//		VFD_Single_Line_dump(LCD_L1_06, string);
+//		sprintf(string, "%7.1f %c\0", DISPLAY.angle[5], DGREE);
+//		VFD_Single_Line_dump(LCD_L2_06, string);
+//		return;
+//	}
+//
+//	if(value == UP_KEY) {
+//		Screen_Position.y = 0;
+//		Screen_Position.x = 2;
+//		Screen_Position.data_change = NORMAL_MENU;
+//		cursor_move(0, 7);
+//	} else if(value == DOWN_KEY) {
+//		Screen_Position.y = 1;
+//		Screen_Position.x = 14;
+//	}
+//}
+
+//void menu_01_14(unsigned int value, int display)
+//{
+//	char string[22];
+//
+//	const char *str[2] = {
+//			"\5Ic]               \1\0",
+//			"\5Io]               \2\0" };
+//
+//	if(display == 1) {
+//		screen_frame3(str);
+//		return;
+//	} else if(display == 2) {
+//		sprintf(string, "%7.1f %c\0", DISPLAY.angle[6], DGREE);
+//		VFD_Single_Line_dump(LCD_L1_06, string);
+//		sprintf(string, "%7.1f %c\0", DISPLAY.angle[7], DGREE);
+//		VFD_Single_Line_dump(LCD_L2_06, string);
+//		return;
+//	}
+//
+//	if(value == UP_KEY) {
+//		Screen_Position.y = 0;
+//		Screen_Position.x = 2;
+//		Screen_Position.data_change = NORMAL_MENU;
+//		cursor_move(0, 7);
+//	} else if(value == DOWN_KEY) {
+//		Screen_Position.y = 1;
+//		Screen_Position.x = 3;
+//	}
+//}
+
+void menu_01_15(unsigned int value, int display)
 {
 	char string[22];
 
 	const char *str[2] = {
-			"\5Ia]               \1\0",
-			"\5Ib]               \2\0" };
+			"Ia]   0.0 Ib]   0.0\1\0",
+			"Ic]   0.0 Io]   0.0\2\0" };
 
 	if(display == 1) {
 		screen_frame3(str);
 		return;
 	} else if(display == 2) {
-		sprintf(string, "%7.1f %c\0", DISPLAY.angle[4], DGREE);
-		VFD_Single_Line_dump(LCD_L1_06, string);
-		sprintf(string, "%7.1f %c\0", DISPLAY.angle[5], DGREE);
-		VFD_Single_Line_dump(LCD_L2_06, string);
+		sprintf(string, "Ia]%6.1f Ib]%6.1f\1\0", DISPLAY.rms_value[Ia], DISPLAY.rms_value[Ib]);
+		VFD_Single_Line_dump(LCD_L1_00, string);
+		if(CORE.gr_select == NCT_SELECT)	{sprintf(string, "Ic]%6.1f Io]%6.1f\2\0", DISPLAY.rms_value[Ic], DISPLAY.rms_value[In]);}
+		else															{sprintf(string, "Ic]%6.1f Io]%6.1f\2\0", DISPLAY.rms_value[Ic], DISPLAY.rms_value[Is]);}
+		VFD_Single_Line_dump(LCD_L2_00, string);
 		return;
 	}
 
@@ -815,39 +1134,10 @@ void menu_01_13(unsigned int value, int display)
 		cursor_move(0, 7);
 	} else if(value == DOWN_KEY) {
 		Screen_Position.y = 1;
-		Screen_Position.x = 14;
+		Screen_Position.x = 5;
 	}
 }
-
-void menu_01_14(unsigned int value, int display)
-{
-	char string[22];
-
-	const char *str[2] = {
-			"\5Ic]               \1\0",
-			"\5Io]               \2\0" };
-
-	if(display == 1) {
-		screen_frame3(str);
-		return;
-	} else if(display == 2) {
-		sprintf(string, "%7.1f %c\0", DISPLAY.angle[6], DGREE);
-		VFD_Single_Line_dump(LCD_L1_06, string);
-		sprintf(string, "%7.1f %c\0", DISPLAY.angle[7], DGREE);
-		VFD_Single_Line_dump(LCD_L2_06, string);
-		return;
-	}
-
-	if(value == UP_KEY) {
-		Screen_Position.y = 0;
-		Screen_Position.x = 2;
-		Screen_Position.data_change = NORMAL_MENU;
-		cursor_move(0, 7);
-	} else if(value == DOWN_KEY) {
-		Screen_Position.y = 1;
-		Screen_Position.x = 3;
-	}
-}
+//2015.11.23 END
 
 void menu_02_01(unsigned int value, int display)
 {
@@ -17289,8 +17579,8 @@ void Event_Time_Display(void)		//khs, 2015-04-03 오후 7:16:58
 }
 
 const Screen_Function_Pointer menu_tables[200][18] = { //2015.02.17
-		{menu_00_00, menu_00_01, menu_00_02, menu_00_03, menu_00_04, menu_00_05, menu_00_06, menu_00_07, menu_00_08,},	// 00
-		{menu_dummy, menu_01_01, menu_dummy, menu_01_03, menu_01_04, menu_01_05, menu_01_06, menu_01_07, menu_01_08, menu_01_09, menu_01_10,  menu_01_11,  menu_01_12, menu_01_13,  menu_01_14,},    // 01
+		{menu_00_00, menu_00_01, menu_00_02, menu_00_03, menu_00_04, menu_00_05, menu_00_06, menu_dummy, menu_dummy, menu_00_09,},	// 00
+		{menu_dummy, menu_01_01, menu_dummy, menu_01_03, menu_01_04, menu_01_05, menu_01_06, menu_01_07, menu_01_08, menu_01_09, menu_01_10,  menu_01_11,  menu_01_12, menu_dummy,  menu_dummy, menu_01_15,},    // 01
 		{menu_dummy, menu_02_01, menu_dummy, menu_02_03, menu_02_04, menu_02_05, menu_02_06,},																										 // 02
 		{menu_dummy, menu_dummy, menu_dummy, menu_03_03,},																																												 // 03
 		{menu_dummy, menu_dummy, menu_04_02, menu_04_03, menu_04_04, menu_04_05, menu_04_06, menu_04_07,},																				 // 04

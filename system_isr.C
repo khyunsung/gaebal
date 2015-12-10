@@ -846,6 +846,31 @@ interrupt void TINT1_ISR(void)
 	++DGR.op_count; // DGR
 	++SGR.op_count; // SGR
 
+//2015.11.16
+	if(LOCAL_CONTROL.Local_cnt_flag==1) 
+	{
+		++LOCAL_CONTROL.LocalHandle_cnt;
+	}
+	++LOCAL_CONTROL.LocalContrl_cnt;
+
+	if(LOCAL_CONTROL.Enter_Close_Key_Flag==1) 
+	{
+		++LOCAL_CONTROL.LocalHandleCloseCnt;
+	}
+	else
+	{
+		LOCAL_CONTROL.LocalHandleCloseCnt = 0;
+	}
+	if(LOCAL_CONTROL.Enter_Open_Key_Flag==1)
+	{
+		++LOCAL_CONTROL.LocalHandleOpenCnt;
+	}
+	else
+	{
+		LOCAL_CONTROL.LocalHandleOpenCnt = 0;
+	}
+//2015.11.16 END
+
 	// R-Hour용 타이머
 	if((DISPLAY.rms_value[Ia] >= RUNNING.Cut_Current) || (DISPLAY.rms_value[Ib] >= RUNNING.Cut_Current) || (DISPLAY.rms_value[Ic] >= RUNNING.Cut_Current))
 	{
