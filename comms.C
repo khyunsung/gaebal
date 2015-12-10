@@ -49,6 +49,7 @@ void manager_handling(void)
 	float float_temp;
 	unsigned int buff[10];
 	unsigned int req_event_cnt;
+	unsigned int req_event_pos;
 	
 	
 	//core 정보
@@ -817,102 +818,130 @@ void manager_handling(void)
 			
 			// 이벤트 요청 시작 위치는 Func. Code 2(1~200), 이벤트 요청 개수 Byte Length 2(1~200)
 			i = EVENT.sp;	// EVENT.sp 현 위치
+			req_event_pos = MANAGER.rx_buffer[6];	// 요청받은 이벤트 시작위치(요청개수)
 			req_event_cnt = MANAGER.rx_buffer[7];	// 요청받은 이벤트 개수(요청개수)
 			j = 6;
 
 			if(EVENT.rollover == 0xaa) {	// 이벤트가 200개 채워지면 0xaa가 된다.
+				if(req_event_cnt > 200) {	// Request Counter Error : 현재 이벤수 보다 많은 요청을 함.
+					serial_ok_nak_send(0xee);
+				}
 				
+				i -= req_event_pos;
 				if(req_event_cnt > i) {		// 현 위치 수 보다 요청개수가 큰 경우
 					
 					for( ;i--; ) {
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_YEAR     + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_MONTH    + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_DAY      + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_HOUR     + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_MINUTE   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_SECOND   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_MS1      + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_MS2      + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_INDEX1   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_INDEX2   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_CONTENT1 + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_CONTENT2 + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_RATIO1   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_RATIO2   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_OPTIME1  + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_OPTIME2  + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_OPTIME3  + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 1;// *(EVENT_OPTIME4  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_YEAR     + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MONTH    + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_DAY      + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_HOUR     + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MINUTE   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_SECOND   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MS1      + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MS2      + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_INDEX1   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_INDEX2   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_CONTENT1 + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_CONTENT2 + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_RATIO1   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_RATIO2   + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME1  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME2  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME3  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME4  + i * 18) & 0x00ff;
 					}
 					
-					i = 200 - (req_event_cnt - EVENT.sp);
-					for( k = 200;k <= i ; k-- ) {
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_YEAR     + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_MONTH    + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_DAY      + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_HOUR     + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_MINUTE   + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_SECOND   + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_MS1      + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_MS2      + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_INDEX1   + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_INDEX2   + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_CONTENT1 + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_CONTENT2 + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_RATIO1   + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_RATIO2   + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_OPTIME1  + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_OPTIME2  + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_OPTIME3  + (200 - k) * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 2;// *(EVENT_OPTIME4  + (200 - k) * 18) & 0x00ff;								
+					i = 199 - (req_event_cnt - EVENT.sp);
+					for( k = 199;k >= i ; k-- ) {
+						MANAGER.tx_buffer[j++] = *(EVENT_YEAR     + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MONTH    + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_DAY      + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_HOUR     + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MINUTE   + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_SECOND   + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MS1      + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MS2      + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_INDEX1   + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_INDEX2   + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_CONTENT1 + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_CONTENT2 + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_RATIO1   + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_RATIO2   + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME1  + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME2  + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME3  + k * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME4  + k * 18) & 0x00ff;								
 					}
 					
 				}	else {	// 현 위치 수 보다 요청개수가 작은 경우
 					for( ;req_event_cnt-- ; i-- ) {		// 요청개수로 판단한다.
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_YEAR     + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_MONTH    + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_DAY      + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_HOUR     + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_MINUTE   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_SECOND   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_MS1      + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_MS2      + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_INDEX1   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_INDEX2   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_CONTENT1 + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_CONTENT2 + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_RATIO1   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_RATIO2   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_OPTIME1  + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_OPTIME2  + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_OPTIME3  + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = 3;// *(EVENT_OPTIME4  + i * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_YEAR     + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MONTH    + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_DAY      + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_HOUR     + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MINUTE   + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_SECOND   + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MS1      + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MS2      + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_INDEX1   + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_INDEX2   + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_CONTENT1 + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_CONTENT2 + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_RATIO1   + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_RATIO2   + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME1  + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME2  + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME3  + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME4  + (i - 1) * 18) & 0x00ff;
 					}
 				}
+				j -= 6;
+
+				// length
+				MANAGER.tx_buffer[4] = j >> 8;
+				MANAGER.tx_buffer[5] = j & 0x00ff;
+	
+				i = COMM_CRC(MANAGER.tx_buffer, 6 + j);
+	
+				MANAGER.tx_buffer[6 + j] = i >> 8;
+				MANAGER.tx_buffer[7 + j] = i & 0x00ff;
+	
+				MANAGER.tx_length = j + 8;
+	
+				MANAGER.isr_tx = MANAGER.tx_buffer;
+	
+				// tx interrupt 활성
+				*ScibRegs_SCICTL2 |= 0x0001;
+	
+				// tx intrrupt 활성화 후 최초 한번 써야함
+				MANAGER.tx_count = 1;
+				*ScibRegs_SCITXBUF = *MANAGER.isr_tx;
+
 			} else {	// 200개 이하인 경우 이벤트 수
-				if((req_event_cnt-2) >= i) {	// Request Counter Error : 현재 이벤수 보다 많은 요청을 함.
+				if(req_event_cnt > (i - req_event_pos)) {	// Request Counter Error : 현재 이벤수 보다 많은 요청을 함.
 					serial_ok_nak_send(0xee);
 				} else {
 				
-					for( ;req_event_cnt-- ; i-- ) {		// 요청개수로 판단한다.
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_YEAR     + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_MONTH    + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_DAY      + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_HOUR     + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_MINUTE   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_SECOND   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_MS1      + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_MS2      + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_INDEX1   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_INDEX2   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_CONTENT1 + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_CONTENT2 + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_RATIO1   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_RATIO2   + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_OPTIME1  + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_OPTIME2  + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_OPTIME3  + i * 18) & 0x00ff;
-						MANAGER.tx_buffer[j++] = i * 18;// *(EVENT_OPTIME4  + i * 18) & 0x00ff;
+					i -= req_event_pos;		//이벤트의 시작 위치를 바꾼다.
+					for( ;req_event_cnt-- ; --i ) {		// 요청개수로 판단한다.
+						MANAGER.tx_buffer[j++] = *(EVENT_YEAR     + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MONTH    + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_DAY      + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_HOUR     + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MINUTE   + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_SECOND   + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MS1      + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_MS2      + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_INDEX1   + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_INDEX2   + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_CONTENT1 + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_CONTENT2 + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_RATIO1   + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_RATIO2   + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME1  + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME2  + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME3  + (i - 1) * 18) & 0x00ff;
+						MANAGER.tx_buffer[j++] = *(EVENT_OPTIME4  + (i - 1) * 18) & 0x00ff;
 				}
 				
 					j -= 6;

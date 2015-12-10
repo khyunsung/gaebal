@@ -689,12 +689,12 @@ void lcd_character_write(char ar_char)
 	*LCD_CS = temp_high | 0x05;	
 	*LCD_CS = temp_high;
 	
-	loop_delay(500);//DELAY_US(1);
+	loop_delay(50);//DELAY_US(1);
 	
 	// 하위 nibble
 	*LCD_CS = temp_low | 0x05;
 	*LCD_CS = temp_low;	
-	loop_delay(500);//DELAY_US(1);
+	loop_delay(50);//DELAY_US(1);
 }
 
 // op : 4, address : 0xc0 - write enable
@@ -1779,12 +1779,12 @@ void self_diagnostic(void)
 		
 		if(cnt == 1) {	//SRAM을 256바이트 씩 256번 0x10000(65536)길이를 검사. 값은 0x1111 X (1~256)으로 지정
 
-			for(i = (256*sram_pos); i--;)
+			for(i = 256*(sram_pos-1); i < (256*sram_pos); i++)
 				*(SRAM_HEALTH_CHECK + i) = (0x1111*sram_pos) & 0xffff;
 
 		} else if(cnt == 2) {
 
-			for(i = (256*sram_pos), j = 0; i--;)
+			for(i = 256*(sram_pos-1), j = 0; i < (256*sram_pos); i++)
 				if((0x1111*sram_pos) != (*(SRAM_HEALTH_CHECK + i)&0xffff))
 					j++;
 				
@@ -1793,9 +1793,10 @@ void self_diagnostic(void)
 					
 				if(sram_err > 5) SYSTEM.diagnostic |= SRAM_FAIL;	//SRAM 에러가 5회 연속 발생하면 시스템 정지 실행
 			
-			if(sram_pos++ > 256) sram_pos = 1;
+			if(sram_pos++ > 255) sram_pos = 1;
 
 		} else if(cnt == 3) {	//MRAM 체크
+				mram_chk &= 1;
 				*MRAM_CHECK = mram_chk? 0x1234: 0xabcd;
 				if(*MRAM_CHECK == 0x1234 && mram_chk == 1) {
 					//do nthg.

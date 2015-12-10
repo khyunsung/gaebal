@@ -17569,6 +17569,9 @@ void menu_drive(void)
 		menu_tables[Screen_Position.y][Screen_Position.x](SYSTEM.diagnostic, 0);
 		menu_tables[Screen_Position.y][Screen_Position.x](SYSTEM.diagnostic, 1);
 		
+		// Fail발생시 B접점인 8번 출력을 Close 상태로 만든다.
+		DO_Output(DO_OFF_BIT[7]);
+		
 		for(;;);//시스템에 문제가 있으니 더 이상 운전을 시키면 안되므로 정지 시킴.
 	}
 	else if(Screen_Position.data_change == REALTIME_MENU)

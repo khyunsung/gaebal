@@ -77,6 +77,9 @@
 #define Hz50	0x1234	//50Hz
 #define Hz60	0x5678	//60Hz
 
+#define HZ50_MODE_SELECT	*GpioIntRegs_GPACLEAR_High |= 0x1000
+#define HZ60_MODE_SELECT  *GpioIntRegs_GPASET_High |= 0x1000
+
 #define NCT_SELECT	0x1234 //NCT 사용
 #define ZCT_SELECT	0x5678 //ZCT 사용
 
@@ -923,6 +926,8 @@
 //#define TCS_RELAY       (unsigned int *)0x189002
 //#define CCS_TIME        (unsigned int *)0x189003
 //#define CCS_RELAY       (unsigned int *)0x189004
+#define TCS_VALUE       (unsigned int *)0x00403d
+#define CCS_VALUE       (unsigned int *)0x00403e
 
 #define COMM_ADDRESS    (unsigned int *)0x18a000
 #define COMM_BAUDRATE   (unsigned int *)0x18a001
